@@ -1,0 +1,25 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+.python-version
+.ipynb_checkpoints/
+.mypy_cache/
+.pytest_cache/
+
+# Node / tooling
+node_modules/
+dist/
+build/
+
+# Data
+data/
