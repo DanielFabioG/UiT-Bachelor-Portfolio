@@ -1,0 +1,309 @@
+---
+title: "Tilbakemeldingsdokument"
+format: docx
+editor: "visual"
+---
+
+## Tilbakemeldinger
+
+### Student 1 - Julie A
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Savner at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen.
+
+1b) Former for finanspolitikk
+
+Bra, også mulig å si her hvilke parametre regjeringen vil endre på.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+Oppsummert så har $I$ har blitt redusert og erstattet med $G$.
+
+$T$, $C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra, lønnskurven kan vi uttrykke analytisk som $\frac{w}{p} = A \cdot w(u, Z^w)$ hvor funksjonenes sum er negativt avhengig av $u$ og positivt avhengig av $Z^w$.
+
+### Student 2 - Nils Andersen
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Savner at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen.
+
+Et presist svar presenterer Keyness-modellen, definerer de endogene variablene (det som forklares av modellen) og om de er positive eller negative.
+
+1b) Former for finanspolitikk
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+Du glemmer å lukke parentesen her i ligningen for produksjon.
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+Oppsummert så har $I$ har blitt redusert og erstattet med $G$.
+
+$T$, $C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra.
+
+### Student 3 - Jessica
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Bra, mulig å si hvordan modell man går utifra, og presentere modellen. (Keyness)
+
+1b) Former for finanspolitikk
+
+Bra
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+Oppsummert så har $I$ har blitt redusert og erstattet med $G$.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra
+
+### Student 4 - Vilde Bjørkavaresnes
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Når du presenterer Keyness-modellen savner jeg at du har den med matematisk.
+
+Savner generelt at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen. Ellers bra.
+
+1b) Former for finanspolitikk
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+Oppsummert så har $I$ har blitt redusert og erstattet med $G$.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Lønnskurven kan vi uttrykke analytisk som $\frac{w}{p} = A \cdot w(u, Z^w)$ hvor funksjonenes sum er negativt avhengig av $u$ og positivt avhengig av $Z^w$.
+
+### Student 5 - Sigurd
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+De eksogene variablene er de variablene som forklarer modellen, slik oppgaven din har presentert:
+
+$$
+Y = (\frac{1}{1-C_1(1-t)-b_1}) \cdot (Z^C-C_1 Z^T + Z^I+G)
+$$
+
+Så vil $Y$ være den endogene variabelen og alle andre variabler på høyre side av likhetstegnet være eksogene. Her skrives du at alle variablene i høyre parentes er eksogene.
+
+Bra forklaring av negativt sjokk i investeringene. Savner også her litt mer forklaring rundt hva som presist skjer med de endogene variablene og hva de er.
+
+1b) Former for finanspolitikk
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+Oppsummert så har $I$ har blitt redusert og erstattet med $G$.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra
+
+### Student 6 - Robert
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Bra, mulig å utdype bedre alle de endogene variablene, savner også skatteprovenyet $T$ og importen $Q$.
+
+1b) Former for finanspolitikk\]
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+Bra, $I$ har blitt redusert og erstattet med $G$.
+
+$T$,$C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra
+
+### Student 7 - Carl Erik W C
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Bra, mulig å utdype bedre alle de endogene variablene, savner $I$ investeringer, skatteprovenyet $T$ og importen $Q$.
+
+1b) Former for finanspolitikk
+
+Bra
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+$I$ har blitt redusert og erstattet med $G$.
+
+$T$,$C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Bra
+
+### Student 8 - Anette
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Savner at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen. Du har en god start hvor du begynner å forklare hva de endogene variablene er og presenterer $Y, C$ og $I$ men mangler $T$ og $Q$.
+
+1b) Former for finanspolitikk\]
+
+Bra
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+$I$ har blitt redusert og erstattet med $G$.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Savner utledning av lønnskurven. Ellers bra.
+
+### Student 9 - Karianne
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Savner at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen.
+
+1b) Former for finanspolitikk
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+$I$ har blitt redusert og erstattet med $G$.
+
+$T$,$C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Savner utledning og mer presis forklaring.
+
+Lønnskurven beskriver lønnsdannelsen og illustreres i et $(u, \frac{w}{p})$ diagram. Hvor $u$ er arbeidsledigheten og $\frac{w}{p}$ er reallønnen.
+
+Disse er avhengig av:
+
+-   Produktivitet $A$
+
+    -   Lav, lav lønn
+
+    -   Høy, høy lønn
+
+-   Arbeidsledighet $u$
+
+Lønnskurven kan vi uttrykke analytisk som $\frac{w}{p} = A \cdot w(u, Z^w)$ hvor funksjonenes sum er negativt avhengig av $u$ og positivt avhengig av $Z^w$.
+
+### Student 10 - Andreas
+
+Oppgave 1
+
+1a) Effekter av negativt sjokk i investeringer
+
+Savner at du viser effekten på de endogene variablene med bruk av Keyness-modellen og en forklaring på hva- og hvorfor den er relevant å brukes her ovenfor eksempelvis IS-RR-PK modellen.
+
+1b) Former for finanspolitikk
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+1c) Effekter av økte offentlige utgifter (G)
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+$I$ har blitt redusert og erstattet med $G$.
+
+$T$,$C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+Oppgave-2 - Utledning og forklaring av "Lønnskurven"
+
+Savner utledning og mer presis forklaring.
+
+Lønnskurven beskriver lønnsdannelsen og illustreres i et $(u, \frac{w}{p})$ diagram. Hvor $u$ er arbeidsledigheten og $\frac{w}{p}$ er reallønnen.
+
+Disse er avhengig av:
+
+-   Produktivitet $A$
+
+    -   Lav, lav lønn
+
+    -   Høy, høy lønn
+
+-   Arbeidsledighet $u$
+
+Lønnskurven kan vi uttrykke analytisk som $\frac{w}{p} = A \cdot w(u, Z^w)$ hvor funksjonenes sum er negativt avhengig av $u$ og positivt avhengig av $Z^w$.

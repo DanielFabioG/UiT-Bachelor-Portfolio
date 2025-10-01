@@ -1,0 +1,43 @@
+---
+title: "SOK-1016"
+description: |
+      Cases og prosjektoppgaver i SOK-1016.  
+date: last-modified
+author:
+  - name: Daniel Fabio Groth
+    affiliation: UiT The Arctic University of Norway <br> Faculty of Biosciences, Fisheries and Economics.
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    self-contained: true
+    df-print: kable
+    output-file: "index"
+    output-ext:  "html"
+editor: visual
+warning: false
+toc: true
+tof: true
+---
+
+SOK-1016-1 22H Økonomiske emner og programmering
+
+Alt som tilhører prosjektoppgavene tilhører "Prosjekt" seksjonen.
+
+```{=html}
+<div class="center" style="display: flex; justify-content: space-between; margin-top: 20px;">
+    <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Prosjekt</div>
+            <a href="/SOK-1016/Mappeoppgave1/11_SOK1016_M1_V23.html" class="larger">Første mappeoppgave</a>
+            <br>
+            <a href="/SOK-1016/Mappeoppgave2/3_11_SOK1016_M2_V23.html" class="larger">Andre mappeoppgave</a>
+            <br>
+            <a href="/SOK-1016/Prosjektoppgave/11_SOK1016_PO_V23.html" class="larger">Prosjektoppgaven</a>
+        </div>
+    </div>
+</div>
+```
+## Referanser
+
+Materialene til disse oppgavene og prosjektet er utformet med referanse til de uvurderlige ressursene og bidragene gitt i studieplanen for SOK-1004. Dette inkluderer de flotte forelesningene holdt av Derek J Clark og Even Solstvedt Hvinden. Til tross for den ytterste omsorg som er tatt under forberedelsen av disse materialene, er eventuelle uoverensstemmelser eller feil som utilsiktet kan ha oppstått, helt og holdent mitt ansvar utenom noe av koden skrevet i Case 3 som er tatt fra løsningsforslaget.

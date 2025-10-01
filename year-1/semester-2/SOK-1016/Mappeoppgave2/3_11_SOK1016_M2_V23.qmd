@@ -1,0 +1,734 @@
+---
+title: "Sok-1016 mappeoppgave 2"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+author: "Kandidatnummer 3 og 11, SOK-1016 Vår 2023"
+date: last-modified 
+date-format: "DD-MM-YYYY"
+editor: visual
+toc: true
+toc-title: "Innholdsfortegnelse."
+abstract: | 
+    | Skrevet av en gruppe av 2 personer med kandidatnummer 3 og 11 
+format: 
+  html:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    lof: true
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+header-includes:
+  - \usepackage{wrapfig}  
+---
+
+```{python}
+%%capture
+import numpy as np
+from matplotlib import pyplot as plt
+import sympy as sp
+
+
+
+
+# Generic example for showing the effects on the IS-RR-PK model
+def create_ax():
+    fig, axs = plt.subplots(2,1, sharex=True, figsize=(7,10))
+    for i in range(2):
+        axs[0].set_ylabel('Rente, i', loc='top')
+        axs[1].set_ylabel('Inflasjon, $\pi$', loc='top')
+        axs[i].set_xlabel('BNP, Y', loc='right')
+        axs[i].spines['top'].set_color('none')
+        axs[i].spines['right'].set_color('none')
+        axs[i].tick_params(labelbottom=True)
+        axs[0].set_ylim(0,4)
+        axs[1].set_ylim(0,2)
+        axs[i].set_xlim(0,3.5)
+        axs[i].set_yticks([])
+        axs[i].set_xticks([])
+    return fig, axs
+    
+    
+# IS equation
+def IS(y,y_n,z,𝛼,i,pi_e,x):
+    y=z-𝛼*(i-pi_e)+y_n*x
+    return y
+
+y= 2 # bnp
+y_n= -2.2 # potential bnp
+z= 5 # exogenous parameter
+𝛼 = 1 # exogenous parameter
+i= 0.2 # interest rate
+i2= 1 # i2
+pi_e= 0.20 # expected inflation rate
+
+x = np.linspace(0.5,2,100)
+x2 = np.linspace(0.4,3,100)
+IS= IS(y,y_n,z,𝛼,i,pi_e,x)
+
+# RR example
+def RR(y_n,x):
+    return y_n+x
+
+# PK example
+def PK(pi,beta,y,t,n,pi_e):
+    pi = pi_e + beta * ((y*t - y*n)/(y**n))**2
+    return pi
+
+pi_e = 0.05 # expected inflation rate
+pi_e2 = 0.25 # expected inflation rate 2 
+pi = 0.1 # inflation rate
+beta=0.2 # exogenous parameter (b*Y**n/AL>0)
+y=1 # bnp
+n=0.2 # pop
+t = np.linspace(0.1,3,100)
+PK1=PK(pi, beta,y,t,n,pi_e) # the phillips curve with bnp relation
+PK2=PK(pi, beta,y,t,n,pi_e2) # the phillips curve with bnp relation
+
+fig, axs = create_ax()
+
+axs[0].plot(x,IS, label='IS', color='purple')
+axs[0].plot(x+0.3, IS, label='IS 2', color='purple')
+axs[0].plot(x2, RR(0.2,x2), label='RR', color= 'maroon')
+axs[0].plot(x2+0.4, RR(0.2,x2), label='RR 2', color= 'maroon')
+axs[1].plot(t, PK1, label='PK', color='#1f77b4')
+axs[1].plot(t, PK2, label='PK 2', color='#1f77b4')
+
+axs[0].vlines(1.7,1.9, 0, linestyles='dashed', colors='black')
+axs[0].hlines(1.9,0, 1.7, linestyles='dashed', colors='black')
+axs[1].vlines(1.7,2.4,0, linestyles='dashed', colors='black', clip_on=False)
+
+
+axs[0].vlines(1.5,1.68, 0, linestyles='dashed', colors='black')
+axs[0].hlines(1.67,0, 1.86, linestyles='dashed', colors='black')
+axs[0].vlines(1.84,1.68,0, linestyles='dashed', colors='black')
+axs[1].vlines(1.84,2.4,0, linestyles='dashed', colors='black', clip_on=False)
+axs[1].vlines(1.5,0, 2.4, linestyles='dashed', colors='black', clip_on=False)
+
+axs[1].hlines(0.6,0,1.85, linestyles='dashed', colors='black')
+axs[1].hlines(0.5,0, 1.7, linestyles='dashed', colors='black')
+
+
+axs[0].text(0.6, 3.3, '$IS_1$', fontsize=10)
+axs[0].text(0.9, 3.3, '$IS_2$', fontsize=10)
+
+axs[0].text(2.9, 3.3, '$RR_1$', fontsize=10)
+axs[0].text(3.2, 3.3, '$RR_2$', fontsize=10)
+
+axs[1].text(2.9, 1.9, '$PK_1$', fontsize=10)
+axs[1].text(3, 1.65, '$PK_2$', fontsize=10)
+
+
+axs[0].text(-0.11, 1.6, '$i_1$', fontsize=10)
+axs[0].text(-0.11, 1.9, '$i_3$', fontsize=10)
+axs[1].text(1.45, -0.11, '$Y^{n}_1$', fontsize=10)
+axs[1].text(1.65, -0.11, '$Y_3$', fontsize=10)
+axs[1].text(1.8, -0.11, '$Y^{n}_2$', fontsize=10)
+axs[1].text(-0.34, 0.6, '$\pi^{*}=\pi^{e}$', fontsize=10)
+axs[1].text(-0.13, 0.5, '$\pi_3$', fontsize=10)
+
+axs[0].text(1.5, 1.8, 'A', fontsize=10)
+axs[0].text(1.88, 1.55, 'C', fontsize=10)
+axs[0].text(1.68, 2, 'D', fontsize=10)
+
+axs[1].text(1.38, 0.65, 'A', fontsize=10)
+axs[1].text(1.88, 0.55, 'C', fontsize=10)
+axs[1].text(1.75, 0.42, 'D', fontsize=10)
+
+#axs[0].set_title('Skifte i IS-kurven, RR og phillips-kurven', fontsize=16);
+
+plt.savefig('skifte_is.png', dpi=500, bbox_inches='tight');
+
+
+```
+
+```{python}
+%%capture
+# Importing packages
+import numpy as np
+from matplotlib import pyplot as plt
+
+# Defining the phillips curve function
+def phillips_curve(π, b, u, n, πe):
+    π = π - b*(u**n) + πe
+    return π
+# NB: the graph has inverted x and y axis, also the equation is written a little different than in the book, the equations in the book would make it look linear
+
+u = np.linspace(0, 1, 100) # create an array of 100 equally-spaced values between 0 and 1 for the number of unemployed (u)
+π_lag = 0.2 # π_lag is the inflation rate in the previous period, in this example 0.2
+b = 0.15 # b is an exogen constant and gives the slope of the phillips curve, in this example 0.15
+n = 4 # n is population growth, used for the non-accelerating-inflation-rate-of-unemployment (NAIRU) (u**n), and gives the elasticity of the phillips curve, in this case 4
+πe1 = 0.0 # expected inflation rate in year 1
+πe2 = 0.05 # expected inflation rate in year 2
+πe3 = 0.10 # expected inflation rate in year 3
+π1 = phillips_curve(π_lag, b, u, n, πe1) # calculating the phillips curve for year 1
+π2 = phillips_curve(π_lag, b, u, n, πe2) # calculating the phillips curve for year 2
+π3 = phillips_curve(π_lag, b, u, n, πe3) # calculating the phillips curve for year 3
+
+# creating axes function to plot two graphs side by side
+def create_ax2():
+                fig, axs = plt.subplots(1,2, sharey=True, figsize=(12,4))
+                for i in range(2):
+                    axs[i].set_ylabel('Inflasjon $\\pi$', loc='top')
+                    axs[i].set_xlabel('Antall arbeidsledige, $u$', loc='right')
+                    axs[i].spines['top'].set_color('none')
+                    axs[i].spines['right'].set_color('none')
+                    axs[i].set_ylim(0, 0.3)
+                    axs[i].set_xlim(-0.15, 1.1)
+                    axs[i].set_xticks([])
+                    axs[i].set_yticks([])
+                    axs[i].invert_xaxis()
+                    axs[i].invert_yaxis()
+                return fig, axs
+
+# starting to plot on figures
+fig, axs = create_ax2()
+
+# Here we start plotting the first graph a)
+
+# plotting the phillips curves
+axs[0].plot(u, π2, color='#1f77b4')
+axs[0].plot(u, π3, color='#1f77b4')
+
+# plotting vertical line
+axs[0].plot ([0.8, 0.8], [0.4, 0.19], linestyle='dashed', color='black')
+# plotting horizontal line
+axs[0].plot ([1.2, 0.8], [0.24, 0.24], linestyle='dashed', color='black')
+# plotting second horizontal line
+axs[0].plot ([1.2, 0.8], [0.189, 0.189], linestyle='dashed', color='black')
+# plotting second vertical line
+axs[0].plot ([0.93, 0.93], [0.19, 0.30], linestyle='dashed', color='black')
+
+# making an arrow
+axs[0].annotate("", xy=(0.6, 0.239), xytext=(0.6, 0.259),
+            arrowprops=dict(arrowstyle='->', color='black',linewidth=1.5),
+            annotation_clip=False)
+
+# making a second arrow
+axs[0].annotate("", xy=(0.95, 0.15), xytext=(0.95, 0.17),
+            arrowprops=dict(arrowstyle='->', color='black',linewidth=1.5),
+            annotation_clip=False)
+
+# making the letter A
+axs[0].annotate("C", xy=(0.79, 0.19), xytext=(0.79, 0.19),
+            annotation_clip=False)
+# making the letter B
+axs[0].annotate("B", xy=(0.79, 0.121), xytext=(0.97, 0.20),
+            annotation_clip=False)
+# making the letter C
+axs[0].annotate("A", xy=(0.79, 0.14), xytext=(0.79, 0.24),
+            annotation_clip=False)
+
+# u**n
+axs[0].text(0.82, 0.315, r'$u^{{{n}}}$', fontsize=10)
+
+# u**LAV
+axs[0].text(0.95, 0.315, r'$u^{{{LAV}}}$', fontsize=10)
+
+#π2
+axs[0].text(1.15, 0.190, r"$\pi_{2}$'", fontsize=10)
+
+#π1
+axs[0].text(1.15, 0.24, r"$\pi_{1}$'", fontsize=10)
+
+# legend
+axs[0].text(0, 0.24, "$\pi_{3}$=$\pi_{2}\'$-b($u_{3}$-$u^{n}$)", horizontalalignment='center', verticalalignment='center')
+# legend 2
+axs[0].text(0, 0.29, '$\pi_{2}$=$\pi_{1}\'$-b($u_{2}$-$u^{n}$)', horizontalalignment='center', verticalalignment='center')
+
+
+# Here we start plotting the second graph b)
+
+# plotting the phillips curves
+axs[1].plot(u, π1, color='#1f77b4')
+axs[1].plot(u, π2, color='#1f77b4')
+axs[1].plot(u, π3, color='#1f77b4')
+
+# plotting horizontal line
+axs[1].plot ([1.2, 0.8], [0.24, 0.24], linestyle='dashed', color='black')
+
+# plotting vertical line
+axs[1].plot ([0.8, 0.8], [0.4, 0.14], linestyle='dashed', color='black')
+# plotting horizontal line
+axs[1].plot ([1.2, 0.8], [0.14, 0.14], linestyle='dashed', color='black')
+# plotting second horizontal line
+axs[1].plot ([1.2, 0.8], [0.189, 0.189], linestyle='dashed', color='black')
+# plotting second vertical line
+axs[1].plot ([0.93, 0.93], [0.09, 0.30], linestyle='dashed', color='black', linewidth=2.2)
+# plotting third horizontal line
+axs[1].plot ([1.15, 0.93], [0.09, 0.09], linestyle='dashed', color='black')
+
+# making an arrow
+axs[1].annotate("", xy=(0.6, 0.189), xytext=(0.6, 0.21),
+            arrowprops=dict(arrowstyle='->', color='black',linewidth=1.5),
+            annotation_clip=False)
+
+# making a second arrow
+axs[1].annotate("", xy=(0.6, 0.25), xytext=(0.6, 0.27),
+            arrowprops=dict(arrowstyle='->', color='black',linewidth=1.5),
+            annotation_clip=False)
+
+# making the letter A
+axs[1].annotate("A", xy=(0.79, 0.14), xytext=(0.79, 0.24),
+            annotation_clip=False)
+# making the letter B
+axs[1].annotate("B", xy=(0.79, 0.121), xytext=(0.97, 0.20),
+            annotation_clip=False)
+# making the letter C
+axs[1].annotate("C", xy=(0.79, 0.19), xytext=(0.79, 0.19),
+            annotation_clip=False)
+# making the letter D
+axs[1].annotate("D", xy=(0.79, 0.121), xytext=(0.97, 0.150),
+            annotation_clip=False)
+# making the letter E
+axs[1].annotate("E", xy=(0.79, 0.14), xytext=(0.79, 0.14),
+            annotation_clip=False)
+# making the letter F
+axs[1].annotate("F", xy=(0.79, 0.121), xytext=(0.97, 0.100),
+            annotation_clip=False)
+
+# u**n
+axs[1].text(0.82, 0.315, r'$u^{{{n}}}$', fontsize=10)
+
+# u**LAV
+axs[1].text(0.95, 0.315, r'$u^{{{LAV}}}$', fontsize=10)
+
+#π1
+axs[1].text(1.15, 0.24, r"$\pi_{1}$'", fontsize=10)
+
+#π2
+axs[1].text(1.15, 0.190, r"$\pi_{2}$'", fontsize=10)
+
+#π3
+axs[1].text(1.15, 0.140, r"$\pi_{3}$'", fontsize=10)
+
+#π4
+axs[1].text(1.15, 0.09, r"$\pi_{4}$'", fontsize=10)
+
+# legend
+axs[1].text(0, 0.24, "$\pi_{3}$=$\pi_{2}\'$-b($u_{3}$-$u^{n}$)", horizontalalignment='center', verticalalignment='center')
+# legend 2
+axs[1].text(0, 0.29, '$\pi_{2}$=$\pi_{1}\'$-b($u_{2}$-$u^{n}$)', horizontalalignment='center', verticalalignment='center')
+# legend 3
+axs[1].text(0, 0.19, '$\pi_{4}$=$\pi_{3}\'$-b($u_{4}$-$u^{n}$)', horizontalalignment='center', verticalalignment='center')
+
+# figure title a and b
+axs[0].set_title('a', loc='left')
+axs[1].set_title('b', loc='left')
+
+# figure title
+#fig.suptitle('Phillips-kurven med adaptive \ninflasjonsforventninger', fontsize=16#);
+
+plt.savefig('phillips-kurven_adaptiv.png', dpi=500, bbox_inches='tight');
+
+```
+
+```{python}
+%%capture
+
+#  function for plotting the vertical phillips curve
+def vertical_phillips_curve(u, π):
+    b=0
+    π = π - b*u
+    return π
+
+#  inflation rate
+π = 0.10 
+
+u = np.linspace(0, 1, 100) # unemployment rate
+π_1 = vertical_phillips_curve(u, π) # vertical phillips curve
+
+# starting figure c
+fig, ax = plt.subplots(figsize=(5, 2))
+
+ax.plot(π_1, u) # plotting the vertical phillips curve
+
+# setting labels
+ax.set_xlabel('Antall arbeidsledige, $u$', loc='right')
+ax.set_ylabel('Inflasjon $\\pi$', loc='top')
+
+# fixing spines
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none')
+
+# fixing the ticks
+ax.set_xticks([])
+ax.set_yticks([])
+
+# fixing the limits
+ax.set_ylim(0, 1)
+
+# fixing u**n
+ax.text(0.0999, -0.04, r'$u^{{{n}}}$', fontsize=10)
+
+#ax.set_title('Loddrett langsiktig Phillips-kurve');
+plt.savefig('loddrett_langsiktig_phillips.png', dpi=500, bbox_inches='tight');
+
+```
+
+```{python}
+%%capture
+# The phillips curve has a linear relationship between inflation and BNP growth from the equation in the book, so i added a parameter to make it exponential instead.
+def phillips_curve_bnp(pi,beta,y,t,n,pi_e):
+    pi = pi_e + beta * ((y*t - y*n)/(y**n))**2
+    return pi
+
+t = np.linspace(0,3,100) # bnp growth over time
+pi_e = 0.05 # expected inflation rate
+pi_e2 = 0.20 # expected inflation rate 2 
+pi = 0.1 # inflation rate
+beta=0.2 # exogenous parameter (b*Y**n/AL>0)
+y=1 # bnp
+n=0.2 # population growth
+bnpplot=phillips_curve_bnp(pi, beta,y,t,n,pi_e) # the phillips curve with bnp relation
+bnpplot2=phillips_curve_bnp(pi, beta,y,t,n,pi_e2) # the phillips curve with bnp relation
+
+# plotting
+fig, ax1 = plt.subplots(figsize=(5, 2.5))
+ax1.plot(t, bnpplot) # plotting the phillips curve with bnp relation
+
+#π1
+ax1.text(-0.13, 0.17, r"$\pi^{e}_1$", fontsize=10)
+# Y**n
+ax1.text(0.95, -0.1, r'$Y^{{{n}}}$', fontsize=10)
+# PK
+ax1.text(2.95, 1.65, 'PK', fontsize=10)
+
+# plotting vertical line
+ax1.plot ([1, 1], [0, 0.17], linestyle='dashed', color='black')
+# plotting horizontal line
+ax1.plot ([1, 0], [0.17, 0.17], linestyle='dashed', color='black')
+
+# setting y and x limits
+ax1.set_ylim(0, 2)
+ax1.set_xlim(0, 3.2)
+
+# fixing spines
+ax1.spines['top'].set_color('none')
+ax1.spines['right'].set_color('none')
+
+# fixing the ticks
+ax1.set_xticks([])
+ax1.set_yticks([])
+
+#labels
+ax1.set_ylabel('Inflasjon, $\\pi$', loc='top')
+ax1.set_xlabel('Produksjon, $Y$', loc='right')
+# title
+#ax1.set_title('Phillips-kurven og produksjon', loc='left');
+plt.savefig('phillips-kurven_og_prod.png', dpi=500, bbox_inches='tight');
+```
+
+```{python}
+%%capture
+# plotting
+fig, ax2 = plt.subplots(figsize=(5, 2.5))
+ax2.plot(t, bnpplot, color= '#1f77b4')
+ax2.plot(t, bnpplot2, color='#1f77b4')
+
+#πe1
+ax2.text(-0.13, 0.17, r"$\pi^{e}_1$", fontsize=10)
+# Y**n
+ax2.text(0.95, -0.1, r'$Y^{{{n}}}$', fontsize=10)
+# PK1
+ax2.text(2.95, 1.65, 'PK1', fontsize=10)
+# PK2
+ax2.text(2.95, 1.8, 'PK2', fontsize=10)
+# plotting vertical line
+ax2.plot ([1, 1], [0, 0.33], linestyle='dashed', color='black')
+# plotting horizontal line
+ax2.plot ([1, 0], [0.17, 0.17], linestyle='dashed', color='black')
+# plotting the second horizontal line
+ax2.plot ([1, 0], [0.33, 0.33], linestyle='dashed', color='black')
+#πe2
+ax2.text(-0.13, 0.29, r"$\pi^{e}_2$", fontsize=10)
+
+# setting y and x limits
+ax2.set_ylim(0, 2)
+ax2.set_xlim(0, 3.2)
+
+# fixing spines
+# fixing spines
+ax2.spines['top'].set_color('none')
+ax2.spines['right'].set_color('none')
+
+# fixing the ticks
+ax2.set_xticks([])
+ax2.set_yticks([])
+
+#labels
+ax2.set_ylabel('Inflasjon, $\\pi$', loc='top')
+ax2.set_xlabel('Produksjon, $Y$', loc='right')
+# title
+#ax2.set_title('Phillips-kurven skifter opp ved forventet inflasjon', loc='left');
+plt.savefig('phillips-kurven_skifter_opp.png', dpi=500, bbox_inches='tight');
+```
+
+```{python}
+%%capture
+# Importing packages
+import numpy as np
+from matplotlib import pyplot as plt
+import pandas as pd
+from matplotlib.ticker import FixedLocator
+
+# List with expected better quarterly drift results, taken from the excel file provided https://www.ipsos.com/nb-no/rapport-og-data-1-kvartal-2023
+list = [22.9, 31.5, 35, 32.6, 41, 39.1, 33.1, 44.4, 45.8, 35.6, 35.1, 34.8, 39.3, 41.7, 34.3, 37, 39.6, 35, 30.1, 38.5, 33.3, 25.7, 26.4, 28.3, 33.0, 26.6, 23.3, 21.7, 24.3, 26.0, 26.9, 28.3, 32.0, 33.6, 33.7, 32.2, 33.1, 36.9, 31.8, 31.5, 38.4, 28.4, 30.6, 28.5, 30.8, 17.6, 25.0, 36.2, 34.8, 37.2, 37.2, 37.4, 30.7, 24.7, 20.1, 16.1, 22.8]
+
+# Create a list of datetime objects for each quarter-end date
+dates = pd.date_range(start='2009-01-01', periods=57, freq='3M')
+
+# Creating the dataframe
+df = pd.DataFrame(list, index=dates, columns=['Drift_results'])
+
+# format the datetime index to display the month name as a string
+df.index = df.index.strftime('%Y-%b')
+
+#Plotting the data
+fig, ax = plt.subplots(figsize=(12, 7))
+ax.plot(df.index, df['Drift_results'], marker='o', linestyle='dotted', linewidth=1, markersize=5)
+# Fixing the length of the x-axis
+ax.set_xticks(np.arange(len(df.index)))
+# Rotating the x-axis labels
+ax.set_xticklabels(df.index, rotation=50)
+
+# Starting the plot at the value 0
+ax.axes.set_ylim(bottom=0)
+# Setting the y-axis ticks
+ax.yaxis.set_major_locator(FixedLocator(np.arange(0, 50, 5)))
+# Fixing so that the y-axis shows percentages
+ax.axes.yaxis.set_major_formatter(lambda x, pos: f'{x}%')
+# Fixing so the plot has a for loop where the dots y-axis values are shown
+#for i, v in enumerate(df['Drift_results']):
+#    ax.text(i, v, f'{v:.1f}', va='bottom', ha='center', fontsize=8)
+# Setting the title
+#ax.title.set_text('Antall prosent næringslivsledere som forventer bedre driftsresultat neste kvartal')
+plt.savefig('antall_prosent.png', dpi=500, bbox_inches='tight');
+
+```
+
+```{python}
+%%capture
+# Manually putting the data in from the excel file....
+households = [2.2, 2.1, 3.1, 3.5, 3.2, 2.9, 2.9, 3.2, 3.6, 3.5, 3.2, 3.5, 3.0, 2.7, 2.5, 3.2, 3.3, 2.7, 2.7, 2.7, 2.6, 2.8, 2.9, 2.6, 1.9, 1.8, 1.8, 2.0, 1.6, 1.9, 1.9, 2.3, 2.0, 2.0, 1.8, 2.0, 2.0, 2.1, 2.4, 1.9, 2.1, 2.2, 2.0, 2.1, 1.8, 2.5, 2.1, 1.9, 1.8, 2.2, 2.3, 3.0, 3.2, 4.3, 3.6, 4.1, 6.0]
+economists = [1.6, 1.8, 1.9, 1.9, 2.1, 2.0, 1.9, 1.8, 2.0, 1.8, 1.9, 1.7, 1.9, 1.6, 1.5, 1.6, 1.5, 1.6, 2.0, 2.1, 2.1, 2.0, 2.1, 2.1, 2.3, 1.9, 2.2, 2.1, 2.3, 2.1, 2.4, 2.4, 1.9, 1.9, 1.9, 2.0, 2.0, 1.9, 2.0, 2.0, 2.3, 2.3, 2.0, 2.1, 2.0, 2.1, 2.2, 2.1, 1.9, 2.0, 2.0, 2.2, 2.3, 3.1, 3.3, 3.8, 3.6]
+companys= [2.2, 2.2, 2.3, 2.4, 2.4, 2.4, 2.2, 2.4, 2.7, 2.8, 2.4, 2.3, 2.3, 2.4, 2.3, 2.3, 2.3, 2.2, 2.3, 2.2, 2.3, 2.4, 2.4, 2.2, 2.4, 2.1, 2.2, 2.3, 2.4, 2.3, 2.6, 2.6, 2.8, 2.4, 2.3, 2.5, 2.2, 2.3, 2.4, 2.5, 2.6, 2.6, 2.5, 2.5, 2.4, 2.5, 2.6, 2.4, 2.9, 3.2, 3.6, 3.9, 4.7, 5.4, 5.6, 6.4, 6.7]
+economists2 = [2.5, 2.9, 2.6, 2.7, 2.6, 2.4, 2.5, 2.4, 2.5, 2.5, 2.3, 2.4, 2.4, 2.2, 2.2, 2.3, 2.2, 2.2, 2.2, 2.3, 2.1, 2.1, 2.0, 2.0, 2.1, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.1, 2.0, 2.2, 2.1, 2.1, 2.2, 2.0, 2.3, 2.2, 2.1, 2.2, 2.1, 2.1, 1.8, 1.9, 1.9, 1.8, 1.9, 2.0, 1.9, 2.0, 2.1, 2.2, 2.2, 2.3, 2.6]
+# putting into a dataframe
+df2 = pd.DataFrame({'households': households, 'companys': companys, 'economists': economists}, index=dates)
+df3 = pd.DataFrame(economists2, index=dates, columns=['economists2'])
+# format the datetime index to display the month name as a string
+df2.index = df2.index.strftime('%Y-%b')
+df3.index = df3.index.strftime('%Y-%b')
+
+#Starting plot
+fig, ax = plt.subplots(figsize=(12, 5))
+
+ax.plot(df2.index, df2['households'], marker='o', linestyle='dotted', linewidth=1, markersize=5, label='Husholdninger')
+ax.plot(df2.index, df2['companys'], marker='o', linestyle='dotted', linewidth=1, markersize=5, label='Næringslivslederne')
+ax.plot(df2.index, df2['economists'], marker='o', linestyle='dotted', linewidth=1, markersize=5, label='Økonomene')
+
+# Fixing the length of the x-axis
+ax.set_xticks(np.arange(len(df.index)))
+# Rotating the x-axis labels
+ax.set_xticklabels(df.index, rotation=50)
+# Starting the plot at the value 0
+ax.axes.set_ylim(bottom=0)
+# Fixing so that the y-axis shows percentages
+ax.axes.yaxis.set_major_formatter(lambda x, pos: f'{x}%')
+# Title
+#ax.title.set_text('Forventninger til prisvekst (KPI) fra forventningsundersøkelsen om 12 måneder')
+# Legend
+ax.legend();
+
+plt.savefig('Forventninger.png', dpi=500, bbox_inches='tight');
+
+```
+
+```{python}
+%%capture
+#Starting plot
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(df3.index, df3['economists2'], marker='o', linestyle='dotted', linewidth=1, markersize=5, label='Økonomene')
+
+# Fixing the length of the x-axis
+ax.set_xticks(np.arange(len(df.index)))
+# Rotating the x-axis labels
+ax.set_xticklabels(df.index, rotation=50)
+# Fixing so that the y-axis shows percentages
+ax.axes.yaxis.set_major_formatter(lambda x, pos: f'{x:.2}%')
+# Title
+#ax.title.set_text('Forventninger til prisvekst (KPI) fra forventningsundersøkelsen om 5 år')
+# Legend
+ax.legend();
+
+plt.savefig('Forventninger_kpi.png', dpi=500, bbox_inches='tight');
+
+
+```
+
+\newpage
+
+## Oppgave 1: IS-RR-PK
+
+Modellen forteller om en sammenheng mellom produksjonsgap, rente og inflasjon. Dette er tre likninger med tre ukjente, endogene variabler og kan dermed løses med hensyn på de endogene variablene $y, i$ og $\pi$.
+
+### Oppgave 1a
+
+Is kurven er\
+$$Y=\frac{1}{1-c_1(1-t)-b_1}(Z^c - c_1Z^T-c_2(i-\pi^e)+Z^I-b_2(i-\pi^e)+G)$$\
+så siden vi vet at $\alpha$ er gitt ved $\alpha = \Delta y/\Delta i$ så deriverer vi IS-Kurven med hensyn til $i$ og siden vi vet at $\alpha>0$ så blir $c_2,b_2$ positive tall istedet for negative som i den originale ligningen når vi har et produksjonsgap.\
+$\alpha = \frac{dY}{di}=\frac{1}{1-c_1(1-t)-b_1}(c_2+b_2)$\
+Forenkler vi dette så får vi:\
+$$\alpha = \frac{c_2+b_2}{1-c_1(1-t)-b_1}$$
+
+Her er $\alpha$ en måte å beskrive hvordan bruttonasjonalproduktet reagerer på endringer i renten. Verdien av $\alpha$ påvirkes av $c_2$ og $b_2$ samt multiplikatoreffekten.
+
+$c_2$ og $b_2$ representerer rentefølsomheten til konsum og investeringer. En høy verdi for $c_2$ og $b_2$ betyr at konsum og investeringer er mer følsomme for endringer i renten. Når renten øker, vil både konsum og investeringer falle, og motsatt.
+
+\clearpage
+
+### Oppgave 1b
+
+Bruker modellen gitt i oppgaven og bytter fra y-yn til y
+
+Vi setter ligning 3 inn i 2\
+$i= \phi_n(y-y_n) + \phi_\pi(\pi_e+\beta(y-y_n)-\pi^*)-\pi_e \>\>\>(2^*)$\
+og forkorter dette til\
+$i=\phi_yy+\phi_\pi(\pi_e+\beta_y-\pi^*)$\
+Setter inn ligning 2\* inn i ligning 1\
+$y = z-\alpha(\phi_yy+\phi_\pi(\pi_e+\beta_y-\pi^*)-\pi)$\
+vi løser parentesene\
+$y = z - \alpha \phi_y y - \alpha \phi_\pi \phi_e - \alpha \phi_\pi \beta y+\alpha \phi_\pi \pi^*+\alpha \pi_e$\
+
+Vi flytter over for å isolere $y$\
+$y+\alpha\phi_yy+\alpha\phi_\pi\beta y = z-\alpha\phi_\pi\pi_e+\alpha\phi_\pi\pi^*+\alpha^\pi_e$\
+Jeg forkorter y siden, faktoriserer og deler begge sider på det slik at jeg har y alene igjen $y=\frac{z-\alpha\phi_e\pi_e+\alpha\phi_\pi\pi^*+\alpha\pi_e}{1+\alpha(\phi_y+\phi_\pi \beta)}$\
+
+Vi deriverer dette for $\pi_e$\
+
+$\frac{\Delta y}{\Delta \pi_e} = \frac{-\alpha(\phi_\pi-1)}{1+\alpha(\phi_y + \phi_\pi\beta)}$
+
+```{=tex}
+\begin{wrapfigure}{r}{0.4\textwidth} 
+    \centering
+    \caption{En økning i forventet inflasjon}
+    \includegraphics[width=0.5\textwidth]{skifte_is.png}
+\end{wrapfigure}
+```
+Det vi ser er at y skifter opp hvis $\phi_\pi <1$ eller ned om $\phi_\pi > 1$ siden vi får negativt fortegn om $\phi_\pi$ om den er mindre en 1 og da vil ikke produksjon blir mindre siden $\alpha$ er negativt. Vi vet ikke fortegnet til $\phi_\pi$.
+
+RR skifter opp så denne er positiv. $\Delta i = \phi_\pi\Delta \pi_e >0$
+
+$\Delta \pi = \Delta \pi^e > 0$ Phillips kurven skifter også opp og endringen er positiv.
+
+Den økonomiske intuisjonen for at produksjonen faller kun hvis $\phi_{\pi}>1$ er at sentralbanken må reagere kraftig nok på avvik fra inflasjonsmålet. Når $\phi_{\pi}>1$, øker sentralbanken renten mer enn en til en i forhold til økningen i inflasjonsforventningene. Dette fører til en stramming av pengepolitikken, som reduserer produksjonen.
+
+\clearpage
+
+## Oppgave 2: Adaptive forventninger
+
+Adaptive inflasjonsforventninger vil si at forventningene endres ut fra hva inflasjonen har vært. Prisveksten vil være lik som det forrige året/perioden.
+
+Det som vil skje med prisveksten dersom ekspansiv økonomisk politikk forsøker å holde et positivt produksjonsgap over tid, $y_{t}>y_{n}$ er at arbeidsledigheten blir lavere enn likevektsledigheten. Da vil lønnsveksten øke og forventningene til inflasjonen vil øke. Vi kan se i figurene a og b at lav arbeidsledighet, (høy sysselsetting og produksjon) vil føre til at inflasjonen stiger.
+
+Hvis myndighetene bruker ekspansiv økonomisk politikk på $u^{{{LAV}}}$, der $u^{{{LAV}}}$ $<u^{{{n}}}$, som vil si lavere enn likevektsledigheten så vil inflasjonen stadig bli høyere. Og phillips-kurven vil skifte oppover, slik at inflasjonen vil øke uendelig. Derfor må myndighetene til slutt sørge for at arbeidsledigheten øker, slik at inflasjonen stopper.
+
+```{=tex}
+\begin{figure}[h]
+    \centering
+    \caption{Phillips-kurven med adaptive inflasjonsforventninger}
+    \includegraphics[width=\textwidth]{phillips-kurven_adaptiv.png}
+\end{figure}
+```
+I år 1 er økonomien i punkt A, da er ledigheten lik $u^{{{n}}}$ og inflasjonen lik $\pi_{1}$'. Myndigheten bruker ekspansiv politikk for å holde arbeidsledigeten lik $u^{{{LAV}}}$. Det fører til at phillips-kurven skifter opp i år 3, slik at den da går gjennom punkt C, der inflasjonen er lik inflasjonen året før, $\pi_{2}$'. Slik kan dette holde på i det uendelige, og i figur 2 kan du se hvordan neste periode skifter Phillips-kurven utterligere opp og går gjennom punkt E, og så videre.
+
+```{=tex}
+\begin{wrapfigure}{r}{0.4\textwidth} 
+    \centering
+    \caption{Loddrett langsiktig Phillips-kurve}
+    \includegraphics[width=0.5\textwidth]{loddrett_langsiktig_phillips.png}
+\end{wrapfigure}
+```
+På lengre sikt er det ikke mulig å ha økende inflasjon, så før eller senere må myndighetene akseptere at ledigheten blir sitt likevektsnivå. På lang sikt kan det antas at phillips-kurven blir loddrett, som kan ses i figur 3.
+
+```{=tex}
+\begin{wrapfigure}{r}{0.5\textwidth} 
+    \centering
+    \caption{Phillips-kurven og produksjon}
+    \includegraphics[width=0.5\textwidth]{phillips-kurven_og_prod.png}
+    \caption{Phillips-kurven skifter opp ved forventet inflasjon}
+    \includegraphics[width=0.5\textwidth]{phillips-kurven_skifter_opp.png}
+\end{wrapfigure}
+```
+Når arbeidsledighetsraten $u$ er lavere enn likevektsledigheten $u^{{{n}}}$, vil prisveksten stige mens høyere ledighet vil føre til stadig vil samtidig føre til fallende inflasjon.
+
+La oss nå se på inflasjon og BNP-gapet. Vi har til nå følgende likning: $$(5) \hspace{0.25cm} \pi_{t} = \pi_{t-1}-b(u-u^{n}).$$
+
+Men denne må omskrives for å få den på form som likning $(3^*).$ Ved å bruke definisjonen av arbeidsledighetsraten,
+
+$(3^*) \hspace{0.25cm} \pi_{t} = \pi_{t}^{e}+\beta(y_{t}-y_{n})$
+
+$(6) \hspace{0.25cm} u = \frac{L-N}{L}$
+
+kan ledighetsgapet $u=u^{{{n}}}$ omskrives til sysselsettingsgap, $(N-N^{{{n}}})/L$ der $N^{{{n}}}$ er sysselsettingen når ledigeheten er lik $u^{{{n}}}$.
+
+$(7) \hspace{0.25cm} u - u^{n}= \frac{L-N}{L}-\frac{L-N^{n}}{L} = -\frac{N-N^{n}}{L}$
+
+Sysselsettingsgapet avhenger av BNP,\
+Y = AN, slik at N= Y/A,\
+og tilsvarende at $N^{n}=Y^{n}/A$,\
+og til slutt multiplisere med $Y^{n}/Y^{n}$:
+
+$$(8) \hspace{0.25cm} u - u^{n}= -\frac{N-N^{n}}{L}$$
+
+$= -\frac{Y/A-Y^{n}/A}{L}= -\frac{-Y-Y{n}}{AL}=-\frac{Y^{n}}{AL}\frac{Y-Y^{n}}{Y^{n}}$
+
+Vi setter inn for $u - u^{n}$ i (5) ved å bruke (8) og får:
+
+$(3^*) \hspace{0.25cm} \pi_{t} = \pi_{e}+b\frac{Y^{n}}{AL}\frac{Y-Y^{n}}{Y^{n}}$
+
+Hvor vi kan forenkle utrykket til formen som gitt i mappeoppgaven:
+
+$(3^*) \hspace{0.25cm} \pi_{t} = \pi_{t}^{e}+\beta(y_{t}-y_{n})$
+
+Phillips-kurven med likning $(3*)$ ser du i figur 4 og 5. Høyere inflasjon vil føre til høyere BNP, utenom inflasjonssjokk.
+
+Man kan se at når forventet inflasjon $\pi^{e}_1$=0.00, så går kurven gjennom punkt ($Y^{{{n}}}$,$\pi^{e}_1$) og videre at når forventet inflasjon går opp $\pi^{e}_2$ = 0.2, så skifter kurven oppover også.
+
+For å svare på spørsmålet, ja, det er en rimelig antagelse at forventninger vil være adaptive i en situasjon med vedvarende økning i prisveksten. Når prisene stiger over tid, vil folk gradvis tilpasse seg den nye økonomiske virkeligheten ved å justere sine forventninger og atferd. De vil for eksempel kunne forvente høyere inflasjon og dermed justere sine priser, lønnskrav og investeringsbeslutninger deretter.
+
+## Oppgave 3
+
+Den amerikanske makroøkonomen Michael Woodford har sagt at "ikke bare har forventninger om \[pengepolitikken\] betydning \[...\] men det er fint lite annet som faktisk er av betydning."
+
+Hva slags forventninger har norske husholdninger, næringslivsledere, og økonomer om prisveksten i Norge på kort og mellomlang sikt?
+
+På oppdrag fra Norges Bank gjennomfører Ipsos en spørreundersøkelse for å finne ut av dette, tilgjengelig her. Diskuter, med utgangspunkt i resultatene fra spørreundersøkelsen, hvorvidt økt prisvekst har blitt lagt merke til siden 2019, og om forventet fremtidig prisvekst har økt.
+
+Som vi har sett på tidligere i oppgave 1 og 2 så virker utsagnet til Michael Woodford å ha stor betydning, forventninger til pengepolitikken er faktisk veldig avgjørende for hva som faktisk skjer i pengepolitikken. Noe som gjør forventningsundersøkelsen til Norges Bank veldig viktig for hvordan de skal stimulere økonomien. Vi ser i undersøkelsen at forventet prisvekst har økt siden 2019, og vet fra tidligere at det er en klar sammenheng mellom forventet prisvekst og faktisk prisvekst. I sammendraget til forventningsundersøkelsen sier 22.8 prosent av næringslivlederne at de forventer en bedre lønnsomhet i egen bedrift i løpet av de neste 12 månedene, opp 6.7 prosentpoeng fra forrige kvartal. Noe som tyder på at næringslivslederne begynner å bli optimistisk for fremtiden igjen, som kan bety at den vedvarende høye inflasjonen vi har opplevd i Norge den siste tiden vil kunne ta lengre tid å få ned. Denne informasjonen er viktig for Norges Bank som skal stimulere økonomien, og man vil derfor anta at på kort sikt vil de fortsette å heve foliorenten/styringsrenten.
+
+```{=tex}
+\begin{figure}[h]
+    \centering
+    \caption{Antall prosent næringslivsledere som forventer bedre driftsresultat neste kvartal}
+    \includegraphics[width=\textwidth]{antall_prosent.png}
+\end{figure}
+```
+Næringslivslederne forventer en gjennomsnittlig årlig prisøkning på 5.3 prosent i løpet av de neste fem årene. Økonomene forventer en prisstigning på varer og tjenester på 4.3 prosent om 12 måneder, derimot er økonomenes forventning til årlig prisstigning om fem år 2.7 prosent, opp 0.1 prosentpoeng fra forrige kvartal. Husholdningene forventer prisveksten å øke i de neste 12 månedene ifølge 89.6 prosent, med en gjennomsnittlig forventning om en prisøkning på 6 prosent. Over de neste 5 årene tror husholdningene at prisene vil stige med 5.0 prosent per år. Oppsummert betyr dette at husholdningene og næringslivslederne har en tro på at inflasjonen er kommet for å bli og vil vedvare på lengre sikt. Mens økonomene er mer reserverte og har troen på at inflasjonen vil øke på kort og lang sikt, men noe mindre som man kan se i figur 7 og 8.
+
+```{=tex}
+\begin{figure}[h]
+    \centering
+    \caption{Forventninger til prisvekst (KPI) fra forventningsundersøkelsen om 12 måneder}
+    \includegraphics[width=\textwidth]{Forventninger.png}
+    \caption{Forventninger til prisvekst (KPI) fra forventningsundersøkelsen om 5 år}
+    \includegraphics[width=\textwidth]{Forventninger_kpi.png}
+\end{figure}
+```

@@ -1,0 +1,192 @@
+---
+title: "Makro semesteroppgave 1 - løsningsforslag"
+format: html
+editor: visual
+---
+
+# Oppgave 1
+
+## a) Anta at et land får et negativt sjokk i sine investeringer. Vis effektene dette vil ha på alle de endogene variablene. Hva skjer med sysselsettingen/arbeidsledigheten? Gi resultatene en real-økonomisk kommentar.
+
+**Innledning**
+
+Vi skal se på $\Delta \ Z < 0$, altså at en økonomi går gjennom et sjokk.
+
+Endogene variabler som har endring:
+
+$Y, I, C, G, X-Q$
+
+**Antakelser/forutsetninger:**
+
+Vi bruker grunnleggende keyness modell. Fordi det ikke er prat om inflasjon eller pengepolitikk.
+
+Vi har en åpen økonomi. Fordi vi er i Norge som er en liten åpen økonomi, og derfor passer også keyness modellen bra.
+
+Eksporten $X$ er eksogen og importen $Q$ er endogen avhengig av produksjonen $Y$.
+
+Konsumet $C$ er endogent, avhengig av disponibel inntekt, men kan skifte eller ha et sjokk i parameteren $Z^c$.
+
+Investeringer $I$ er endogene men kan skiftes i en sjokkparameter $Z^I$.
+
+Skatteprovenyet $T$ er avhengig av $Y$ men kan også skiftes politisk gjennom $Z^T$ som er det samme som en offentlig handlings-parameter. Om skattene endrer seg er det $Z^T$ som endrer seg.
+
+Likevektsmodell, samlet etterspørsel = samlet tilbud = $Y$, og $Y =C+I+G+X-Q$
+
+Arbeidsledigheten $u$ er negativt avhengig av $Y$ dvs. når $Y$ øker så øker sysselsettingen.
+
+Gitt alle disse forutsetningene ender vi opp med denne modellen:
+
+$Y = C + I + G +X -Q$
+
+$C = Z^C + C_1(Y-T)$, hvor $C_1$ er $0 < C_1 < 1$
+
+$I = Z^I + b_1 Y$, hvor $b_1$ er $0 < b_1 < 1$
+
+$T = Z^T + tY$, hvor $t$ er $0 < t < 1$
+
+$Q = aY$, hvor $a$ er $0<a<1$
+
+Til sammen er dette de 5 endogene variablene: $Y,C,I,T,Q$ og vi har 5 ligninger $\rightarrow$ determinert.
+
+$B$ = $T-G$ (statsbudsjettsbalanesen) og $NX$ = nettoeksport og $NX = X -Q$. Til slutt har vi offentlige handlings-parametere $Z^T$ og $G$ .
+
+Analytisk løst så ønsker vi her et uttrykk for $Y$ basert på eksogent gitte variabler og parametere.
+
+```{python}
+import sympy as sp
+
+C, I, G, X, T,Z,C_1,b_1,t,a, Y = sp.symbols('Z C I G X T C_1 b_1 t a Y', real=True)
+
+Y_eq = sp.Eq(Y, C + I + G + X - (a*Y))
+C_eq = sp.Eq(C, Z**C+C_1*(Y-T))
+I_eq = sp.Eq(I, Z**I+b_1*Y) 
+T_eq = sp.Eq(T, Z**T+t*Y) 
+y_subs = Y_eq.subs({I: I_eq.rhs, T: T_eq.rhs, C: C_eq.rhs})
+y_solve = sp.solve(y_subs, Y)[0]
+# Løsningen her vil ikke bli direkte lik som skrevet i boken pga python output men
+# den er korrekt "omskrevet i latex"
+y_solve.simplify()
+```
+
+$$
+Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \cdot (Z^C-C_1 \cdot Z^T + Z^I+G+X)
+$$
+
+Venstre parentes er multiplikatoren (hvor stor blir reaksjonen på $Y$ dersom en av parameterne på høyre side endres, mens høyre parentes er de parameterne som kan skifte eller sjokke.
+
+Multiplikatoren er alltid positiv. (Er egentlig en forutsetning)
+
+I oppgaven spørres det om hva som skjer når det skjer et sjokk i investeringene, dette er parameteren $Z^I$ som vi da setter på endrings-form.
+
+$$
+\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \cdot Z^C$$ Hvor multiplikatoren er positiv og $Z^C < 0$ som betyr at endringen i bruttonasjonalproduktet blir negativ.
+
+```{python include=FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def linear_func(t): # defining a function
+    return t*1+3 # the function
+
+def linear_func_2(t): # defining a function
+    return t*2 # the function
+
+t = np.linspace(0,7,100) # bnp growth over time
+
+# plotting
+fig, ax1 = plt.subplots(figsize=(5, 2.5))
+ax1.plot(t, linear_func(t), label = "Produksjon") # plotting the phillips curve with bnp relation
+ax1.plot(t, linear_func(t-1), label="$\Delta Y^C$") # plotting the equilibrium point
+# making a 75 degree line
+ax1.plot(t,linear_func_2(t), label = "SE = Y") # plotting the phillips curve with bnp relation
+
+
+# setting y and x limits
+ax1.set_ylim(0, 10)
+ax1.set_xlim(0, 10)
+
+# fixing spines
+ax1.spines['top'].set_color('none')
+ax1.spines['right'].set_color('none')
+
+# fixing the ticks
+ax1.set_xticks([])
+ax1.set_yticks([])
+
+#labels
+ax1.set_ylabel('SE, $SE_0$', loc='top')
+ax1.set_xlabel('Produksjon, $Y$', loc='right')
+# title
+ax1.set_title('Phillips-kurven og produksjon', loc='left')
+ax1.legend();
+```
+
+$Y$ reduseres, $u$ eller arbeidsledighet øker. Videre så har vi at siden $\Delta Y <0$ vil gi $\rightarrow$ effekter på $C$.
+
+$\Delta C = \Delta Z^C+C_1(\Delta Y-\Delta T) = 0$
+
+$\Delta C = C_1 \Delta Y <0$ Så konsumet reduseres.
+
+Hva skjer med investeringene?
+
+Første effekten var $\Delta Z <0$ men siden $I = Z^I + b_1 \cdot Y$ hvor $Z^I < 0$ vil det redusere effektene.
+
+Hva skjer med $T$ og implisitt hva skjer med $B = T-G$
+
+$T = Z^T+t \cdot Y$
+
+$\Delta T = t \Delta Y< 0$
+
+$\Delta B = \Delta T - \Delta G$ som begge er negative og $\Delta G < 0$, så statsbudsjettet svekkes. Skatteprovenyet blir lavere.
+
+Hva skjer med importen? $Q = a \cdot Y$
+
+Importen reduseres $\Delta Q = a \cdot \Delta Y <0$
+
+$NX = X - Q$
+
+$\Delta NX = \Delta X - \Delta Q > 0$
+
+Overskuddet på handelsbalansen øker.
+
+**b) Beskriv kort de to formene for finanspolitikk regjeringen kan benytte.**
+
+Finanspolitikk basert på skatteendringer og offentlige utgifter. $\Delta Z^T$ og $\Delta G$.
+
+Og disse to har lange beslutningsprosesser på 1-5 år og kort virkningstid når beslutningen er tatt.
+
+**c) Anta at regjeringen ønsker å bruke finanspolitikk for å redusere ledigheten. Og at de ønsker å øke G (offentlige utgifter). Beskriv hva som skjer med de endogene variablene.**
+
+I $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta Z^I$ og $\Delta Y = (\frac{1}{1-C_1(1-t)-b_1+a}) \Delta G$
+
+dersom $\Delta Z^I = \Delta G$ vil effekten bli nøytralisert og $Y \rightarrow Y_1$
+
+$I$ har blitt redusert og erstattet med $G$.
+
+$T$,$C$ og $Q$ er nå tilbake til samme nivå som før. $Y$ er tilbake, $I$ er redusert og $G$ har økt.
+
+## Oppgave 2
+
+**Utled og forklar "Lønnskurven" i kapittel 7. Beskriv hva som kan skifte den opp og ned.**
+
+Lønnskurven beskriver lønnsdannelsen og illustreres i et $(u, \frac{w}{p})$ diagram. Hvor $u$ er arbeidsledigheten og $\frac{w}{p}$ er reallønnen.
+
+Disse er avhengig av:
+
+-   Produktivitet $A$
+
+    -   Lav, lav lønn
+
+    -   Høy, høy lønn
+
+-   Arbeidsledighet $u$
+
+-   Strukturelle forhold
+
+    -   Sosial infrastruktur knyttet til arbeidsmarkedet
+
+-   Organisasjonsgrad
+
+-   Lønns-forhandlingssystemet
+
+Lønnskurven kan vi uttrykke analytisk som $\frac{w}{p} = A \cdot w(u, Z^w)$ hvor funksjonenes sum er negativt avhengig av $u$ og positivt avhengig av $Z^w$.

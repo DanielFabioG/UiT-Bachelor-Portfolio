@@ -1,0 +1,1167 @@
+---
+title: "Sok-1016 Prosjektoppgave"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+author: "Kandidatnummer 3 og 11, SOK-1016 Vår 2023"
+date: last-modified 
+date-format: "DD-MM-YYYY"
+editor: visual
+toc: true
+toc-title: "Innholdsfortegnelse."
+abstract: | 
+    | Skrevet av en gruppe på 2 personer med kandidatnummer 3 og 11 
+format: 
+  html:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    lof: true
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+bibliography: references.bib
+csl: norsk-apa-manual.csl
+header-includes:
+  - \usepackage{wrapfig}  
+nocite: |
+  @*
+---
+
+Skrevet av en gruppe på 2 personer med kandidatnummer 3 og 11
+
+# Oppgave 1: Økte renter og Silicon Valley Bank, 10%
+
+Den 10. mars kollapset den amerikanske banken Silicon Valley Bank (SVB). En av årsakene til kollapsen var trolig at økningen i amerikanske styringsrenten gjorde at verdien av statsobligasjonene i bankens balanseregnskap falt.
+
+## Oppgave 1a, 5% Forklar hva en obligasjon er, og hvilken rolle den fyller i finansmarkeder. Hvorfor faller den i verdi når rentene stiger?
+
+En obligasjon er et finansielt instrument som binder utstederen(kreditor) til å betale et bestemt beløp til innehaveren(debitor) på gitte tidspunkt. Obligasjoner kan omsettes på børsen, hvor markedsprisen (kursen) bestemmes av tilbud og etterspørsel.
+
+Løpetiden på obligasjoner varierer, noe som innebærer hvor lenge det tar før det nominelle beløpet tilbakebetales. Kortsiktige obligasjoner med løpetid på ett år eller mindre omtales som sertifikater.
+
+Obligasjoner utstedes av forskjellige aktører, som nasjonale myndigheter, kommuner, bedrifter og internasjonale organisasjoner. Målet med å utstede obligasjoner kan være å skaffe finansiering til prosjekter, investeringer, driftsutgifter, eller for å restrukturere eksisterende gjeld.
+
+Når rentene øker så blir det mer attraktivt å kjøpe nye obligasjoner med høyere rente slik at gamle obligasjoner går ned i verdi. Det blir også mer attraktivt å ha penger i bankinnskudd. Det er også noe som heter "Diskonteringsfaktor" der renten brukes til å diskontere fremtidige penger til nåverdi. Når renten øker så økter diskonteringsfaktoren som reduserer nåverdien av obligasjonens fremtidige utbetalinger. Dette fører til at verdien på obligasjonen synker. V=obligasjonskurs som i dette tilfellet er 100. i=rente $V=\frac{100}{1+i}$
+
+## Oppgave 1b, 5% Hvorfor hadde innskytere et incentiv til å trekke ut innskuddene fra SVB da styringsrenten økte?
+
+Depositorene i Silicon Valley Bank (SVB) hadde flere insentiver til å trekke ut innskuddene sine da styringsrenten økte.
+
+En bank blir mer sårbar for en bankrun når den har flere usikrede innskudd, som ofte er tilfellet for banker som SVB, som har mange innskudd fra venturekapital og teknologifirmaer. Når en bank har mange usikrede innskudd, kan en oppgang i renten, som det som skjedde med SVB, føre til at innskuddene blir trukket ut raskt. Dette kan igjen føre til at banken blir insolvent, noe som kan utløse enda flere uttak​.[^1]
+
+[^1]: @neely_2023_interest
+
+Når rentene stiger, faller verdien av obligasjoner, inkludert de i bankens balanse. Dette er fordi obligasjoner har en fast rente, og når markedsrentene stiger, blir disse fastrenteobligasjonene mindre attraktive, og prisen på dem faller. SVB hadde investert stort i langsiktige obligasjoner, spesielt de som var sikret av boliglån. Da Federal Reserve hevet styringsrenten fra 0-0,25% til 4,75-5% mellom mars 2022 og mars 2023, ble verdien av disse obligasjonene betydelig redusert​.[^2]
+
+[^2]: @federalreserve_2023_implementation
+
+Den 8. mars 2023 rapporterte SVB om et tap på 1,8 milliarder dollar på salget av 21 milliarder dollar av disse verdipapirene og annonserte en plan om å øke kapitalen. Mange usikrede innskytere tolket disse handlingene som tegn på økonomiske problemer i banken, noe som førte til at rykter begynte å sirkulere på sosiale medier. Den neste dagen trakk kundene mer enn 40 milliarder dollar fra banken, noe som utløste en bankrun. SVB klarte ikke å selge eller låne nok mot sine eiendeler for å møte kravene til innskudd. Dette førte til at [California Department of Financial Protection and Innovation](https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list/silicon-valley.html) tok kontroll over banken den 10. mars.[^3]
+
+[^3]: @federaldepositinsurancecorporation_fdic
+
+Dette viser hvordan en kombinasjon av økte styringsrenter, store ubeskyttede innskudd og bekymringer rundt bankens økonomiske helse kan føre til at innskytere har et incentiv til å trekke ut innskuddene sine.
+
+# Oppgave 2: Drivkrefter for kronen, 40%
+
+## Den norske valutakursen
+
+$$\hspace{0.1cm}IS \hspace{0.1cm} Y = \frac{1}{1-c_1(i-t)-b_1+a_1}(z^c-c_1z^T-c_2(i-\pi _e)+z^i-b_2(i-\pi_e)+G+z^{nx}+a_2(E^e+K(i^F-i)))$$ $$\hspace{0.1cm} RR \hspace{0.1cm} i=\frac{1}{1+d_1(1-\theta)\frac{\kappa}{E_{-1}}}(z^i+d_1(\theta \pi_e+(1-\theta)(\pi^F+z^\pi)-\pi^*) +d_1(1-\theta)\frac{E^e+\kappa i^F-E_{-1}}{E_{-1}}+(d_2+d_1\theta\beta)\frac{Y-Y^n}{Y^n}$$ $$\hspace{0.1cm} PK \hspace{0.1cm} \pi = \pi_e + \beta\frac{Y-Y_n}{Y_n}+z^\pi$$ $$\hspace{0.1cm} KPI \hspace{0.1cm} \pi^e = \theta \cdot \pi + (q-\theta)(\frac{\Delta E}{E}+\pi^F)$$
+
+Nå begynner IS-RR-PK likningene å bli ganske kompliserte, vi blir ikke å se så veldig nøye på selve likningene, men vi vil ta for oss hva som skjer med modellen og hvordan endringer i parametere vil føre til skift i en åpen økonomi.
+
+I [Pengepolitisk rapport 1/23](https://www.norges-bank.no/aktuelt/nyheter-og-hendelser/Publikasjoner/Pengepolitisk-rapport-med-vurdering-av-finansiell-stabilitet/2023/ppr-12023/nettrapport-ppr-12023/) ser vi først og fremst på kronekursindeksen I-44. Den måler kronens verdi mot et [veiet gjennomsnitt](https://www.norges-bank.no/contentassets/f58b024b977345f79d040e6b159626a4/forklaring_i44.pdf) av valutaene til de 44 landene vi importerer mest fra. Høyere indeksnivå for I-44 betyr lavere kronekurs.
+
+I figur 1 så vises I-44 kronekursindeksen korrelert mot 12-månedersrentedifferanse, som er styrings-renten i Norge sin differanse mot styrings-renten til våre handelspartnere. Det vi kan se her er at når vi har en lavere styrings-rente enn våre handelspartnere så svekkes kronen.
+
+```{r, message=FALSE,warning=FALSE}
+# Removing memory and loading packages
+rm(list = ls())
+library(tidyverse)
+library(openxlsx)
+library(scales)
+library(rvest)
+library(jsonlite)
+library(readr)
+library(janitor)
+library(lubridate)
+library(rjstat)
+library(httr)
+library(stringr)
+library(knitr)
+library(tidyr)
+```
+
+```{r}
+tallsett_1 <- read.xlsx("https://www.norges-bank.no/contentassets/7fa735b5443a4030bded29dc5c7a2307/tallsett-figurer-ppr-1-23.xlsx",
+                     sheet = 'Data 2.C',
+                     startRow = 4)
+
+
+tallsett_1<-tallsett_1 %>%
+  rename(date = 'X1', 'I_fourtyfour' = 'I-44')
+
+# Convert the date column to actual dates, since it didnt originally
+tallsett_1$date <- as.Date(tallsett_1$date, origin = "1899-12-30")
+
+tallsett_2 <- read.xlsx('https://www.norges-bank.no/contentassets/7fa735b5443a4030bded29dc5c7a2307/tallsett-figurer-ppr-1-23.xlsx', 
+    sheet = "Data 1.B", startRow = 4)
+
+tallsett_2 <- tallsett_2 %>%
+  rename(oljepris = 'Oil.price', date = 'X1') %>%
+  select(-'Futures.prices.MPR.1/23', -'Futures.prices.MPR.4/22')
+
+tallsett_2$date <- as.Date(tallsett_2$date, origin = "1899-12-30")
+
+tallsett_3 <- read.xlsx("https://www.norges-bank.no/contentassets/7fa735b5443a4030bded29dc5c7a2307/tallsett-figurer-ppr-1-23.xlsx",
+                     sheet = 'Data B',
+                     startRow = 4)
+
+tallsett_3 <- tallsett_3 %>%
+  rename(
+    styringsrente = 'Policy.rate.Norway',
+    date = 'X1',
+    rente_partners = 'Policy.rate.trading.partners',
+    `NewName1` = 'Forward.rates.21.March',
+    `NewName2` = 'Forward.rates.MPR.4/22'
+  ) %>%
+  select(-'Forward.rates.21.March', -'Forward.rates.MPR.4/22', -'NewName1',
+         -'NewName2') %>%
+  drop_na()
+
+
+tallsett_3$date <- as.Date(tallsett_3$date, origin = "1899-12-30")
+
+# Removing the first 12 observations
+tallsett_3 <- tallsett_3[-c(1:12), ]
+```
+
+```{r}
+# Web scraping yahoo for data on S&P500
+url <- "https://finance.yahoo.com/quote/%5EGSPC/history?period1=1514764800&period2=1680307200&interval=1mo&filter=history&frequency=1mo&includeAdjustedClose=true"
+
+# Read the HTML content of the page
+page <- read_html(url)
+
+# Find the table element using CSS selector
+table <- page %>%
+  html_node("table[data-test='historical-prices']") %>%
+  html_table(fill = TRUE)
+
+rm(page)
+
+table$Date <- gsub(",", "", table$Date)
+
+table <- table %>% 
+  slice(1:(nrow(table) - 1)) %>%
+    mutate(Date = parse_date_time(Date, orders = c("%b %d %Y"))) %>%
+  rename(date = Date) %>%
+             arrange((date))
+```
+
+```{r}
+# Create a new column with the month and year
+tallsett_1$date <- format(tallsett_1$date, "%Y-%m")
+tallsett_2$date <- format(tallsett_2$date, "%Y-%m")
+tallsett_3$date <- format(tallsett_3$date, "%Y-%m")
+table$date <- format(table$date, "%Y-%m")
+# Aggregate data by month and calculate mean of values
+tallsett_2 <- tallsett_2 %>%
+  group_by(date) %>%
+  summarise('Oil price' = mean(oljepris, na.rm = TRUE))
+
+tallsett_2 <- tallsett_2 %>%
+  filter(date >= "2018-01" & date <= "2023-03")
+
+tallsett_1 <- tallsett_1 %>% 
+  left_join(tallsett_2 %>% 
+              select(date, `Oil price`), by = "date") %>%
+  select(-'Oil.price',-'S&P.500',-'Twelve-month.swap.rate.differential') %>%
+  rename(oil_price = 'Oil price')
+
+tallsett_3<-tallsett_3 %>%
+  mutate(rentediff = styringsrente-rente_partners)
+
+rm(tallsett_2)
+
+tallsett_3$date <- as.Date(paste(tallsett_3$date, "01", sep = "-"), format = "%Y-%m-%d")
+tallsett_1$date <- as.Date(paste(tallsett_1$date, "01", sep = "-"), format = "%Y-%m-%d")
+table$date <- as.Date(paste(table$date, "01", sep = "-"), format = "%Y-%m-%d")
+
+merged_data <- merge(tallsett_3, tallsett_1, by="date", all.x=TRUE)
+
+merged_data <- merge(merged_data, table, by ="date", all.x=TRUE)
+
+merged_data$Open <- as.numeric(gsub(",", "", merged_data$Open))
+
+rm(tallsett_1, tallsett_3, table, url)
+```
+
+```{r}
+# Ikke se på denne kodeblokka, men den er tatt fra Mappe2 og transformert
+# over til R språk 
+IS <- function(y,y_n,z,alpha,i,pi_e,x){
+  y=z-alpha*(i-pi_e)+y_n*x
+  return(y)
+}
+
+# RR equation
+RR <- function(y_n,x){
+  return(y_n+x)
+}
+
+# PK equation
+PK <- function(pi,beta,y,t,n,pi_e){
+  pi = pi_e + beta * ((y*t - y*n)/(y^n))^2
+  return(pi)
+}
+
+# Set parameters
+y= 2 # bnp
+y_n= -2.2 # potential bnp
+z= 5 # exogenous parameter
+alpha = 1 # exogenous parameter
+i= 0.2 # interest rate
+i2= 1 # i2
+pi_e= 0.20 # expected inflation rate
+
+x = seq(0.5,2,length.out = 100)
+x2 = seq(0.4,3,length.out = 100)
+IS_y= IS(y,y_n,z,alpha,i,pi_e,x)
+
+pi_e = -2.05 # expected inflation rate
+pi_e2 = -2.25 # expected inflation rate 2 
+pi = 0.1 # inflation rate
+beta=0.2 # exogenous parameter (b*Y^n/AL>0)
+y=1 # bnp
+n=0.2 # pop
+t = seq(0.4,3,length.out = 100)
+PK1=PK(pi, beta,y,t,n,pi_e) # the phillips curve with bnp relation
+PK2=PK(pi, beta,y,t,n,pi_e2) # the phillips curve with bnp relation
+
+# Prepare dataframe for ggplot
+df_IS <- data.frame(x = x, y = IS_y)
+df_RR <- data.frame(x = x2, y = RR(0.2,x2))
+df_PK1 <- data.frame(x = t, y = PK1)
+df_PK2 <- data.frame(x = t, y = PK2)
+
+rm(alpha, beta, i, i2, IS_y, n, pi, pi_e, pi_e2, y, y_n, z)
+```
+
+```{r}
+ggplot(merged_data, aes(x = date)) +
+    geom_line(aes(y = rentediff, color = "rentediff"), linewidth = 1.2) +
+    geom_line(aes(y = I_fourtyfour/75, color = "I-44"), linewidth = 1.2) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom",
+    axis.title.x = element_blank()
+  ) +
+  labs(title = "Figur 1. 12-måneders swaprentedifferanse mot I-44", x = "", y = "", color = "") +
+  scale_color_manual(
+    values = c("I-44" = "black", "rentediff" = "blue"),
+    labels = c("I-44, h.a.", "12-måneders swaprentedifferanse, v.a."),
+    guide = guide_legend()
+  ) +
+  scale_y_continuous(
+    sec.axis = sec_axis(
+      trans = ~ . *75))+
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+```
+
+I et rasjonelt valutamarked vil investorer se etter muligheter for å tjene mest mulig penger på hvilken valuta de investerer i, om handelspartnere til Norge har høyere rente på sin valuta (lavere verdi på 12-måneders swaprentedifferansen) vil dette føre til redusert etterspørsel etter kroner. Matematisk er dette parameteren $a2$ i IS-kurven, og hvis $a2 > 0$ får vi en udekket renteparitet. Parameteren a2 skrives som $E = {E^e} +\kappa(i^F-i), \kappa > 0$ hvor hvis E øker svekkes kronen, og motsatt vil styrke kronen. Parameteren $\kappa$ er den viktige parameteren for forklaring av figur 1 her, hvor den fanger opp hvor mye valutakursen svekkes dersom renteforskjellen øker med en enhet. Den høye renten skyldes igjen hovedsakelig høy inflasjon i utlandet som gir oss i Norge importert inflasjon, dette vil vises i en økning i den eksogene parameteren $\Delta\pi^F > 0$, som vil gi et skift i RR-kurven.
+
+```{r}
+ggplot() +
+  geom_line(data = df_IS, aes(x = x + 0.3, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x + 0.4, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x, y = y), color = 'blue',
+            linewidth = 1.2, linetype=2) +
+  geom_line(data = df_PK2, aes(x = x, y = y), color = 'black', linewidth = 1.2) +
+  labs(x = 'BNP, Y', y = expression(Inflasjon ~ pi ~ "                                    Rente, i"), parse = TRUE) +
+  theme_minimal() +
+  annotate("text", x = 2.1, y = .6, label = "IS", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = 3.9, label = "RR", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = -0.1, label = "PK", color = "black", size = 6) +
+  coord_cartesian(xlim = c(0, 3.5), ylim = c(-2.5, 4)) +
+  theme(axis.text = element_blank()) +
+   geom_segment(aes(x=3, y=2.8, xend=3, yend=3.2), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+  labs(title="Figur 2. IS-RR-PK-modellen og inflasjonssjokk")+
+    theme(
+    plot.title = element_text(hjust = 0.5))+
+   geom_hline(yintercept = -2.8, color = "black", linetype = 1, linewidth = 0.8) +
+  geom_vline(xintercept = -0.17, color = "black", linetype = 1, linewidth = 0.8)
+```
+
+## IS-RR-PK-modellen i en åpen økonomi
+
+Her ser vi I-44 kronekursindeksen korrelert med det amerikanske aksjemarkedet S&P500 (The Standard and Poor's 500) som er en indeks for aksjekursen til de 500 største bedriftene i USA. Sammenhengene vi kan se her er at den norske kronekursen har samvariert med S&P500 siden 2020 (denne sammenhengen ser man bedre i [Figur 2.C i Pengepolitisk rapport](https://www.norges-bank.no/contentassets/7fa735b5443a4030bded29dc5c7a2307/ppr-1-23.pdf?v=03/24/2023130756) siden de har reversert den høyre aksen, noe som er en limitasjon ggplot2 ikke har mulighet til å gjøre med to forskjellige akser.
+
+```{r}
+merged_data %>%
+ggplot(aes(x = date)) +
+    geom_line(aes(y = Open, color = "S&P500"), linewidth = 1.2) +
+    geom_line(aes(y = I_fourtyfour*50, color = "I-44"), linewidth = 1.2) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom",
+    axis.title.x = element_blank()
+  ) +
+  labs(title = "Figur 3. S&P500 mot I-44", x = "", y = "", color = "") +
+  scale_color_manual(
+    values = c("I-44" = "black", "S&P500" = "orange"),
+    labels = c("I-44, h.a.", "S&P500, v.a."),
+    guide = guide_legend()
+  ) +
+  scale_y_continuous(
+    sec.axis = sec_axis(
+      trans = ~ ./50))+
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+```
+
+Vi ser her at kronen svekker seg normalt når det er uro i finansmarkeder målt mot S&P500, siden 2022 har indeksen gradvis gått nedover på grunn av eksempelvis invasjonen i Ukraina og kronekursindeksen samsvarende.
+
+Hvis vi ser på modellen kan dette sees som en eksogen endring $\Delta z^i < 0$, som betyr en reduksjon i investeringer. Dette vil si at IS-kurven skifter til venstre og vi får en ny likevekt som vist i figur 3. Vi får en reduksjon i BNP og inflasjon og normalt ville sentralbanken da måtte senke renten, men som ikke skjer på grunn av det tidligere inflasjonssjokket.
+
+```{r}
+ggplot() +
+  geom_line(data = df_IS, aes(x = x, y = y), color = 'orange',
+            linewidth = 1.2,linetype=2) +
+  geom_line(data = df_IS, aes(x = x + 0.3, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x + 0.4, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x, y = y), color = 'blue',
+            linewidth = 1.2, linetype=2) +
+  geom_line(data = df_PK2, aes(x = x, y = y), color = 'black', linewidth = 1.2) +
+  labs(x = 'BNP, Y', y = expression(Inflasjon ~ pi ~ "                                    Rente, i"), parse = TRUE) +
+  theme_minimal() +
+  annotate("text", x = 2.1, y = .6, label = "IS", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = 3.9, label = "RR", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = -0.1, label = "PK", color = "black", size = 6) +
+  coord_cartesian(xlim = c(0, 3.5), ylim = c(-2.5, 4)) +
+  theme(axis.text = element_blank()) +
+   geom_segment(aes(x=3, y=2.8, xend=3, yend=3.2), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+     geom_segment(aes(x=1.3, y=2.8, xend=1.1, yend=2.8), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+  labs(title="Figur 4. IS-RR-PK-modellen med inversteringssjokk")+
+    theme(
+    plot.title = element_text(hjust = 0.5))+
+   geom_hline(yintercept = -2.8, color = "black", linetype = 1, linewidth = 0.8) +
+  geom_vline(xintercept = -0.17, color = "black", linetype = 1, linewidth = 0.8)
+```
+
+## Korrelasjon mellom den norske kronen og oljepris
+
+Når dollarprisen på olje er høy får vi mer dollar og indirekte via oljefondet vil Norge tjene på at oljeprisen er høy. Derfor har det vært høy avkastning på norsk økonomi og penger investert i norske kroner, noe som har gjort at den norske kronen har korrelert mye med oljeprisen kontrakt brent blend som man kan se i figur 4. Dette har endret seg etter 2022, og Norges Bank prøver å forklare dette med en endring i risikopremien $z^{RP} > 0$ for investeringer i Norge akkurat nå men at denne risikoen vil fases ut og realvalutakursen går tilbake til sitt likevekstnivå som man kan se i [Figur 2.B i pengepolitisk rapport.](https://www.norges-bank.no/contentassets/7fa735b5443a4030bded29dc5c7a2307/ppr-1-23.pdf?v=03/24/2023130756)
+
+```{r}
+ggplot(merged_data, aes(x = date)) +
+  geom_line(aes(y = I_fourtyfour, color = "I-44"), linewidth = 1.2) +
+  geom_line(aes(y = oil_price, color = "Oil price"), linewidth = 1.2) +
+  scale_y_continuous(limits = c(0, 125), breaks = seq(0, 125, by = 20),
+                   sec.axis = sec_axis(~., breaks = seq(0, 125, by = 20))) +
+  labs(title = "Figur 5. I-44 og oljepris", subtitle="Januar 2018 til Mars 2023", color="", y="") +
+  scale_color_manual(values = c("I-44" = "black", 
+                                "Oil price" = "limegreen"),
+                     labels = c("I-44", "Oljepris"))+
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom",
+    axis.title.x = element_blank())+
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+```
+
+At den norske kronen har sluttet å korrelere med oljeprisen kan også forklare et kostnadsjokk i den norske økonomien, $\Delta z^\pi > 0$, som gjør at IS-kurven går til venstre og RR-kurven går oppover(dette skjer også på grunn av importert inflasjon). PK går også oppover som gjør økonomien krevende å stimulere sammen med de tidligere sjokkene.
+
+```{r}
+ggplot() +
+  geom_line(data = df_IS, aes(x = x, y = y), color = 'orange',
+            linewidth = 1.2,linetype=2) +
+    geom_line(data = df_IS, aes(x = x-0.4, y = y), color = 'limegreen',
+            linewidth = 1.2,linetype=2) +
+  geom_line(data = df_IS, aes(x = x + 0.3, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x + 0.4, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_RR, aes(x = x, y = y), color = 'blue',
+            linewidth = 1.2, linetype=2) +
+    geom_line(data = df_RR, aes(x = x-0.12, y = y), color = 'limegreen',
+            linewidth = 1.2, linetype=2) +
+  geom_line(data = df_PK2, aes(x = x, y = y), color = 'black', linewidth = 1.2) +
+  geom_line(data = df_PK1, aes(x = x, y = y), color = 'limegreen',
+            linewidth = 1.2, linetype=2) +
+  labs(x = 'BNP, Y', y = expression(Inflasjon ~ pi ~ "                                    Rente, i"), parse = TRUE) +
+  theme_minimal() +
+  annotate("text", x = 2.1, y = .6, label = "IS", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = 3.9, label = "RR", color = "black", size = 6) +
+  annotate("text", x = 3.2, y = -0.1, label = "PK", color = "black", size = 6) +
+  coord_cartesian(xlim = c(0, 3.5), ylim = c(-2.5, 4)) +
+  theme(axis.text = element_blank()) +
+   geom_segment(aes(x=3, y=2.8, xend=3, yend=3.2), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+   geom_segment(aes(x=3, y=-0.6, xend=3, yend=-0.2), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+     geom_segment(aes(x=1.3, y=2.8, xend=1.1, yend=2.8), 
+               arrow = arrow(length=unit(.2, 'cm')), lwd=1)+
+  labs(title="Figur 6. IS-RR-PK-modellen med kostnadsjokk")+
+    theme(
+    plot.title = element_text(hjust = 0.5))+
+   geom_hline(yintercept = -2.8, color = "black", linetype = 1, linewidth = 0.8) +
+  geom_vline(xintercept = -0.17, color = "black", linetype = 1, linewidth = 0.8)
+```
+
+Avslutningsvis vil jeg si at årsakssammenhengene Norges bank har funnet i sine figurer tilstrekkelig kan gi forklaringer på hvordan den norske kronen depressieres mot utenlandsk valuta, og tenker også at risikopremien kan være en stor årsak til svakere krone-utvikling enn hva likevektsrealkursen skulle tilsi.
+
+# Oppgave 3: Utviklingen i norsk økonomi, 50%
+
+**Vi utregner KPI fra varer på Gruppenivå fra SSB. visning av forskjell fra vår KPI totalindeks og de offisielle SSB Totalindeks tallene finner du under referanselisten samt kode til dette. Det er noen avvik men de er veldig små.**
+
+Kode brukt til utregning av bidrag til KPI er i stor grad hentet fra [Even Hvinden](https://uit.no/ansatte/even.c.hvinden) sitt løsningsforslag på SOK-1004 case 3.[^4]
+
+[^4]: @evenshvinden_2022_sok1004_c3_h22_lsningsforslag_gruppenivaqmd
+
+```{r}
+
+df_rente <- read_delim("https://data.norges-bank.no/api/data/IR/B.KPRA..?format=csv&startPeriod=2020-01-01&endPeriod=2023-05-12&locale=no&bom=include", 
+    delim = ";", escape_double = FALSE, locale = locale(), 
+    trim_ws = TRUE, show_col_types = FALSE) %>% 
+  clean_names() %>% 
+  filter(tenor == "SD") %>% 
+  select(lopetid, time_period, obs_value) %>% 
+  mutate(obs_value = str_replace(obs_value, ",", ".")) %>% 
+  mutate(obs_value = as.numeric(obs_value)) %>% 
+  mutate(time_period = as.Date(time_period)) %>%
+  arrange(time_period) %>% 
+  rename(date = time_period)
+
+
+
+url <- "https://data.ssb.no/api/v0/no/table/03013/"
+
+query <- '{
+  "query": [
+    {
+      "code": "Konsumgrp",
+      "selection": {
+        "filter": "vs:CoiCop2016niva2",
+        "values": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "KpiIndMnd",
+          "KpiVektMnd"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+df_kpi <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+
+df_kpi <- df_kpi %>% 
+  separate(måned,into=c("year", "month"),sep="M") %>% 
+  mutate(dato = ymd(paste(year, month, "1"))) %>% 
+  rename(gruppe = konsumgruppe) %>%                
+  rename(var = statistikkvariabel) %>% 
+  rename(verdi = value) %>% 
+  select(-year, -month) %>%
+  filter(dato >= as.Date("2012-01-01")) %>% 
+  select(dato, everything()) %>% 
+  rename(date = dato)
+
+
+url <- "https://data.ssb.no/api/v0/no/table/03013/"
+
+query <- '{
+  "query": [
+    {
+      "code": "Konsumgrp",
+      "selection": {
+        "filter": "vs:CoiCop2016niva1",
+        "values": [
+          "TOTAL"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "KpiIndMnd"
+        ]
+      }
+    },
+    {
+      "code": "Tid",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "2015M01",
+          "2015M02",
+          "2015M03",
+          "2015M04",
+          "2015M05",
+          "2015M06",
+          "2015M07",
+          "2015M08",
+          "2015M09",
+          "2015M10",
+          "2015M11",
+          "2015M12",
+          "2016M01",
+          "2016M02",
+          "2016M03",
+          "2016M04",
+          "2016M05",
+          "2016M06",
+          "2016M07",
+          "2016M08",
+          "2016M09",
+          "2016M10",
+          "2016M11",
+          "2016M12",
+          "2017M01",
+          "2017M02",
+          "2017M03",
+          "2017M04",
+          "2017M05",
+          "2017M06",
+          "2017M07",
+          "2017M08",
+          "2017M09",
+          "2017M10",
+          "2017M11",
+          "2017M12",
+          "2018M01",
+          "2018M02",
+          "2018M03",
+          "2018M04",
+          "2018M05",
+          "2018M06",
+          "2018M07",
+          "2018M08",
+          "2018M09",
+          "2018M10",
+          "2018M11",
+          "2018M12",
+          "2019M01",
+          "2019M02",
+          "2019M03",
+          "2019M04",
+          "2019M05",
+          "2019M06",
+          "2019M07",
+          "2019M08",
+          "2019M09",
+          "2019M10",
+          "2019M11",
+          "2019M12",
+          "2020M01",
+          "2020M02",
+          "2020M03",
+          "2020M04",
+          "2020M05",
+          "2020M06",
+          "2020M07",
+          "2020M08",
+          "2020M09",
+          "2020M10",
+          "2020M11",
+          "2020M12",
+          "2021M01",
+          "2021M02",
+          "2021M03",
+          "2021M04",
+          "2021M05",
+          "2021M06",
+          "2021M07",
+          "2021M08",
+          "2021M09",
+          "2021M10",
+          "2021M11",
+          "2021M12",
+          "2022M01",
+          "2022M02",
+          "2022M03",
+          "2022M04",
+          "2022M05",
+          "2022M06",
+          "2022M07",
+          "2022M08",
+          "2022M09",
+          "2022M10",
+          "2022M11",
+          "2022M12",
+          "2023M01",
+          "2023M02",
+          "2023M03",
+          "2023M04"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+df_ssbkpi <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+
+df_ssbkpi <- df_ssbkpi %>% 
+  separate(måned,into=c("year", "month"),sep="M") %>% 
+  mutate(dato = ymd(paste(year, month, "1"))) %>% 
+  rename(gruppe = konsumgruppe) %>%                
+  rename(var = statistikkvariabel) %>% 
+  rename(verdi = value) %>% 
+  select(dato,gruppe,verdi)%>%
+  arrange(gruppe,dato) %>% 
+  rename(date = dato)
+
+#Kode hentet fra Even Hvinden github
+var_navn <- df_kpi$var %>%
+  unique()
+
+df_kpi_vekter <- df_kpi %>% 
+  filter(var %in% last(var_navn)) %>%
+  mutate(verdi = verdi/1000) %>%
+  mutate(verdi = replace(verdi,is.na(verdi),0)) %>% 
+  select(date,gruppe,verdi)%>%
+  arrange(gruppe,date)
+
+
+df_indeks <- df_kpi %>%
+  filter(var %in% first(var_navn)) %>%
+  select(date,gruppe,verdi) %>%
+  mutate(verdi = replace(verdi,is.na(verdi),0))%>%
+  arrange(gruppe,date)
+
+df_total <- df_indeks %>%
+  select(date,gruppe) %>%
+  mutate(verdi = df_indeks$verdi*df_kpi_vekter$verdi) %>%
+  group_by(date) %>%
+  summarize(verdi = sum(verdi)) %>%
+  mutate(gruppe = "KPI")
+
+
+df_bidrag <- df_indeks %>%
+  mutate(verdi = (100*(verdi - lag(verdi,12))*lag(df_kpi_vekter$verdi,12)/lag(df_total$verdi,12)))
+
+gruppe_navn <- df_indeks$gruppe %>% 
+  unique()
+
+df_total <- df_indeks %>%
+  select(date,gruppe) %>%
+  mutate(verdi = df_indeks$verdi*df_kpi_vekter$verdi) %>%
+  group_by(date) %>%
+  summarize(verdi = sum(verdi)) %>%
+  mutate(gruppe = "KPI")
+
+rebaser <- 100/df_total$verdi[df_total$date == as.Date("2015-06-01")] #Kode hentet fra Even Hvinden github
+
+df_total <- df_total %>%
+  mutate(verdi = verdi*rebaser)
+
+df_dtotal <- df_total %>%
+  mutate(verdi = 100*(verdi - lag(verdi,12))/lag(verdi,12)) %>%
+  filter(date >= as.Date("2020-01-01")) 
+
+df_plot <- df_bidrag %>%
+  filter(date >= as.Date("2020-01-01")) %>% 
+  rbind(df_dtotal)
+
+
+
+#sjekker utregning ut mot Totalindeksen til SSB
+df_utregning <- df_total %>% 
+  filter(date >= as.Date("2015-01-01"))
+
+
+df_utregning <- df_utregning %>% 
+  left_join(df_ssbkpi, by = "date") %>% 
+  rename(utregnet = verdi.x,
+         ssb = verdi.y) %>% 
+  select(date, utregnet, ssb) %>% 
+  pivot_longer(-date, names_to = "type", values_to = "kpi")
+
+
+
+#Anslag fra Norgesbank til KPI endring.
+
+# Extract the table
+df_nb_anslag_kpi <- read_html("https://www.norges-bank.no/aktuelt/nyheter-og-hendelser/Publikasjoner/Pengepolitisk-rapport-med-vurdering-av-finansiell-stabilitet/2023/ppr-12023/nettrapport-ppr-12023/") %>% 
+  html_nodes("#table005") %>% 
+  html_table()
+
+df_nb_anslag_kpi <- df_nb_anslag_kpi[[1]]
+
+
+df_nb_anslag_kpi <- df_nb_anslag_kpi %>% 
+  row_to_names(2) %>% 
+  rename(col1 = 1)
+
+df_nb_anslag_kpi <- df_nb_anslag_kpi[c(2, 4), ]
+
+
+
+
+df_nb_anslag_kpi <- df_nb_anslag_kpi %>% 
+  mutate_all(~na_if(., ""))  %>% 
+  mutate(across(.cols = 2:8, .fns = ~str_replace(., ",", "."))) %>% 
+  mutate(across(.cols = 2:8, .fns = as.numeric)) %>% 
+  rename("2022-12-01" = des, "2023-05-01" = mai) %>% 
+  pivot_longer(cols = 2:8, names_to = "date", values_to = "kpi") %>%  
+  mutate(date = if_else(date %in% c("2022-12-01", "2023-05-01"), 
+                        as.Date(date), 
+                        as.Date(paste("2023", date, "01", sep = "-"), format = "%Y-%b-%d")))
+
+
+
+df_ssbkpi <- df_ssbkpi %>%
+  mutate(verdi = 100*(verdi - lag(verdi,12))/lag(verdi,12)) %>%
+  filter(date >= as.Date("2022-12-01")) 
+
+df_nb_anslag_kpi <- df_nb_anslag_kpi %>% 
+  left_join(df_ssbkpi, by="date")
+
+
+
+#Anslag for Arbeidsledighet
+
+df_nb_anslag_arbeidsledighet <- read_html("https://www.norges-bank.no/aktuelt/nyheter-og-hendelser/Publikasjoner/Pengepolitisk-rapport-med-vurdering-av-finansiell-stabilitet/2023/ppr-12023/nettrapport-ppr-12023/") %>% 
+  html_nodes("#table007") %>% 
+  html_table()
+
+df_nb_anslag_arbeidsledighet <- df_nb_anslag_arbeidsledighet[[1]]
+
+
+df_nb_anslag_arbeidsledighet <- df_nb_anslag_arbeidsledighet %>% 
+  row_to_names(2) %>% 
+  rename(col1 = 1)
+
+
+
+df_nb_anslag_arbeidsledighet <- df_nb_anslag_arbeidsledighet %>% 
+  mutate_all(~na_if(., ""))  %>% 
+  mutate(across(.cols = 2:8, .fns = ~str_replace(., ",", "."))) %>% 
+  mutate(across(.cols = 2:8, .fns = as.numeric)) %>% 
+  rename("2022-12-01" = des, "2023-05-01" = mai) %>% 
+  pivot_longer(cols = 2:8, names_to = "date", values_to = "pst") %>%  
+  mutate(date = if_else(date %in% c("2022-12-01", "2023-05-01"), 
+                        as.Date(date), 
+                        as.Date(paste("2023", date, "01", sep = "-"), format = "%Y-%b-%d"))) %>% 
+  filter(date >= as.Date("2023-01-01")) %>% 
+  filter(col1 != "Anslag PPR 4/22")
+
+
+
+
+
+nav <- read.xlsx("https://www.nav.no/_/attachment/download/ba8e3e5c-b2eb-49de-9af7-ce9d5b92a472:882d8854dc2f9dc089bb078366224d2f4c4783af/Sesongjusterte%20hovedtall%20om%20arbeidsmarkedet.%20April%202023.xlsx", sheet = '5. Helt ledige pst')
+
+nav <- nav[c(1,2,3), ]
+
+nav <- nav %>% 
+  select(-`Kilde:.NAV`) %>% 
+  row_to_names(2) %>% 
+  rename("2023-01-01" = Januar, "2023-02-01" = Februar, "2023-03-01" = Mars, "2023-04-01" = April, "2023-05-01" = Mai) %>% 
+  select(1,2,3,4,5) %>% 
+  pivot_longer(cols = 1:5, names_to = "date", values_to = "pst") %>% 
+  mutate(date = as.Date(date), pst = as.numeric(pst))
+
+df_arbeidsleidghetsplot <- df_nb_anslag_arbeidsledighet %>% 
+  right_join(nav, by="date")
+#for å sjekke at anslag og faktisk data faktisk stemmer. 
+
+
+rm(url, hent_indeks.tmp, query, nav, df_nb_anslag_arbeidsledighet)
+```
+
+```{r}
+rente_plot <- df_rente %>%
+  filter(date >= "2022-05-01") %>% 
+  ggplot(aes(x = date, y = obs_value, group = 1)) +
+  geom_line()+
+  scale_x_date(date_breaks = "1 months", date_labels = "%Y %b", expand=c(0,0)) +
+  scale_y_continuous(labels = scales::percent_format(scale=1)) +
+  labs(y="", x="", caption="Source:Norges Bank", title="Styringsrente 2022-2023")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 30,hjust=0.8))
+```
+
+```{r}
+plot_rente_kpi <- df_plot %>%
+  filter(date >= as.Date("2020-01-01")) %>% 
+  
+  ggplot(aes(x=date)) +
+  
+  geom_line(data = . %>% filter(gruppe == "KPI"), aes(y=verdi, color=gruppe), linewidth = 1.5) +
+  
+  geom_line(data= df_rente, aes(y = obs_value, group = 1, color = "Styringsrente"), linewidth=1.2) + 
+  
+  geom_hline(yintercept=0) + 
+  geom_hline(aes(yintercept=2, linetype="Inflasjonsmål"), linewidth=1.2, color="darkred") +  
+  
+  scale_x_date(date_breaks=("2 months"), date_labels = ("%Y %b"), expand=c(0,0))+
+  
+  scale_y_continuous(labels = scales::percent_format(scale=1)) +
+
+  
+  labs(title = "Styringsrenten mot KPI vekst", subtitle = "Styringsrente og Tolvmåneders endring i KPI. Prosent.", color = "", fill = "", caption="Datakilde SSB og Norges Bank", x="", y="") +
+  theme_minimal()+
+  
+  theme(legend.position="bottom", legend.title = element_blank(), legend.spacing.y = unit(0, "cm"), legend.margin=margin(t = 0), axis.text.x = element_text(angle = 30,hjust=0.8)) +
+
+  
+  scale_color_manual(values = c("KPI" = "black", "Inflasjonsmål" = "darkred", "Styringsrente" = "blue")) #Stor del av kode er hentet fra Even Hvinden sin github.
+```
+
+```{r}
+plot_kpi_anslag <- df_plot %>%
+  filter(date >= as.Date("2023-01-01")) %>% 
+  
+  ggplot(aes(x=date)) +
+  
+  geom_line(data = . %>% filter(gruppe == "KPI"), aes(y=verdi, color=gruppe), linewidth = 1.5) +
+  
+  geom_line(data= df_rente %>%  filter(date >= as.Date("2023-01-01")), aes(y = obs_value, group = 1, color = "Styringsrente"), linewidth=1.2) + 
+  
+  geom_line(data=df_nb_anslag_kpi %>% filter(col1 == "Anslag PPR 1/23", date >= as.Date("2023-01-01")), aes(y=kpi, color = "Anslag PPR 1/23"), linewidth = 1.2)+
+  
+  
+  
+  geom_hline(yintercept=0) + 
+  geom_hline(aes(yintercept=2, linetype="Inflasjonsmål"), linewidth=1.2, color="darkred") +  
+  
+  scale_x_date(date_breaks=("1 months"), date_labels = ("%Y %b"), expand=c(0,0))+
+  
+  scale_y_continuous(labels = scales::percent_format(scale=1)) +
+  theme_minimal()+
+  
+  labs(title = "KPI Anslag PPR 1/23", subtitle = "Styringsrente, Anslag PPR 1/23 og Tolvmåneders endring i KPI. Prosent.", y = "", x="", color = "", fill = "", caption="Datakilde SSB og Norges Bank") +
+  
+  theme(legend.position="right", legend.title = element_blank(), legend.spacing.y = unit(0, "cm"), legend.margin=margin(t = 0), axis.text.x = element_text(angle = 30,hjust=0.8)) +
+
+  
+  scale_color_manual(values = c("KPI" = "black", "Inflasjonsmål" = "darkred", "Styringsrente" = "blue", "Anslag PPR 1/23" = "green")) #Stor del av kode er hentet fra Even Hvinden sin github. 
+```
+
+```{r}
+
+
+plot_bidrag <- df_plot %>%
+  mutate(gruppe = case_when(
+    gruppe == "Matvarer og alkoholfrie drikkevarer" ~ "Mat",
+    gruppe == "Bolig, lys og brensel" ~ "Bolig, lys og brensel",
+    gruppe %in% c("Alkoholholdige drikkevarer og tobakk", "Helsepleie", "Post- og teletjenester", "Kultur og fritid", "Hotell- og restauranttjenester", "Klær og skotøy", "Møbler, husholdningsartikler og vedlikehold av innbo", "Utdanning") ~ "Andre varer og tjenester",
+    TRUE ~ gruppe #The TRUE ~ gruppe condition at the end ensures that any gruppe not matching the previous conditions (like "KPI") are left as they are.
+  )) %>%
+  mutate(gruppe = recode(gruppe, "KPI" = "Sum bidrag")) %>%
+  mutate(gruppe = factor(gruppe, levels = c("Sum bidrag", "Mat", "Bolig, lys og brensel", "Transport", "Andre varer og tjenester"))) %>%
+  filter(date >= as.Date("2020-01-01")) %>% 
+  
+  ggplot(aes(x=date)) +
+  
+  geom_col(data = . %>% filter(gruppe != "Sum bidrag"), aes(y=verdi, fill=gruppe)) +
+  
+  geom_line(data = . %>% filter(gruppe == "Sum bidrag"), aes(y=verdi, color=gruppe), linewidth = 1.5) +
+  
+  geom_hline(yintercept=0) + 
+  geom_hline(aes(yintercept=2, linetype="Inflasjonsmål"), linewidth=1.2, color="darkred") +  
+  
+  scale_x_date(date_breaks=("2 months"), date_labels = ("%Y %b"), expand=c(0,0))+
+  
+  scale_y_continuous(labels = scales::percent_format(scale=1)) +
+
+  labs(title = "KPI vekst", subtitle = "Tolvmåneders vekst. Prosent. KPI og bidrag fra diverse grupper.", x = "", y = "", color = "", fill = "", caption="Datakilde SSB.") +
+  theme_minimal()+
+  
+  theme(legend.position="bottom", legend.title = element_blank(), legend.spacing.y = unit(0, "cm"), legend.margin=margin(t = 0), axis.text.x = element_text(angle = 30,hjust=0.8), legend.text = element_text(size=6), legend.key.size = unit(0.35, "cm")) +
+
+  scale_fill_manual(values = c("Mat" = "#0026ff", "Bolig, lys og brensel" = "#4ec2e2", "Transport" = "#d65218", "Andre varer og tjenester" = "#ef954a")) +
+  
+  scale_color_manual(values = c("Sum bidrag" = "black", "Inflasjonsmål" = "darkred"))  #Stor del av kode er hentet fra Even Hvinden sin github. 
+
+
+
+plot_bidrag_23 <- df_plot %>%
+  filter(date >= as.Date("2023-01-01")) %>%
+  filter(gruppe != "KPI") %>% 
+  
+  mutate(gruppe = case_when(
+    gruppe == "Matvarer og alkoholfrie drikkevarer" ~ "Mat",
+    gruppe == "Bolig, lys og brensel" ~ "Bolig, lys og brensel",
+    gruppe == "Transport" ~ "Transport",
+    gruppe %in% c("Alkoholholdige drikkevarer og tobakk", "Helsepleie", "Post- og teletjenester", "Kultur og fritid", "Hotell- og restauranttjenester", "Klær og skotøy", "Møbler, husholdningsartikler og vedlikehold av innbo", "Utdanning") ~ "Andre varer og tjenester",
+    TRUE ~ gruppe #The TRUE ~ gruppe condition at the end ensures that any gruppe not matching the previous conditions (like "KPI") are left as they are.
+  )) %>%
+  filter(gruppe %in% c("Mat", "Bolig, lys og brensel", "Transport", "Andre varer og tjenester")) %>% 
+
+  mutate(gruppe = factor(gruppe, levels = c("Mat", "Bolig, lys og brensel", "Transport", "Andre varer og tjenester"))) %>%
+  
+  group_by(date, gruppe) %>% 
+  
+  summarise(verdi = sum(verdi)) %>%
+  
+  ggplot(aes(x=date)) +
+  
+  geom_line(aes(y=verdi, color=gruppe), linewidth = 1.2) +
+  
+  geom_hline(yintercept=0) + 
+  
+  scale_x_date(date_breaks=("1 months"), date_labels = ("%Y %b"), expand=c(0,0))+
+  
+  scale_y_continuous(labels = scales::percent_format(scale=1)) +
+
+  labs(title = "Bidrag fra diverse grupper til KPI vekst", subtitle = "Tolvmåneders vekst. Prosent.", y = "", color = "", fill = "", x="", caption="Datakilde SSB.") +
+  
+  theme_minimal()+
+  
+  theme(legend.position="bottom", legend.title = element_blank(), legend.spacing.y = unit(0, "cm"), legend.margin=margin(t = 0), axis.text.x = element_text(angle = 30,hjust=0.8)) +
+
+  scale_color_manual(values = c("Mat" = "#0026ff", "Bolig, lys og brensel" = "#4ec2e2", "Transport" = "#d65218", "Andre varer og tjenester" = "#ef954a", "Inflasjonsmål" = "darkred")) 
+```
+
+I Pengepolitisk rapport fra Norges bank så er det flere makroøkonomiske størrelser som kan påvirke styringsrenten. Kronekursen, vekstutsikter for norsk økonomi, inflasjon, og økonomisk vekst hos handelspartnere.
+
+Inflasjonen og den økonomiske veksten hos våre viktigste handelspartnere kan påvirke vår økonomi og dermed rentesetting. Dette kan vi se i IS PK og KPI ligningene når de nå er utvidet for en åpen økonomi. $$IS \hspace{0.10cm} Y = \frac{1}{1-c_1(i-t)-b_1+a_1}(z^c-c_1z^T-c_2(i-\pi _e)+z^i-b_2(i-\pi_e)+G+z^{nx}+a_2(E^e+K(i^F-i)))$$ I IS ligningen så er NX er netto eksport og $a_2$ leddet i forteller oss om effekten andre lands økonomi har på vår økonomi. $E$ forteller oss om valutakurs og dermed hvordan effekt dette har på vår økonomi dersom for eksempel vår valuta blir svakere og dermed resulterer i en økning av kroner i vår økonomi fra ekport da vi får flere kroner per vare solgt i annen valuta.
+
+$$RR \hspace{0.10cm} i=\frac{1}{1+d_1(1-\theta)\frac{\kappa}{E_{-1}}}(z^i+d_1(\theta \pi^e+(1-\theta)(\pi^F+z^\pi)-\pi^*) +d_1(1-\theta)\frac{E^e+\kappa i^F-E_{-1}}{E_{-1}}+(d_2+d_1\theta\beta)\frac{Y-Y^n}{Y^n}$$RR ligningen er en pengepolitisk reaksjonsregel som beskriver hvordan sentralbanken setter rentenivået basert på forventet inflasjon og nå utenlandsk inflasjon i den utvidede modellen. $$(4) \hspace{0.1cm} KPI \hspace{0.25cm} \pi^e = \theta \cdot \pi + (q-\theta)(\frac{\Delta E}{E}+\pi^F)$$ KPI ligningen beskriver dannelsen av inflasjonsforventninger der endringsraten i valutakursen beskriver som $\frac{\Delta E}{E}$ og utenlandsk inflasjon $\pi^F$
+
+Siden KPI har økt og vi har et veldig stramt arbeidsmarked som vises i videre figurer så vil dette bety at PK er høy slik at RR må skifte opp, som da leder til at IS skifte kurven skifte til venstre som da vil lede til at PK vil få et nytt treffpunkt ved høyere arbeidsledighet og lavere inflasjon igjen.
+
+Siden vi har sett på drivkrefter for kronen i oppgave 2 så fokuserer vi på makroøkonomiske data for Norge.
+
+\clearpage
+
+Vi starter med å se på Styringsrenten fra Norges Bank
+
+```{r}
+rente_plot
+```
+
+Det vi kan se er at styringsrenten har økt det siste året og som vi ser i IS RR PK så skifter RR altså styringsrenten opp dersom IS og PK øker.
+
+Siden KPI ligningen forteller oss om hvordan inflasjonsforventningene dannes så tar vi med KPI vekst inn i figuren for å se om dette stemmer.
+
+```{r}
+plot_rente_kpi
+```
+
+I denne figuren så kan vi se at styringsrenten følger KPI veksten ganske godt. Norges Bank har et inflasjonsmål på rundt 2% men KPI har vært langt over det målet.
+
+\clearpage
+
+I Pengepolitiske rapport så har Norges bank et anslag på hvordan KPI blir å endre seg videre. De har data frem til og med februar 2023 og lager da anslag for mars og utover.
+
+```{r}
+plot_kpi_anslag
+```
+
+Her ser vi at Norges Bank har bommet i mars og april på sine anslag på KPI-endring og de har forventet en større nedgang. Dette forteller oss da at ved å bare se på KPI så vil Norges Bank finne det nødvendig å øke styringsrenten ytterligere.
+
+Prisen har steget mye på mange varer og Norges Bank forventer at lavere energipriser vil dempe konsumprisindeksen. Elektrisitet og brensel osv går under "Bolig, lys og brensel"
+
+```{r}
+plot_bidrag
+```
+
+Frem til 2021 så var elektrisitetspriser en veldig stor grunn til økning i KPI men ved strømstøtte så fikk regjeringen dette dempet. Fremover så har strømpriser vist seg til å bidra mindre en før.
+
+```{r}
+plot_bidrag_23
+
+
+```
+
+Det vi da kan se er at energipriser har holdt seg noe stabile men det har vært bidratt mindre i april.
+
+Norges Bank har hatt veldig mye rett her men vi ser da at de har vært noe optimistiske i hvor mye nedgang det kom. Videre fremover så kan vi da forvente flere renteøkninger for å senke inflasjonsforventningene.
+
+Anslaget på arbeidsledighet traff og siden vi ser at arbeidsledighet har økt noe så kan vi forvente at inflasjon vil gå noe ned i henhold til PK ligningen.
+
+```{r}
+options(knitr.kable.NA = '')
+df_arbeidsleidghetsplot %>%
+  rename("Anslag PPR 1/23" = pst.x, "Arbeidsledighet Nav tall" = pst.y, Dato = date) %>% 
+  filter(col1 == "Anslag PPR 1/23") %>% 
+  select(-col1) %>% 
+  kable(x, format="latex")
+```
+
+\clearpage
+
+# Referanser
+
+::: {#refs}
+:::
+
+```{r}
+
+df_utregning %>% 
+  ggplot(aes(x=date, y=kpi, color=type)) + 
+  geom_line() +
+  labs(title="SSB Totalindeks mot vår utregning")
+```
+
+Utregning til figur over er i kode her.
+
+<div>
+
+df_ssbkpi \<- df_ssbkpi %\>%
+
+separate(måned,into=c("year", "month"),sep="M") %\>%
+
+mutate(dato = ymd(paste(year, month, "1"))) %\>%
+
+rename(gruppe = konsumgruppe) %\>%
+
+rename(var = statistikkvariabel) %\>%
+
+rename(verdi = value) %\>%
+
+select(dato,gruppe,verdi)%\>%
+
+arrange(gruppe,dato) %\>%
+
+rename(date = dato)
+
+#Mye av kode her ble hentet fra Even Hvinden løsningsforslag til case 3 i sok-1004.
+
+var_navn \<- df_kpi\$var %\>%
+
+unique()
+
+df_kpi_vekter \<- df_kpi %\>%
+
+filter(var %in% last(var_navn)) %\>%
+
+mutate(verdi = verdi/1000) %\>%
+
+mutate(verdi = replace(verdi,is.na(verdi),0)) %\>%
+
+select(date,gruppe,verdi)%\>%
+
+arrange(gruppe,date)
+
+df_indeks \<- df_kpi %\>%
+
+filter(var %in% first(var_navn)) %\>%
+
+select(date,gruppe,verdi) %\>%
+
+mutate(verdi = replace(verdi,is.na(verdi),0))%\>%
+
+arrange(gruppe,date)
+
+df_total \<- df_indeks %\>%
+
+select(date,gruppe) %\>%
+
+mutate(verdi = df_indeks\$verdi\*df_kpi_vekter\$verdi) %\>%
+
+group_by(date) %\>%
+
+summarize(verdi = sum(verdi)) %\>%
+
+mutate(gruppe = "KPI")
+
+df_bidrag \<- df_indeks %\>%
+
+mutate(verdi = (100\*(verdi - lag(verdi,12))\*lag(df_kpi_vekter\$verdi,12)/lag(df_total\$verdi,12)))
+
+gruppe_navn \<- df_indeks\$gruppe %\>%
+
+unique()
+
+df_total \<- df_indeks %\>%
+
+select(date,gruppe) %\>%
+
+mutate(verdi = df_indeks\$verdi\*df_kpi_vekter\$verdi) %\>%
+
+group_by(date) %\>%
+
+summarize(verdi = sum(verdi)) %\>%
+
+mutate(gruppe = "KPI")
+
+rebaser \<- 100/df_total\$verdi\[df_total\$date == as.Date("2015-06-01")\] #Kode hentet fra Even Hvinden github
+
+df_total \<- df_total %\>%
+
+mutate(verdi = verdi\*rebaser)
+
+df_dtotal \<- df_total %\>%
+
+mutate(verdi = 100\*(verdi - lag(verdi,12))/lag(verdi,12)) %\>%
+
+filter(date \>= as.Date("2020-01-01"))
+
+df_plot \<- df_bidrag %\>%
+
+filter(date \>= as.Date("2020-01-01")) %\>%
+
+rbind(df_dtotal)
+
+#sjekker utregning ut mot Totalindeksen til SSB
+
+df_utregning \<- df_total %\>%
+
+filter(date \>= as.Date("2015-01-01"))
+
+df_utregning \<- df_utregning %\>%
+
+left_join(df_ssbkpi, by = "date") %\>%
+
+rename(utregnet = verdi.x,
+
+ssb = verdi.y) %\>%
+
+select(date, utregnet, ssb) %\>%
+
+pivot_longer(-date, names_to = "type", values_to = "kpi")
+
+</div>
