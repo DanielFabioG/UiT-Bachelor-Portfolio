@@ -1,0 +1,2463 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forsidesok2030.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+bibliography: dokumentobjekter/texstuff/references.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \renewcommand{\maketitle}{}
+nocite: |
+  @*
+keep-tex: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{=tex}
+
+\thispagestyle{plain}
+\begin{center}
+    \Large
+    \textbf{Sammendrag}
+\end{center}
+
+
+Det er observert at hotellprisene har hatt en betydelig økning i Tromsø, over de siste årene og spesielt under vintersesongen.
+
+
+
+I denne oppgaven ser vi på prisdiskrimineringens innvirkning på lønnsomheten og markedstilpasningen for Clarion Hotel® The Edge, med fokus på sesongvariasjoner i hotellbransjen. 
+
+
+Ved å undersøke teori rundt prisdiskriminering og gjøre dataanalyse så forsøker vi å finne de optimale prisstrategiene for ulike tider av året. 
+
+Vi konkluderer ved at tredjegrads prisdiskriminering som tar hensyn til de ulike sesongene vil forsterke hotellets finansielle resultater og øke samfunnsøkonomisk overskudd. Vi ser også på effekten denne økte prisen vil ha på turisme og antall hoteller i Tromsø.
+
+
+Resultatet vi får er at ved en antatt stigning i etterspørselen, delvis foresaket av faktorer som fallende kronekurs, kan føre til ytterligere prisøkninger i høysesongen, noe som påvirker hotellets kapasitetsutnyttelse spesielt på vinteren og vil føre til at flere hoteller blir bygd for å dekke etterspørselen.
+
+På kort sikt ser vi at turister ikke er prisfølsomme og etterspørselen kommer til å fortsette å øke med en fortsatt svak kronekurs.
+
+På lengre sikt er turistene mer prisfølsomme og vi kan forvente at med flere nye hoteller og mindre etterspørsel som følge av økte priser så kommer The Edge til å senke hotellromsprisene sine under høysesongen.
+
+
+
+\newpage
+\hypersetup{linkcolor=black}
+\renewcommand{\contentsname}{Innholdsfortegnelse}
+\renewcommand*{\figureautorefname}{Figur}
+\renewcommand*{\tableautorefname}{Tabell}
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+\hypersetup{linkcolor=blue}
+\newpage
+```
+```{python}
+import json
+import pandas as pd
+import requests
+from pyjstat import pyjstat
+import calendar
+from matplotlib import pyplot as plt
+import numpy as np
+import sympy as sp
+import matplotlib.ticker as mtick
+```
+
+# 1. Innledning
+
+## 1.1 Bakgrunn: The Edge
+
+Temaet for denne oppgaven er [Clarion Hotel® The
+Edge](https://www.strawberry.no/hotell/norge/tromso/clarion-hotel-the-edge/)
+sin prisstrategi, hvor vi spesifikt skal gå dypere inn i effekten
+prisdiskriminering kan ha mellom ulike sesonger.
+
+![](dokumentobjekter/figurer/the_edge.png)
+
+I den senere tid har Tromsø opplevd en stor økning i antall turister som
+kommer til byen, og da særlig i vintersesongen. Hvor den økningen i
+etterspørselen etter overnatting har resultert i en stor prisøkning på
+hotellrom i vintersesongen.
+
+I denne oppgaven skal vi svare på følgende spørsmål:
+
+1.  Hvilken prisstrategi bruker Clarion Hotel® The Edge, og hva vil være
+    optimal markedstilpasning for hotellet?
+
+2.  Hvordan vil prisdiskriminering basert på ulike sesonger påvirke
+    lønnsomheten til Clarion Hotel® The Edge?
+
+3.  Hva er velferdseffekten av Clarion Hotel® The Edge sin strategi for
+    prisdiskriminering? Som følge av mange direkteflyginger fra utlandet
+    til Tromsø, forventes det en økning i etterspørselen etter
+    hotellrom.
+
+4.  Hvordan vil en økning i etterspørselen etter hotellrom påvirke
+    prisnivået for Clarion Hotel® The Edge i de ulike sesongene?
+
+### Målgrupper
+
+Strawberry Hotels deler opp hotellene sine i tre forskjellige
+segmenter/brands for forskjellige målgrupper. Hvor vi har Comfort for
+lavpris-kjeden, Quality som familie-hotellkjeden og til sist Clarion som
+deres luksuriøse hotell-kjede hvor de alle tre er rettet mot
+forskjellige behov i forskjellige målgrupper (andregrads
+prisdiskriminering).
+
+Clarion Hotel® The Edge er Strawberry Hotels største hotell i Tromsø,
+hvor de selv reklamerer for naturen rundt byen, diverse aktiviteter som
+vi kan bestille
+\href{https://www.strawberryhotels.com/packages/tromso}{samtidig med hotell-bookingen},
+nordlyset osv. for å tiltrekke seg besøkende året rundt.
+
+\newpage
+
+## 1.2 Hotellbransjen
+
+### Vekst over tid
+
+```{python}
+
+%%capture 
+postUrl = "https://data.ssb.no/api/v0/no/table/10638/"
+apiQuery = {
+  "query": [
+    {
+      "code": "KonsumInnd",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "UTLK"
+        ]
+      }
+    },
+    {
+      "code": "Reiseliv",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "0"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "FastePriser"
+        ]
+      }
+    },
+    {
+      "code": "Tid",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}
+
+# Funksjon for å konvertere uttrekket til 2 dataframes, tar 2 paramtre
+
+def apiToDataframe(postUrl, query):
+
+    # postUrl som spørringen skal postes mot
+    # Spørringen og endepunktet til API-et kan hentes fra Statistikkbanken.
+
+    res = requests.post(postUrl, json=query)
+    # legger resultat i ds. DS har i tillegg en del metadata
+    ds = pyjstat.Dataset.read(res.text)
+    # skriver resultatet til to dataframes
+    # først dataframe med tekst
+    df = ds.write('dataframe')
+    # deretter dataframe med koder
+    df_id = ds.write('dataframe', naming='id')
+    # returnerer også ds i tilfelle en trenger metadata
+    return df, df_id, ds
+
+df_10638, df_id, ds = apiToDataframe(postUrl, apiQuery)
+#Index as år
+df_10638 = df_10638.set_index('år')
+#drop the second column
+df_10638 = df_10638.drop(df_10638.columns[[0, 1,2]], axis=1)
+
+#I get data from a csv
+kurs = pd.read_csv('https://data.norges-bank.no/api/data/EXR/A..NOK.SP?startPeriod=2003-03-19&endPeriod=2023-03-19&format=csv&bom=include&locale=no', sep=';')
+#I only look at rows with EURO
+kurs = kurs[kurs['BASE_CUR'] == 'EUR']
+#I look at years after 2010
+kurs = kurs[kurs['TIME_PERIOD'] >= 2010]
+#I drop everything after 2020
+kurs = kurs[kurs['TIME_PERIOD'] <= 2020]
+
+#Rename last column
+kurs = kurs.rename(columns={'OBS_VALUE': 'Årlig gjennomsnittlig kurs'})
+#I rename time_period to year
+kurs = kurs.rename(columns={'TIME_PERIOD': 'År'})
+#I set the index to year
+kurs = kurs.set_index('År')
+#i only keep the last column
+
+# Remove all columns between column index 1 to 3
+kurs.drop(kurs.iloc[:, 0:14], inplace=True, axis=1)
+kurs['Årlig gjennomsnittlig kurs'] = kurs['Årlig gjennomsnittlig kurs'].str.replace(',', '.')
+#I convert the column to float
+kurs['Årlig gjennomsnittlig kurs'] = kurs['Årlig gjennomsnittlig kurs'].astype(float)
+
+
+#I reset the index in df_10638
+df_10638 = df_10638.reset_index()
+#I reset the index in kurs
+kurs = kurs.reset_index()
+df_10638 = df_10638.join(kurs)
+
+df_10638 = df_10638.set_index('år')
+df_10638 = df_10638.drop(df_10638.columns[[1]], axis=1)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.set_ylabel('Millioner kroner', loc='center')
+ax.set_xlabel('År', loc='center')
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none')
+ax.set_xlabel('')
+
+
+#I drop the year 2020
+df_10638 = df_10638.drop('2020')
+
+
+# Set the title and axis labels
+#ax.set_title('Utlendingenes turistkonsum i Norge med EUR/NOK')
+#Adding text below the title
+ax.annotate('Målt i faste 2020-priser', xy=(0.38, 0.97), xycoords='axes fraction', fontsize=10)
+ax.annotate('Kilde: SSB Tabell 10638, og Norges Bank', xy=(0.74, -0.15), xycoords='axes fraction', fontsize=8)
+
+
+#I calculate the increase from 2010 to 2013
+increase_2013 = (df_10638.loc['2013', 'value'] - df_10638.loc['2010', 'value']) / df_10638.loc['2010', 'value'] * 100
+
+#I calcualte the increase from 2013 to 2017
+increase_2016 = (df_10638.loc['2016', 'value'] - df_10638.loc['2013', 'value']) / df_10638.loc['2013', 'value'] * 100
+
+#I calculate the increase from 2016 to 2019
+increase_2019 = (df_10638.loc['2019', 'value'] - df_10638.loc['2016', 'value']) / df_10638.loc['2016', 'value'] * 100
+
+
+#Setting bars on the x axis
+ax.bar(df_10638.index, df_10638['value'], color='#1B79AC', width=0.8)
+
+
+
+#draw a line between the top of 2010 and 2013 in the plot
+ax.annotate('', xy=(0, df_10638.loc['2010', 'value']+100), xytext=(3, df_10638.loc['2013', 'value']+100), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=0.2'))
+#write the text
+ax.annotate(f'Økning på {np.round(increase_2013, 2)}%', xy=(0.2, df_10638.loc['2013', 'value']+3000), fontsize=10)
+
+#draw a line between the top of 2013 and 2016 in the plot
+ax.annotate('', xy=(3, df_10638.loc['2013', 'value']+100), xytext=(6, df_10638.loc['2016', 'value']+100), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=0.2'))
+#write the text
+ax.annotate(f'Økning på {round(increase_2016, 2)}%', xy=(3.2, df_10638.loc['2016', 'value']-3500), fontsize=10, rotation=15)
+
+#draw a line between the top of 2016 and 2019 in the plot
+ax.annotate('', xy=(6, df_10638.loc['2016', 'value']+100), xytext=(9, df_10638.loc['2019', 'value']+100), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=0.1'))
+#write the text
+ax.annotate(f'Økning på {round(increase_2019, 2)}%', xy=(6.2, df_10638.loc['2019', 'value']-3300), fontsize=10, rotation=10)
+
+
+
+
+#I add a bar for the kurs
+ax2 = ax.twinx()
+ax2.set_ylabel('EUR/NOK', loc='center')
+ax2.spines['top'].set_color('none')
+#i drop the x axis label
+ax2.set_xlabel('')
+
+
+ax2.plot(df_10638.index, df_10638['Årlig gjennomsnittlig kurs'], color='red', linewidth=2, marker='o', markersize=5, markerfacecolor='white', markeredgecolor='red')
+
+#I calculate the increase from 2010 to 2013
+increase_2013_kurs = (df_10638.loc['2013', 'Årlig gjennomsnittlig kurs'] - df_10638.loc['2010', 'Årlig gjennomsnittlig kurs']) / df_10638.loc['2010', 'Årlig gjennomsnittlig kurs'] * 100
+
+#I calcualte the increase from 2013 to 2016
+increase_2016_kurs = (df_10638.loc['2016', 'Årlig gjennomsnittlig kurs'] - df_10638.loc['2013', 'Årlig gjennomsnittlig kurs']) / df_10638.loc['2013', 'Årlig gjennomsnittlig kurs'] * 100
+
+#draw a line between the top of 2010 and 2013 in the plot
+ax2.annotate('', xy=(0, df_10638.loc['2010', 'Årlig gjennomsnittlig kurs']), xytext=(3, df_10638.loc['2013', 'Årlig gjennomsnittlig kurs']), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=0.2'))
+#write the text
+ax2.annotate(f'Norske kroner ble {round(increase_2013_kurs*(-1), 2)}% dyrere', xy=(-0.5, df_10638.loc['2013', 'Årlig gjennomsnittlig kurs']+0.5), fontsize=9, color='white', bbox=dict(facecolor='black', edgecolor='black', boxstyle='round,pad=0.2'))
+
+#I draw a line between the top of 2013 and 2017 in the plot
+ax2.annotate('', xy=(3, df_10638.loc['2013', 'Årlig gjennomsnittlig kurs']), xytext=(6, df_10638.loc['2016', 'Årlig gjennomsnittlig kurs']), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=-0.2'))
+#write the text
+ax2.annotate(f'Norske kroner ble {round(increase_2016_kurs, 2)}%\nbilligere målt mot Euro', xy=(3.8, df_10638.loc['2016', 'Årlig gjennomsnittlig kurs']-1.8), fontsize=9, rotation=40, color='white', bbox=dict(facecolor='black', edgecolor='black', boxstyle='round,pad=0.2'))
+
+#I do the same for 2016-2019
+increase_2019_kurs = (df_10638.loc['2019', 'Årlig gjennomsnittlig kurs'] - df_10638.loc['2016', 'Årlig gjennomsnittlig kurs']) / df_10638.loc['2016', 'Årlig gjennomsnittlig kurs'] * 100
+
+
+#I draw a line between the top of 2016 and 2019 in the plot
+ax2.annotate('', xy=(6, df_10638.loc['2016', 'Årlig gjennomsnittlig kurs']), xytext=(9, df_10638.loc['2019', 'Årlig gjennomsnittlig kurs']), arrowprops=dict(arrowstyle='<->', color='black', linewidth=1, connectionstyle = 'arc3,rad=-0.3'))
+#write the text
+ax2.annotate(f'{round(increase_2019_kurs, 2)}% billigere', xy=(7, df_10638.loc['2019', 'Årlig gjennomsnittlig kurs']-0.8), fontsize=9, rotation=20, color='white', bbox=dict(facecolor='black', edgecolor='black', boxstyle='round,pad=0.2'))
+
+
+
+
+#i save the fig
+fig.savefig('dokumentobjekter/figurer/Utlendingenes_turistkonsum_i_Norge.png', dpi=500, bbox_inches='tight');
+```
+
+```{=tex}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{dokumentobjekter/figurer/Utlendingenes_turistkonsum_i_Norge.png}
+\caption{Utlendingenes turistkonsum i Norge med EUR/NOK}
+\label{fig:konsum}
+\end{figure}
+```
+Det siste tiåret har vi sett svekkelser i kronekursen mot utenlandske
+valutaer. Svekkelsen mot både euro og dollar har gjort Norge til et mer
+økonomisk attraktivt reisemål for utenlandske turister.
+
+```{python include=FALSE}
+%%capture
+
+
+postUrl = "https://data.ssb.no/api/v0/no/table/13156/"
+apiQuery = {
+  "query": [
+    {
+      "code": "Region",
+      "selection": {
+        "filter": "vs:ReiselivsRegioner",
+        "values": [
+          "54101"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "KapasitetRom",
+          "PrisRom",
+          "UtleigdeRom",
+          "LosjiOmsRom",
+          "LosjiOms"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}
+
+
+
+
+
+# Funksjon for å konvertere uttrekket til 2 dataframes, tar 2 paramtre
+
+def apiToDataframe(postUrl, query):
+
+    # postUrl som spørringen skal postes mot
+    # Spørringen og endepunktet til API-et kan hentes fra Statistikkbanken.
+
+    res = requests.post(postUrl, json=query)
+    # legger resultat i ds. DS har i tillegg en del metadata
+    ds = pyjstat.Dataset.read(res.text)
+    # skriver resultatet til to dataframes
+    # først dataframe med tekst
+    df = ds.write('dataframe')
+    # deretter dataframe med koder
+    df_id = ds.write('dataframe', naming='id')
+    # returnerer også ds i tilfelle en trenger metadata
+    return df, df_id, ds
+
+df_13156, df_id, ds = apiToDataframe(postUrl, apiQuery)
+
+
+
+
+df_13156['måned'] = df_13156['måned'].str.replace('M', '-')
+
+df_13156 = df_13156.set_index('måned')
+df_13156 = df_13156.pivot(columns=['region', 'statistikkvariabel'], values='value')
+
+
+#huffda nu kombinerer jeg 2016-2019, 2020-2021 og har en egen for 2022
+df_13156['year'] = df_13156.index.str[:-3]
+df_13156['Måned'] = df_13156.index.str[5:]
+df_13156['year'] = df_13156['year'].astype(int)
+df_13156['Måned'] = df_13156['Måned'].astype(int)
+
+
+
+
+#i filter out the rows starting with 2020 and add them to a new dataframe
+df_13156_1 = df_13156[df_13156['year'] >= 2020]
+df_13156_2 = df_13156_1[df_13156_1['year'] >= 2022]
+df_13156_1 = df_13156_1[df_13156_1['year'] < 2022]
+#I drop the rows starting with 2020
+df_13156 = df_13156[df_13156['year'] < 2020]
+
+
+
+
+
+df_13156_1 = df_13156_1.set_index(['Måned'])
+df_13156_1 = df_13156_1.groupby('Måned').mean()
+df_13156_1['year'] = '2020-2021'
+df_13156_2 = df_13156_2.set_index(['Måned'])
+#set year to string
+df_13156_2['year'] = df_13156_2['year'].astype(str)
+
+#Group by month and mean but ignore year column
+df_13156 = df_13156.groupby('Måned').mean()
+#I change all year values to year
+df_13156['year'] = '2016-2019'
+
+
+
+
+#I combine the two dataframes
+df_13156 = pd.concat([df_13156, df_13156_1, df_13156_2])
+#dropping the first top index
+
+df_13156 = df_13156.set_index('year', append=True)
+
+df_13156.columns = df_13156.columns.droplevel(0)
+#adding year to second level index
+
+
+df_13156 = df_13156.pivot_table(index=['Måned'], columns=['year'], values=['Kapasitetsutnytting av rom (prosent)', 'Pris per rom (kr)', 'Utleigde rom', 'Losjiomsetning per tilgjengeleg rom (kr)', 'Losjiomsetning (1 000 kr)'])
+
+
+
+
+
+
+
+
+#I make a subplot of kapasitet and utleiderom above eachother with ax1 and ax2
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(14, 3))
+ax1.plot(df_13156.index, df_13156['Kapasitetsutnytting av rom (prosent)'])
+ax1.set_title('Kapasitetsutnytting av rom (prosent)')
+ax1.set_ylabel('')
+ax1.set_xlabel('')
+ax1.spines['top'].set_visible(False)
+ax1.spines['right'].set_visible(False)
+#i set y ticks percent
+ax1.yaxis.set_major_formatter(mtick.PercentFormatter())
+
+
+
+ax2.plot(df_13156.index, df_13156['Utleigde rom'])
+
+#i move the title a little further down
+ax2.set_title('Antall utleide rom', y=0.9)
+ax2.set_ylabel('')
+ax2.set_xlabel('')
+ax2.spines['top'].set_visible(False)
+ax2.spines['right'].set_visible(False)
+
+
+
+
+#x axis month labels
+ax1.set_xticks(df_13156.index)
+ax1.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'])
+ax2.set_xticks(df_13156.index)
+ax2.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'])
+
+
+
+
+
+#i plot pris per rom
+
+ax3.plot(df_13156.index, df_13156['Pris per rom (kr)'])
+ax3.set_title('Pris per rom', y=0.9)
+ax3.set_ylabel('')
+ax3.set_xlabel('')
+ax3.spines['top'].set_visible(False)
+ax3.spines['right'].set_visible(False)
+
+ax3.yaxis.set_major_formatter(mtick.StrMethodFormatter('{x:.0f}kr'))
+
+
+
+#x axis month labels
+ax3.set_xticks(df_13156.index)
+ax3.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'])
+#legend#i remove the box from legend
+ax3.legend(['2016-2019', '2020-2021', '2022', '2023'], loc='upper left', bbox_to_anchor=(0.35, 0.95), frameon=False)
+
+#kilde
+ax3.text(10.5, 730, 'Kilde: SSB tabell 13156', ha='center', va='center', fontsize=8)
+
+
+plt.savefig('dokumentobjekter/figurer/ssbdata.png', dpi=500, bbox_inches='tight')
+
+
+```
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\textwidth]{dokumentobjekter/figurer/ssbdata.png}
+  \caption{Sesongvariasjoner i hotellbransjen}
+  \label{fig:ssbdata}
+\end{figure}
+```
+Tromsø ligger nå på topp i landet når det gjelder hotellbelegg og
+oppnådd høyest pris for sine hotellrom i 2023. Totalt for året var
+hotellbelegget på 68,9 prosent. For vintermånedene, fra november til
+mars, ligger hotellbelegget på mellom 80 og 90 prosent.
+
+I \autoref{fig:ssbdata} så er det tegnet 4 linjer der blå viser
+gjennomsnitt av årene 2016-2019, oransje viser 2020-2021 og til slutt
+viser grønn og rød 2022 og 2023. Den besluttingen ble tatt for forbedre
+visualiseringen.
+
+I sommermånedene synker etterspørselen etter overnatting betydelig, og
+hotellbelegget ligger mellom 55 og 62 prosent. Clarion Hotel The Edge er
+Tromsøs største kongress- og konferansehotell. Hotellet inngår i
+hotellkjeden Strawberry.
+
+Prisene i \hyperref[fig:ssbdata]{høyre figur} er justert etter
+konsumprisindeksen for å forsøke å fjerne inflasjon fra prisutviklingen.
+Som vi ser, selv KPI-justert så har prisene i 2023 vært en god del
+høyere.[^1]
+
+[^1]: Koden fra disse figurene er i stor grad gjenbrukt kode fra
+    tidligere levert mappeoppgave fra emnet SOK-1006.
+    @kandidatnummer_2023_mappeoppgave
+
+\clearpage
+
+## 1.3 Hva driver pris
+
+Som vi kan observere, er prisen på hotellrom i Tromsø relativt høy på
+vinteren, og relativt lav om sommeren. Hva driver egentlig prisen? Vi
+har to faktorer som driver pris i markedet: tilbud og etterspørsel.
+Samspillet mellom disse skal vi se videre i teoridelen.
+
+Prisen på hotellrom vil også kunne variere ut ifra lønn, drift,
+vedlikehold, osv. Kostnaden for hotellrom er ikke bare sengetøy og vask
+av rom, men driftskostnader som strøm, mat/drikke, lånekostnader, osv.
+
+Blant annet driftsmarginer og driftskostnader kan med andre ord påvirke
+prisen på hotellrom. Hotellbransjen hadde i 2022 blant de laveste
+driftsmarginene av næringene i Norge. Driftsmarginen lå på 3,9 prosent i
+2022, sammenlignet med generelt for alle næringer på 22 prosent.
+Allikevel kan vi se en økning i marginer i forhold til før
+covid-pandemien (driftsmargin i 2019 var 1,9 prosent). [^2]
+
+[^2]: @tall
+
+Akkurat nå opplever vi en periode med økte priser grunnet inflasjon.
+Dette medfører også en økt lønnsvekst, da arbeidere krever økt
+kjøpekraft. Hotellbransjen har en høy andel av sine driftskostnader
+knyttet til lønn. Ifølge NHO var denne på 36,9
+prosent$\color{blue}{^2}$. Dette vil si at bransjen er sensitiv til økte
+lønnskostnader, og derav kan prisene justeres for å opprettholde margin.
+
+#### Mews PMS og The Edge.
+
+Da Clarion Hotel The Edge er en del av Strawberry-gruppen, kan vi anta
+at de bruker samme PMS (property managment system) som resten av
+Strawberry. Dette vil si at Clarion Hotel The Edge benytter seg av
+PMS-programmet Mews.[^3]
+
+[^3]: @mews_hotel
+
+Selv som vi ser en høyere etterspørsel under vintersesong, vil prisene
+variere fra dag til dag. Mews tillater automatisk justering av priser
+basert på etterspørsel. Dette vil si flere rom solgt, desto høyere vil
+prisen bli. Dette baserer seg på en rate satt av hotellet i
+utgangspunktet. Dette vil si at vi antar The Edge har en langt høyere
+basepris under vintersesong, enn på sommeren ut ifra de observerte
+prisforskjellene.[^4]
+
+[^4]: @mews_hotel
+
+### Faktorer som påvirker etterspørsel
+
+Som vist i \autoref{fig:konsum}, har turistkonsumet økt, som vi kan anta
+har delvis blitt drevet av denne valutaeffekten.
+\hypertarget{faktorer_ettersporsel}{Hotellovernattinger
+utgjør en en del av det totale turistkonsumet og prisfølsomheten i våre
+etterspørselsfunksjoner som vi kommer til i kapittel 3 på -1.2 og -2.3 passer godt med observasjonene.}
+
+I
+\href{https://ntnuopen.ntnu.no/ntnu-xmlui/bitstream/handle/11250/2486498/Masteroppgave\%20Ida\%20Charlotte\%20Engebretsen.pdf}{Ida Charlotte Sølvberg Engebretsen}
+sin masteroppgave fremkommer det at priselastisiteten for etterspørselen
+er -0.6 på kort sikt og -2.86 på lang sikt, noe som betyr at turister er
+prisfølsomme på lang sikt men ikke på kort sikt. Dette betyr at
+langvarige valutatrender kan ha stor påvirkning på turiststrømmene og
+den økningen vi nå har sett kan være bare starten. Med dette kan det
+forventes en ytterligere økning i etterspørsel på sikt.
+
+Fra
+\href{https://www.regjeringen.no/no/dokumenter/nou-2019-11/id2645213/?ch=7}{regjeringens NOU}
+ser vi at etterspørselselastisiteten i totalmarkedet for hotell benyttes
+på -0,9, nær korttidsestimeringen i Engebretsens oppgave og
+sommerelastisiteten vi har. Dette støtter vår antagelse om at
+kronesvekkelsen vil føre til en økt etterspørsel etter hotelltjenester.
+
+Vi har ikke funnet noe for å støtte det men vi fikk høre av daglig leder
+på The Edge at utenlandske turister har høyere betalingsvillighet enn
+nordmenn. Dette kan bety at utenlandske turister kan være villig til å
+betale mer for et hotellrom enn nordmenn. Dette kan være en faktor som
+påvirker prisen på hotellrom i Tromsø.
+
+De siste årene har temperaturen i Europa økt, med flere hetebølger som
+kan føre til at flere turister vil reise nordover for å unnslippe varmen
+på sommeren slik at det kan bli mer balansert etterspørsel på sommer og
+vinter.
+
+#### Oppsumert
+
+I denne oppgaven vil vi se på effekten av tredje grads
+prisdiskriminering, hvor Clarion Hotel® The Edge prøver å differensiere
+prisen mellom vinter- og sommersesongen.
+
+Vi ser bare på etterspørselssiden og ser i stor grad bort ifra
+tilbudssiden selv om det på sikt kan bygges nye hoteller. Vi velger også
+å bare se på hoteller og ikke på AirBnB. Vi betrakter også The Edge som
+en monopolist i markedet da de er en av de eneste luksushotellene i
+Tromsø.
+
+Vi gå også ut ifra at det er lineær etterspørsel der vi setter en fast
+for sommer og vinter. Men som vi ser er det veldig mange faktorer som
+påvirker pris, og med så mange pakker hoteller kan tilby, foreksempel
+som samarbeid med flyselskap som Norwegian og forskjellige hotell for
+forskjellige markedssegmenter. Derfor gjør vi en avgrensing der vi bare
+ser på tredjegrads prisdiskriminering
+
+## 1.4 Struktur av oppgaven
+
+#### Kapittel 1
+
+I kapittel 1 har vi presentert bakgrunnen for oppgaven, og vi har også
+presentert problemstillingen som vi skal forsøke å besvare i denne
+oppgaven. Vi har også vist data på turisme og hotellbransjen og fortalt
+om avgrensningene vi har gjort, og vi presenterer her strukturen av
+oppgaven.
+
+#### Kapittel 2
+
+I kapittel 2 går vi gjennom den teoretiske delen av oppgaven, hvor vi
+forklarer monopol, frikonkurranse, velferdseffekter av disse og
+presenterer teorien bak prisdiskriminering. Vi fokuserer spesielt på
+tredje grads prisdiskriminering, som er den prisdiskrimineringen vi skal
+se på i denne oppgaven.
+
+#### Kapittel 3
+
+Kapittel 3 inneholder analysen hvor vi ser på hvilken effekt det vil ha
+å ikke prisdiskriminere, og hvilken effekt det vil ha å
+prisdiskriminere. Vi vil også se på hvordan The Edge kan differensiere
+prisen mellom vinter- og sommersesongen. Vi vil også se på hvilke
+velferdseffekter dette vil ha for samfunnet. Vi avslutter der vi drøfter
+rundt hvilke effekter vi ser og hva vi kan forvente.
+
+#### Kapittel 4
+
+I kapittel 4 konkluderer vi med at den optimale prisstrategien en er en
+differensiert prissetting basert på sesong.
+
+\clearpage
+
+# 2. Teorikapittel
+
+Før vi begynner å se på prisstrategien til hotellet Clarion Hotel® The
+Edge, skal vi gå gjennom hvordan en bedrift som har monopolmakt
+profittmaksimerer, hvordan ulike former for prisdiskriminering fungerer
+og hvilke velferds-effekter monopol har for samfunnet i helhet.
+
+## 2.1 Frikonkurranse og monopol
+
+I vår analyse skal vi gå gjennom to markedssituasjoner: frikonkurranse
+og monopol. Da vi antar The Edge har en monopol markedssituasjon, vil vi
+i stor grad vektlegge dette. Vi skal alikevell gå igjennom
+frikonkurranse for å se hvilke velferdseffekter en monopol
+markedssituasjon har.
+
+### Frikonkurranse
+
+Det gjøres noen forutsetninger for å kunne ta hensyn til frikonkurranse.
+Disse er at alle bedriftene produserer samme produkt/tjeneste,
+fullkommen informasjon (lik informasjon hos tilbydere/konsumenter),
+mange aktører på markedet og ingen transaksjonskostnader. Da disse
+forutsetningene er satt, skal vi se på hvordan markedskreftene fungerer.
+
+Ved frikonkurranse har vi to faktorer som driver markedspris for et
+gode: tilbud og etterspørsel. Tilbudet representerer marginalkostnaden
+til bedriftene for å produsere godet. Dette vil si at tilbudet
+gjenspeiler kostnaden ved produksjon av varen/varene. Etterspørselen
+representerer betalingsvilligheten til konsumentene (altså hvor mye
+individene er villig til å betale). Desto lavere pris, desto flere
+ønsker å kjøpe godet, noe som etterspørselkurven viser. Figuren nedenfor
+viser hvordan tilbud og etterspørsel møtes, gjerne kalt markedslikevekt.
+
+```{python include=FALSE}
+%%capture
+#kode er hentet fra mappeoppgave 1 sok-1006 kandidatnr 5. (github: https://github.com/jonazza/SOK-1006/tree/main/Mappeoppgaver/Mappeoppgave_1)
+x, p, t=sp.symbols('x p t', real=True, positive=True)
+
+def create_ax2():
+                fig, ax = plt.subplots()
+                ax.set_ylabel('Pris', loc='top')
+                ax.set_xlabel('Kvantum', loc='right')
+                ax.set(xlim=(150,275))
+                ax.set(ylim=(55,110))
+                ax.spines['top'].set_color('none')
+                ax.spines['right'].set_color('none')
+                
+                return fig, ax
+
+def demand(x):
+    return (500-x)/3.2
+def supply(x, t):
+    return ((100+x)/4.3) + t
+
+#liste med tall fra 0.1 til 100. 
+x_num=np.linspace(0.1,500,100)
+
+equ_t0 = sp.Eq(demand(x),supply(x, 0))
+
+x_eq_t0 = sp.solve(equ_t0,x)
+x_eq_t0 = float(x_eq_t0[0])
+
+p_eq_t0=demand(x_eq_t0)
+
+x_num=np.linspace(0.1,500,100)
+
+equ_t0 = sp.Eq(demand(x),supply(x, 0))
+
+x_eq_t0 = sp.solve(equ_t0,x)
+x_eq_t0 = float(x_eq_t0[0])
+
+p_eq_t0=demand(x_eq_t0)
+
+fig9, ax = create_ax2()
+
+#plotter funksjonen
+ax.plot(x_num, demand(x_num), label='Etterspørsel fra turister')
+ax.plot(x_num, supply(x_num, 0), label='Tilbud u/avgift')
+
+#rekke med tall fra 0 til likevekt
+q = np.linspace(0,x_eq_t0,100)
+
+#vertikal og horisontal linje for å markere likevekt.
+ax.vlines(x_eq_t0,47,demand(x_eq_t0), color='g',ls='dashed', alpha= 0.3, clip_on=False)
+ax.hlines(p_eq_t0,0,x_eq_t0, color='black',ls='dashed', alpha=0.3)
+
+#fyller inn konsument og produsent overskudd
+ax.fill_between(q,p_eq_t0,demand(q), color = "green",alpha = 0.3,label='Konsumentoverskudd')
+ax.fill_between(q,supply(q, 0),p_eq_t0, color = "red",alpha = 0.3,label='Produsentoverskudd')
+ax.annotate("Q", xy=(round(x_eq_t0, 2)-4, 45), annotation_clip=False)
+
+#fjerner tall fra akse
+ax.set_yticklabels([])
+ax.set_xticklabels([])
+
+#legende
+ax.legend(bbox_to_anchor=(1.5,0.6))
+plt.savefig('dokumentobjekter/figurer/frikonkurranse.png', dpi=300, bbox_inches='tight')
+```
+
+```{=tex}
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=\linewidth]{dokumentobjekter/figurer/frikonkurranse.png}
+  \captionof{figure}{Frikonkurranse}
+  \label{fig:frikonkurranse}
+\end{figure}
+```
+\autoref{fig:frikonkurranse} viser hvordan samspillet mellom tilbud og
+etterspørsel. Punktet hvor disse tangerer kalles markedslikevekt, og er
+samfunnsøkonomisk optimalt. Samfunnsøkonomisk optimal tilpasning er når
+samfunnsøkonomisk overskudd er maksimert, og består av produsent- og
+konsumentoverskudd. Konsumentoverskudd får vi når konsumentene betaler
+mindre enn hva de har betalingsvillighet til (dette illustreres med det
+grønne området i figuren). Produsentoverskuddet er det røde området i
+figuren, og representerer overskuddet bedriften/produsenten får ved å
+produsere frem til likevektspris (altså merinntekt utover
+marginalkostnaden ved å produsere godet). Produsent- og
+konsumentoverskuddet utgjør det samfunnsøkonomiske overskuddet, og dette
+er maksimert når tilbud og etterspørsel tangerer.
+
+### Monopol
+
+Et monopol vil si at vi har en markedsituasjon hvor det finnes bare en
+bedrift på tilbudssiden. I motsetning til fullkommen konkurranse hvor
+prisen blir satt av markedet og bedriften er pristagere, kan en bedrift
+med monopolmakt bestemme prisen selv. Da monopol-bedriften ønsker å
+profittmaksimere, vil denne selvsagt velge prisen som maksimerer profitt
+uten å se på samfunnsøkonomisk velferd.
+
+## 2.2 Profittmaksimering i en bedrift som har monopol
+
+En bedrift med monopolmakt vil velge en tilpasning som maksimerer dens
+profitt utifra en gitt etterspørsel etter deres produkt/tjeneste. La oss
+starte med en generell invers etterspørselsfunksjon, da
+monopol-bedriften kan velge prisen selv: $$ P(Q) = A - BQ$$Den inverse
+etterspørselsfunksjonen viser sammenhengen mellom pris ($P$) og mengde
+solgt ($Q$). Konstantleddet $A$ representerer prisen som medfører null
+etterspørsel etter produktet/tjenesten bedriften selger. $B$
+representerer hvor mye prisen endrer seg dersom etterspørselen endres
+med $1$ enhet.
+
+Da bedriften har monopol, vil denne være eneste tilbyder til markedet.
+Dette vil si at bedriften vil dekke hele markedet. Dette gir bedriften
+en inntekts-funksjon som ser slik ut: $$R(Q) = Q * P(Q)$$Inntekten
+$R(Q)$ avhenger av antall solgt ($Q$) til en pris $P$. Da bedriften
+dekker hele markedet vil prisen være den inverse etterspørselen $P(Q)$.
+Videre forenkler vi likningen og får følgende inntekts-funksjon for
+monopolbedriften:
+
+$$R(Q) = Q * P(Q) \rightarrow R(Q) = Q * (A-BQ) \rightarrow R(Q) = AQ -BQ^2$$
+
+Bedriften har også en kostnadsfunksjon, som representerer kostnaden for
+enheter produsert. Denne kan se slik ut: $C(Q) = c * Q$, hvor $c$ er
+enhetskostnaden for hver enhet produsert/levert. Dette vil si at det
+koster $c$ kroner å produsere en ekstra enhet av produktet/tjenesten. I
+tillegg har gjerne bedriften faste kostnader $F$.
+
+Monopol-bedriftens profittfunksjon $\pi(Q)$ vil dermed se slik ut:
+
+$$\pi(Q) = R(Q) - C(Q) - F \rightarrow \pi(Q) = AQ - BQ^2 - cQ - F$$
+
+Monopolbedriften vil selge flere produkter/tjenester så lenge de tjener
+penger på dette. Dette vil si at bedriften vil selge enheter frem til
+$\frac{\delta\pi(Q)}{\delta Q} = 0$ for å oppnå maksimal profitt.
+
+$$\frac{\delta\pi(Q)}{\delta Q} = 0 \rightarrow A-2BQ - c = 0 \rightarrow A - 2BQ = c \rightarrow MR = MC$$MR
+står for marginalrevenue, eller marginalinntekt på norsk. Dette er
+inntekten bedriften får ved å selge en ekstra enhet (altså
+$MR = \frac{\delta R(Q)}{\delta Q} \rightarrow MR = A-2BQ$). Her kan vi
+se at marginalinntekten er lik den originale etterspørselfunksjonen vår
+$P(Q)$, utenom helningen som er dobbelt så bratt som etterspørselens.
+Dette prinsippet kommer til å bli brukt for å forenkle under
+analysedelen. MC står for marginalcost, eller marginalkostnad på norsk.
+Dette er kostnaden for bedriften ved å produsere en ekstra enhet
+($MC = \frac{\delta C(Q)}{\delta Q} \rightarrow MC = c$). Hva forteller
+dette oss om monopolbedriftens vilkår for profittmaksimering?
+
+Monopolbedriften profittmaksimerer altså når marginalinntekten $MR$ er
+lik marginalkostnaden $MC$. Dette forteller oss at monopol-bedriften
+profittmaksimerer når følgende vilkår er oppfylt:
+$MR = MC \rightarrow A-2BQ = c$. Legg gjerne merke til at $A$ og $B$
+kommer fra den opprinnelige etterspørselsfunksjonen.
+
+```{python include=FALSE}
+%%capture
+#pakker
+#invers etterspørselsfunksjon
+def invers_e(A, B, Q):
+    return A-(B*Q)
+
+#marginalinntekt
+def mr(A, B, Q):
+    return A-(2*B*Q)
+
+#Q-verdier
+Q = np.linspace(0.001, 650, 1000)
+
+
+
+
+
+
+
+#regning for mr = mc
+q, p= sp.symbols("q p")
+
+mi_mk = float(sp.solve(sp.Eq(mr(500, 4/5, q), 60))[0])
+
+dvl_stop = float(sp.solve(sp.Eq(invers_e(500, 4/5, q), 60))[0])
+
+
+#tall er bare eksempler for illustrasjon!!!!
+#skaper fig
+
+#verdi mellom 0 og optimalt kvantum
+v = np.linspace(0, mi_mk, 1000)
+
+h=np.linspace(mi_mk, dvl_stop, 1000)
+
+
+
+
+
+
+
+
+
+fig, ax = plt.subplots()
+
+ax.plot(Q, invers_e(500, 4/5, Q), label="Etterspørsel")
+ax.plot(Q, mr(500, 4/5, Q), label="MR")
+
+
+#horizontal linje som representerer mc
+plt.axhline(y=60, color='r', linestyle='-', label="MC")
+
+#optimalt kvantum monopol vertikal
+plt.vlines(x=mi_mk, ymin=0, ymax=invers_e(500, 4/5, mi_mk), color='grey', linestyle='-', alpha=0.5)
+
+#optimal pris monopol horizontal
+plt.hlines(y=mi_mk, xmin=0, xmax=invers_e(500, 4/5, mi_mk), color='grey', linestyle='-', alpha=0.5)
+
+
+
+#Fill Between for å vise profitt
+ax.fill_between(v, 60, mi_mk, color = "green",alpha = 0.3,label='Profitt')
+
+#Fill Between for å vise konsumentoverskudd
+ax.fill_between(v, mi_mk, invers_e(500, 4/5, v), color = "orange",alpha = 0.3,label='Konsumentoverskudd')
+
+
+
+#dødvektstap
+ax.fill_between(h, 60, invers_e(500, 4/5, h), color = "red",alpha = 0.3,label='Dødvektstap')
+
+
+#tilpasning monopol
+ax.text(275, -50, 'Q(M)', fontsize=10)
+ax.text(-50, 275, 'P(M)', fontsize=10)
+
+
+
+
+
+
+
+ax.set_ylabel('Pris (P)', loc='top', rotation=0) #Pris på y akse
+ax.set_xlabel('Mengde (Q)', loc='right') #mengde på x akse
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.set_xlim(0, 650) #aksene går fra 0 til 650
+ax.set_ylim(0, 650)
+ax.set_yticklabels([]) #ingen tall på aksene
+ax.set_xticklabels([])
+ax.legend(bbox_to_anchor=(0.6,0.9)) #legende på en grei plass
+
+plt.savefig("dokumentobjekter/figurer/monopol.png", dpi=300,bbox_inches='tight')
+```
+
+```{=tex}
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=\linewidth]{dokumentobjekter/figurer/monopol.png}
+  \captionof{figure}{Monopol tilpasning}
+  \label{fig:monopol}
+\end{figure}
+```
+\autoref{fig:monopol} viser hvordan bedriften med monopolmakt vil
+tilpasse seg. I eksempelfiguren har en antatt at marginalkostnaden er
+konstant $c$.
+
+I \autoref{fig:monopol} kan vi se at monopolbedriften vil selge $Q(M)$
+mengde enheter til en pris $P(M)$, da dette oppfyller vilkåret for
+profittmaksimering hvorav $MR = MC$ (en kan se i figuren hvor $MR$ og
+$MC$ tangerer hverandre). Det grønne området vil representere
+monopol-bedriftens profitt $\pi$. Ved fullkommen konkurranse der prisen
+er gitt av markedet, ville tilpasset seg ved å selge frem til prisen er
+lik marginalkostnaden, altså $P = MC$. Grunnet at bedriften er eneste
+tilbyder av godet, vil en velge å profittmaksimere, og derav selge et
+lavere kvantum enn hva som er samfunnsøkonomisk optimalt. Dette medfører
+ett dødvektstap, som en kan se i figuren markert med rødt område (ett
+effektivitetstap grunnet lavere kvantum enn samfunnet etterspør til
+$P=MC$).En kan også se et konsumentoverskudd som er markert gult. Dette
+vil si at noen konsumenter får kjøpe godet til lavere pris enn hva de
+har betalingsvillighet for, som gir oss dette konsumentoverskuddet.
+
+### Monopoltilpasning dersom kundene har ulik betalingsvillighet
+
+Monopolisten kan stå ovenfor kundegrupper med ulik betalingsvillighet.
+La oss se hvordan monopol-bedriften tilpasser seg dette:
+
+```{python include=FALSE}
+%%capture
+
+
+#aggregert etterspørsel
+
+#eksempeltall er fra læreboken. (Pypall, 2016, s. 97-102)
+q_m = float(sp.solve(sp.Eq(mr(30, 2, q), 4))[0])
+
+
+
+#lager figur
+fig,ax= plt.subplots()
+
+q1 = np.linspace(0, 3, 1000)
+q2= np.linspace(3, 15, 1000)
+
+#etterspørsel
+ax.plot(q1, invers_e(36, 4, q1), c="blue")
+ax.plot(q2, invers_e(30, 2, q2), c="blue", label="Aggregert Etterspørsel")
+
+#marginalinntekt
+ax.plot(q1, mr(36, 4, q1), c="green")
+ax.plot(q2, mr(30, 2, q2), c="green", label="MR")
+ax.vlines(x=3, ymin=12, ymax=18, color='green', linestyle='dashed', alpha=0.5)
+
+#mc
+ax.axhline(y=4, color='r', linestyle='-', label="MC")
+
+#optimalt kvantum monopol vertikal
+ax.vlines(x=q_m, ymin=0, ymax=invers_e(30, 2, q_m), color='grey', linestyle='dashed', alpha=0.5)
+
+#optimal pris monopol horizontal
+ax.hlines(invers_e(30,2,q_m), xmin=0, xmax=q_m, color='grey', linestyle='dashed', alpha=0.5)
+
+v2 = np.linspace(0, 6.5, 1000)
+v3 = np.linspace(6.5, 13, 1000)
+v4 = np.linspace(0, 3, 1000)
+v5 = np.linspace(3, 6.5, 1000)
+vbest = np.where(v2 <= 3, invers_e(36, 4, v2), invers_e(30, 2, v2)) #en fillbetween istedet for 2
+
+#Fill Between for å vise profitt
+ax.fill_between(v2, 4, invers_e(30,2,6.5), color = "green",alpha = 0.3,label='Profitt')
+
+#Fill Between for å vise dvl
+ax.fill_between(v3, 4, invers_e(30,2,v3), color = "red",alpha = 0.3,label='Dødvektstap')
+
+
+
+
+
+ax.fill_between(v2, 17, vbest, color = "orange",alpha = 0.3, label="Konsumentoverskudd")
+
+
+#tilpasning monopol
+ax.text(6, -2, 'Q(M)', fontsize=10)
+ax.text(-1, 17, 'P(M)', fontsize=10)
+
+ax.scatter(3, 24, color='black', s=15)
+ax.text(3.3, 24.3, 'A', fontsize=15)
+
+ax.set_ylabel('Pris (P)', loc='top', rotation=0) #Pris på y akse
+ax.set_xlabel('Mengde (Q)', loc='right') #mengde på x akse
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.set_xlim(0, 15)
+ax.set_ylim(0, 40)
+ax.set_yticklabels([]) #ingen tall på aksene
+ax.set_xticklabels([])
+#legende
+ax.legend(loc="best")
+
+plt.savefig('dokumentobjekter/figurer/bedrift_tilplasning.png', dpi=300, bbox_inches='tight')
+ 
+```
+
+```{=tex}
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=\linewidth]{dokumentobjekter/figurer/bedrift_tilplasning.png}
+  \captionof{figure}{Bedriften tilpasser seg ved aggregert etterspørsel}
+  \label{fig:tilpasning}
+\end{figure}
+```
+\autoref{fig:tilpasning} viser hvordan monopol-bedriften tilpasser seg
+ved aggregert etterspørsel. En aggregert etterspørsel vil si den totale
+etterspørselen. I figuren kan vi se en knekk i etterspørsel vist ved
+punkt A, grunnet ulik betalingsvillighet blant konsumentene. Før knekken
+er etterspørselen fra gruppen/karakteristika hvor det er høy
+betalingsvillighet. Etter knekken ser vi den adderte etterspørselen
+mellom de med høy og lav betalingsvillighet. Optimal tilpasning vil
+fortsatt være hvor marginalinntekten er lik marginalkostnaden som
+figuren viser.
+
+## 2.3 Frikonkurranse vs Monopol - Velferdseffekter
+
+Som vi kunne se ved frikonkurranse var det bedriftenes marginalkostnader
+som utgjorde tilbudet. Etterspørselen utgjorde det totale etterspurte
+kvantum.
+
+Ved en monopol markedssituasjon, har vi bare en tilbyder av godet.
+Monopol-bedriften vil som vi kunne se tidligere i teoridelen, tilpasse
+seg ved å profittmaksimere. Dette medfører at bedriften selger enheter
+frem til marginalinntekten er lik marginalkostnaden. Sammenligner vi
+dette mot fullkommen konkurranse så selger bedriftene enheter frem til
+prisen utgjør marginalkostnaden.
+
+Dette medfører at monopolisten vil redusere kvantum med hensyn på å
+profittmaksimere. Kvantumet reduseres, og prisen blir høyere (da
+monopolisten har prisingsmakt). Dette vil ikke være samfunnsøkonomisk
+optimalt, da samfunnet ikke får kjøpt enheter som ville blitt solgt om
+situasjonen var fullkommen konkurranse. Dette vil si at vi får et
+dødsvektstap eller effektivitetstap, grunnet det reduserte kvantumet
+markedet ikke får tilgang til grunnet monopolsituasjonen.
+
+\clearpage
+
+## 2.4 Prisdiskriminering ved monopol
+
+Når vi har en markedssituasjon med monopol, kan monopol-bedriften prøve
+å hente ut ytterligere overskudd (og dermed øke sin profitt) hos
+konsumenten ved å benytte ulike former for prisdiskriminering. Det
+finnes tre ulike grader av prisdiskriminering. Første grads
+prisdiskriminering (også kalt perfekt prisdiskriminering) vil si at
+bedriften kjenner betalingsvilligheten til hver enkel kunde. Dette betyr
+at konsumenten betaler sin marginale betalingsvillighet (det en er
+villig å betale for tjenesten/produktet monopol-bedriften tilbyr). Det
+finnes også prisdiskriminering av andre grad, hvor monopol-bedriften vet
+at kundene har ulik betalingsvillighet. Her vil bedriften prøve å tilby
+ulike pakkeløsninger/produktpakker for å la kundene selv velge hva de er
+villige å betale for.
+
+Siste form for prisdiskriminering er tredjegrads prisdiskriminering,
+hvor monopol-bedriften vil skille mellom ulike segmenter gjennom
+observerbare karakteristika. Dette vil si at bedriften tilbyr ulik pris
+basert på et observerbart karaktertrekk. Dette kan eksempelvis være
+kundens alder, student/ikke-student, militærrabatter, sesongpriser, osv.
+Her ser vi hvordan monopol-bedriften skiller på disse ulike
+karakteristika, ved å benytte tredjegrads prisdiskriminering:
+
+```{python include=FALSE}
+%%capture
+
+#eksempeltall er fra læreboken. (Pypall, 2016, s. 97-102)
+
+#nye akse limitations
+
+
+
+q1 = np.linspace(0.01, 9, 1000)
+q2 = np.linspace(0.01, 6, 1000)
+
+
+
+
+v6 = np.linspace(0.001, 4, 1000)
+v7 = np.linspace(0.001, 2.5, 1000)
+v8 = np.linspace(2.501, 5, 1000)
+v9 = np.linspace(4.001, 8, 1000)
+
+
+
+
+
+
+fig, ax1 = plt.subplots(figsize=(4, 4))
+
+
+
+
+
+#plot 1
+ax1.plot(q1, invers_e(36, 4, q1), label="Etterspørsel", color="blue")
+ax1.plot(q1, mr(36, 4, q1), label="MR", color="green")
+ax1.axhline(y=4, color='r', linestyle='-', label="MC")
+
+
+
+
+
+
+#Fill Between for å vise profitt
+ax1.fill_between(v6, 4, 20, color = "green",alpha = 0.3)
+
+#Fill Between for å vise dvl
+ax1.fill_between(v9, 4, invers_e(36, 4, v9), color = "red",alpha = 0.3)
+
+#Fill Between for å vise konsumentoverskudd
+ax1.fill_between(v6, 20, invers_e(36, 4, v6), color = "orange",alpha = 0.3)
+
+ax1.legend(loc="best")
+
+#optimalt kvantum monopol vertikal
+ax1.vlines(x=4, ymin=0, ymax=invers_e(36, 4, 4), color='grey', linestyle='dashed', alpha=0.5)
+
+#optimal pris monopol horizontal
+ax1.hlines(invers_e(36,4,4), xmin=0, xmax=4, color='grey', linestyle='dashed', alpha=0.5)
+
+
+
+
+ax1.text(3.5, -2.5, "Q(M)", fontsize=10)
+ax1.text(-1.5, 19.5, "P(M)", fontsize=10)
+
+
+ax1.set_xlim(0, 10) 
+ax1.set_ylim(0, 40)
+#fjerner tall fra akse
+ax1.set_yticklabels([])
+ax1.set_xticklabels([])
+
+#text for mc and mr
+ax1.text(8.5, 4.5, 'MC', fontsize=12)
+ax1.text(4.5, 1.7, 'MR', fontsize=12)
+
+
+
+ax1.set_ylabel('Pris (P)', loc='top', rotation=0) #Pris på y akse
+ax1.set_xlabel('Mengde (Q)', loc='right') #mengde på x akse
+ax1.spines['top'].set_color('none') #ingen spines så figuren ikke er en boks
+ax1.spines['right'].set_color('none')
+
+
+ax1.legend(loc="best")
+
+
+
+plt.savefig('dokumentobjekter/figurer/hoy_betaling.png', dpi=300, bbox_inches='tight')
+
+
+
+
+
+
+
+
+fig, ax2 = plt.subplots(figsize=(4, 4))
+
+
+#plot 2
+ax2.plot(q2, invers_e(24, 4, q2), label="Etterspørsel", color="blue")
+ax2.plot(q2, mr(24, 4, q2), color="green")
+ax2.axhline(y=4, color='r', linestyle='-')
+
+#Fill Between for å vise profitt
+ax2.fill_between(v7, 4, 14, color = "green",alpha = 0.3,label='Profitt')
+
+#Fill Between for å vise dvl
+ax2.fill_between(v8, 4, invers_e(24, 4, v8), color = "red",alpha = 0.3,label='Dødvektstap')
+
+#Fill Between for å vise konsumentoverskudd
+ax2.fill_between(v7, 14, invers_e(24, 4, v7), color = "orange",alpha = 0.3,label='Konsumentoverskudd')
+
+
+#optimalt kvantum monopol vertikal
+ax2.vlines(x=2.5, ymin=0, ymax=invers_e(24, 4, 2.5), color='grey', linestyle='dashed', alpha=0.5)
+
+#optimal pris monopol horizontal
+ax2.hlines(invers_e(24,4,2.5), xmin=0, xmax=2.5, color='grey', linestyle='dashed', alpha=0.5)
+
+
+
+
+
+
+
+ax2.set_ylabel('Pris (P)', loc='top', rotation=0) #Pris på y akse
+ax2.set_xlabel('Mengde (Q)', loc='right') #mengde på x akse
+ax2.spines['top'].set_color('none') #ingen spines så figuren ikke er en boks
+ax2.spines['right'].set_color('none')
+
+
+
+ax2.set_xlim(0, 10) 
+ax2.set_ylim(0, 40)
+
+
+#fjerner tall fra akse
+ax2.set_yticklabels([])
+ax2.set_xticklabels([])
+
+
+
+
+
+ax2.text(2, -2.5, "Q(M)", fontsize=10)
+ax2.text(-1.5, 13.5, "P(M)", fontsize=10)
+
+
+
+#text for mc and mr
+ax2.text(8.5, 4.5, 'MC', fontsize=12)
+ax2.text(3, 1.7, 'MR', fontsize=12)
+
+
+ax2.legend(loc="best")
+
+plt.savefig('dokumentobjekter/figurer/lav_betaling.png', dpi=300, bbox_inches='tight')
+
+
+
+```
+
+```{=tex}
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{dokumentobjekter/figurer/hoy_betaling.png}
+  \caption{Høy betalingsvillighet}
+  \label{fig:hoy_betaling}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{dokumentobjekter/figurer/lav_betaling.png}
+  \caption{Lav betalingsvillighet}
+  \label{fig:lav_betaling}
+\end{subfigure}
+\caption{Prisdiskriminering ved monopol}
+\label{fig:prisdiskrimineringsfigurer}
+\end{figure}
+```
+Her skiller bedriften gruppene utifra deres betalingsvillighet.
+Bedriften tar en høyere pris hos gruppen med høy betalingsvillighet i
+\autoref{fig:hoy_betaling} og en lavere pris hos gruppen ved lavere
+betalingsvillighet vist i \autoref{fig:lav_betaling}. Bedriften ønsker å
+skille betalingsvillighet (som etterspørselen gjenspeiler) for å kunne
+maksimere egen profitt. Ved å skille på observerbart karakteristika kan
+bedriften øke sin profitt ved å tilby en høyere pris til gruppen med høy
+betalingsvillighet og en lavere til de med lav betalingsvillighet.
+
+\clearpage
+
+## 2.5 Effekten av pris på etterspørsel
+
+### Elastisitetsbegrepet
+
+Elastisitet er et begrep som beskriver hvor hvor mye en variabel som
+tilbud eller etterspørsel, reagerer på endringer i en annen variabel som
+pris. Priselastisitet er et mål som viser hvor følsomme kjøpere og
+selgere er ovenfor endringer i pris. Det viser prosentvis endring i
+etterspørsel som følge av en prosentvis endring i pris. For eksempel,
+hvis vi ser på priselastisiteten for et produkt og finner at den er
+-0.5, betyr dette at hvis prisen øker med 1%, vil etterspørselen falle
+med 0.5%. Priselastisitet kan være negativ, positiv eller nøytral. Hvis
+priselastisiteten er negativ, vil etterspørselen falle når prisen øker.
+Hvis priselastisiteten er positiv, vil etterspørselen øke når prisen
+øker. Hvis priselastisiteten er nøytral, vil etterspørselen forbli
+uendret når prisen endres.
+
+Hvis 1% økning i pris fører til mindre enn 1% fall i etterspørsel vil vi
+si at etterspørselen er inelastisk. Hvis 1% økning i pris fører til mer
+enn 1% fall i etterspørsel vil vi si at etterspørselen er elastisk. Hvis
+1% økning i pris fører til 1% fall i etterspørsel vil vi si at
+etterspørselen er nøytral. Men vi vil normalt ikke se på nøytral
+etterspørsel da det ikke gir oss noe informasjon.
+
+I figurer så vil helningen på etterspørselen fortelle deg noe om
+etterspørselselastisiteten. Hvis etterspørselen er bratt vil det si at
+etterspørselen er inelastisk og en prisendring vil ikke ha stor effekt
+på kvantum mens hvis etterspørselen er flat vil det si at etterspørselen
+er elastisk og det vil ha en stor effekt på kvantum solgt..
+
+Vi kommer til å se på etterspørselssiden så vi fokuserer på
+etterspørselselastisiteten og går ikke inn på tilbudssiden.
+
+### Endringer i etterspørsel
+
+Endringer i etterspørselen i for utenlandsk turisme til Norge kan være
+påvirket av endringer i inntekt, preferanser, prisene på alternativ
+turist-destinasjoner og forventninger til fremtidige prisendringer.
+Dette kan føre til en forskyvning av etterspørselskurven for for
+eksempel hotellrom, enten gjennom en parallel forskyvning eller med å
+endre kurvens helning som ville vært en endring i etterspørselens
+elastisitet.
+
+En parallell forskyvning av etterspørselskurven betyr at for hver pris
+så velger folk å kjøpe mer eller mindre av varen/tjenesten enn før uten
+at elastisiteten i etterspørselen endres. For eksempel hvis kronekursen
+faller og det blir billigere for utenlandske turister å komme til Norge
+og kan da bruke like mye i deres valuta på reise og turisme men få flere
+norske kroner. Dette vil føre til at etterspørselskurven for hotellrom
+forskyves parallelt til høyre. Dette kan ses i
+\autoref{fig:okning_ep_vinter}
+
+En endring i etterspørselens elastisitet, vil bety at helningen på
+etterspørselskurven endres. Dette kan skje hvis folks sensitivitet til
+prisendringer endres. For eksempel hvis Tromsø som turist-destinasjon
+får flere konkurrenter som gjør at turister har flere valgmuligheter og
+dermed blir mer prisfølsomme, vil etterspørselen bli mer elastisk. Dette
+vil føre til at etterspørselskurven for hotellrom vil bli flatere. Dette
+kan ses i \autoref{fig:elas_vinter_lang}
+
+\clearpage
+
+# 3. Analysekapittel
+
+## 3.1 Optimal tilpasning
+
+Da The Edge ligger litt i sitt eget toppsegment (high-end, luxury), samt
+Nord-Norges største konferansehotell, antar vi at hotellet er en
+monopolist i dette segmentet for å forenkle analysedelen. Som vi kunne
+se i \autoref{fig:ssbdata}, så kan vi observere en høyere etterspørsel
+under vintersesong enn sommeren. I dette tilfelle antar vi dermed at
+hotellet står ovenfor følgende etterspørselfunksjoner for sommer og
+vintersesong:
+
+$$P_v = 7500 - 12.5Q_v$$ $$P_s = 2000 - 2.5Q_s$$
+
+For å se hvordan hotellet ville tilpasset seg uten å prisdiskriminere må
+vi først gjøre om etterspørselfunksjonene til en funksjon av pris. Dette
+vil si istedenfor $P(Q)$, så ønsker vi disse på formen $Q(P)$. Dette for
+å kunne aggregere etterspørselen fra de ulike sesongene. Dette gir oss
+følgende funksjoner:
+
+```{python}
+#| echo: false
+#omgjør funksjonene fra invers etterspørsel til etterspørselfunksjoner
+e_v_invers = sp.Eq(p, 7500-(12.5*q))
+e_s_invers = sp.Eq(p, 2000 - (2.5*q))
+
+e_v = sp.solve(e_v_invers, q)[0]
+e_s=sp.solve(e_s_invers, q)[0]
+
+
+
+
+```
+
+$$P_v = 7500 - 12.5Q_v \rightarrow Q_v = 600 - 0.08P_v$$
+$$P_s = 2000 - 2.5Q_s \rightarrow Q_s = 800 - 0.4P_s$$
+
+Videre legger vi disse funksjonene sammen funksjonene $Q_v$ og $Q_s$ og
+finner den aggregerte etterspørselen $Q$.
+
+$$
+Q = Q_v + Q_s \rightarrow Q = 600 + 800 + (- 0.08P) + (- 0.4P) \rightarrow Q = 1400 - 0.48P
+$$
+
+Da vi ønsker pris på den vertikale aksen, omgjør vi den nye aggregerte
+etterspørselfunksjonen til pris som en funksjon av mengde $P(Q)$:
+
+```{python}
+#| echo: false
+# omgjør aggregert etterspørsel til invers aggregert etterspørsel
+aggregert_e = sp.Eq(1400 - (0.48*p), q)
+
+invers_aggregert_e = sp.solve(aggregert_e, p)[0]
+
+#når pris = 2000, trer samlet etterspørsel inn, da sommeretterspørselen starter på 2000.
+q_aggregert_trer_i_kraft = sp.solve(sp.Eq(invers_aggregert_e, 2000), q)
+#finner q = 440
+```
+
+$$
+Q(P) = 1400 - 0.48P \rightarrow P(Q) = 2916.67 - 2.083Q
+$$
+
+Nå som vi har funnet den aggregerte etterspørselen, kan vi beregne hvor
+mange rom The Edge får solgt ved å ta samme pris under vinter- og
+sommersesong. Vi begynner å se på hvordan optimal tilpasning ved vår
+aggregerte etterspørsel ville vært. Som vi kunne observere i teoridelen,
+er funksjonen for marginalinntekten lik etterspørselen, for-utenom
+helningen som er dobbelt så bratt. Dette gir oss følgende:
+$$MR = MC \rightarrow 2916.67 - 2 \cdot (2.083Q) = 800 \rightarrow Q = 508$$Dette
+forteller oss at optimalt sett, ville The Edge solgt 508 rom dersom
+hotellet skulle tatt samme pris hele året. The Edge har 290 rom, og ikke
+508, som vil si at vi har en kapasitetsbegrensning her. Dette må vi ta
+hensyn til, og dermed ser vi på hvilken pris de vil selge rommene til,
+gitt kapasitetsbegrensningen:
+
+$$P = 2916.67 - 2.083 \cdot 290 \rightarrow 2917.67 - 604.07 \rightarrow 2312.6$$Dersom
+The Edge skulle tatt en pris hele året, ville prisen blitt 2312.6 kroner
+per rom. Grunnet den høye etterspørselen under vintersesong medfører
+dette at alle rommene ville blitt solgt for denne prisen, altså
+$Q_v=290$. På sommeren er den høyeste betalingsvilligheten for et rom
+$2000$ kr, dermed ville ingen rom blitt solgt dersom vi ønsket å selge
+til $2312$ kr per natt, altså $Q_s = 0$. Det vi observerer her er
+grunnen til at The Edge benytter seg av tredjegrads prisdiskriminering,
+og dermed tar ulik pris på sommeren og vinteren.
+
+#### Tredjegrads prisdiskriminering
+
+La oss se hvordan samfunnsøkonomisk overskudd er ved tredjegrads
+prisdiskriminering, da vi kunne observerer høyere priser ved
+vintersesong enn sommer. Først starter vi ved å regne profitten til The
+Edge ved tredjegrads prisdiskriminering, og deretter ser vi på
+konsumentens overskudd, total velferd (samfunnsøkonomisk velferd) og
+sist på ineffektivitet grunnet monopol (dødvektstap):
+
+Da det er flere kostnader enn bare kostnaden for hotellrommet så blir vi
+å beregne dekningsbidraget fra hotellrom, altså profitten fra
+hotellrommet alene utenom andre kostnader.
+
+Som vi observerte i
+\href{profittmaksimering-i-en-bedrift-som-har-monopol}{teorikapittel 1.2},
+kunne vi skrive marginalinntekten som følgende:
+
+$MR = A-2BQ$, hvor $A$ er konstantleddet og $B$ representerer hvor mye
+prisen endrer seg dersom etterspørselen endres med $1$ enhet. $B$ kommer
+også fra den opprinnelige etterspørselsfunksjonen, som vi fikk se i
+teorikapittelet.
+
+Dette gir oss følgende funksjoner for etterspørsel og marginalinntekt
+til vintersesongen:
+
+```{=tex}
+\begin{gather*}
+P_v = 7500 - 12.5Q_v \\
+MR_v = 7500 - 25Q_v \\
+\text{Og følgende til sommersesongen:} \\
+P_s = 2000 - 2.5Q_s \\
+MR_s = 2000 - 5Q_s \\
+\end{gather*}
+```
+Da vi antar the Edge har ca. en marginalkostnad per rom på 800 Kr
+grunnet renhold/vedlikehold av rom, kan vi regne ut optimalt kvantum for
+sommer- og vintersesong. Optimalt kvantum for vinter vil være følgende:
+
+```{=tex}
+\begin{align*}
+MR_v &= MC \\
+7500 - 25Q_v &= 800 \\
+25Q_v &= 7500 - 800 \\
+Q_v &= 268
+\end{align*}
+```
+Dette sier oss at optimalt kvantum for vintersesongen for The Edge er
+268 rom solgt, for å maksimere hotellets dekningsbidrag fra hotellrom
+under sesong. La oss videre regne optimalt kvantum for sommersesongen:
+
+```{=tex}
+\begin{align*}
+MR_s &= MC \\
+2000 - 5Q_s &= 800 \\
+2000 - 800 &= 5Q_s \\
+Q_s &= 240
+\end{align*}
+```
+Som vil si at optimalt kvantum for sommersesongen er 240 rom solgt.
+Videre kan vi sette inn optimalt kvantum under monopoltilpasning i de
+opprinnelige etterspørselen for å finne optimal pris for The Edge:
+
+```{=tex}
+\text{Optimal pris for vintersesongen:} \\
+\begin{align*}
+P_v &= 7500 - 12.5Q_v \\
+&= 7500 - 12.5 \cdot 268 \\
+&= 7500 - 3350 \\
+&= 4150
+\end{align*}
+\text{Optimal pris for sommersesongen:} \\
+\begin{align*}
+P_s &= 2000 - 2.5Q_s \\
+&= 2000 - 2.5 \cdot 240 \\
+&= 2000 - 600 \\
+&= 1400
+\end{align*}
+```
+Optimal pris under vintersesongen vil være $4150,-$ NOK pr. rom og
+optimalt kvantum under samme sesong vil være 268 rom. Under
+sommersesongen vil optimal pris være $1400,-$ NOK pr. rom og optimalt
+kvantum 240 rom.
+
+Dekningsbidraget fra hotellrom til The Edge ved tredjegrads
+prisdiskriminering vil være følgende:
+
+```{=tex}
+\begin{align*}
+\pi &= \pi_v + \pi_s \\
+\pi &= (4150-800) 268 + (1400-800)240 \\
+\pi &= 897800 + 144000 \\
+\pi &= 1041800
+\end{align*}
+```
+\clearpage
+
+## 3.2 Samfunnsøkonomisk effekt
+
+```{python}
+%%capture
+def MR_vinter(Q):
+    return 7500 - 25 * Q  
+
+def MR_sommer(Q):
+    return 2000 - 5 * Q  
+
+
+
+def e_vinter(Q):
+    return 7500 - 12.5 * Q
+
+def e_sommer(Q):
+    return 2000 - 2.5 * Q
+
+
+def pris_vinter(Q):
+    return 7500 - 12.5 * Q
+
+def pris_sommer(Q):
+    return 2000 - 2.5 * Q
+
+
+MC = 800
+Q_optimum_vinter = (7500 - MC) / 25
+Q_optimum_sommer = (2000 - MC) / 5
+
+
+P_optimal_winter = pris_vinter(Q_optimum_vinter)
+P_optimal_summer = pris_sommer(Q_optimum_sommer)
+
+Q = np.arange(0, 290, 1)
+
+
+fig, ax = plt.subplots()
+
+
+ax.plot(Q, pris_vinter(Q), label='Vinteretterspørsel', color='blue')
+ax.plot(Q, pris_sommer(Q), label='Sommeretterspørsel', color='green')
+ax.plot(Q, MR_vinter(Q), label='Marginalinntekt Vinter', color='blue', linestyle='--')
+ax.plot(Q, MR_sommer(Q), label='Marginalinntekt Sommer', color='green', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-', label='Marginalkostnad (MC)')
+#vline at 290
+ax.vlines(x=290, ymin=0, ymax=pris_vinter(290), color='black')
+ax.text(281, -250, '290', fontsize=10)
+
+#intersection of mr to mc optimal q
+ax.scatter(Q_optimum_vinter, MC, color='black', s=15)
+ax.text(Q_optimum_vinter-6, -250, round(Q_optimum_vinter), fontsize=10)
+#vline
+ax.vlines(x=Q_optimum_vinter, ymin=0, ymax=MC, color='grey', linestyle='dashed')
+
+
+#intersection of mr to mc optimal q
+ax.scatter(Q_optimum_sommer, MC, color='black', s=15)
+ax.text(Q_optimum_sommer-6, -250, round(Q_optimum_sommer), fontsize=10)
+#vline
+ax.vlines(x=Q_optimum_sommer, ymin=0, ymax=MC, color='grey', linestyle='dashed')
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 8000)
+ax.legend(loc = 'upper right', frameon=False)
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_kap3_1.png', dpi=300, bbox_inches='tight')
+```
+
+```{python}
+%%capture
+
+
+fig, ax = plt.subplots()
+
+
+Q_optimum_vinter = (7500 - MC) / 25
+Q_optimum_sommer = (2000 - MC) / 5
+# Siden vi har kun maks 290 rom, og svaret på optimalt kvantum her blir 298, så setter vi 290 som maks kvantum.
+Q_optimum_vinter_2 = ((7500*1.1) - MC) / 25
+Q_optimum_sommer_2 = ((2000*1.1) - MC) / 5
+
+P_optimal_winter = pris_vinter(Q_optimum_vinter)
+P_optimal_summer = pris_sommer(Q_optimum_sommer)
+P_optimal_winter_2 = pris_vinter(Q_optimum_vinter_2)
+P_optimal_summer_2 = pris_sommer(Q_optimum_sommer_2)
+
+
+ax.plot(Q, pris_vinter(Q), color='blue', label='Etterspørsel Vinter')
+ax.plot(Q, MR_vinter(Q), label='Marginalinntekt Vinter', color='blue', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+
+Q_2 = np.linspace(0, Q_optimum_vinter, 100)
+ax.fill_between(Q_2, MC, pris_vinter(Q_optimum_vinter), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_2, pris_vinter(Q_optimum_vinter), pris_vinter(Q_2), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+Q_3 = np.linspace(Q_optimum_vinter, 290, 100)
+ax.fill_between(Q_3, MC, pris_vinter(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+
+ax.vlines(x=Q_optimum_vinter, ymin=0, ymax=pris_vinter(Q_optimum_vinter), color='grey', linestyle='dashed')
+ax.hlines(y=pris_vinter(Q_optimum_vinter), xmin=0, xmax=268, color='grey', linestyle='dashed')
+
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.set_title('Betalingsvillighet med vinteretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 8000)
+
+ax.legend(loc = 'upper right');
+
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_kap3_2.png', dpi=300, bbox_inches='tight')
+```
+
+```{python}
+%%capture
+
+
+fig, ax = plt.subplots()
+
+ax.plot(Q, pris_sommer(Q), color='blue', label='Etterspørsel Sommer')
+ax.plot(Q, MR_sommer(Q), label='Marginalinntekt Sommer', color='blue', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+
+Q_2 = np.linspace(0, 240, 100)
+ax.fill_between(Q_2, MC, pris_sommer(240), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_2, pris_sommer(240), pris_sommer(Q_2), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+Q_3 = np.linspace(240, 290, 100)
+ax.fill_between(Q_3, MC, pris_sommer(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+
+ax.vlines(x=240, ymin=0, ymax=pris_sommer(240), color='grey', linestyle='dashed')
+ax.hlines(y=pris_sommer(240), xmin=0, xmax=240, color='grey', linestyle='dashed')
+
+
+ax.set_title('Betalingsvillighet med sommeretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 2500)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.legend(loc = 'upper right')
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_kap3_3.png', dpi=300, bbox_inches='tight')
+```
+
+```{=tex}
+\begin{wrapfigure}{r}{0.5\textwidth}
+\includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_kap3_1.png}
+  \caption{Etterspørsel sommer og vinter}
+  \label{fig:prisdiskriminering_kap3_1}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_kap3_2.png}
+  \caption{Betalingsvillighet med vinteretterspørsel}
+  \label{fig:vinter_ep}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_kap3_3.png}
+  \caption{Betalingsvillighet med sommeretterspørsel}
+  \label{fig:sommer_ep}
+  \vspace{-12mm}
+\end{wrapfigure}
+```
+I \autoref{fig:prisdiskriminering_kap3_1} har vi etterspørsel for sommer
+og vinter i samme figur, her kan vi se at marginalinntekten (MR) for
+vinteretterspørselen er høyere enn sommeretterspørselen. Det betyr at
+hotellet kan kreve en høyere pris per rom i vintermånedene.
+Marginalkostnaden er satt konstant året rundt som betyr at kostnadene
+for å leie ut et rom ikke endres mellom sesongene. På x–aksen kan vi se
+at det optimale antallet utleide rom er 268 om vinteren og 240 om
+sommeren.
+
+\autoref{fig:vinter_ep} viser produsentoverskudd, konsumentoverskudd og
+dødvekts-tap ved bruk av tredjegrads prisdiskriminering i
+vintersesongen. Det grønne området er produsentoverskuddet om som er
+betydelig mye større enn sommerens produsentoverskudd i
+\autoref{fig:sommer_ep}. Dette skyldes høyere priser og etterspørsel om
+vinteren.
+
+Ved bruk av tredjegrads prisdiskriminering har hotellet da mulighet til
+å maksimere sitt dekningsbidrag fra hotellrommene ved å tilpasse seg
+optimalt til etterspørselen i de 2 sesongene.
+
+\clearpage
+
+```{python}
+%%capture
+Q,P= sp.symbols("Q P", real=True, positive=True)
+
+#def pris_aggregert(Q):
+#    return 7500+2000 - 15 * Q
+
+#def MR_aggregert(Q):
+#    return 9500 - 30 * Q
+
+def MR_vinter(Q):
+    return 7500 - 25 * Q  
+
+def MR_sommer(Q):
+    return 2000 - 5 * Q  
+
+def pris_vinter(Q):
+    return 7500 - 12.5 * Q
+
+def pris_sommer(Q):
+    return 2000 - 2.5 * Q  
+
+lagre_1 = sp.solve(P-pris_vinter(Q),Q)[0]
+lagre_2= sp.solve(P-pris_sommer(Q),Q)[0]
+lagre_3 = lagre_1+lagre_2
+lagre_4 = sp.solve(Q-lagre_3,P)[0]
+
+def pris_aggregert(Q):
+    return 2916.67 - 2.083 * Q
+
+def MR_aggregert(Q):
+    return 2916.67 - 4.167 * Q
+
+MC = 800
+
+Q_optimum_aggregert = (2916.67 - MC) / 4.167
+
+
+P_optimal_aggregert = pris_aggregert(Q_optimum_aggregert)
+
+```
+
+```{python}
+%%capture
+Q = np.linspace(0, 508, 1000)
+fig, ax = plt.subplots()
+
+ax.plot(Q, pris_aggregert(Q), color='blue', label='Aggregert etterspørsel')
+ax.plot(Q, MR_aggregert(Q), label='Aggregert marginalinntekt', color='blue', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+
+Q_2 = np.linspace(0, 508, 100)
+ax.fill_between(Q_2, MC, pris_aggregert(Q_optimum_aggregert), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_2, pris_aggregert(Q_optimum_aggregert), pris_aggregert(Q_2), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+#Q_3 = np.linspace(240, 290, 100)
+#ax.fill_between(Q_3, MC, aggregert(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+
+ax.vlines(x=Q_optimum_aggregert, ymin=0, ymax=pris_aggregert(Q_optimum_aggregert), color='grey', linestyle='dashed')
+ax.hlines(y=pris_aggregert(Q_optimum_aggregert), xmin=0, xmax=Q_optimum_aggregert, color='grey', linestyle='dashed')
+ax.vlines(x=290, ymin=0, ymax=1050, color='grey', linestyle='dashed')
+# skrive tekst og legge inn maks kvantum som er 290
+ax.text(231, 1100, 'Maks antall rom', fontsize=10)
+
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 600)
+ax.set_ylim(0, 4000)
+
+ax.legend(loc = 'upper right');
+
+plt.savefig('dokumentobjekter/figurer/aggregert_fig.png', dpi=300, bbox_inches='tight')
+```
+
+I \autoref{fig:aggregert_fig} ser vi at The Edge ikke vil bruke uniform
+prising siden de har en kapasitet på 290 rom. Og totalt dekningsbidrag
+hypotetisk sett om de solgte alle rommene ville vært vært siden under
+uniform prising blir dekningsbidraget:
+$508Q \cdot (1858P-800MC) = 537721$.
+
+```{=tex}
+\begin{figure}[h]
+  \includegraphics[width=0.9\textwidth]{dokumentobjekter/figurer/aggregert_fig.png}
+  \caption{Aggregert etterspørsel}
+  \label{fig:aggregert_fig}
+\end{figure}
+```
+```{=tex}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|p{3cm}|c|p{3cm}|c|}
+\hline
+Sesong & Optimalt antall rom (Q) & Optimal pris (P) & Dekningsbidrag per solgte rom & Total dekningsbidrag \\
+\hline
+Vinter & 268 & 4150 & 3350 & 897800\\
+\hline
+sommer & 240 & 1400 & 600 & 144000 \\
+\hline
+Total & - & - & - & 1041800 \\
+\hline
+\end{tabular}
+\caption{Med prisdiskriminering}
+\label{table:med_diskrim}
+\end{table}
+```
+I \autoref{table:med_diskrim} ser vi at med prisdiskrimineringen så får
+vi solgt 268 rom på vinteren til en pris på 4150 og sommeren 240 rom til
+en pris på 1400, totalt får hotellet inn 1.041.800 kroner i
+dekningsbidrag.
+
+```{=tex}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|p{3cm}|c|p{3cm}|c|}
+\hline
+Sesong & Optimalt antall rom (Q) & Optimal pris (P) & Dekningsbidrag per solgte rom & Total dekningsbidrag \\
+\hline
+Vinter & 290 & 2312.6 & 1516.6 & 439814\\
+\hline
+Sommer & 0 & 2312.6 & 0 & 0 \\
+\hline
+Total & - & - & - & 439814 \\
+\hline
+\end{tabular}
+\caption{Uten prisdiskriminering}
+\label{table:uten_diskrim}
+\end{table}
+```
+Mens i \autoref{table:uten_diskrim} uten prisdiskriminering blir det
+solgt 290 rom på vinteren og ingen på sommeren så da får de nå kun inn
+439.814 kroner i salg av hotellrom, som er grunnen til at The Edge vil
+bruke tredjegrads prisdiskriminering.
+
+```{python}
+%%capture
+
+# Ganger inn 10% økning i etterspørsel i konstantleddet A
+def MR_vinter_2(Q):
+    return (7500*1.1) - 25 * Q  
+
+def MR_sommer_2(Q):
+    return (2000*1.1) - 5 * Q  
+
+def pris_vinter_2(Q):
+    return (7500*1.1) - 12.5 * Q
+
+def pris_sommer_2(Q):
+    return (2000*1.1) - 2.5 * Q
+
+
+def e_vinter_2(Q):
+    return (7500*1.1) - 12.5 * Q
+
+def e_sommer_2(Q):
+    return (2000*1.1) - 2.5 * Q
+
+
+Q = np.linspace(0, 290, 100)
+
+fig, ax = plt.subplots()
+
+ax.plot(Q, pris_vinter(Q), color='blue')
+ax.plot(Q, MR_vinter(Q), color='blue', linestyle='--')
+
+
+ax.plot(Q, pris_vinter_2(Q), color='palevioletred', label='Etterspørsel Vinter 10 % økning')
+ax.plot(Q, MR_vinter_2(Q), label='Marginalinntekt Vinter 10% økning', color='palevioletred', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+
+ax.fill_between(Q, MR_vinter_2(290),pris_vinter_2(290), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q, pris_vinter_2(290), pris_vinter_2(Q), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+#Q_3 = np.linspace(290, 290, 100)
+#ax.fill_between(Q_3, MC, pris_vinter_2(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+ax.vlines(x=290, ymin=0, ymax=pris_vinter_2(290), color='grey', linestyle='dashed')
+ax.hlines(y=pris_vinter_2(290), xmin=0, xmax=290, color='grey', linestyle='dashed')
+
+#ax.set_title('Betalingsvillighet med vinteretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 10000)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.legend(loc='upper right')
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_vinter_okning_.png', dpi=300, bbox_inches='tight')
+
+```
+
+```{python}
+%%capture
+
+fig, ax = plt.subplots()
+
+
+ax.plot(Q, pris_sommer(Q), color='blue')
+ax.plot(Q, MR_sommer(Q), color='blue', linestyle='--')
+
+
+ax.plot(Q, pris_sommer_2(Q), color='palevioletred', label='Etterspørsel sommer 10 % økning')
+ax.plot(Q, MR_sommer_2(Q), label='Marginalinntekt sommer 10% økning', color='palevioletred', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+Q_2 = np.linspace(0, Q_optimum_sommer_2, 100)
+ax.fill_between(Q_2, MR_sommer_2(280),pris_sommer_2(280), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_2, pris_sommer_2(280), pris_sommer_2(Q_2), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+Q_3 = np.linspace(Q_optimum_sommer_2, 290, 100)
+ax.fill_between(Q_3, MC, pris_sommer_2(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+ax.vlines(x=280, ymin=0, ymax=pris_sommer_2(280), color='grey', linestyle='dashed')
+ax.hlines(y=pris_sommer_2(280), xmin=0, xmax=280, color='grey', linestyle='dashed')
+
+#ax.set_title('Betalingsvillighet med vinteretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 3000)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.legend(loc='upper right')
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_sommer_okning_.png', dpi=300, bbox_inches='tight')
+```
+
+\clearpage
+
+### Effekt av økt etterspørsel
+
+```{=tex}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_vinter_okning_.png}
+  \caption{Ti prosent økning i etterspørsel vinter}
+  \label{fig:okning_ep_vinter}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_sommer_okning_.png}
+  \caption{Ti prosent økning i etterspørsel sommer}
+  \label{fig:okning_ep_sommer}
+  \vspace{-12mm}
+\end{wrapfigure}
+```
+Analysere hvordan en økning i etterspørselen av hotellrom vil endre på
+markedstilpasningen for hotellet.
+
+$MR = A-2BQ$, hvor $A$ er konstantleddet og her ganges nå det inn en
+økning i etterspørsel på ti prosent. Dette gir oss nå følgende
+funksjoner for etterspørsel og marginalinntekt til vintersesongen:
+
+$P_v = (7500 \cdot 1.1) - 12.5Q_v$
+
+$MR_v = (7500 \cdot 1.1) - 25Q_v$
+
+Og følgende til sommersesongen:
+
+$P_s = (2000 \cdot 1.1) - 2.5Q_s$
+
+$MR_s = (2000 \cdot 1.1) - 5Q_s$
+
+Optimalt kvantum for vinter vil være følgende:
+
+$MR_v = MC \rightarrow 8250 - 25Q_v = 800 \rightarrow 25Q_v = 8250 - 800 \rightarrow Q_v = 298$
+
+Dette sier oss at optimalt kvantum for vintersesongen for The Edge er
+298 rom solgt, men siden kapasiteten til The Edge er 290 rom så setter
+vi dette som maks antall rom solgt. La oss videre regne optimalt kvantum
+for sommersesongen:
+
+$MR_s = MC \rightarrow 2200 - 5Q_s = 800 \rightarrow 2200 - 800 = 5Q_s \rightarrow Q_s = 280$
+
+Som vil si at optimalt kvantum for sommersesongen blir nå 280 rom solgt
+med endringen i etterspørsel på sommeren. Videre kan vi sette inn
+optimalt kvantum under monopoltilpasning i de opprinnelige
+etterspørselen for å finne optimal pris for The Edge:
+
+$$P_v = 8250 - 12.5Q_v \rightarrow P_v = 8250 - 12.5 * 290 \rightarrow P_v = 8250 - 3625 \rightarrow P_v = 4625$$
+
+$$P_s = 2200 - 2.5Q_s \rightarrow P_S = 2200 - 2.5 * 280 \rightarrow P_s = 2200 - 700 \rightarrow P_s = 1500$$
+
+Optimal pris under vintersesongen vil være $4625,-$ NOK pr. rom og
+optimalt kvantum under samme sesong vil være 290 rom. Under
+sommersesongen vil optimal pris være $1500,-$ NOK pr. rom og optimalt
+kvantum 280 rom.
+
+\autoref{fig:okning_ep_vinter} ser vi at dødvektstapet forsvinner siden
+optimalt kvantum blir satt til 290. I \autoref{fig:okning_ep_sommer} får
+vi et litt mindre dødvektstap og kvantum solgt nærmer seg
+maksimalkapasitet på hotellet der også. Totalt sett så ser vi at på
+sommeren parallelskyves etterspørsel og maringalinntektskurvene med 200
+kroner. Og for vinteren så parallelforskyves det også, men siden
+etterspørselen er høyere så er det en større økning for kurvene på 750
+kroner.
+
+\clearpage
+
+### Endring i elastisiteten
+
+```{python}
+# -0.6 på kort sikt og -2.86 på lang sikt
+q,p = sp.symbols("q p", real=True, positive=True)
+# Ser på en endring i elastisiteten eller B til idk yet
+def e_vinter_lang(Q):
+    return 7500 - 25 * Q
+
+def e_sommer_kort(Q):
+    return 2000 - 2.05 * Q
+
+def MR_vinter_lang(Q):
+    return 7500 - (25*2) * Q  
+
+def MR_sommer_kort(Q):
+    return 2000 - (2.05*2) * Q  
+
+Q_optimum_vinter = (7500 - MC) / (25*2)
+Q_optimum_sommer = (2000 - MC) / (2.05*2)
+
+
+P_optimal_winter = e_vinter_lang(Q_optimum_vinter)
+P_optimal_summer = e_sommer_kort(Q_optimum_sommer)
+```
+
+```{python}
+%%capture
+
+Q = np.linspace(0, 300, 100)
+
+fig, ax = plt.subplots()
+
+ax.plot(Q, pris_vinter(Q), color='blue')
+ax.plot(Q, MR_vinter(Q), color='blue', linestyle='--',linewidth=3)
+
+
+ax.plot(Q, e_vinter_lang(Q), color='palevioletred', label='Etterspørsel vinter endring i elastisitet til -0.6')
+ax.plot(Q, MR_vinter_lang(Q), label='Marginalinntekt vinter endring i elastisitet til -0.6', color='palevioletred', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+
+Q_elas = np.linspace(0, Q_optimum_vinter, 100)
+ax.fill_between(Q_elas, MR_vinter_lang(Q_optimum_vinter),e_vinter_lang(Q_optimum_vinter), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_elas, e_vinter_lang(Q_optimum_vinter), e_vinter_lang(Q_elas), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+Q_3 = np.linspace(Q_optimum_vinter, 269, 100)
+ax.fill_between(Q_3, MC, e_vinter_lang(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+ax.vlines(x=Q_optimum_vinter, ymin=0, ymax=e_vinter_lang(Q_optimum_vinter), color='grey', linestyle='dashed')
+ax.hlines(y=e_vinter_lang(Q_optimum_vinter), xmin=0, xmax=Q_optimum_vinter, color='grey', linestyle='dashed')
+
+#ax.set_title('Betalingsvillighet med vinteretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 300)
+ax.set_ylim(0, 10000)
+
+ax.legend(loc='upper right');
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminering_elas_vinter.png', dpi=300, bbox_inches='tight')
+```
+
+```{python}
+%%capture
+fig, ax = plt.subplots()
+
+Q = np.linspace(0, 500, 100)
+ax.plot(Q, pris_sommer(Q), color='blue')
+ax.plot(Q, MR_sommer(Q), color='blue', linestyle='--')
+
+
+ax.plot(Q, e_sommer_kort(Q), color='palevioletred', label='Etterspørsel sommer endring i elastisitet til -2.86')
+ax.plot(Q, MR_sommer_kort(Q), label='Marginalinntekt sommer endring i elastisitet til -2.86', color='palevioletred', linestyle='--')
+ax.axhline(y=MC, color='black', linestyle='-')
+Q_2 = np.linspace(0, Q_optimum_sommer, 100)
+ax.fill_between(Q_2, MR_sommer_kort(Q_optimum_sommer),e_sommer_kort(Q_optimum_sommer), color='green', alpha=0.3, label='Profitt')
+ax.fill_between(Q_2, e_sommer_kort(Q_optimum_sommer), e_sommer_kort(Q_2), color='orange', alpha=0.3, label='Konsumentoverskudd')
+# Dødvektstap
+#Q_3 = np.linspace(Q_optimum_sommer, 290, 100)
+#ax.fill_between(Q_3, MC, e_sommer_kort(Q_3), color='red', alpha=0.3, label='Dødvektstap')
+
+ax.vlines(x=Q_optimum_sommer, ymin=0, ymax=e_sommer_kort(Q_optimum_sommer), color='grey', linestyle='dashed')
+ax.hlines(y=e_sommer_kort(Q_optimum_sommer), xmin=0, xmax=Q_optimum_sommer, color='grey', linestyle='dashed')
+
+#ax.set_title('Betalingsvillighet med vinteretterspørsel')
+ax.set_xlabel('Antall Rom (Q)')
+ax.set_ylabel('Pris (P)')
+ax.set_xlim(0, 400)
+ax.set_ylim(0, 3000)
+
+ax.legend(loc='upper right');
+
+plt.savefig('dokumentobjekter/figurer/prisdiskriminerin_elas_sommer.png', dpi=300, bbox_inches='tight')
+```
+
+```{python}
+%%capture
+
+e_v_invers = sp.Eq(p, 7500-(12.5*q))
+e_s_invers = sp.Eq(p, 2000 - (2.5*q))
+
+e_v = sp.solve(e_v_invers, q)[0]
+e_s=sp.solve(e_s_invers, q)[0]
+
+
+vinter_diff = sp.diff(e_v, p)
+sommer_diff = sp.diff(e_s, p)
+
+
+#priselastisiteten 
+Elasisitet_vinter = vinter_diff * (4150 / 268)
+Elasisitet_sommer = sommer_diff * (1400 / 240)
+
+Elasisitet_vinter, Elasisitet_sommer
+```
+
+```{=tex}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminerin_elas_sommer.png}
+  \caption{Endring i elastisitet på lang sikt sommer}
+  \label{fig:elas_sommer_kort}
+  \includegraphics[width=0.48\textwidth]{dokumentobjekter/figurer/prisdiskriminering_elas_vinter}
+  \caption{Endring i elastisitet på kort sikt vinter}
+  \label{fig:elas_vinter_lang}
+  \vspace{-14mm}
+\end{wrapfigure}
+```
+I de originale etterspørselsfunksjonene for sommer og vintersesong så
+finner vi elastisitetene ved å først løse sette ligningene som en
+funksjon av pris og løse for kvantum:
+
+$P_V = 7500 - 12.5 \cdot Q \rightarrow E_V = 600 - 0.08P$
+
+$P_S = 2000 - 2.5 \cdot Q \rightarrow E_S = 800 - 0.4P$
+
+Deretter finner vi den deriverte av etterspørselsfunksjonene:
+
+$E_V = 600 - 0.08P \rightarrow \frac{dE_V}{dP} = -0.08$
+
+$E_S = 800 - 0.4P \rightarrow \frac{dE_S}{dP} = -0.4$
+
+og for å finne priselastisiteten så ganger vi med inntekt og deler på
+kvantum:
+
+$E_V = -0.08 \cdot \frac{4150}{268} = -1.24$
+
+$E_S = -0.4 \cdot \frac{1400}{240} = -2.33$
+
+og finner da at på sommersesongen så er elastisiteten -2.33, mens på
+vinteren er elastisiteten -1.24, som betyr at etterspørselen her er
+elastisk for begge årstidene.
+
+Tidligere nevnt i
+\href{https://ntnuopen.ntnu.no/ntnu-xmlui/bitstream/handle/11250/2486498/Masteroppgave\%20Ida\%20Charlotte\%20Engebretsen.pdf}{Ida Charlotte Sølvberg Engebretsen}
+sin masteroppgave har hun estimert prisfølsomhet til turister på -0.6 på
+kort sikt og -2.86 på lang sikt.
+
+Ved på endre på parameteren B i etterspørsellikningene for sommer og
+vinter:
+
+$P_V = 7500 - 25 \cdot Q \rightarrow E_V = 298 - 0.04P$
+
+$P_S = 2000 -2.84 \cdot Q \rightarrow E_S = 975 - 0.487P$
+
+kan vi se på elastisiteter som er ganske like de Ida estimerte i sin
+masteroppgave (her gjøres det en antakelse at pris og kvantum er det
+samme):
+
+$E_V = -0.04 \cdot \frac{4150}{268} = -0.616$ og lang sikt for sommeren:
+$E_S = -0.487 \cdot \frac{1400}{240} = -2.84$
+
+kan vi se at på sommeren med en større økning i prisfølsomhet vil The
+Edge gå fra å selge 240 rom opprinnelig til å nå faktisk dekke alle 290
+rommene sine med samme pris på 1400.
+
+På vinteren endres elastisiteten fra -1.24 til ca -0.61 og
+etterspørselen går fra elastisk til uelastisk og etterspørselskurven
+blir mye brattere, The Edge har nå en nedgang på vinteren fra 268 rom
+solgt til 134.
+
+\clearpage
+
+## 3.3 Diskusjon
+
+### Hvilken effekt kan vi se
+
+I \autoref{fig:konsum} så ser vi at det har vært en økning i
+turistkonsum i Norge, hvor det spesielt har vært en økning i periodene
+der kronen har blitt svakere. Dette kan være en indikasjon på at
+turister er prisfølsomme. Men som beskrevet i
+\hyperlink{faktorer_ettersporsel}{kapittel 1.3 faktorer som påvirker etterspørsel}
+så ser vi en etterspørselselastisitet på -0.6 på kort sikt og -2.86 på
+lang sikt. Så når det nå har blitt billigere for turister å reise til
+Norge muligens begrunnet en svak kronekurs, har turistkonsumet her til
+lands økt. Dette kan potensielt forklare noe av den øke etterspørselen
+man kan observere, spesielt i Tromsø. Begrenset kapasitet, og høy
+etterspørsel driver prisene høyt.
+
+### Optimal prisstrategi
+
+Som vi kunne observere i \autoref{table:uten_diskrim}, ville en uniform
+pris på 2312,6 kroner per natt medføre at The Edge ikke fikk solgt noen
+rom under sommersesong, gitt etterspørselen. På vinteren ville alle 290
+rommene blitt solgt.
+
+Om The Edge velger å benytte seg av tredjegradsprisdiskriminering ville
+hotellet kunne selge rom både om vinteren og sommeren til ulike priser,
+som illustrert i \autoref{table:med_diskrim}. Hotellet vil dermed få et
+økt dekningsbidrag om vinteren, da prisen vil øke fra 2312,6 kr per rom
+til 4150 kr per rom. Om sommeren vil The Edge kunne tilpasse seg den
+lavere etterspørsel, og fortsatt selge rom med overskudd. Prisen om
+sommeren vil være lavere enn vintersesongen, grunnet den lavere
+etterspørselen. Her vil optimal pris være 1400 kr per rom, i stedet for
+den uniforme prisen på 2312,6kr per rom. Da vil The Edge fortsatt få
+salg om sommeren, og på et positivt dekningsbidrag under denne sesongen
+også.
+
+Den optimale prisstrategien for The Edge vil dermed være tredjegrads
+prisdiskriminering istedet for uniform prising. Med en inntekt på 4150
+NOK og 1400 NOK per rom avhengig av sesongen, og konstant enhetskostnad
+på 800 kr per rom. Dersom The Edge skulle tatt en uniform pris for hele
+året, ville hotellet gått glipp av potensielle lønnsomme salg om
+sommeren, samt miste mye potensielt overskudd som de klarer å hente om
+vinteren ved å benytte en høyere pris under denne sesongen, gitt at
+etterspørselen forholder seg høy.
+
+### Monopol-antakelsen
+
+I vår analyse antok vi at The Edge var en monopolist innenfor sitt
+segment (High-end luxury, konferanse). Innenfor segmentet kan det finnes
+hoteller med potensielt substituerbare goder, blant annet Radisson Blue
+og Scandic Ishavshotel. Selv om hotellene ikke har samme karakteristiske
+utseende, eller samme merkevare, kan det virke som disse blant annet
+konkurrerer innenfor konferansehotellmarkedet. Derfor må denne
+antakelsen taes hensyn til i analysen vår. Dersom man antok konkurranse,
+ville ikke The Edge stå ovenfor hele etterspørselen, og dermed ikke
+kunne sette prisen selv grunnet at prisene til eventuelle konkurrenter
+vil påvirke.
+
+### Dynamisk prising gjennom Mews
+
+The Edge benytter seg også av Mews sine systemer, som antatt
+innledningskapitlet. Kombinert med at the Edge setter høyere basepris
+under vintersesongen, vil også prisene justeres utifra hvor mange rom
+som er solgt. Dette vil si om The Edge har solgt halvparten av rommene,
+vil prisen være høyere enn om bare en tiendedel var solgt (gitt av dette
+var samme dag/sesong). At Mews automatisk oppjusterer priser kan påvirke
+solgt kvantum dersom de som etterspør hotellrom er prissensetiv, noe
+trenden med svekket kronekurs/økt konsum av utenlandske i Norge kan
+implikere. Dersom dette er case, kunne eventuelt denne automatiske
+oppjusteringen ha en negativ effekt på solgt kvantum. Samtidig dersom
+konsumentene ikke er sensitiv til pris, vil derimot denne automatiske
+økte prisen kunne øke dekningsbidraget.
+
+### Virkeligheten
+
+Som vi kunne se i analysedelen, vil The Edge få økt sitt dekningsbidrag
+ved å benytte tredjegrads prisdiskriminering. Men hvordan samsvarer
+dette med det vi kan observere i data med hotellrompriser i Tromsø? I
+\autoref{fig:ssbdata} så vi at prisene varierte basert på sesong. Selv
+om dette ikke er spesifikt til Clarion Hotel The Edge, kan de se ut som
+bransjen som helhet har valgt å ta en høyere pris under vintersesong.
+Dette kan igjen indikere at bransjen har begynt å anvende tredjegrads
+prisdikskriminering til noen grad, spesielt i forhold til tidligere. Vi
+kan alikevell ikke si at dette er den eneste grunnen til den økte
+prisen, gitt at vi er i en periode med relativ høy inflasjon.
+
+Et argument som kan være med å støtte at bransjen som helhet har startet
+å anvende prisdiskriminering er driftsmarginene. Som nevnt i
+innledningen, kunne NHO presentere økte driftsmarginer for bransjen. I
+2019 var denne på 1,9 prosent, og har siden økt til 3,9 prosent, en
+relativ økning på over 100 prosent. Selv om prisdiskriminering alene er
+årsak, kan dette være en av faktorene.[^5]
+
+[^5]: @tall
+
+### Til slutt
+
+Teorien for aggregert etterspørsel lar seg ikke gjøre med The Edge,
+grunnet kapasitetsbegrensninger. Disse kapasitetsbegrensningene fører
+til at sommersesongen ikke gir hotellet dekningsbidrag grunnet at prisen
+er høyere (dersom The Edge skal ha uniform pris) enn konsumentene har
+betalingsvillighet for. Derfor vil tredjegradspridiskriminering gi The
+Edge en løsning, hvor hotellet tilpasser seg prismessig basert på
+etterspørselen fra de ulike sesongene. Ut ifra tallene fra
+driftsmarginer fra NHO, at driftsmarginen nesten har doblet seg (1,9
+prosent til 3,9 prosent) og den økte prisen under vintersesong, kan vi
+anta at hotellene har valgt å ta ulik pris basert utifra etterspørselen.
+Om vinteren er etterspørselen høyere, og dermed hotellene har økt sine
+hotellrompriser under vintersesong, som vil si at det kan se ut som
+hotellene har valgt å prisdiskriminere basert på sesong.
+
+\clearpage
+
+# 4. Konklusjon
+
+## Hovedfunn
+
+Denne oppgaven har undersøkt hvilken effekt prisdiskriminering ville
+hatt på lønnsomheten og markedstilpasningen til Clarion Hotel The Edge
+med fokus på sesongbaserte variasjoner på etterspørsel. Med dataanalyse
+i kapittel 1 og teori i kapittel 2 har vi i kapittel 3 demonstrert
+hvordan tredjegradsprisdiskriminering kan forbedre hotellets økonomiske
+resultat og redusere dødvektstap gitt kapasitetsbegrensningen, noe som
+øker det samfunnsøkonomiske overskuddet.
+
+Dersom The edge hadde valgt en form for uniform prising basert på
+aggregert etterspørsel så ville de ikke solgt noen rom på sommeren men
+solgt ut alle rommene på vinter til lavere pris enn det ville kommet i
+en markedslikevekt. Men dersom de hadde valgt en annen prisstrategi
+basert på sesongmessig etterspørsel gjør det at hotellet selger rom til
+en høyere pris på vinter og selger ut nesten hele sin kapasitet på
+sommer til en lavere pris. Ved å benytte en slik strategi så maksimerer
+hotellet sin kapasitetsutnyttelse og inntjening i vintersesong samtidig
+som det sikrer et tilfredsstillende hotellbelegg i sommersesongen.
+
+### Økt etterspørsel
+
+Vi ser også at mye tyder på at det vil komme økt etterspørsel delvis pga
+for eksempel flere hetebølger i Europa, og en svakere kronekurs. Men vi
+har også sett at etterspørselselastisiteten er elastisk på lang sikt så
+dersom hotellene setter prisene for høyt, så kan det hende at turismen
+reduseres på lang sikt slik at de blir nødt til å sette ned pris for å
+oppnå samme kvantum.
+
+## 4.2 Videre analyse
+
+### Flere hoteller
+
+Siden vi i denne oppgaven ikke har sett på tilbudssiden så vil videre
+analyse være nødvendig for å få utforsket hvordan den høye marginen
+mellom kostnad og pris kan føre til nye aktører på markedet, som ville
+økt hotellrom kapasiteten og ført til en ny markedslikevekt med lavere
+priser.
+
+### Dynamisk prising
+
+Som vi så med MEWS så kan det også være nødvendig med undersøkelse av
+mer avansert prisstrategier som dynamisk prising basert på sanntidsdata.
+
+### Betalingsvillighet
+
+Det har vært snakk om at utenlandske turister har enn høyere
+betalingsvillighet, og oppgaven vi brukte for etterspørselselasisiteten
+begynner nå å bli utdatert så det kan være nødvendig med ny analyse på
+elasisiteten og betalingsvilje for utenlandske turister i forhold til
+norske.
+
+\clearpage
+
+# Referanser
+
+::: {#refs}
+:::
+
+\appendix
+
+\section {Appendix Generell KI bruk}
+
+I løpet av koden så kan det ses mange \# kommentarer der det er skrevet
+for eks "#fillbetween q1 and q2". Når vi skriver kode i Visual Studio
+Code så har vi en plugin som heter Github Copilot. Når vi skriver slike
+kommentarer så kan den foresøke å fullføre kodelinjene mens vi skriver
+de. Noen ganger klarer den det, men andre ikke. Det er vanskelig å
+dokumentere hvert bruk der den er brukt siden det "går veldig fort" men
+siden vi ikke har fått på plass en slik dokumentasjon så kan all python
+kode der det er brukt kommentarer antas som at det er brukt Github
+Copilot. Nærmere info om dette KI verktøyet kan ses på
+<https://github.com/features/copilot>
