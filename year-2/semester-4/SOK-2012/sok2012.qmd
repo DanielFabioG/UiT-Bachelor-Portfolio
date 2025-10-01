@@ -1,0 +1,258 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forsidesok2012.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_sok-2012.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+keep-tex: true
+---
+
+```{=tex}
+
+\thispagestyle{plain}
+\begin{center}
+    \Large
+    \textbf{Obligatorisk oppgave}
+\end{center}
+
+
+Denne oppgaven handler om å desinge et eget eksperiment. Spørmålene er ment for å strukturere arbeidsporssesen deres. Dere kan velge å lever oppgave i grupper fra 1 (alene) til 3. 
+
+
+
+Send en epost før 15. Mars til
+oivind.d.schoyen@uit.no om hvilken gruppe dere er del av.
+Innleveringsfristen for oppgaven er 15. Mai. 2024. Klokken 15:30.
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\hypersetup{linkcolor=black}
+\renewcommand{\contentsname}{Innholdsfortegnelse}
+\renewcommand*{\figureautorefname}{Figur}
+\renewcommand*{\tableautorefname}{Tabell}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+\newpage
+```
+## Eksperimentell metode
+
+### 1. A.
+
+#### Hvilke spørsmål om menneskelig adferd kan besvares ved hjelp av eksperimentelle metoder?
+
+Kan ikke teste mot kjønn for eksempel siden du ikke kan kontrollere hvilket kjønn noen er i. Medfødte egenskaper kan ikke kontrolleres. kan ikke variere høyde.
+
+Kan bare besvare ting der det er ting vi kan variere. kan ikke besvare ting der spørsmålet gjelder noe vi ikke kan variere som medfødte egenskaper.
+
+### 1. B Forklar hva en RCT er og hva det er godt for?
+
+Randomized Controlled Trial. Du har en kontrollgruppe og en eksperimentell gruppe. Du randomiserer individer inn i gruppene. Det er godt for å teste effekten av en behandling da du kan teste effekten ved å se på forskjellen mellom gruppene. teste kausalitet
+
+## Test om mennesker gjør rasjonelle valg
+
+### 2.1. Hvilken effekt har et kurs i sannsynlighet på valg av konvolutter i et eksperiment?
+
+Vi gir folk 100kr, og starter med å fortelle de om premissene om et spill hvor de får et valg mellom 3 konvolutter der en av konvoluttene inneholder 150kr og to av de inneholder ingenting. Før de låser inn sitt svar så forteller vi at vi vet hvilken konvolutt pengene ligger i og åpner en av de med ingenting i seg, De får så en mulighet til å bytte valg av konvolutter. De blir så gitt et valg om å spille det spillet men at det koster de 50 kroner av de 100 kroner de fikk.
+
+Vi gir igjen folk 100kr men denne gangen så gir vi den ene gruppen et kurs i sannsynlighet først og den andre gruppen får ikke kurset. Vi ønsker å se om de som har fått kurset i sannsynlighet tar bedre valg enn de som ikke har fått kurset.
+
+\clearpage
+
+### 2.2. Bruk google scholar til å finne en eller to publiserte vitenskapelig studie (teoretisk eller empirisk) som forklarer hvorfor X kan ha en effekt på Y .
+
+[Impact of warning and brief intervention messages on knowledge of gambling risk, irrational beliefs and behaviour](https://www.tandfonline.com/doi/full/10.1080/1445979042000224377)
+
+"In contrast to those who watched the video only, participants in the two message conditions showed greater knowledge of the risks of gambling. The limit‐setting strategy produced significant reductions in gambling‐related irrational beliefs. Across conditions, participants did not gamble differently. These results suggest that warning messages might have informational value and that limit‐setting strategies hold promise for producing cognitive change in gamblers. Under the present analog procedure, such messages did not significantly affect gambling behaviour."
+
+Studien til @steenbergh_impact_2004 viser at å informere mennesker på forhånd om risikoen av gambling ikke ga noen signifikante effekter på spilleavhengighet.
+
+[The effect of knowledge of mathematics on gambling behaviours and erroneous perceptions](https://www.tandfonline.com/doi/abs/10.1080/00207590600788047)
+
+"The importance of knowledge of mathematics as a protective factor against excessive gambling is questionable. The theoretical and practical implications of these results are discussed with regard to the prevention of excessive gambling."
+
+Studien til @pelletier_effect_2007 viser at å kunne matematikken eller forstå oddsen og bruke det som en beskyttende faktor mot spilleavhengighet er tvilsom.
+
+[The role of statistical knowledge in gambling decisions: Moment vs risk dimension approaches](https://www.sciencedirect.com/science/article/pii/0030507379900114)
+
+"This study suggests that the conflicting findings of previous studies can be partly explained by controlling for the confounding effects of statistical training. It is suggested that statistical knowledge (1) reduces the cognitive complexity of assessing duplex bets, (2) improves the quality of risk-assessment, and (3) increases the propensity that subjects will follow a moment model. The findings were corroborated by regression analyses, although note was made of the methodological difficulties inherent in this approach."
+
+Studien til @schoemaker_role_1979 sier at å kunne statistikk eller ha blitt kurset i det kan vise til redusert kognitive kompleksit ved vurdering av duplex-spill og forbedrer kvaliteten av risiko vurdering.
+
+[Does learning about the mathematics of gambling change gambling behavior?](https://psycnet.apa.org/record/2006-03168-007)
+
+"The present research examined the influence of improved knowledge of odds and mathematical expectation on the gambling behavior of university students. A group of 198 students in an introductory statistics class received instruction on probability theory using examples from gambling. A comparison group of 134 students received generic instruction on probability, and another group of 138 students in classes on unrelated topics received no mathematical instruction. Students receiving the intervention demonstrated superior ability to calculate gambling odds as well as resistance to gambling fallacies 6 months after the intervention. Unexpectedly, this improvement in knowledge and skill was not associated with any decreases in actual gambling behavior. The implication of this research is that enhanced mathematical knowledge on its own may be insufficient to change gambling behavior. "
+
+Studien til @williams_does_2006 sier at de studentene som lærte om statistikk og sannsynlighet viste bedre resultater for å kalkulere gambling odds og hadde større motstandsdyktighet for å ikke bli avhengig ovenfor gruppen som ikke ble kurset. Men den viste også at selv om de ble kurset så hadde det ikke noen effekt på nedgang i spilleatferd.
+
+\clearpage
+
+## 3. Design ett eksperiment.
+
+Der du måler effekten av X på Y ved hjelp av en kontrollgruppe der individer tilfeldig trekkes inn i gruppe $\overline T$ eller gruppe $T$.
+
+X: Sannsynligheten for å velge å bytte konvolutt i Monty Hall-problemet, målt som andelen deltakere som velger å bytte etter å ha mottatt informasjon om innholdet i en av de andre konvoluttene. Y: Deltakelse i et kurs i sannsynlighet
+
+Vi randomiserer deltakerne til enten kontrollgruppen eller eksperimentgruppen. Kontrollgruppen mottar ikke noe kurs, mens eksperimentgruppen deltar i et kurs i sannsynlighetsteori.
+
+Intervensjon: Kurset i sannsynlighet går raskt over grunnleggende sannsynlighetsregler, forventningsverdier, uavhengighet, og en grundig gjennomgang av Monty Hall-problemet og Bayes' teorem.
+
+Eksperimentell oppsett: Før kurset gis begge gruppene 100 kr hver. De får deretter et tilbud om å bruke 50 kr for å delta i et Monty Hall-lignende spill. I spillet velger de en av tre konvolutter. En av konvoluttene inneholder 150 kr, mens de to andre er tomme. Eksperimentlederen åpner deretter en av de to resterende konvoluttene som er tom og gir deltakeren valget om å bytte til den gjenværende konvolutten eller beholde det opprinnelige valget. Dette gjøres så igjen for begge gruppene etter at eksperimentgruppen har deltatt i kurset. Vi ser da på differansen i andelen som bytter konvolutt mellom de som har tatt kurset og de som ikke har tatt kurset både før og etter kurset.
+
+\clearpage
+
+## Effekt og analyse
+
+### 4. Forklar enklest mulig hvordan oppsetet ditt viser effekten av X på Y .
+
+Et mål $M_t$ av effekten X på Y ved å studere $M_{\overline T} − M_{\underline T}$ .
+
+Når vi nå ser hvilke valg de 2 gruppene har tatt, så kan vi se om det har vært en signifikant endring i om de velger å kaste terningen eller ikke.
+
+### Bevis på best valg
+
+Siden vi vet at konvolutten som åpnes er tom så setter vi opp Monty Hall problemet i med Bayes. Da kan vi se hvordan denne informasjonen påvirker eller "oppdaterer" sannsynligheten for at premien befinner seg i en bestemt konvolutt.
+
+For å vise dette matematisk så definerer vi hendelsene:
+
+-   $G_i$: Hendelsen at gevinsten (150 kr) er i konvolutt $i$ (hvor $i$ kan være 1, 2, eller 3).
+
+-   $D_j$: Hendelsen at deltakeren velger konvolutt $j$ (hvor $j$ også kan være 1, 2, eller 3).
+
+-   $V_k$: Hendelsen at verten åpner konvolutt $k$ (hvor $k$ kan være 1, 2, eller 3) og viser at den er tom.
+
+### 1. Uavhengighet
+
+Vi antar at deltakeren velger en konvolutt tilfeldig, og at gevinsten er plassert tilfeldig i en av de tre konvoluttene. Dette betyr at hendelsene $G_i$ og $D_j$ er uavhengige for alle $i$ og $j$ .
+
+Dette betyr at: $P(G_i \mid D_j) = P(G_i)$ for alle $i$ og $j$.
+
+### 2. Initial Sannsynligheter
+
+Før noe valg er gjort, er sannsynligheten for at gevinsten er i en hvilken som helst konvolutt lik: $$ P(G_i) = P(D_j) = P(V_k) = \frac{1}{3} $$ for $i, j, k = 1, 2, 3$.
+
+### 3. Avhengighet
+
+#### Første valg blir gjort.
+
+Når vi åpner den andre konvolutten så er den avhengig av hvilken konvolutt deltakeren har valgt og hvor gevinsten befinner seg. Vi åpner alltid åpner en tom konvolutt og aldri den som deltakeren har valgt eller den som inneholder gevinsten.
+
+Dette betyr at: $$ P(V_k \mid G_i, D_j) $$ er 0 hvis $k = i$ eller $k = j$ (med mindre $i = j$), og ellers 1 delt på antall gjenværende konvolutter.
+
+### 4. Bayes Teorem
+
+Bayes teorem forteller oss hvordan vi kan oppdatere sannsynligheten for at gevinsten er i en bestemt konvolutt gitt at verten åpner en annen konvolutt:
+
+$$ 
+P(G_i \mid V_k, D_j) = \frac{P(V_k \mid G_i, D_j) \cdot P(G_i)}{P(V_k \mid D_j)} 
+$$
+
+For å beregne $P(V_k \mid D_j)$ under brøkstreken er sannsynligheten for at verten åpner konvolutt $k$, gitt at deltakeren har valgt konvolutt $j$.
+
+Dette krever marginalisering over alle mulige steder gevinsten kan være: $$ P(V_k \mid D_j) = \sum_{i=1}^3 P(V_k \mid G_i, D_j) \cdot P(G_i) $$
+
+### Eksempel
+
+Anta at deltakeren velger konvolutt 1 ($D_1$) og verten åpner konvolutt 3 ( $V_3$ ), som er tom. Vi vil beregne $P(G_2 \mid V_3, D_1)$.
+
+-   $P(V_3 \mid G_1, D_1) = 1/2$ fordi verten må velge mellom konvolutt 2 og 3 når gevinsten er i konvolutt 1 og deltakeren har valgt konvolutt 1.
+-   $P(V_3 \mid G_2, D_1) = 1$ fordi verten bare kan åpne konvolutt 3 når gevinsten er i konvolutt 2 og deltakeren har valgt konvolutt 1.
+-   $P(V_3 \mid G_3, D_1) = 0$ fordi verten aldri vil åpne konvolutten med gevinsten.
+
+Så:
+
+$$ 
+P(V_3 \mid D_1) = P(V_3 \mid G_1, D_1) \cdot P(G_1) + P(V_3 \mid G_2, D_1) \cdot P(G_2) + P(V_3 \mid G_3, D_1) \cdot P(G_3) 
+$$
+
+$$ P(V_3 \mid D_1) = \frac{1}{2} \cdot \frac{1}{3} + 1
+\cdot \frac{1}{3} + 0 \cdot \frac{1}{3} = \frac{1}{2} $$
+
+Deretter:
+
+$$ P(G_2 \mid V_3, D_1) = \frac{P(V_3 \mid G_2, D_1) \cdot P(G_2)}{P(V_3 \mid D_1)} = \frac{1 \cdot \frac{1}{3}}{\frac{1}{2}} = \frac{2}{3} $$
+
+Dette viser at det er en $\frac{2}{3}$ sannsynlighet for at gevinsten er i den konvolutten deltakeren ikke valgte, som er konvolutt 2 i dette tilfellet.
+
+\clearpage
+
+### 5. Forklar hvordan du skal analysere dataene fra eksperimentet ditt for å vise effekten av X på Y .
+
+#### Forklar de grunnlegende premissene for eventuelle statistiske metoder du anvender.
+
+Vi kan bruke en t-test for å se om det er en signifikant forskjell i valgene til de som har fått kurset i sannsynlighet og de som ikke har fått kurset.
+
+## 6
+
+### 6.1 Skriv en enkel pre-analyse plan for eksperimentet ditt.
+
+Preanalysis plan:
+
+Vi gir folk 100kr, og starter med å fortelle de om premissene om et spill hvor de får et valg mellom 3 konvolutter der en av konvoluttene inneholder 150kr og to av de inneholder ingenting. Før de låser inn sitt svar så forteller vi at vi vet hvilken konvolutt pengene ligger i og åpner en av de med ingenting i seg, De får så en mulighet til å bytte valg av konvolutter. De blir så gitt et valg om å spille det spillet men at det koster de 50kr av de 100kr de fikk.
+
+Vi gir igjen folk 100kr men denne gangen så gir vi den ene gruppen et kurs i sannsynlighet først og den andre gruppen får ikke kurset. Vi ønsker å se om de som har fått kurset i sannsynlighet tar bedre valg enn de som ikke har fått kurset.
+
+Vi vil så bruke en t-test for å se om det er en signifikant forskjell i valgene til de som har fått kurset i sannsynlighet og de som ikke har fått kurset.
+
+### 6.2 Forklar hvorfor det er viktig å publisere en pre-analysis plan før du analyserer data. Hvordan hjelper pre-analysis plan å tolke data for utenforstående?
+
+Det er viktig å publisere en pre-analyse plan før du analyserer data fordi det er lett å manipulere dataene for å få det resultatet du ønsker. Ved å publisere en pre-analyse plan så kan du vise at du ikke har manipulert dataene og at du har fulgt planen du har lagt. Dette hjelper utenforstående å tolke dataene fordi de kan se at du har fulgt planen og at du ikke har manipulert dataene for å få det resultatet du ønsker.
+
+\clearpage
+
+# Referanser
+
+::: {#refs}
+:::
+
+\clearpage
+
+\appendix
+
+\section {Appendix Generell KI bruk}
