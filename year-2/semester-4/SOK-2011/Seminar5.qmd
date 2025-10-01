@@ -1,0 +1,223 @@
+---
+title: "Seminar 5"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(WDI)
+library(tidyverse)
+library(countrycode)
+library(ggrepel)
+library(readxl)
+```
+
+# Oppgave 1
+
+**Diskuter:**
+
+-   Hvorfor skal vi måle "bærekraftig utvikling"?
+
+-   Hva ønsker vi få ut av et "godt" måleinstrument?
+
+-   Hva kan/skal vi bruke resultatene (og måleinstrumentene) til?
+
+# Oppgave 2
+
+**Ta fram GSI og visualisere utviklingen over tid for et utvalg av land i en graf**. **Lagre grafen, slik at du kan ta den fram seinere**
+
+Du finner relevante variabler i pakken "WDI". Variablene som kan være relevante for analysen er beskrevne her nede. Velg den eller de variabler som du trenger og til å få fram GSI (se Hess kapittel 11, s. 439-444).
+
+```{r}
+# NY.ADJ.SVNG.GN.ZS             Adjusted savings: net national savings adjusted for spending on education, natural resource depletion, damage from particulate matter emissions, and damage from carbon dioxide emissions. 
+#   NY.ADJ.NNAT.GN.ZS            Adjusted savings: net national savings (% of GNI) 
+#   NY.ADJ.ICTR.GN.ZS                   Adjusted savings: gross savings (% of GNI)
+#   NY.ADJ.DRES.GN.ZS     Adjusted savings: natural resources depletion (% of GNI)  Natural resource depletion is the sum of net forest depletion, energy depletion, and mineral depletion. 
+#   NY.ADJ.DPEM.GN.ZS     Adjusted savings: particulate emission damage (% of GNI)
+#   NY.ADJ.DNGY.GN.ZS                Adjusted savings: energy depletion (% of GNI)
+#   NY.ADJ.DMIN.GN.ZS               Adjusted savings: mineral depletion (% of GNI)
+#    NY.ADJ.DKAP.GN.ZS    Adjusted savings: consumption of fixed capital (% of GNI)
+#   NY.ADJ.DFOR.GN.ZS            Adjusted savings: net forest depletion (% of GNI)
+#   NY.ADJ.DCO2.GN.ZS           Adjusted savings: carbon dioxide damage (% of GNI)
+#   NY.ADJ.AEDU.GN.ZS           Adjusted savings: education expenditure (% of GNI)
+```
+
+```{r}
+df_sdg0<-WDI(
+  country = c("WLD","USA", "NOR", "NGA", "BRA", "CHN", "RUS","PL"),
+  indicator = c('gsi'="NY.ADJ.SVNG.GN.ZS"),  
+  start = 1999,
+  end = 2019,
+  extra = TRUE, 
+  cache = NULL,
+  latest = NULL,
+  language = "en"
+)
+
+df_sdg <- subset(df_sdg0, select = c(country, iso3c, year, gsi) ) 
+df_sdg <-  df_sdg %>% 
+  mutate(year= as.character(year))
+```
+
+```{r, fig.height=6,fig.width=8}
+df_sdg0 %>%
+  ggplot(aes(x=year,y=gsi, color =country))+
+  geom_point(size=2)+
+  geom_line(linewidth=1)+
+  labs(x="", y="Justert nettosparingsrate")+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::percent_format(scale=1))+
+  theme(legend.position = "bottom")
+```
+
+## **Oppgave 3 - Analyse av SSI (Sustainable society index)**
+
+Visualiser utviklingen i de tre dimensjonene i SSI i ulike land over tid.
+
+```{r}
+# hwb: Human wellbeing
+# nwb: Environmental (nature) wellbeing
+# ewb: Economic wellbeing
+
+df_ssi <- read_excel('C:\\Users\\danie\\Downloads\\ssi_2010_2016.xlsx')
+df_ssi_sub <- df_ssi  %>% arrange(country, year) %>%
+  filter(country=="United states"|country=="Norway"|country=="China" |country=="Russia"|country=="Brazil"|country=="Nigeria")
+
+
+df_ssi_sub_2 <- df_ssi_sub %>%
+  pivot_longer(cols=c("hwb","nwb","ewb"), values_to="value")
+```
+
+```{r}
+# plotting the ssi
+df_ssi_sub %>%
+  ggplot(aes(x=year,y=hwb, color=country))+
+  geom_point(size=2)+
+  geom_line(linewidth=1)+
+  labs(x="", y="SSI")+
+  theme_minimal()+
+  theme(legend.position = "bottom")
+
+
+```
+
+```{r}
+# plotting the ssi
+df_ssi_sub %>%
+  ggplot(aes(x=year,y=ewb, color=country))+
+  geom_point(size=2)+
+  geom_line(linewidth=1)+
+  labs(x="", y="SSI")+
+  theme_minimal()+
+  theme(legend.position = "bottom")
+
+```
+
+```{r}
+# plotting the ssi
+df_ssi_sub %>%
+  ggplot(aes(x=year,y=nwb, color=country))+
+  geom_point(size=2)+
+  geom_line(linewidth=1)+
+  labs(x="", y="SSI")+
+  theme_minimal()+
+  theme(legend.position = "bottom")
+```
+
+# Oppgave 4 - PHDI
+
+-   **Paneldata (data over tid): Visualiser utviklingen i HDI justert for klima og miljø og HDI justert for ødeleggelse av miljøet.**
+
+-   **Tverrsnittsdata (Data i en tidsperiode): Visualiser eventuelt relasjonen mellom HDI og HDI justert for ødeleggelse av miljøet.**
+
+HDI justert for ødeleggelse av miljøet (phdi) er allerede beregnet i datamaterialet. Til info beregnes phdi:
+
+$$
+PHDI = HDI \cdot \frac{(CO2,Index+MaterialFootprintIndex)}{2}
+$$
+
+```{r}
+# hdi: human development index
+# phdi: planetary pressures adjusted hdi
+```
+
+```{r}
+# datasett phdi
+# hdi_rank: human development index - country rank
+# hdi: human development index
+# phdi: planetary pressures adjusted hdi
+# diff_phdi: difference phid hdi in percent
+# p_adj: adjustment factor for planetary pressures
+# co_ton: CO2 emissions (tonnes)
+# co_index: CO2 emissions index
+# mfot_perc: material footprint (tonnes)
+# mfoot_index: material footprint index
+```
+
+```{r}
+
+url <- "https://hdr.undp.org/sites/default/files/2021-22_HDR/HDR21-22_Composite_indices_complete_time_series.csv"
+destfile <- "HDR21-22_Composite_indices_complete_time_series.csv"
+curl::curl_download(url, destfile)
+hdi_orig <- read_csv(destfile)
+
+# 1. Justere data knyttet til HDI
+df_hdi <- hdi_orig %>%
+  select(iso3, country, starts_with("hdi")) %>% # Velg ut relevante variabler
+  select(-c(hdi_rank_2021, hdicode, starts_with("hdi_f"), starts_with("hdi_m"))) %>% # Ta vekk variabler som har med "hdi" i navnet, men som ikke skal brukes. 
+  pivot_longer(             # Endre format fra wide (tverrsnitt) til long (panel)
+    cols=-c(iso3, country), 
+    names_sep = "_",
+    names_to = c(NA, "year"), 
+    values_to = "hdi") %>%
+mutate(year = as.numeric(year))
+
+# 2. Samme prosedyre for å lage et panel for phdi
+df_phdi <- hdi_orig %>%
+  select(iso3, country, starts_with("phdi")) %>%
+  pivot_longer(
+    cols=-c(iso3, country),
+    names_sep = "_",
+    names_to = c(NA, "year"), 
+    values_to = "phdi") %>%
+  mutate(year = as.numeric(year))
+
+
+# 4. Velg ut land, og koble data til hdi data (dersom du ønsker å sammenligne hdi og de to justerte målene)
+df_phdi_sub <- df_phdi  %>% 
+  left_join(df_hdi, df_phdi, by=c("country", "iso3", "year")) %>% 
+  filter(iso3=="ZZK.WORLD" |iso3=="USA"|iso3=="NOR"|iso3=="CHN" |iso3=="RUS"|iso3=="BRA"|iso3=="NGA")
+```
+
+```{r}
+url <- "https://hdr.undp.org/sites/default/files/2021-22_HDR/HDR21-22_Statistical_Annex_PHDI_Table.xlsx"
+destfile <- "HDR21_22_Statistical_Annex_PHDI_Table.xlsx"
+curl::curl_download(url, destfile)
+phdi_raw <- read_excel(destfile,skip=)
+
+
+
+# De første 6 radene inneholder ulike type informasjon om variablene. Vi trenger kun et navn per variabel, så vi fjerner disse 7 radene og lager nye navn til kolonnene.
+phdi_raw <- phdi_raw[-(1:6), ]
+
+# For å fjerne mellomrommene mellom kolonner med variabel-verdier, fjerner vi tomme kolonner. 
+# 1. Identifiser kolonner som ikke har noen informasjon:
+empty_cols <- sapply(phdi_raw, function(x) all(is.na(x)))
+
+# 2. Fjerne kolonner uten informasjon
+phdi_raw <- phdi_raw[, !empty_cols]
+
+
+# Sett inn variabel-navn
+colnames(phdi_raw) <- c("hdi_rank", "country", "hdi", "phdi", "diff_phdi_perc", "diff_phdi_rank", "phdi_adj",
+                        "co2pc", "co2index", "mfootpc", "mfootindex")
+
+# Vi ønsker å fjerne observasjoner for aggregerte regioner, og de siste radene i datasettet som inneholder annet enn variabel-verdier. 
+# Vi kan gjøre dette ved å fjerne observasjoner som mangler verdier for våre viktigste variabler.
+phdi <- phdi_raw[!(phdi_raw$phdi == ".." |is.na(phdi_raw$phdi) |phdi_raw$hdi_rank == ".." | is.na(phdi_raw$hdi_rank)), ]
+
+# Til sist kan det være flott å bruke landkoder i den grafiske framstillingen. Vi kan få dette til ved å legge til en "iso3" code.
+phdi$iso3c<-countryname(phdi$country, destination = 'iso3c') 
+```

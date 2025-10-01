@@ -1,0 +1,57 @@
+---
+title: "del_2"
+format: pdf
+editor: visual
+---
+
+**1. Demografiske transisjoner**
+
+Demografiske transisjoner refererer til overgangen fra høy til lav fødsels- og dødsrate, som typisk følger økonomisk utvikling. Økonomisk teori forklarer dette som følger:
+
+-   **Pre-industriell fase**: Høye fødsels- og dødsrater. Barnearbeid er viktig, og barn er en økonomisk ressurs.
+
+-   **Tidlig industriell fase**: Dødsraten faller på grunn av bedre helsetjenester og matforsyning, men fødselsraten forblir høy. Befolkningen vokser raskt.
+
+-   **Moden industriell fase**: Fødselsraten begynner å falle. Økt inntekt og utdanning fører til at folk investerer mer i færre barn (kvalitet over kvantitet).
+
+-   **Post-industriell fase**: Både fødsels- og dødsrater er lave. Befolkningen stabiliserer seg eller avtar. Kvinner har karrierer, og barn er økonomisk mindre nødvendige.
+
+**2. Faktorer som påvirker antallet barn per kvinne som overlever til voksen alder**
+
+-   **Helsetjenester**: Bedre medisinsk omsorg og vaksinasjoner reduserer barnedødelighet.
+
+-   **Ernæring**: Bedre tilgang til næringsrik mat øker overlevelsesraten.
+
+-   **Utdanning**: Utdannede foreldre har bedre kunnskap om helse og ernæring.
+
+-   **Sosial stabilitet**: Fred og stabilitet reduserer risikoen for død fra vold og krig.
+
+### **3. Fertilitet og økonomisk vekst**
+
+-   **Fattige land**: Positiv korrelasjon mellom fertilitet og økonomisk vekst. Barn bidrar til familiens økonomi, og flere barn kan sikre familiens fremtid.
+
+-   **Rike land**: Negativ korrelasjon. Høyere inntekter og utdanning fører til lavere fertilitet da folk prioriterer karriere og livskvalitet over å ha mange barn.
+
+### **4. Eksternaliteter og bærekraftig utvikling**
+
+**Eksternaliteter**: Kostnader eller fordeler påført tredjeparter som ikke er med i transaksjonen. De kan føre til markedssvikt da de ikke prises inn i markedet.
+
+-   **Eksempler**:
+
+    -   **Forurensning**: Negativ eksternalitet. Bedrifter forurenser, men betaler ikke for miljøskaden.
+
+    -   **Fellesressurser**: Overfiske eller overbeiting. Ingen enkeltaktør eier ressursen, så det er ingen insentiv til å bevare den.
+
+### **5. Eksternaliteter og markedssvikt**
+
+-   **Definisjon**: Eksternaliteter er virkninger på tredjeparter som ikke er reflektert i kostnaden av en vare eller tjeneste.
+
+-   **Markedssvikt**: Oppstår når markedet ikke allokerer ressurser effektivt. For eksempel vil forurensning fra en fabrikk ikke inkluderes i produksjonskostnadene, som fører til overproduksjon og miljøskader.
+
+### **6. Eksempler på ikke-bærekraftige eksternaliteter**
+
+-   **Klimautslipp**: Fossilt brensel forårsaker global oppvarming, som ikke er kostnadsført i produksjonen.
+
+-   **Avskoging**: Skog blir hugget for landbruk, noe som fører til tap av biologisk mangfold og karbonlagring.
+
+positiv men avtakende marginalproduktivitet i konvergensteori

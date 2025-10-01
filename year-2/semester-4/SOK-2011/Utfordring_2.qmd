@@ -1,0 +1,108 @@
+---
+title: "Utfordring 2"
+format: pdf
+editor: visual
+---
+
+## **Informasjon om utfordring 2**
+
+I denne utfordringen skal dere gjennomføre en **empirisk** analyse av Solow-modellen. For å klare utfodringen må dere gjøre rede for datamateriale, illustrere predikerte sammenheng i grafer, teste prediksjoner statistisk, og tolke resultaten.
+
+Utfordringen er knyttet til kapittel 7 og 8 i Hess.
+
+Dere finner støtte til den empiriske analysen lengst nede i dette dokumentet.
+
+I oppgaven vil dere bruke data fra "World Development Indicators" som er en database som er satt sammen av [Verdensbanken](https://databank.worldbank.org/source/world-development-indicators). Dere kan finne informasjon om de variabler som blir brukt i analysen i Verdensbankens ["meta glossary"](https://databank.worldbank.org/metadataglossary/all/series). Dere har tilgang til en kode som setter sammen datamaterialet. Utfordringen består i å bruke datasettet til å analysere og teste prediksjonene fra Solow-modellen (med og uten teknologisk utvikling og naturressurser).
+
+Solow-modellen er en modell som beskriver bestemmelsesfaktorer for nivå på og vekst i materiell velferd på **lang sikt**. Ved å bruke gjennomsnittsverdier for en litt lengre periode reduserer vi risikoen at konjunktursvingninger og andre midlertidlige sjokker har stor innvirkning på konklusjonene.
+
+I denne oppgaven skal dere bruke et gjennomsnitt for perioden 2015 - 2019 for følgende variabler
+
+-   Nivå på real BNP per innbygger
+
+-   Vekstrate i real BNP per innbygger
+
+-   Humankapital
+
+Noen faktorer har større effekt på økonomien på lang sikt (i framtiden) enn de har idag. For å fange dette kan vi "lagge" variabler som måler disse faktorene (vi bruker informasjon fra tidligere år). I denne oppgaven skal dere bruke gjennomsnitt for perioden 2010 - 2015 for følgende variabler:
+
+-   Sparerate (netto)
+
+-   Forbruk av naturressurser
+
+For å teste konvergenseteorien vil vi bruke nivå på real BNP per innbygger 1999. Da informasjon mangler for noen land og år, vil vi bruke den tidligeste observasjonen i tidsperioden 1999 - 2005.
+
+### **Utfordring 2.1**
+
+Beskriv data-materialet som du vil bruke i analysen.
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library(WDI)
+```
+
+```{r}
+# looking at data
+
+#WDIsearch(string = "GDP per capita", field = "name", short = TRUE, cache = NULL)
+  
+# Variables for df
+list= c("NY.GDP.PCAP.KD", "NY.ADJ.NNAT.GN.ZS", "SP.POP.GROW", "HD.HCI.OVRL",
+        "NY.ADJ.DRES.GN.ZS")
+
+# Storing the data in df
+df <- WDI(indicator = list, start= 2015, end = 2019, cache= NULL)
+```
+
+```{r}
+# Hvordan beregne årlig vekstrate i real BNP per innbygger?
+# I R kjører vi ettårs lag. lag(t)
+# BNP_0 * e^(g*t) = BNP(t)
+```
+
+```{r}
+df %>%
+  filter(year > 2001) %>%
+  ggplot(x =NY.GDP.PCAP.KD, y= NY.ADJ.NNAT.GN.ZS)+
+  geom_point()
+
+```
+
+## **Utfordring 2.2**
+
+Empirisk analyse og test av prediksjonene fra den grunnleggende Solow-modellen.
+
+a.  Lag spredningsdiagram (scatterplots) som illustrerer sammenhengen mellom:
+
+    1.  Spareraten og BNP per innbygger
+
+    2.  Befolkningsvekstraten og BNP per innbygger.
+
+b.  Estimer en regresjonsmodell (minste kvadrats-metode) som tester om spareraten og befolkningsveksten forklarer variasjon i BNP per innbygger mellom ulike land. Den modellen dere skal estimere kan bli beskreven av ligningen under:
+
+    $$
+    y_i = \alpha + {\beta_1 } * s_i + {\beta_2} * n_i + \epsilon_i
+    $$
+
+c\. Tolke resultatene fra spredningsdiagrammen og regresjonsanalysen.
+
+## **Utfordring 2.3**
+
+Empirisk analyse og test av konvergensteorien og av Solow-modellen med humankapital og naturressurser
+
+a.  Lag spredningsdiagram som viser sammenhengen mellom
+
+    1.  Humankapital og BNP per innbygger,
+
+    2.  Forbruket av naturressurser og vekstraten i BNP per innbygger
+
+    3.  Initialt nivå på BNP per innbygger og vekstraten i BNP per innbygger.
+
+b.  Estimer en regressionsmodell (minste kvadrats-metode) som tester om spareraten, befolkningsvekstraten, humankapital, forbruk av naturressurser og initialt nivå på BNP per innbygger, forklarer variasjon i vekstraten i BNP per innbygger i ulike land. Den modellen dere skal estimere kan bli beskreven av ligningen under (årsaken til at vi bruker logaritmen av �0 er fremst at BNP per innbygger er mye større enn de andre variablene. Ved å bruke den naturlige logartmen får vi en bedre "fit" av data til modellen:
+
+$$
+{g_y,}_i = \alpha + {\beta_1 } * s_i + {\beta_2} * n_i + {\beta_3} * m + {\beta_4} * u + {\beta_5} * {ln(y_0)} + \epsilon_i
+$$
+
+c\. Tolke resultatene fra spredningsdiagrammene og regresjonsanalysen, og diskutere eventuelle svakheter eller begrensninger.

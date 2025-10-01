@@ -1,0 +1,161 @@
+---
+title: "Manus"
+format: pdf
+editor: visual
+---
+
+## Manus for presentasjon om bærekraftig utvikling
+
+**Slide 1: Struktur**
+
+Velkommen til denne presentasjonen om bærekraftig utvikling. Vi skal se på hva bærekraftig utvikling er, hvorfor det er vanskelig å oppnå, og hvilken rolle offentlige inngrep spiller.
+
+**Slide 2: Hva er bærekraftig utvikling?**
+
+Bærekraftig utvikling handler om å skape en fremtid der både dagens og fremtidige generasjoner kan trives. Det er ikke bare snakk om økonomisk vekst, men også om å sikre sosial rettferdighet og miljømessig bærekraft.
+
+**Slide 3: Hva er bærekraftig utvikling?**
+
+Økonomisk vekst, målt i BNP, er viktig, men ikke nok alene. Bærekraftig utvikling handler også om å redusere fattigdom, forbedre menneskers helse og utdanning, og skape inkluderende samfunn.
+
+**Slide 4: Hva er bærekraftig utvikling?**
+
+Det handler om å finne en balanse mellom dagens behov og fremtidens muligheter. Vi må ta hensyn til klimaendringer og andre miljøutfordringer, samtidig som vi sikrer økonomisk vekst og sosial utvikling.
+
+**Slide 5: Hva er bærekraftig utvikling?**
+
+Bærekraftig utvikling er en likning der vår nytte i dag må være lik nytten til fremtidige generasjoner. Hvis vi overforbruker ressurser eller forurenser miljøet, vil det gå ut over fremtidens muligheter.
+
+**Slide 6: Effekter av klimaendringer**
+
+Klimaendringene er en av de største truslene mot bærekraftig utvikling. Økte temperaturer, stigende havnivå, endringer i nedbørsmønstre, tap av biologisk mangfold og negative helseeffekter er bare noen av konsekvensene vi allerede ser.
+
+**Slide 7: Effekter av klimaendringer**
+
+Globale temperaturer har økt med omtrent 1°C siden førindustriell tid, og havnivået stiger stadig raskere. Dette er alarmerende trender som krever handling.
+
+**Slide 8: Forente nasjoners mål for bærekraftig utvikling**
+
+FNs bærekraftsmål er en ambisiøs plan for å utrydde fattigdom, bekjempe ulikhet og stoppe klimaendringene innen 2030. De 17 hovedmålene og 169 delmålene dekker et bredt spekter av utfordringer, fra helse og utdanning til energi og miljø.
+
+**Slide 9: Forente nasjoners mål for bærekraftig utvikling**
+
+Målene er universelle og gjelder for alle land, rike og fattige. De er også integrerte, noe som betyr at fremgang på ett mål ofte avhenger av fremgang på andre mål.
+
+**Slide 10: Forente nasjoners mål for bærekraftig utvikling**
+
+Målene er en oppfordring til handling for alle – regjeringer, bedrifter, sivilsamfunn og enkeltpersoner. Vi må alle bidra hvis vi skal oppnå en bærekraftig fremtid.
+
+**Slide 11: Hvorfor er bærekraftig utvikling vanskelig?**
+
+Bærekraftig utvikling er vanskelig fordi det krever at vi balanserer økonomiske, sosiale og miljømessige hensyn. Disse hensynene kan ofte være i konflikt med hverandre, og det er ingen enkle løsninger.
+
+**Slide 12: Hvorfor er bærekraftig utvikling vanskelig?**
+
+For eksempel kan økonomisk vekst føre til økt forurensning og ressursbruk, mens strenge miljøreguleringer kan hemme økonomisk aktivitet. Det er en utfordring å finne løsninger som ivaretar alle tre dimensjonene av bærekraft.
+
+**Slide 13: Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling?**
+
+Private markeder er ofte drevet av kortsiktig profittmaksimering, noe som kan gå på bekostning av langsiktige bærekraftige mål. Markeder tar heller ikke alltid hensyn til eksterne kostnader, som miljøskader.
+
+**Slide 14: Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling?**
+
+Uten reguleringer vil bedrifter ofte velge den billigste produksjonsmåten, selv om det betyr å forurense eller bruke ikke-fornybare ressurser. Dette er en av grunnene til at offentlige inngrep er nødvendige for å fremme bærekraftig utvikling.
+
+**Slide 15: Offentlig inngrep for bærekraftig utvikling: Montrealprotokollen (1987)**
+
+Montrealprotokollen er et eksempel på hvordan offentlige inngrep kan fungere. Denne internasjonale avtalen har vært svært vellykket i å beskytte ozonlaget ved å fase ut ozonnedbrytende stoffer.
+
+**Slide 16: Utfordringer med offentlige inngrep og internasjonale avtaler**
+
+Offentlige inngrep er imidlertid ikke uten utfordringer. Det kan være vanskelig å få til internasjonalt samarbeid, og det er alltid en risiko for at tiltakene kan ha utilsiktede negative konsekvenser.
+
+**Slide 17: Oppsummering**
+
+Bærekraftig utvikling er en kompleks utfordring, men det er også en nødvendighet. Vi må finne måter å balansere økonomisk vekst, sosial rettferdighet og miljømessig bærekraft på. Offentlige inngrep vil spille en viktig rolle i denne prosessen.
+
+Takk for oppmerksomheten!
+
+Del 2
+
+### **1. Demografiske transisjoner**
+
+Demografiske transisjoner refererer til overgangen fra høy til lav fødsels- og dødsrate, som typisk følger økonomisk utvikling. Økonomisk teori forklarer dette som følger:
+
+-   **Pre-industriell fase**: Høye fødsels- og dødsrater. Barnearbeid er viktig, og barn er en økonomisk ressurs.
+
+-   **Tidlig industriell fase**: Dødsraten faller på grunn av bedre helsetjenester og matforsyning, men fødselsraten forblir høy. Befolkningen vokser raskt.
+
+-   **Moden industriell fase**: Fødselsraten begynner å falle. Økt inntekt og utdanning fører til at folk investerer mer i færre barn (kvalitet over kvantitet).
+
+-   **Post-industriell fase**: Både fødsels- og dødsrater er lave. Befolkningen stabiliserer seg eller avtar. Kvinner har karrierer, og barn er økonomisk mindre nødvendige.
+
+### **2. Faktorer som påvirker antallet barn per kvinne som overlever til voksen alder**
+
+-   **Helsetjenester**: Bedre medisinsk omsorg og vaksinasjoner reduserer barnedødelighet.
+
+-   **Ernæring**: Bedre tilgang til næringsrik mat øker overlevelsesraten.
+
+-   **Utdanning**: Utdannede foreldre har bedre kunnskap om helse og ernæring.
+
+-   **Sosial stabilitet**: Fred og stabilitet reduserer risikoen for død fra vold og krig.
+
+### **3. Fertilitet og økonomisk vekst**
+
+-   **Fattige land**: Positiv korrelasjon mellom fertilitet og økonomisk vekst. Barn bidrar til familiens økonomi, og flere barn kan sikre familiens fremtid.
+
+-   **Rike land**: Negativ korrelasjon. Høyere inntekter og utdanning fører til lavere fertilitet da folk prioriterer karriere og livskvalitet over å ha mange barn.
+
+### **4. Eksternaliteter og bærekraftig utvikling**
+
+**Eksternaliteter**: Kostnader eller fordeler påført tredjeparter som ikke er med i transaksjonen. De kan føre til markedssvikt da de ikke prises inn i markedet.
+
+-   **Eksempler**:
+
+    -   **Forurensning**: Negativ eksternalitet. Bedrifter forurenser, men betaler ikke for miljøskaden.
+
+    -   **Fellesressurser**: Overfiske eller overbeiting. Ingen enkeltaktør eier ressursen, så det er ingen insentiv til å bevare den.
+
+### **5. Eksternaliteter og markedssvikt**
+
+-   **Definisjon**: Eksternaliteter er virkninger på tredjeparter som ikke er reflektert i kostnaden av en vare eller tjeneste.
+
+-   **Markedssvikt**: Oppstår når markedet ikke allokerer ressurser effektivt. For eksempel vil forurensning fra en fabrikk ikke inkluderes i produksjonskostnadene, som fører til overproduksjon og miljøskader.
+
+### **6. Eksempler på ikke-bærekraftige eksternaliteter**
+
+-   **Klimautslipp**: Fossilt brensel forårsaker global oppvarming, som ikke er kostnadsført i produksjonen.
+
+-   **Avskoging**: Skog blir hugget for landbruk, noe som fører til tap av biologisk mangfold og karbonlagring.
+
+### **7. Solow-modellen og ulikheter mellom rike og fattige land**
+
+**Grafisk illustrasjon**:
+
+-   **Nivå på materiell velferd**: Bestemmes av kapitalmengden per arbeider. Økonomisk intuisjon tilsier at mer kapital (maskiner, bygninger) per arbeider gir høyere produktivitet og inntekt.
+
+**Forklaring av figuren**:
+
+-   **Kapitalakkumulasjon**: Rike land har høyere kapital per arbeider og dermed høyere produksjon per arbeider. Fattige land har lavere kapital per arbeider og dermed lavere produksjon.
+
+-   **Steady state**: Landene beveger seg mot en steady state hvor kapitalakkumulasjon stopper opp når sparing akkurat kompenserer for kapitaldepresiering og befolkningsvekst.
+
+### **Forklaring av figuren**
+
+-   **Hvordan land havner i situasjonen**:
+
+    -   **Sparingsrate**: Høy sparingsrate fører til mer investering og kapitalakkumulasjon.
+
+    -   **Befolkningsvekst**: Høy befolkningsvekst kan tynge kapitalakkumulasjon per arbeider.
+
+    -   **Kapitalslitasje**: Høy kapitalslitasje krever mer investering for å opprettholde kapitalmengden.
+
+-   **Konsekvensene**:
+
+    -   Rike land med høy kapitalmengde per arbeider oppnår høyere materiell velferd.
+
+    -   Fattige land med lav kapitalmengde forblir i en lav velferdsposisjon med mindre de øker sparingsraten eller reduserer befolkningsveksten.
+
+### **Oppsummering**
+
+Solow-modellen viser hvordan kapitalakkumulasjon, befolkningsvekst og sparing påvirker økonomisk vekst og velferdsnivået i ulike land. Ved å fokusere på disse faktorene, kan vi forstå hvorfor noen land er rike mens andre er fattige, og hvilke tiltak som kan bidra til økonomisk utvikling.

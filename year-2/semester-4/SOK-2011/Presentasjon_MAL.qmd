@@ -1,0 +1,536 @@
+---
+title: "Bærekraftig økonomisk vekst SOK-2011"
+subtitle: "Handelshøgskolen"
+date: last-modified
+date-format: "DD-MM-YYYY"
+echo: false
+warning: false
+format: 
+  revealjs:
+    auto-stretch: false
+    theme: moon
+    smaller: true
+    view-distance: 10
+---
+
+## Hvilke spørsmål om menneskelig adferd kan besvares ved hjelp av eksperimentelle metoder? {auto-animate="true"}
+
+::: columns
+::: {.column width="60%"}
+::: {.fragment .highlight-green fragment-index="1"}
+Effekten av belønning på prestasjon
+:::
+
+::: {.fragment .highlight-red fragment-index="1"}
+Effekten av kjønn på lederskaps-evner
+:::
+
+::: {.fragment .highlight-green fragment-index="1"}
+Effekten av søvnmangel på kognitiv ytelse
+:::
+
+::: {.fragment .highlight-red fragment-index="1"}
+Effekten av medfødt intelligens på skoleprestasjoner
+:::
+
+::: {.fragment .highlight-green fragment-index="1"}
+Effekten av sosial påvirkning på beslutningstaking
+:::
+:::
+
+::: {.column width="40%"}
+::: {.fragment .fade-right fragment-index="1"}
+**Ja**
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+**Nei**
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+**Ja**
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+**Nei**
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+**Ja**
+:::
+:::
+:::
+
+::: notes
+
+:::
+
+## Problemstilling
+
+**Hva er sannsynligheten for å bytte konvolutt i Monty Hall-problemet, målt som andelen deltakere som velger å bytte etter å ha mottatt informasjon om innholdet i en av de andre konvoluttene?**
+
+::: notes
+
+:::
+
+## Randomized Controlled Trial (RCT)
+
+Eksempel: Testing av nytt treningsprogram på fysisk helsetilstand
+
+::: columns
+::: {.column width="50%"}
+Venstre kontrollgruppe:
+
+Tester fysisk helsetilstand før og 12 uker etter treningsprogrammet
+
+::: {.fragment .highlight-green fragment-index="1"}
+Har økt muskelmasse og redusert fettprosent etter treningsprogrammet
+:::
+
+::: {.fragment .fade-down fragment-index="2"}
+Venstre kontrollgruppe har en gjennomsnittsalder på 16 år
+:::
+:::
+
+::: {.column width="50%"}
+Høyre kontrollgruppe:
+
+Tester fysisk helsetilstand før og 12 uker etter placebo-programmet
+
+::: {.fragment .highlight-red fragment-index="1"}
+Har ingen endring i muskelmasse eller fettprosent etter placebo-programmet
+:::
+
+::: {.fragment .fade-down fragment-index="2"}
+Høyre kontrollgruppe har en gjennomsnittsalder på 76 år
+:::
+:::
+
+Hvorfor blir dette feil?
+
+::: {.fragment .fade-up fragment-index="3"}
+RCT er en eksperimentell metode som krever at deltakerne **tilfeldig** fordeles til enten en eksperimentell gruppe eller en kontrollgruppe. Dette gjør det mulig å sammenligne effekten av en intervensjon med en kontrollgruppe som ikke mottar intervensjonen.
+:::
+:::
+
+::: notes
+
+:::
+
+## Monty-Hall problemet
+
+::: columns
+::: {.column width="50%"}
+![](dokumentobjekter/figurer/Monty_open_door.png){width="520"}
+
+::: {.fragment .fade-down fragment-index="1"}
+$\frac{1}{3}$                                     $\frac{1}{3}$                                  $\frac{1}{3}$
+:::
+
+Deltakeren velger dør nummer 1
+
+Verten åpner dør nummer 3 med en geit
+
+Deltakeren får muligheten til å bytte dør
+
+Hva bør deltakeren gjøre for å maksimere sjansen for å vinne bilen?
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-down fragment-index="1"}
+Om deltaker beholder dør nummer 1 = $\frac{1}{3}$ sjanse
+:::
+:::
+:::
+
+::: notes
+
+:::
+
+## Monty-Hall problemet
+
+::: columns
+::: {.column width="50%"}
+![](dokumentobjekter/figurer/Monty-MiddleCar.png){width="520"}
+
+::: {.fragment .fade-down fragment-index="1"}
+                                         $\frac{1}{3}$              +             $\frac{1}{3}$ = $\frac{2}{3}$
+:::
+
+Deltakeren velger dør nummer 1
+
+Verten åpner dør nummer 3 med en geit
+
+Deltakeren får muligheten til å bytte dør
+
+Hva bør deltakeren gjøre for å maksimere sjansen for å vinne bilen?
+:::
+
+::: {.column width="50%"}
+::: {.fragment .highlight-red fragment-index="1"}
+Om deltaker beholder dør nummer 1 = $\frac{1}{3}$ sjanse
+:::
+
+::: {.fragment .highlight-green fragment-index="1"}
+::: {.fragment .fade-up fragment-index="1"}
+Om deltaker bytter til dør 2 = $\frac{2}{3}$ sjanse
+:::
+:::
+
+```{python}
+#| output: false
+import random
+import matplotlib.pyplot as plt
+
+def monty_hall_simulation(num_simulations):
+    stay_wins = 0
+    switch_wins = 0
+    for _ in range(num_simulations):
+        # Set up doors
+        doors = [0, 0, 1]  # 0 represents goat, 1 represents car
+        random.shuffle(doors)
+
+        # Contestant makes initial choice
+        contestant_choice = random.randint(0, 2)
+
+        # Host reveals a goat
+        remaining_doors = [i for i in range(3) if i != contestant_choice and doors[i] == 0]
+        door_revealed = random.choice(remaining_doors)
+
+        # Contestant chooses to stay
+        if doors[contestant_choice] == 1:
+            stay_wins += 1
+
+        # Contestant chooses to switch
+        switched_choice = [i for i in range(3) if i != contestant_choice and i != door_revealed][0]
+        if doors[switched_choice] == 1:
+            switch_wins += 1
+
+    return stay_wins, switch_wins
+
+def simulate_and_plot(max_simulations):
+    stay_win_rates = []
+    switch_win_rates = []
+    simulation_counts = list(range(1, max_simulations + 1))
+
+    for num_simulations in simulation_counts:
+        stay_wins, switch_wins = monty_hall_simulation(num_simulations)
+        stay_win_rate = stay_wins / num_simulations
+        switch_win_rate = switch_wins / num_simulations
+        stay_win_rates.append(stay_win_rate)
+        switch_win_rates.append(switch_win_rate)
+
+    final_stay_win_rate = stay_win_rates[-1] * 100
+    final_switch_win_rate = switch_win_rates[-1] * 100
+    plt.figure(figsize=(12, 6))
+    plt.plot(simulation_counts, stay_win_rates, label=f'Bli: {final_stay_win_rate:.2f}%', color='#D8B70A')
+    plt.plot(simulation_counts, switch_win_rates, label=f'Bytte: {final_switch_win_rate:.2f}%', color='#02401B')
+    plt.xlabel('Simuleringer', fontsize=18)
+    plt.ylabel('Vinnerate', fontsize=18)
+    plt.title('Monty Hall simuleringer', fontsize=18)
+    # make ticks bigger
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    # make legend size bigger
+    plt.legend(prop={'size': 18})
+    plt.savefig('dokumentobjekter/figurer/monty_hall_simulation.png')
+
+if __name__ == "__main__":
+    max_simulations = 1000  # You can adjust the maximum number of simulations here
+    simulate_and_plot(max_simulations)
+
+```
+
+::: {.fragment .fade-left fragment-index="2"}
+![](dokumentobjekter/figurer/monty_hall_simulation.png){width="550" height="350"}
+:::
+:::
+:::
+
+::: notes
+
+:::
+
+## Problemstilling på nytt
+
+**Hva er sannsynligheten for å bytte konvolutt i Monty Hall-problemet, målt som andelen deltakere som velger å bytte etter å ha mottatt informasjon om innholdet i en av de andre konvoluttene?**
+
+::: notes
+:::
+
+## Eksperimentelt oppsett
+
+Vi randomiserer deltakerne til enten kontrollgruppen $\overline T$ eller eksperimentgruppen $T$.
+
+Kontrollgruppen mottar ikke noe kurs, mens eksperimentgruppen deltar i et kurs i sannsynlighetsteori.
+
+Begge gruppene får 100 kroner hver.
+
+De må deretter velge å bruke 50 kr for å delta i et Monty Hall-lignende spill hvor de har mulighet å bytte dør.
+
+I spillet velger de en av tre konvolutter. En av konvoluttene inneholder 150 kr, mens de to andre er tomme.
+
+Eksperimentlederen åpner deretter en av de to resterende konvoluttene som er tom og gir deltakeren valget om å bytte til den gjenværende konvolutten eller beholde det opprinnelige valget.
+
+Dette gjøres så igjen for begge gruppene etter at eksperimentgruppen har deltatt i kurset.
+
+::: notes
+
+:::
+
+## Effekt og analyse {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Vi ser da på differansen i andelen som bytter konvolutt mellom de som har tatt kurset og de som ikke har tatt kurset både før og etter kurset.
+
+Da kan vi se hvordan denne informasjonen påvirker eller "oppdaterer" sannsynligheten for at premien befinner seg i en bestemt konvolutt.
+
+For å vise dette så definerer vi hendelsene:
+
+::: columns
+::: {.column width="50%"}
+::: r-stack
+::: {data-id="box1" style="background:#3fb618; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #2780e3; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+:::
+:::
+
+::: {.column width="50%"}
+:::
+:::
+
+::: notes
+
+:::
+
+## Effekt og analyse {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Vi ser da på differansen i andelen som bytter konvolutt mellom de som har tatt kurset og de som ikke har tatt kurset både før og etter kurset.
+
+Da kan vi se hvordan denne informasjonen påvirker eller "oppdaterer" sannsynligheten for at premien befinner seg i en bestemt konvolutt.
+
+For å vise dette så definerer vi hendelsene:
+
+::: columns
+::: {.column width="50%"}
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+$G_i$:
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #2780e3; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+$D_j$:
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+$V_k$:
+:::
+:::
+:::
+
+::: {.column width="50%"}
+Hendelsen at [gevinsten]{style="color: #3fb618;"} (150 kr) er i konvolutt $i$ (hvor $i$ kan være 1, 2, eller 3).
+
+Hendelsen at [deltakeren]{style="color: #2780e3;"} velger konvolutt $j$ (hvor $j$ også kan være 1, 2, eller 3).
+
+Hendelsen at [verten]{style="color: #e83e8c;"} åpner konvolutt $k$ (hvor $k$ kan være 1, 2, eller 3) og viser at den er tom.
+:::
+:::
+
+::: notes
+
+:::
+
+## Uavhengighet og sannsynlighet og avhengighet {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+Vi antar at deltakeren velger en konvolutt tilfeldig, og at gevinsten er plassert tilfeldig i en av de tre konvoluttene.
+
+Og før noe valg er gjort, er sannsynligheten for at gevinsten er i en hvilken som helst konvolutt lik:
+:::
+
+::: {.column width="50%"}
+Dette betyr at hendelsene [$G_i$]{style="color: #3fb618;"} eller [gevinsten]{style="color: #3fb618;"} er i konvolutt $i$ og [ $D_j$]{style="color: #2780e3;"}, [deltakerens]{style="color: #2780e3;"} valg $j$ er uavhengige for alle $i$ og $j$.
+
+[$P(G_i)$]{style="color: #3fb618;"} $=$ [ $P(D_j)$]{style="color: #2780e3;"} $=$ [ $p(V_k)$]{style="color: #e83e8c;"} $= \frac{1}{3}$
+
+for $i, j, k = 1, 2, 3$.
+:::
+:::
+
+::: {.fragment .fade-up}
+Når vi åpner den andre konvolutten så er den avhengig av hvilken konvolutt deltakeren har valgt og hvor gevinsten befinner seg. Vi åpner alltid åpner en tom konvolutt og aldri den som deltakeren har valgt eller den som inneholder gevinsten.
+
+Dette betyr at: $$ P(V_k \mid G_i, D_j) $$ er 0 hvis $k = i$ eller $k = j$ (med mindre $i = j$), og ellers 1 delt på antall gjenværende konvolutter.
+:::
+
+::: notes
+
+:::
+
+## Bayes teorem generell formel {auto-animate="true"}
+
+Hva er bayes teorem?
+
+Bayes teorem er en matematisk formel som beskriver hvordan vi kan oppdatere sannsynligheten for en hendelse gitt ny informasjon.
+
+Og kan skrives slik:
+
+::: {.fragment .fade-down}
+$$P(A|B) = \frac{P(B|A) P(A)}{P(B|A)P(A)+P(B|\overline A)P(\overline A)}$$
+:::
+
+::: {.fragment .fade-down}
+$$P(A|B) = \frac{P(B|A)P(A)}{P(B)}$$ Men kan forkortes slik, siden den totale sannsynligheten for $B$ er lik summen av sannsynligheten for $B$ gitt $A$ og sannsynligheten for $B$ gitt ikke $A$.
+:::
+
+::: notes
+
+:::
+
+## Bayes teorem ved monty hall problemet {auto-animate="true"}
+
+
+[Gevinsten]{style="color: #3fb618;"}, [deltakerens]{style="color: #2780e3;"} valg, og [vertens]{style="color: #e83e8c;"} valg hvor $i, j, k = 1, 2, 3$
+
+::: {.fragment .fade-down}
+
+$$
+\begin{aligned}
+{P(\color{#3fb618}{G_i})} \mid \color{#2780e3}{D_j} = \frac{{P(\color{#e83e8c}{V_k} \mid \color{#3fb618}{G_i}, \color{#2780e3}{D_j})} \cdot {P(\color{#3fb618}{G_i})}}{{P(\color{#e83e8c}{V_k} \mid \color{#2780e3}{D_j})}}
+\end{aligned}
+$$
+
+:::
+
+
+::: {.fragment .fade-down}
+
+$$
+\begin{aligned}
+P(\color{#e83e8c}{V_k} \mid \color{#2780e3}{D_j}) &= \sum_{i=1}^3 P(\color{#e83e8c}{V_k} \mid \color{#3fb618}{G_i}, \color{#2780e3}{D_j}) \cdot P(\color{#3fb618}{G_i})
+\end{aligned}
+$$
+
+
+:::
+
+::: notes
+
+:::
+
+## Bayes teorem ved monty hall problemet {auto-animate=true auto-animate-easing="ease-in-out"}
+
+Anta at deltakeren velger konvolutt 1 ($D_1$) og verten åpner konvolutt 3 ( $V_3$ ), som er tom. Vi vil beregne $P(G_2 \mid V_3, D_1)$.
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$
+\begin{aligned}
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_1}, \color{#2780e3}{D_1}) &= \color{#3fb618}{\frac{1}{2}} \\
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_2}, \color{#2780e3}{D_1}) &= \color{#3fb618}{1} \\
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_3}, \color{#2780e3}{D_1}) &= \color{#808080}{0}
+\end{aligned}
+$$
+:::
+
+::: {.column width="50%"}
+
+::: {.r-vstack}
+::: {data-id="box1" auto-animate-delay="0" style="background: #2780e3; width: 1px; height: 1px; margin: 90px 850px 30px 0;"}
+:::
+    
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #3fb618; width: 1px; height: 1px; margin: 10px 850px 30px 0;"}
+:::
+    
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #808080; width: 1px; height: 1px; margin: 10px 850px 30px 0;"}
+:::
+:::
+
+
+
+:::
+::::
+
+
+::: notes
+
+:::
+
+
+
+## Bayes teorem ved monty hall problemet {auto-animate="true"}
+
+Anta at deltakeren velger konvolutt 1 ($D_1$) og verten åpner konvolutt 3 ( $V_3$ ), som er tom. Vi vil beregne $P(G_2 \mid V_3, D_1)$.
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$
+\begin{aligned}
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_1}, \color{#2780e3}{D_1}) &= \color{#3fb618}{\frac{1}{2}} \\
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_2}, \color{#2780e3}{D_1}) &= \color{#3fb618}{1} \\
+P(\color{#e83e8c}{V_3} \mid \color{#3fb618}{G_3}, \color{#2780e3}{D_1}) &= \color{#808080}{0}
+\end{aligned}
+$$
+:::
+
+::: {.column width="50%"}
+
+::: {.r-vstack}
+::: {data-id="box1" auto-animate-delay="0" style="width: 150px; height: 150px; margin: 10px 10px 10px 0; border-radius: 75px; background: linear-gradient(to bottom, #3fb618 50%, #808080 50%);"}
+
+:::
+    
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #3fb618; width: 150px; height: 150px; margin: 10px 10px 10px 0; border-radius: 75px;"}
+:::
+    
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #808080; width: 150px; height: 150px; margin: 10px 10px 100px 0; border-radius: 75px;"}
+:::
+:::
+
+
+
+:::
+
+::::
+
+
+::: notes
+
+:::
+
+
+## Bayes teorem avslutning
+
+:::: {.columns}
+
+::: {.column width="50%"}
+$$ P(V_3 \mid D_1) = P(V_3 \mid G_1, D_1) \cdot P(G_1) + P(V_3 \mid G_2, D_1) $$
+$$  \cdot P(G_2) + P(V_3 \mid G_3, D_1) \cdot P(G_3) $$
+
+$$ P(V_3 \mid D_1) = \frac{1}{2} \cdot \frac{1}{3} + 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} = \frac{1}{2} $$
+
+$$ P(G_2 \mid V_3, D_1) = \frac{P(V_3 \mid G_2, D_1) \cdot P(G_2)}{P(V_3 \mid D_1)} = \frac{1 \cdot \frac{1}{3}}{\frac{1}{2}} = \frac{2}{3} $$
+
+Dette viser at det er en $\frac{2}{3}$ sannsynlighet for at gevinsten er i den konvolutten deltakeren ikke valgte, som er konvolutt 2 i dette tilfellet.
+:::
+
+::: {.column width="50%"}
+:::
+
+![](dokumentobjekter/figurer/bayes_geometrisk.png){.absolute top=52 right=-150 width="400" height="550"}
+
+
+::::
+
+::: notes
+
+:::

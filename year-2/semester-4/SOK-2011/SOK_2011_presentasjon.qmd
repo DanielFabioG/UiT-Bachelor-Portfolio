@@ -1,0 +1,1107 @@
+---
+title: "Bærekraftig økonomisk vekst SOK-2011"
+subtitle: "Handelshøgskolen"
+date: last-modified
+date-format: "DD-MM-YYYY"
+echo: false
+warning: false
+format: 
+  revealjs:
+    auto-stretch: false
+    theme: moon
+    smaller: true
+    view-distance: 10
+---
+
+```{r}
+rm(list = ls())
+
+library(readr)
+library(zoo)
+library(tidyverse)
+```
+
+```{r}
+# sea_level <- read_table("https://deotb6e7tfubr.cloudfront.net/s3-edaf5da92e0ce48fb61175c28b67e95d/podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/MERGED_TP_J1_OSTM_OST_GMSL_ASCII_V51/GMSL_TPJAOS_5.1.txt?A-userid=danielfabiog&Expires=1717248910&Signature=RwjG-WEwjwJv0slPicZSFxZTOjyVdAvEtdHrVWmMYflGR6h5I6enwhAzziskc6FVdIcJIQGx~iOl~m5nBxSF3C0b~O0RYvA8IGVMc73GX6YxFFNKIMDKhg7D1Qa9BWptD1-O9KgBw9aekgBFLZbpX3vncsuCUnkyguOWhGEUdxe~N6~YN61N87elUl2WgNJwcjdwCGVSSlesDt-pN1s5fq0D6P0N4w8AIOLAcQ7jMwQb5lc8s99d44i-p-MG-CnT0ekyAoy4iGf4OoKhxfdlcNCN33iM5FTg0uOjvqjjqSe5VSK~tA8go1XHQOZfbesGLP-0ohB-vucQki7Cu4gdjg__&Key-Pair-Id=K1M35K4VSQWD79")
+
+#save sea_level as csv
+# write_csv(sea_level, "dokumentobjekter/csv/sea_level.csv")
+
+
+temperatur <- read_table("http://vortex.nsstc.uah.edu/data/msu/v6.0/tlt/uahncdc_lt_6.0.txt")
+# read csv sea level
+sea_level <- read_csv("dokumentobjekter/csv/sea_level.csv")
+
+sea_level<-sea_level %>%
+  select(Mean, Data) %>%
+  rename(Year = Mean) %>%
+   tail(-51) %>%
+  mutate(Year = as.numeric(Year), Data = as.numeric(Data)) %>%
+  mutate(Data = Data + 37.91)
+
+```
+
+```{r}
+temperatur<-temperatur %>%
+  select(Year,Mo, Globe) %>% #make numeric
+  mutate(Globe = as.numeric(Globe), Globe_rollmean = rollmean(Globe, 12, fill = NA, align = "right")) %>%
+  tail(-11) %>%
+  head(-12)
+
+
+
+temperatur_sjekk <- temperatur %>%
+  group_by(Year) %>%
+  summarise(mean_rollmean = mean(Globe_rollmean, na.rm = TRUE))
+
+```
+
+
+
+## Struktur {auto-animate="true"}
+
+::: {.fragment .fade-down fragment-index="1"}
+Hva er bærekraftig utvikling?
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+Effekter av klimaendringer
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+Hvorfor er bærekraftig utvikling vanskelig?
+:::
+
+::: {.fragment .fade-right fragment-index="1"}
+Forente nasjoners mål for bærekraftig utvikling
+:::
+
+::: {.fragment .fade-right fragment-index="2"}
+Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling?
+:::
+
+::: {.fragment .fade-right fragment-index="2"}
+Offentlig inngrep for bærekraftig utvikling: Montrealprotokollen
+:::
+
+::: {.fragment .fade-right fragment-index="2"}
+Utfordringer med offentlige inngrep og internasjonalt samarbeid
+:::
+
+::: {.fragment .fade-up fragment-index="2"}
+Oppsummering
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: columns
+::: {.column width="50%"}
+Økonomisk vekst
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 75px; height: 50px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+[BNP]{style="color: green;"}
+:::
+:::
+:::
+
+::: {.column width="50%"}
+Økonomisk utvikling
+
+::: r-stack
+::: {data-id="box1" style="background:#3fb618; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #2780e3; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+
+::: {data-id="box4" style="background: #A42820; width: 75px; height: 75px; border-radius: 200px;"}
+:::
+:::
+:::
+:::
+
+::: notes
+For å forstå bærekraftig utvikling er det viktig å forstå forskjellen mellom vekst og utvikling. Vekst betyr å bli større eller øke i mengde, mens utvikling betyr å forbedre eller utvikle kvaliteten.
+
+Økonomisk vekst måles vanligvis ved prosentvis endring i reelt nasjonalprodukt per innbygger. Økning i nasjonalinntekt per innbygger gir imidlertid bare begrenset innsikt i bærekraftig utvikling.
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: columns
+::: {.column width="50%"}
+Økonomisk vekst
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 450px; height: 300px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px;"}
+[BNP $\uparrow$]{style="color: green;"}
+:::
+:::
+:::
+
+::: {.column width="50%"}
+Økonomisk utvikling
+
+::: r-stack
+::: {data-id="box1" style="background:#3fb618; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #2780e3; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+
+::: {data-id="box4" style="background: #A42820; width: 75px; height: 75px; border-radius: 200px;"}
+:::
+:::
+:::
+:::
+
+::: notes
+For å forstå bærekraftig utvikling er det viktig å forstå forskjellen mellom vekst og utvikling. Vekst betyr å bli større eller øke i mengde, mens utvikling betyr å forbedre eller utvikle kvaliteten.
+
+Økonomisk utvikling omfatter mer enn bare økning i gjennomsnittlig inntekt. Det inkluderer også:
+
+Reduksjon av fattigdom. Forming av menneskelig kapital (utdanning, ernæring, helse). Strukturelle endringer i økonomien (overgang fra jordbruk til industri og tjenester). Utvikling av institusjoner som effektivt fordeler ressurser. Økt internasjonal integrasjon. Forbedring av livskvalitet, inkludert ikke-materielle aspekter som frihet, sikkerhet og rettferdighet.
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: columns
+::: {.column width="50%"}
+Økonomisk vekst
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 450px; height: 300px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px;"}
+[BNP $\uparrow$]{style="color: green;"}
+:::
+:::
+:::
+
+::: {.column width="50%"}
+Økonomisk utvikling
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 250px; height: 150px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Fattigdom $\downarrow$
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #2780e3; width: 250px; height: 150px; margin: -160px 0 10px 260px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Humankapital $\uparrow$
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 250px; height: 150px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Instutisjoner $\uparrow$
+:::
+
+::: {data-id="box4" auto-animate-delay="0.3" style="background: #A42820; width: 250px; height: 150px; margin: -160px 10px 10px 260px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Livskvalitet $\uparrow$
+:::
+:::
+:::
+:::
+
+::: notes
+For å forstå bærekraftig utvikling er det viktig å forstå forskjellen mellom vekst og utvikling. Vekst betyr å bli større eller øke i mengde, mens utvikling betyr å forbedre eller utvikle kvaliteten.
+
+Økonomisk utvikling omfatter mer enn bare økning i gjennomsnittlig inntekt. Det inkluderer også:
+
+Reduksjon av fattigdom. Forming av menneskelig kapital (utdanning, ernæring, helse). Strukturelle endringer i økonomien (overgang fra jordbruk til industri og tjenester). Utvikling av institusjoner som effektivt fordeler ressurser. Økt internasjonal integrasjon. Forbedring av livskvalitet, inkludert ikke-materielle aspekter som frihet, sikkerhet og rettferdighet.
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: columns
+::: {.column width="50%"}
+**Bærekraftig utvikling**
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: -110px 10px 10px 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Vår nytte idag
+:::
+:::
+:::
+
+::: {.column width="50%"}
+**Effekter av klimaendringer**
+:::
+:::
+
+::: notes
+Bærekraftig utvikling legger til et dynamisk element til økonomisk utvikling ved å ta hensyn til fremtidige generasjoners behov. Det handler om å møte dagens behov uten å gå på bekostning av fremtidige generasjoners evne til å møte sine egne behov.
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: columns
+::: {.column width="50%"}
+**Bærekraftig utvikling**
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Vår nytte idag
+:::
+
+::: {data-id="box4" auto-animate-delay="0" style="background: #002b36; width: 150px; height: 100px; margin: -110px 10px 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;"}
+=
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: -110px 10px 10px 290px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Fremtidens nytte
+:::
+:::
+:::
+
+::: {.column width="50%"}
+**Effekter av klimaendringer**
+:::
+:::
+
+::: notes
+Bærekraftig utvikling legger til et dynamisk element til økonomisk utvikling ved å ta hensyn til fremtidige generasjoners behov. Det handler om å møte dagens behov uten å gå på bekostning av fremtidige generasjoners evne til å møte sine egne behov.
+:::
+
+## Hva er bærekraftig utvikling? {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+**Bærekraftig utvikling**
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Vår nytte idag
+:::
+
+::: {data-id="box4" auto-animate-delay="0" style="background: #002b36; width: 150px; height: 100px; margin: -110px 10px 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;"}
+=
+:::
+
+::: {data-id="box3" auto-animate-delay="0" style="background: #3fb618; width: 150px; height: 100px; margin: -110px 10px 10px 290px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Fremtidens nytte
+:::
+
+::: {.fade-up data-id="box6" auto-animate-delay="0"}
+![](dokumentobjekter/figurer/dystopian_future.jpeg){width="450"}
+:::
+:::
+:::
+
+::: {.column width="50%"}
+**Effekter av klimaendringer**
+
+::: {.fade-down data-id="box5" auto-animate-delay="0" style="color: red;"}
+Økte temperaturer
+
+Stigende havnivå
+
+Endringer i nedbørsmønstre
+
+Tap av biologisk mangfold
+
+Negative helseeffekter
+:::
+:::
+:::
+
+::: notes
+
+**Predikerte effekter av klimaendringer**
+
+Økte temperaturer: Kan føre til mer ekstremvær, som hetebølger, tørke, flom og skogbranner.
+
+Stigende havnivå: Kan true kystsamfunn og økosystemer.
+
+Endringer i nedbørsmønstre: Kan påvirke matproduksjon og vanntilgang.
+
+Tap av biologisk mangfold: Kan føre til utryddelse av arter og tap av økosystemtjenester.
+
+Negative helseeffekter: Kan øke risikoen for sykdommer og død.
+:::
+
+## Effekter av klimaendringer {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+Økte temperaturer
+
+```{r, fig.width=14, fig.height=10, dpi=600}
+
+temperatur_sjekk %>%
+  ggplot(aes(x = Year, y = mean_rollmean, group = 1)) +
+  geom_line(linewidth = 1) +
+  labs(title = "Global temperaturutvikling",
+       x = "",
+       y = "Temperaturavvik (°C)") +
+  theme_minimal()+
+  scale_x_yearmon(breaks = seq(1979, 2024, by = 5))+
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+theme(text = element_text(size = 22))
+
+```
+:::
+
+::: {.column width="50%"}
+Stigende havnivå
+
+```{r, fig.width=14, fig.height=10, dpi=600}
+
+sea_level %>%
+ggplot(aes(x = Year, y = Data, group = 1)) +
+geom_line(color = "#10405c",linewidth = 1.5) +
+geom_ribbon(aes(ymin = 0, ymax = Data + 0.1), fill = "#1b79ac", alpha = 1) +
+labs(title = "Globalt havnivå",
+     x = "",
+     y = "Havnivåendring (mm)") +
+theme_minimal()+
+theme(text = element_text(size = 22))
+
+```
+:::
+:::
+
+::: notes
+Kode tatt fra kurs SOK-1005 arbeidskrav 1. Figuren viser troposfære-temperaturavviket fra 1979 til 2020. Global temperaturutvikling har økt siden 1979. Dette skyldes hovedsakelig menneskeskapte klimaendringer, som skyldes utslipp av drivhusgasser som karbondioksid og metan. De siste årene
+
+Si noe om at havnivået har steget med 100mm eller 10 cm siden 1993. Dette skyldes hovedsakelig smelting av isbreer.
+:::
+
+## Hvorfor er bærekraftig utvikling vanskelig? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 250px; height: 250px; border-radius: 200px; margin: 10px 10px 10px 100px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Miljø
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #2780e3; width: 250px; height: 250px; border-radius: 200px; margin: -255px 10px 10px 500px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Økonomi
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 250px; height: 250px; border-radius: 200px; margin: 10px 10px 10px 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Sosialt
+:::
+:::
+
+::: notes
+
+Man må ta hensyn til økonomiske, sosiale og miljømessige hensyn. 
+
+Disse hensynene kan ofte være motstridende. For eksempel kan økonomisk vekst føre til økt forurensning og tap av biologisk mangfold. 
+
+På den annen side kan miljøvern tiltak som reduserer forurensning og bevarer biologisk mangfold, føre til høyere kostnader og lavere økonomisk vekst.
+
+:::
+
+## Hvorfor er bærekraftig utvikling vanskelig? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #3fb618; width: 250px; height: 250px; border-radius: 200px; margin: 10px 10px 10px 200px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Miljø
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #2780e3; width: 250px; height: 250px; border-radius: 200px; margin: -255px 10px 10px 400px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Økonomi
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 250px; height: 250px; border-radius: 200px; margin: -110px 10px 10px 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+Sosialt
+:::
+
+::: {data-id="box4" auto-animate-delay="0.5" style="background: rgba(255, 255, 255, 0); width: 250px; height: 250px; border-radius: 200px; margin: -350px 10px 10px 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"}
+**Bærekraft**
+:::
+:::
+
+::: notes
+
+
+Barnearbeid er et viktig hinder for bærekraftig utvikling. 
+
+Det hindrer barn i å få utdanning og begrenser deres fremtidige muligheter. Å bekjempe barnearbeid krever en flerdimensjonal tilnærming som inkluderer utdanning, sosial velferd, arbeidsplasser for unge og håndheving av lover.
+
+Profit - økonomisk fremgang: Å ha et langsiktig perspektiv, forbli konkurransedyktig og skape økonomisk verdi.
+
+Planet - miljømessig ansvar: Å sikre at bedriftens aktivitet tar hensyn til miljøet, og strebe etter kontinuerlige forbedringer.
+
+People - sosiale forhold: Å ta hensyn til lokalmiljø og samfunnet ellers. Å inkludere sosiale, kulturelle og politiske spørsmål som er relevant for kjernevirksomheten.
+:::
+
+
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: r-stack
+::: {data-id="box1" style="background:#eb1c2d; width: 1px; height: 1px; margin: -110px 10px 10px 0;"}
+:::
+
+::: {data-id="box2" style="background: #d3a029; width: 1px; height: 1px; margin: -110px 0 10px 160px;"}
+:::
+
+::: {data-id="box3" style="background: #279b48; width: 1px; height: 1px; margin: -110px 10px 10px 320px;"}
+:::
+
+::: {data-id="box4" style="background: #c31f33; width: 1px; height: 1px; margin: -110px 10px 10px 480px;"}
+:::
+
+::: {data-id="box5" style="background: #ef402b; width: 1px; height: 1px; margin: -110px 10px 10px 640px;"}
+:::
+
+::: {data-id="box6" style="background: #00aed9; width: 1px; height: 1px; margin: -110px 10px 10px 800px;"}
+:::
+:::
+
+::: notes
+FN har i dag 193 medlemsland. Det er alle landene som er anerkjent som selvstendige stater av FN. FN har 17 hovedmål for bærekraftig utvikling og 169 delmål. Målene ble vedtatt i 2015 og skal oppnås innen 2030. Målene er universelle og gjelder for alle land, uavhengig av inntektsnivå.
+
+1.  Utrydde fattigdom
+2.  Utrydde sult. Oppnå matsikkerhet, bedre ernæring og fremme bærekraftig landbruk
+3.  Sikre og fremme god helse
+4.  Sikre inkluderende og rettferdig utdanning av god kvalitet
+5.  Oppnå likestilling og styrke alle kvinner og jenter
+6.  Sikre bærekraftig forbruk og produksjon
+:::
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: container
+::: {data-id="box1" auto-animate-delay="0" style="background: #eb1c2d; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+1 NO POVERTY
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #d3a029; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+2 ZERO HUNGER
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #279b48; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+3 GOOD HEALTH AND WELL-BEING
+:::
+
+::: {data-id="box4" auto-animate-delay="0.3" style="background: #c31f33; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+4 QUALITY EDUCATION
+:::
+
+::: {data-id="box5" auto-animate-delay="0.4" style="background: #ef402b; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+5 GENDER EQUALITY
+:::
+
+::: {data-id="box6" auto-animate-delay="0.5" style="background: #00aed9; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+6 LIVSKVALITET
+:::
+:::
+
+::: notes
+Noen hovedmål er sterke og andre er svake. For eksempel er målet om å utrydde fattigdom et sterkt mål, mens målet om å oppnå likestilling og styrke alle kvinner og jenter er et svakt mål. Sterke mål er klare og målbare, mens svake mål er vage og vanskelige å måle.
+:::
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: container
+::: {data-id="box1" style="background: #eb1c2d; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+1 NO POVERTY
+:::
+
+::: {data-id="box2" style="background: #d3a029; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+2 ZERO HUNGER
+:::
+
+::: {data-id="box3" style="background: #279b48; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+3 GOOD HEALTH AND WELL-BEING
+:::
+
+::: {data-id="box4" style="background: #c31f33; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+4 QUALITY EDUCATION
+:::
+
+::: {data-id="box5" style="background: #ef402b; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+5 GENDER EQUALITY
+:::
+
+::: {data-id="box6" style="background: #00aed9; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+6 LIVSKVALITET
+:::
+:::
+
+::: r-stack
+::: {data-id="box7" style="background:#fdb713; width: 1px; height: 1px; margin: -50px 10px 50px 0;"}
+:::
+
+::: {data-id="box8" style="background: #8f1838; width: 1px; height: 1px; margin: -50px 0 10px 160px;"}
+:::
+
+::: {data-id="box9" style="background: #f36d25; width: 1px; height: 1px; margin: -50px 10px 10px 320px;"}
+:::
+
+::: {data-id="box10" style="background: #e11484; width: 1px; height: 1px; margin: -50px 10px 10px 480px;"}
+:::
+
+::: {data-id="box11" style="background: #f99d26; width: 1px; height: 1px; margin: -50px 10px 10px 640px;"}
+:::
+
+::: {data-id="box12" style="background: #cf8d2a; width: 1px; height: 1px; margin: -50px 10px 10px 800px;"}
+:::
+:::
+
+::: notes
+7.  Sikre tilgang til pålitelig, bærekraftig og moderne energi
+8.  Fremme varig, inkluderende og bærekraftig økonomisk vekst, full sysselsetting og anstendig arbeid for alle9
+9.  Bygge motstandsdyktig infrastruktur, fremme inkluderende og bærekraftig industrialisering og fremme innovasjon
+10. Redusere ulikhet i og mellom land
+11. Gjøre byer og bosetninger inkluderende, trygge, motstandsdyktige og bærekraftige
+12. Sikre bærekraftige forbruks- og produksjonsmønstre
+:::
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: container
+::: {data-id="box1" style="background: #eb1c2d; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+1 NO POVERTY
+:::
+
+::: {data-id="box2" style="background: #d3a029; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+2 ZERO HUNGER
+:::
+
+::: {data-id="box3" style="background: #279b48; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+3 GOOD HEALTH AND WELL-BEING
+:::
+
+::: {data-id="box4" style="background: #c31f33; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+4 QUALITY EDUCATION
+:::
+
+::: {data-id="box5" style="background: #ef402b; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+5 GENDER EQUALITY
+:::
+
+::: {data-id="box6" style="background: #00aed9; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+6 LIVSKVALITET
+:::
+
+::: {data-id="box7" auto-animate-delay="0" style="background: #fdb713; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+7 AFFORDABLE AND CLEAN ENERGY
+:::
+
+::: {data-id="box8" auto-animate-delay="0.1" style="background: #8f1838; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+8 DECENT WORK AND ECONOMIC GROWTH
+:::
+
+::: {data-id="box9" auto-animate-delay="0.2" style="background: #f36d25; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px;"}
+9 INDUSTRY, INNOVATION AND INFRASTRUCTURE
+:::
+
+::: {data-id="box10" auto-animate-delay="0.3" style="background: #e11484; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+10 REDUCED INEQUALITIES
+:::
+
+::: {data-id="box11" auto-animate-delay="0.4" style="background: #f99d26; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+11 SUSTAINABLE CITIES AND COMMUNITIES
+:::
+
+::: {data-id="box12" auto-animate-delay="0.5" style="background: #cf8d2a; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+12 RESPONSIBLE CONSUMPTION AND PRODUCTION
+:::
+:::
+
+::: notes
+7.  Sikre tilgang til pålitelig, bærekraftig og moderne energi
+8.  Fremme varig, inkluderende og bærekraftig økonomisk vekst, full sysselsetting og anstendig arbeid for alle9
+9.  Bygge motstandsdyktig infrastruktur, fremme inkluderende og bærekraftig industrialisering og fremme innovasjon
+10. Redusere ulikhet i og mellom land
+11. Gjøre byer og bosetninger inkluderende, trygge, motstandsdyktige og bærekraftige
+12. Sikre bærekraftige forbruks- og produksjonsmønstre
+:::
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: container
+::: {data-id="box1" style="background: #eb1c2d; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+1 NO POVERTY
+:::
+
+::: {data-id="box2" style="background: #d3a029; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+2 ZERO HUNGER
+:::
+
+::: {data-id="box3" style="background: #279b48; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+3 GOOD HEALTH AND WELL-BEING
+:::
+
+::: {data-id="box4" style="background: #c31f33; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+4 QUALITY EDUCATION
+:::
+
+::: {data-id="box5" style="background: #ef402b; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+5 GENDER EQUALITY
+:::
+
+::: {data-id="box6" style="background: #00aed9; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+6 LIVSKVALITET
+:::
+
+::: {data-id="box7" auto-animate-delay="0" style="background: #fdb713; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+7 AFFORDABLE AND CLEAN ENERGY
+:::
+
+::: {data-id="box8" auto-animate-delay="0" style="background: #8f1838; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+8 DECENT WORK AND ECONOMIC GROWTH
+:::
+
+::: {data-id="box9" auto-animate-delay="0" style="background: #f36d25; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px;"}
+9 INDUSTRY, INNOVATION AND INFRASTRUCTURE
+:::
+
+::: {data-id="box10" auto-animate-delay="0" style="background: #e11484; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+10 REDUCED INEQUALITIES
+:::
+
+::: {data-id="box11" auto-animate-delay="0" style="background: #f99d26; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+11 SUSTAINABLE CITIES AND COMMUNITIES
+:::
+
+::: {data-id="box12" auto-animate-delay="0" style="background: #cf8d2a; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+12 RESPONSIBLE CONSUMPTION AND PRODUCTION
+:::
+:::
+
+::: r-stack
+::: {data-id="box13" style="background:#48773e; width: 1px; height: 1px; margin: -50px 10px 50px 0;"}
+:::
+
+::: {data-id="box14" style="background: #007dbc; width: 1px; height: 1px; margin: -50px 0 10px 160px;"}
+:::
+
+::: {data-id="box15" style="background: #3eb049; width: 1px; height: 1px; margin: -50px 10px 10px 320px;"}
+:::
+
+::: {data-id="box16" style="background: #02558b; width: 1px; height: 1px; margin: -50px 10px 10px 480px;"}
+:::
+
+::: {data-id="box17" style="background: #183668; width: 1px; height: 1px; margin: -50px 10px 10px 640px;"}
+:::
+
+::: {data-id="box18" style="background: #f4f4f4; width: 1px; height: 1px; margin: -50px 10px 10px 800px;"}
+:::
+:::
+
+::: notes
+:::
+
+## Forente nasjoners mål for bærekraftig utvikling {auto-animate="true"}
+
+**17 hovedmål for bærekraftig utvikling og 169 delmål**
+
+::: container
+::: {data-id="box1" style="background: #eb1c2d; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+1 NO POVERTY
+:::
+
+::: {data-id="box2" style="background: #d3a029; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+2 ZERO HUNGER
+:::
+
+::: {data-id="box3" style="background: #279b48; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+3 GOOD HEALTH AND WELL-BEING
+:::
+
+::: {data-id="box4" style="background: #c31f33; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+4 QUALITY EDUCATION
+:::
+
+::: {data-id="box5" style="background: #ef402b; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+5 GENDER EQUALITY
+:::
+
+::: {data-id="box6" style="background: #00aed9; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+6 LIVSKVALITET
+:::
+
+::: {data-id="box7" auto-animate-delay="0" style="background: #fdb713; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+7 AFFORDABLE AND CLEAN ENERGY
+:::
+
+::: {data-id="box8" auto-animate-delay="0.1" style="background: #8f1838; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+8 DECENT WORK AND ECONOMIC GROWTH
+:::
+
+::: {data-id="box9" auto-animate-delay="0.2" style="background: #f36d25; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px;"}
+9 INDUSTRY, INNOVATION AND INFRASTRUCTURE
+:::
+
+::: {data-id="box10" auto-animate-delay="0.3" style="background: #e11484; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+10 REDUCED INEQUALITIES
+:::
+
+::: {data-id="box11" auto-animate-delay="0.4" style="background: #f99d26; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+11 SUSTAINABLE CITIES AND COMMUNITIES
+:::
+
+::: {data-id="box12" auto-animate-delay="0.5" style="background: #cf8d2a; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+12 RESPONSIBLE CONSUMPTION AND PRODUCTION
+:::
+
+::: {data-id="box13" auto-animate-delay="0" style="background: #48773e; width: 150px; height: 100px; margin: 10px 10px 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+13 CLIMATE ACTION
+:::
+
+::: {data-id="box14" auto-animate-delay="0.1" style="background: #007dbc; width: 150px; height: 100px; margin: -110px 0 10px 160px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+14 LIFE BELOW WATER
+:::
+
+::: {data-id="box15" auto-animate-delay="0.2" style="background: #3eb049; width: 150px; height: 100px; margin: -110px 10px 10px 320px; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px;"}
+15 LIFE ON LAND
+:::
+
+::: {data-id="box16" auto-animate-delay="0.3" style="background: #02558b; width: 150px; height: 100px; margin: -110px 10px 10px 480px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+16 PEACE, JUSTICE AND STRONG INSTITUTIONS
+:::
+
+::: {data-id="box17" auto-animate-delay="0.4" style="background: #183668; width: 150px; height: 100px; margin: -110px 10px 10px 640px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;"}
+17 PARTNERSHIPS FOR THE GOALS
+:::
+
+::: {data-id="box18" auto-animate-delay="0.5" style="background: #f4f4f4; width: 150px; height: 100px; margin: -110px 10px 10px 800px; display: flex; align-items: center; justify-content: center; color: #4e90cc; font-size: 18px;"}
+18 SUSTAINABLE DEVELOPMENT GOALS
+:::
+:::
+
+::: notes
+13. Ta umiddelbare tiltak for å bekjempe klimaendringene og konsekvensene av dem
+14. Bevare og bruke hav og marine ressurser på en bærekraftig måte
+15. Beskytte, gjenopprette og fremme bærekraftig bruk av økosystemer, sikre bærekraftig skogforvaltning, bekjempe ørkenspredning, stanse og reversere landforringelse og stanse tap av biologisk mangfold
+16. Fremme fredelige og inkluderende samfunn for bærekraftig utvikling, gi tilgang til rettferdighet for alle og bygge effektive, ansvarlige og inkluderende institusjoner på alle nivåer
+17. Styrke gjennomføringen og revitalisere det globale partnerskapet for bærekraftig utvikling
+:::
+
+## Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling? {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+::: {.fragment .fade-down fragment-index="1"}
+Vil maksimere profitt på kort sikt
+:::
+
+::: {.fragment .fade-down fragment-index="2"}
+Vanskelig å ta hensyn til eksterne effekter
+:::
+
+::: {.fragment .fade-down fragment-index="3"}
+Urettferdig fordeling
+:::
+
+::: {.fragment .fade-down fragment-index="5"}
+Feilprising av naturressurser
+:::
+
+::: {.fragment .fade-down fragment-index="7"}
+Tragedy of the commons
+:::
+
+::: {.fragment .fade-down fragment-index="8"}
+Koordineringsproblemer
+:::
+:::
+::: {.column width="50%"}
+
+::: {.fragment .fade-down fragment-index="9"}
+
+::: {.fragment .fade-left fragment-index="10"}
+
+![](dokumentobjekter/figurer/market_eq.png)
+:::
+
+:::
+:::
+::::
+
+::: notes
+
+Kortsiktig fokus: Private markeder er ofte drevet av kortsiktige profittmål, som kan komme i konflikt med langsiktige bærekraftige mål. Investorer og aksjonærer forventer rask avkastning, noe som kan avlede oppmerksomheten fra nødvendige langsiktige investeringer i bærekraftige praksiser.
+
+Eksterne kostnader: Mange miljø- og samfunnsmessige kostnader, er eksterne kostnader som ikke fanges opp i markedspriser. Bedrifter har derfor lite insentiv til å redusere disse kostnadene med mindre de er pålagt gjennom reguleringer.
+
+Urettferdig fordeling: Private markeder kan føre til økt ulikhet, både mellom og innen generasjoner. tilgang til naturressurser idag trenger ikke bety at fremtidige generasjoner har tilgang til de samme ressursene. Tilgang til utdanning og helsevesen.
+
+Feilprising av naturressurser: Naturressurser blir ofte undervurdert eller feilpriset i markeder, noe som fører til overforbruk og degradering av miljøet. Økosystemtjenester, som rent vann og luft, har ofte ikke en markedspris som reflekterer deres sanne verdi.
+
+Tragedy of the commons: Fellesressurser, som hav og atmosfære, kan bli overutnyttet hvis det ikke finnes regler for bruk.
+
+Koordineringsproblemer: Om vi lager strengere lover eller avgifter taper man konkurranseevne i forhold til andre land.
+:::
+
+
+## Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+Vil maksimere profitt på kort sikt
+
+
+
+Vanskelig å ta hensyn til eksterne effekter
+
+
+
+Urettferdig fordeling
+
+
+
+Feilprising av naturressurser
+
+
+
+Tragedy of the commons
+
+
+
+Koordineringsproblemer
+:::
+::: {.column width="50%"}
+
+
+![](dokumentobjekter/figurer/market_eq_2.png)
+
+
+:::
+
+::::
+
+::: notes
+Vanlig marked med likevekt mellom tilbud og etterspørsel.
+
+Men det finnes en marginal eksternalitetskostnad osm ikke er tatt hensyn til i prisen. Dette fører til at prisen er lavere enn marginalkostnaden, noe som fører til overforbruk og overproduksjon av varer og tjenester som har negative eksterne effekter.
+
+Frittmarked likevekt her
+
+:::
+
+
+## Hvorfor klarer ikke private markeder å oppnå bærekraftig utvikling?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+Vil maksimere profitt på kort sikt
+
+
+
+Vanskelig å ta hensyn til eksterne effekter
+
+
+
+Urettferdig fordeling
+
+
+
+Feilprising av naturressurser
+
+
+Tragedy of the commons
+
+
+Koordineringsproblemer
+:::
+::: {.column width="50%"}
+
+
+![](dokumentobjekter/figurer/market_eq_3.png)
+
+
+:::
+
+::::
+
+::: notes
+samfunnsoptimalt likevekt til venstre, men markedet vil produsere mer.
+
+helningen til pso er marginal eksternalitetskostnad (forursensning) + marginalkoastnad
+
+dødvektstapet oppstår i markedet fordi prisen er lavere enn marginalkostnaden. Dette fører til overforbruk og overproduksjon av varer og tjenester som har negative eksterne effekter.
+
+
+:::
+
+
+## Offentlig inngrep for bærekraftig utvikling: Montrealprotokollen (1987) {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: {.fragment .fade-in fragment-index="1"}
+
+![](dokumentobjekter/figurer/ozonlaget.png){.absolute top=180 left=50 width="800" height="550"}
+:::
+
+
+
+
+::: notes 
+Eksempel: Montrealprotokollen er et internasjonalt avtaleverk som ble vedtatt i 1987 for å beskytte ozonlaget ved å fase ut produksjon og forbruk av stoffer som bryter ned ozonlaget, som KFK-gasser (klorfluorkarboner).
+
+
+
+:::
+
+## Offentlig inngrep for bærekraftig utvikling: Montrealprotokollen (1987)
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.fragment .fade-down fragment-index="2"}
+Kfk-gasser ødela ozonlaget
+:::
+
+::: {.fragment .fade-down fragment-index="3"}
+Ozonlaget beskytter mot UV-stråling
+:::
+
+::: {.fragment .fade-down fragment-index="4"}
+Montrealprotokollen forpliktet landene til å fase ut produksjon og forbruk av KFK-gasser.
+:::
+
+::: {.fragment .fade-down fragment-index="5"}
+Protokollen forbød produksjon og import av ozonreduserende stoffer.
+:::
+
+::: {.fragment .fade-down fragment-index="6"}
+Internasjonalt samarbeid
+:::
+
+::: {.fragment .fade-down fragment-index="6"}
+Finansiell støtte
+:::
+
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-left fragment-index="4"}
+
+![](dokumentobjekter/figurer/montreal.jpg){width="450" height="240"}
+:::
+
+::: {.fragment .fade-left fragment-index="6"}
+
+![](dokumentobjekter/figurer/internasjonaltsamarbeid.jpg){width="450" height="240"}
+:::
+:::
+
+::::
+
+::: notes
+Problem: Vitenskapelig forskning på 1970-tallet viste at KFK-gasser, som ble brukt i kjøleskap, klimaanlegg og spraybokser, ødela ozonlaget.
+Ozonlaget beskytter livet på jorden mot skadelig UV-stråling, så dette var en alvorlig trussel mot menneskers helse og miljøet.
+Løsning: Montrealprotokollen forpliktet landene til å fase ut produksjon og forbruk av KFK-gasser og andre ozonreduserende stoffer.
+
+Tydelige insentiver (handelssanksjoner for de som ikke ble med) og finansiell støtte til utviklingsland for å hjelpe dem med å omstille seg til mer miljøvennlige alternativer.
+
+Kostnads-effektive substitutter tilgjengelige, så det var mulig å fase ut KFK-gasser uten store kostnader.
+
+Multilateral støtte og overvåking av implementeringen av protokollen.
+
+Montrealprotokollen har vært svært vellykket.
+
+Ozonlaget er på bedringens vei og forventes å være tilbake til 1980-nivået innen midten av århundret.
+Protokollen har også hatt positive klimaeffekter, da mange ozonreduserende stoffer også er kraftige klimagasser.
+
+Mulig å nevne plastposer, men det private markedet løste det selv med bruk av hanadelens miljøfond som økte avgiften.
+
+:::
+
+## Utfordringer med offentlige inngrep og internasjonale avtaler
+
+::: {.fragment .fade-right fragment-index="1"}
+Vanskeligheter med å få internasjonalt samarbeid.
+:::
+
+::: {.fragment .fade-right fragment-index="2"}
+Høye kostnader ved implementering og overvåking.
+:::
+
+::: {.fragment .fade-right fragment-index="3"}
+Potensielle negative effekter på konkurranseevnen.
+:::
+
+::: {.fragment .fade-right fragment-index="4"}
+Urettferdig fordeling av kostnader mellom land.
+:::
+
+::: {.fragment .fade-right fragment-index="5"}
+Vanskelig for staten å vite hva sosialt optimum er.
+:::
+
+::: {.fragment .fade-right fragment-index="6"}
+Mange ressurser ligger utenfor enkelte lands kontroll (havene, atmosfæren).
+:::
+
+::: {.fragment .fade-right fragment-index="7"}
+Mye av kostnadene havner i fattige land, til tross for at de ikke har forårsaket dem.
+:::
+
+::: {.fragment .fade-right fragment-index="8"}
+Fattige land har behov for vekst i materiell velferd.
+:::
+
+::: {.fragment .fade-right fragment-index="9"}
+Folk i rike land ønsker ikke å tape i velferd.
+:::
+
+
+::: notes
+Vanskeligheter med å få internasjonalt samarbeid. Fordi det er vanskelig å få alle land til å samarbeide om felles mål.
+
+Høye kostnader ved implementering og overvåking. Fordi det krever mye ressurser å overvåke og håndheve avtalene.
+
+Potensielle negative effekter på konkurranseevnen. På grunn av strengere lover og avgifter.
+
+Urettferdig fordeling av kostnader mellom land. Fordi noen land har større kostnader enn andre.
+
+Vanskelig for staten å vite hva sosialt optimum er. Fordi det er vanskelig å vite hva som er best for samfunnet som helhet.
+
+Mange ressurser ligger utenfor enkelte lands kontroll (havene, atmosfæren). Fordi mange ressurser er fellesgoder som ikke kan eies av enkeltland.
+
+Mye av kostnadene havner i fattige land, til tross for at de ikke har forårsaket dem. Fordi mange miljøproblemer er globale og påvirker alle land.
+
+Fattige land har behov for vekst i materiell velferd. Fordi de har store utfordringer knyttet til fattigdom og underutvikling.
+
+Folk i rike land ønsker ikke å tape i velferd. 
+:::
+
+
+
+## Oppsummering
+
+- Klimaendringene er en av de største utfordringene vi står overfor i dag.
+
+- Brukte alle min tid og ressurser på kun presentasjonen, og glemte å jobbe med innholdet.
+
+- Bærekraftig utvikling handler om å balansere økonomiske, sosiale og miljømessige hensyn.
+
+- Private markeder har begrensninger når det gjelder å oppnå bærekraftig utvikling.
+
+- Offentlige inngrep kan være nødvendige for å fremme bærekraftig utvikling
+
+- Spørsmål?
+
+
+::: notes
+Her starter del 2 og du kan fritt KYS.
+:::
