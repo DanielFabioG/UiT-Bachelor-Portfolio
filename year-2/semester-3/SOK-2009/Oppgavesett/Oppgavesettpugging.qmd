@@ -1,0 +1,157 @@
+---
+title: "Oppgavesett pugging"
+editor: visual
+format: 
+  revealjs:
+    theme: solarized
+    chalkboard: true
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 16pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+---
+
+# Oppgave 1
+
+. . .
+
+1.  **Forventningsverdi av en terning (E\[T\])**: For å finne forventningsverdien av en seks-sidet terning, hvor hver side har lik sannsynlighet for å bli kastet, bruker du formelen for forventningsverdi. Siden hver side (1 til 6) har en sannsynlighet på 1/6, blir forventningsverdien $E[T]=16(1+2+3+4+5+6)E[T]=61(1+2+3+4+5+6)$. Du kan forklare at du summerer produktet av hver mulig verdi av terningen med dens sannsynlighet.
+
+. . .
+
+2.  **Forventningsverdi av summen av to terninger (E\[2T\])**: Når du kaster to terninger, må du beregne forventningsverdien av summen av disse. Dette krever å summere alle mulige utfall av to terninger og multiplisere hvert utfall med sannsynligheten for at det skjer, som er 136361 for hvert par av terningkast.
+
+. . .
+
+3.  **Utfallrommet for 2T og T+T**: Utfallrommet for 2T er summen av to terninger, som kan variere fra 2 til 12. For T+T, som er to separate terninger, er utfallrommet kombinasjonene av tall fra 1 til 6 for hver terning.
+
+. . .
+
+4.  **Sannsynlighetsfordeling og kumulativ fordeling**: Her må du forklare sannsynlighetsfordelingen for en eller to terninger, og deretter den kumulative sannsynlighetsfordelingen, som representerer sannsynligheten for at variabelen er mindre enn eller lik en gitt verdi.
+
+. . .
+
+5.  **Forventningsverdi og sannsynlighet for en N-sidet terning**: For en terning med N sider, beregner du sannsynligheten for å få et spesifikt antall øyne (t) og forventet antall øyne.
+
+. . .
+
+6.  **Sannsynlighet for et sumintervall av to terninger**: Dette omhandler beregningen av sannsynligheten for at summen av to terningkast ligger mellom to gitte verdier.
+
+# Oppgave 2
+
+. . .
+
+Tegne opp fordelingen til f(x) og navnet på fordelingen:
+
+For å tegne opp fordelingen til f(x), lager du et diagram som viser hver verdi av X (1, 2, 3) på x-aksen og deres respektive sannsynligheter på y-aksen.
+
+Siden sannsynligheten øker med verdien av X, kalles denne fordelingen en "voksende fordeling" eller en "ikke-uniform fordeling".
+
+. . .
+
+Kumulative sannsynlighetsfordelingen for $X$ og $X^3$: 
+
+Den kumulative fordelingen F(X) viser sannsynligheten for at X er mindre enn eller lik en gitt verdi. For eksempel, F(2) er sannsynligheten for at X er 1 eller 2.
+
+For $X^3$ , beregner du først f(x) for (1, 8, 27) og deretter den kumulative fordelingen basert på disse verdiene.
+
+. . .
+
+Forventningsverdien $E[X]$ beregnes ved å summere produktet av hver verdi og dens sannsynlighet: 
+
+$E(X) = \sum_{x=1}^{3} X * p$
+
+for de kuberte verdiene bare opphøy i 3
+
+$E(X^3) = \sum_{x=1}^{3} X^3 * p$
+
+
+. . .
+
+Korrelasjon, kovarians, varians, og standardavvik for $Y_1 =3+5 X og =4+6X^3$
+
+Beregn først forventningsverdien, variansen og standardavviket for og Separat.
+
+Kovariansen mellom og viser hvordan de to variablene varierer sammen.
+
+Korrelasjonen er et mål på styrken av deres lineære forhold.
+
+
+# Oppgave 3: Terningkast - Sannsynlighetsfordeling og Statistikk
+
+## 1. Uniform vs. Ikke-uniform Sannsynlighetsfordeling
+
+- **Uniform Fordeling (Enkelt Terningkast - T):** Alle utfall (1-6) har lik sannsynlighet.
+- **Ikke-uniform Fordeling (Summen av To Terningkast - 2T):** Noen summer (f.eks., 7) er mer sannsynlige enn andre (f.eks., 2 eller 12).
+
+## 2. Korrelasjon, Kovarians, Varians, og Standardavvik for T og 2T
+- **Korrelasjon (ρ):** $ρ(X, Y) = Cov(X, Y) / (σ_X * σ_Y)$
+  - Måler relasjonen mellom to datasett.
+- **Kovarians (Cov):** $Cov(X, Y) = Σ [(X_i - μ_X) * (Y_i - μ_Y)]$
+  - Måler hvordan to variabler varierer sammen.
+- **Varians (σ²):** $σ²(X) = Σ [(X_i - μ_X)²] $
+  - Måler hvor spredt verdier er fra gjennomsnittet.
+- **Standardavvik (σ):** $σ(X) = √σ²(X)$
+  - Gir et mål på spredningen av verdier i et datasett.
+
+## 3. Grafisk Fremstilling fra Utfallsrom til T til 2T
+- Visualisering av overgangen fra utfallsrommet for en enkelt terning (T) til utfallsrommet for summen av to terninger (2T).
+- Inkluderer en visning av alle mulige kombinasjoner av to terningkast og deres summer.
+
+## 4. Sannsynlighet for Spesifikke Hendelser med To Terninger
+- **Samme tall på begge terninger:** Beregn sannsynligheten for at begge terningene viser samme tall.
+- **Sum mellom 7 og 10:** Finn sannsynligheten for at summen av to terninger er innenfor dette intervallet.
+- **Sum er 2, 7, eller 8:** Beregn sannsynligheten for disse spesifikke summene.
+
+# Oppgave 4: Dataanalyse og Sannsynlighetsberegninger
+
+## 1. Datasett og Terningkast
+- Vurdering av hvilke datasett som kan være generert av en seksidet terning og hvilke som kan være fra to seksidede terninger.
+- Forklaring av hvordan datasettene kan analyseres for å bestemme deres opprinnelse.
+
+## 2. Gjennomsnitt og Standardavvik
+- Beregning av gjennomsnitt (di) og standardavvik (SDdi) for de tre datasettene.
+- Formler: 
+  - Gjennomsnitt: $di = Σ dji / n$
+  - Standardavvik: $SDdi = √(Σ (dji - di)² / n)$
+
+## 3. Forventning og Standardavvik for Terningkast
+- Forventning og standardavvik for en seksidet terning (T) og summen av to seksidede terninger (2T).
+- Formler: 
+  - Forventningsverdi (E[T]): Beregnes som gjennomsnittet av alle mulige utfall.
+  - Standardavvik (σ[T]): Beregnes som kvadratroten av variansen.
+
+## 4. Forventningen for Flere Terningkast
+- Forventningen til to terninger kastet to ganger (2 × E[2T]) og en terning kastet to ganger (2 × E[T]).
+- Forståelse av hvordan forventningsverdien påvirkes av gjentatte kast.
+
+## 5. Sannsynlighet for Observasjon gitt en Hypotese
+- Beregning av sannsynligheten for å observere et bestemt datasett gitt at det er generert av enten en eller to terninger.
+- Analyse av hvordan datasett kan informere om sannsynligheten for ulike hypoteser.
+
+# Oppgave 6: Kasinospill og Sannsynlighetsberegninger
+
+## 1. Forventet Premie for Flere Utfall
+- **Formel:** $E[B] = Σ [p(B_i) * B_i]$
+- **Forklaring:** For å forklare forventet premie, demonstrer hvordan du summerer produktet av sannsynligheten for hvert premieutfall $p(B_i)$ og premiens verdi $B_i$. Dette innebærer å ta hensyn til alle mulige gevinster og deres sannsynligheter.
+
+## 2. Minste Kostnad for Spillet
+- **Forklaring:** For å bestemme minimumskostnaden for spillet, vis hvordan du balanserer den forventede premien mot inntekten kasinoet får fra spillerens innsats. Kasinoets mål er å sette spillet slik at de ikke taper penger over tid, noe som betyr at kostnaden for å spille (spillavgiften) bør være høyere enn eller lik den forventede premien.
+
+## 3. Sannsynligheter og Pris for Deltakelse
+- **Forklaring A, B, C:** Forklar hvordan du justerer premie og deltakelseskostnad for å gi spillere gevinst med gitte sannsynligheter. Det er viktig å vise hvordan balansen mellom premiens størrelse og sannsynligheten for å vinne påvirker prisen på spillet. 
+
+## 4.1. Forklaring til Kunden om Spillets Rettferdighet
+- **Forklaring:** Her kan du forklare hvordan kasinoer bruker konsepter som husfordel og forventningsverdi for å sikre profitt. Selv om et spill kan virke rettferdig, er oddsen ofte til fordel for kasinoet, noe som gjør det vanskeligere for spillere å vinne over tid.
+
+## 4.2. Forklaring til Eieren om Bankens Rentepolitikk
+- **Forklaring:** Beskriv hvordan banken balanserer risikoen ved å låne ut penger (og dermed kreve høyere renter for lån) med behovet for å tiltrekke innskudd (ved å tilby innskuddsrente). Denne balansen reflekterer bankens forretningsmodell og hvordan de håndterer risiko og kapitalforvaltning.
+
+
+

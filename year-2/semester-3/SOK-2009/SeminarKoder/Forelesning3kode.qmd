@@ -1,0 +1,78 @@
+---
+title: "Forelesning 3 - Statistikk"
+format: pdf
+editor: visual
+---
+
+```{r}
+# Loading R data
+rm(list = ls())
+library(tidyverse)
+# Denne fungerer kun om du har datasettet spore_under.Rdata lokalt i mappen din
+load("~/Rstudio_GIT/SOK-2009/SeminarKoder/spore_under.Rdata")
+data <- spore_under
+rm(spore_under)
+```
+
+```{r}
+mreg <- lm(formula = Vekt ~Kroppshoyde + Alder, data = data)
+```
+
+```{r}
+rstandard(mreg)
+```
+
+```{r}
+data %>%
+  ggplot(aes(fitted(mreg), residuals(mreg)))+
+  geom_point()+
+  geom_smooth()+
+  geom_hline(yintercept = 0, color= "red")
+```
+
+```{r}
+data %>%
+  ggplot(aes(x=Vekt, y = Kroppshoyde))+
+  geom_point()+
+  geom_smooth()
+```
+
+```{r}
+shapiro.test(residuals(mreg))
+```
+
+```{r}
+data %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(mreg)))+
+  geom_abline(color = "red")
+```
+
+```{r}
+library(car)
+```
+
+```{r}
+ncvTest(mreg)
+```
+
+```{r}
+ncvTest(mreg, ~Alder)
+```
+
+```{r}
+data %>%
+  ggplot(aes(fitted(mreg), sqrt(abs(rstandard(mreg)))))+
+  geom_point()
+```
+
+```{r}
+data %>%
+  ggplot(aes(fitted(mreg), sqrt(abs(rstandard(mreg)))))+
+  geom_point()+
+  geom_smooth()
+```
+
+```{r}
+
+```

@@ -1,0 +1,268 @@
+---
+title: "Mappeinnlevering 2"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 6, SOK-2009, Høst 2023"
+editor: visual
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+nocite: |
+  @*
+header-includes:
+  - "\\usepackage{caption}"
+  - "\\captionsetup{font=small}"
+  - "\\usepackage{hyperref}"
+  - "\\renewcommand{\\figureautorefname}{Figur}"
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+---
+
+```{=tex}
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
+```
+```{r}
+rm(list=ls()) 
+library(tidyverse)
+library(car)
+load(url("http://www.principlesofeconometrics.com/poe5/data/rdata/mroz.rdata"))
+```
+
+```{r}
+#| output: FALSE
+
+#Oppgaven skal leveres som PDF, med eventuelle grafer og tabeller lagt inn i selve besvarelsen. Utklipp av R-koder kan gjerne være med i besvarelsen så lenge det er relevant for modellens spesifikasjoner. Det betyr at for eksempel lm(avhengig variabel ~ uavhengig variabel) kan være med, men summary(modell) er overflødig. Hvis dere ønsker å vise det matematisk i stedet for med kode er det også godkjent, så lenge det kommer tydelig frem hvilke variabler som ble valgt. Fullstendig R-kode kan legges med som vedlegg hvis dere ønsker.
+```
+
+# Oppgave 1:
+
+## a) Kjøre en enkel lineær regresjonsanalyse
+
+Datasettet vi har fått inneholder mye data på inntekt, arbeidserfaring og utdanningsnivå, spesielt for kvinner. Jeg har lyst å se om det kan finnes en korrelasjon mellom utdanning og slekt, og vil da se om det er en større korrelasjon om at barn som har utdannede foreldre også tar utdanning selv.
+
+Derfor tar jeg tar den avhengige variabelen "educ" som direkte oversatt er "Kvinnens utdanningsnivå i år" for 1975 og den uavhengige variabelen "mothereduc" som også direkte oversatt er "Kvinnens mor sitt utdanningsnivå i år" og sjekker om det er en korrelasjon.
+
+```{r}
+model <- lm(educ ~mothereduc, data= mroz)
+#cor<- cor(mroz$educ, mroz$mothereduc)
+
+#r2<-round(cor(mroz$educ, mroz$mothereduc)
+          
+#cor.test(mroz$educ, mroz$mothereduc)
+summary(model)
+```
+
+```{r}
+fig <-mroz %>%
+  ggplot(aes(x=mothereduc, y=educ))+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE, color="palevioletred")+
+  theme_minimal()+
+  labs(title ="",
+       x="Mødrenes utdanning",
+       y="Kvinners utdanning",
+       source="Datasett mroz av Tom Mroz")+
+  geom_label(x = 13.5,
+           y = 4.5,
+           label = paste("R^2 == ", round(cor(mroz$educ, mroz$mothereduc)^2, 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE)+
+  geom_label(x = 13.5,
+           y = 6,
+           label = paste("R == ", round(cor(mroz$educ, mroz$mothereduc), 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE)
+ggsave("figur1.png", dpi=300,height = 3, width = 5)
+```
+
+```{r}
+#shapiro.test(residuals(model))
+```
+
+```{r}
+fig2<-mroz %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(model)))+
+  geom_abline(color="red")+
+  theme_bw()
+  
+ggsave("figur2.png", dpi=300,height = 3, width = 5)
+```
+
+## b) Forklaring av resultater
+
+Når jeg kjører en enkel lineær regresjonsanalyse så får jeg ut \autoref{table:regresjon1}.
+
+```{=tex}
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\toprule
+                             & \multicolumn{2}{c}{Avhengig variabel}           \\
+                             \cmidrule{2-3}
+                             & Kvinners utdanning &                               \\ \midrule
+Intercept                    & 9.55981***        & (0.21898)                     \\
+Mødres utdanning           & 0.29478***        & (0.02224)                     \\ \midrule
+Observations                 & \multicolumn{2}{c}{753}                           \\
+R$^2$                        & \multicolumn{2}{c}{0.1895}                        \\
+Adjusted R$^2$               & \multicolumn{2}{c}{0.1884}                        \\
+Residual Std. Error          & \multicolumn{2}{c}{2.054 (df = 751)}              \\
+F Statistic                  & \multicolumn{2}{c}{175.6*** (df = 1; 751)}        \\
+\bottomrule
+\bottomrule
+\end{tabular}
+\captionof{table}{Lineær regresjonsanalyseresultat for kvinners utdanning og deres mødre.}
+\label{table:regresjon1}
+\end{table}
+```
+$R^2$ forklarer at 18.95% av kvinners utdanning kan forklares av den uavhengige variabelen som er kvinnens mor sin utdanning. Man kan også se at for hvert "x" ekstra år utdanning for mødre så forventer vi at kvinner tar 0.294 ekstra år med høyere utdanning. Intercepten er på 9.55 som sier hva verdien på kvinners utdanning er når mothereduc er 0.
+
+Std. Error eller standardfeilen forklarer hvor "sikker" man er på det man har estimert, om det er et høyt tall er man mer usikker på om estimatet er riktig utifra det utvalget man har tatt ifra en populasjon. En lavere standardfeil vil gi mindre usikkerhet.
+
+Residual standard error er her 2.054 som betyr at på gjennomsnitt er avviket mellom observerte verdier og predikerte verdier på 2.054 år med utdanning. Degrees of freedom er antallet uavhengige variabler som er "fri" til å variere ved tilfeldig trekning.
+
+Tre stjerner eller "\*\*\*" forteller meg tilslutt at resultatet er signifikant, som vil si at det er lite sannsynlighet for at resultatet har oppstått tilfeldig
+
+\clearpage
+
+```{=tex}
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{figur1.png}
+  \captionof{figure}{Lineær regresjon mellom kvinner og kvinners mødre sin utdanning i år}
+  \label{fig:test1}
+\end{figure}
+```
+I \autoref{fig:test1} kan man se forholdet mellom den avhengige variabelen på y-aksen som er Kvinners utdanning mot den uavhengige variabelen mødrenes utdanning som er på x-aksen, og at korrelasjonen er positiv. Det vi tar ut av koeffisientene er at det er en "svak" mot "moderat" korrelasjon for verdien til korrelasjonskoeffisienten $R$ som er på 0.44. Og som sagt tidligere sier $R^2$ at omtrent 19% av kvinners utdanning kan forklares av moren sin utdanning.
+
+## c) Bryter modellen med antakelsene
+
+```{=tex}
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{figur2.png}
+  \captionof{figure}{QQ - Quantile-Quantile plot}
+  \label{fig:test2}
+\end{figure}
+```
+I (Quantile-Quantile) QQ-plottet sammenligner man fordelingen av residualene med en normal fordeling. Her ser vi fordelingen til "error termen" og ser at fordelingen ikke er normalfordelt, for da hadde den fulgt den røde linjen perfekt. Men det vi kan se er at resultatet er ganske "nært" den røde linjen. For å se mer presist om modellen fungerer vil jeg heller gå videre å se på en multippel regresjon.
+
+# Oppgave 2:
+
+## a) Kjør en multippel lineær regresjonsanalyse med minst to uavhengige variabler. Velg selv om du tilføyer en eller flere variabler til din tidligere analyse, eller om du lager en helt ny. Forklar hvorfor du har valgt denne kombinasjonen av variabler.
+
+```{r}
+model_2 <- lm(educ ~mothereduc + heduc + hfathereduc, data= mroz)
+
+#summary(model_2)
+```
+
+For å sjekke om forholdet mellom mine variabler er godt nok vil jeg legge til noen flere variabler for utdanning, og velger da å putte med to ekstra uavhengige variabler for å se om de kan gjøre regresjonen mer presis. Jeg velger da å plotte "educ" som den avhengige og "mothereduc" + "heduc" + "hfathereduc" som er mannens utdanning og faren til mannens utdanning i tillegg.
+
+## b) Vis og forklar resultatene dine. Bruk grafer, tabeller, og output til å forklare din modell og hva modellen kan fortelle oss.
+
+```{=tex}
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\toprule
+                             & Koeffisient     & Standardfeil     \\
+\midrule
+Intercept                    & 5.744757***     & (0.331256)       \\
+Mødres utdanning (mothereduc)& 0.178925***     & (0.019631)       \\
+Partners utdanning (heduc)   & 0.397012***     & (0.021875)       \\
+Fars utdanning (hfathereduc) & -0.008489       & (0.019441)       \\
+\midrule
+Observations                 & \multicolumn{2}{c}{753}             \\
+R$^2$                        & \multicolumn{2}{c}{0.4373}          \\
+Adjusted R$^2$               & \multicolumn{2}{c}{0.435}           \\
+Residual Std. Error          & \multicolumn{2}{c}{1.714 (df = 749)}\\
+F Statistic                  & \multicolumn{2}{c}{194*** (df = 3; 749)} \\
+\bottomrule
+\bottomrule
+\end{tabular}
+\captionof{table}{Lineær  multippel regresjonsanalyseresultat for kvinners utdanning.}
+\label{table:regresjon_2}
+\end{table}
+```
+$R^2$ forklarer at 43.73% av kvinners utdanning kan forklares av den uavhengige variabelen som er kvinnens mor sin utdanning. Man kan også se at for hvert "x" ekstra år utdanning for mødre så forventer vi at kvinner tar 0.17 ekstra år med høyere utdanning og enda mer med 0.39 for mannens utdanning, og et negativt forhold til faren til mannen med -0.08 omtrent. Intercepten er på 5.74 som sier hva verdien på kvinners utdanning er når de andre variablene er 0.
+
+Det som også er interresant å se på er Adjusted $R^2$ i multippel regresjon og her er koeffisienten ganske lik $R^2$ med få desimaler, som betyr at forklaringsgraden til alle variablene er ganske presis, selv om man har tatt med flere. Hadde denne Adjusted $R^2$ vært mye lavere enn $R^2$ hadde man ikke kunne sagt at variablene hadde "hjulpet" med forklaringsgraden.
+
+Residual standard error er her 1.714 som betyr at på gjennomsnitt er avviket mellom observerte verdier og predikerte verdier på 1.714 år med utdanning. Degrees of freedom er antallet uavhengige variabler som er "fri" til å variere ved tilfeldig trekning.
+
+Tre stjerner eller "\*\*\*" forteller meg tilslutt at resultatet er signifikant, som vil si at det er lite sannsynlighet for at resultatet har oppstått tilfeldig. Dette gjelder for morens utdanning, mannens utdanning men ikke for faren til mannens utdanning, denne er ikke signifikant.
+
+```{=tex}
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{figur3.png}
+  \captionof{figure}{QQ - Quantile-Quantile plot}
+  \label{fig:test3}
+\end{figure}
+```
+```{r}
+#| output: FALSE
+png("figure3.png", width = 5*300, height = 3*300, res = 300)
+
+avPlots(model_2)
+# XD
+dev.off()
+```
+
+```{r}
+fig2<-mroz %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(model_2)))+
+  geom_abline(color="red")+
+  theme_bw()
+  
+ggsave("figur4.png", dpi=300,height = 3, width = 5)
+```
+
+I \autoref{fig:test3} kan man se forholdet mellom den avhengige variabelen på y-aksen som er Kvinners utdanning mot den uavhengige variabelen mødrenes utdanning som er på x-aksen, og at korrelasjonen er positiv. Og som sagt tidligere sier $R^2$ at omtrent 43% av kvinners utdanning kan forklares av moren sin utdanning.
+
+## c) Test hvorvidt modellen din bryter med antakelsene til multippel lineær regresjon. Vis og forklar hvordan du testet/undersøkte
+
+```{r}
+shapiro.test(residuals(model_2))
+# Ikke roast ble aldri ferdig med oppgaven lmao
+```
+
+```{=tex}
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{figur4.png}
+  \captionof{figure}{QQ - Quantile-Quantile plot}
+  \label{fig:test4}
+\end{figure}
+```
+I (Quantile-Quantile) QQ-plottet sammenligner man fordelingen av residualene med en normal fordeling. Her ser vi fordelingen til "error termen" og ser at fordelingen ikke er normalfordelt, for da hadde den fulgt den røde linjen perfekt. Men det vi kan se er at resultatet er ganske "nært" den røde linjen. Som vil si at den ikke bryter med antakelsene mine.
+
+# Appendiks
+
+Bruk av KI: ChatGPT 4 inkludert advanced data analysis.
+
+[Noe hjelp med hypotesen](https://chat.openai.com/share/bde41fe8-36ef-47f0-ba41-eae698ebe0e8)
+
+[Noe hjelp med c og tabeller](https://chat.openai.com/c/9c0c48c1-3a4f-4875-b195-04295a3838c3)

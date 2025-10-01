@@ -1,0 +1,175 @@
+---
+title: "Spørreundersøkelse forelesning Chris"
+author: "Kandidatnummer blabla, Daniel Fabio G"
+format: pdf  
+editor: visual
+echo: true
+---
+
+```{r}
+# Loading R data
+rm(list = ls())
+library(tidyverse)
+# Denne fungerer kun om du har datasettet spore_under.Rdata lokalt i mappen din
+load("~/Rstudio_GIT/SOK-2009/SeminarKoder/spore_under.Rdata")
+```
+
+## Innledning
+
+Type oppgave jeg har valgt her
+
+sigma^2^ og s^2^ for utvalg når man skriver variansen. s^2^
+
+```{r}
+# Sjekke variansen for sporre undersøkelsen til Heen
+varians <-var(spore_under$Vekt)
+
+# Finner standardavvik
+sqrt(varians)
+
+```
+
+```{r}
+sd <- sd(spore_under$Vekt)
+sd
+```
+
+Videre kode her
+
+```{r}
+varians_2 <- var(spore_under$Kroppshoyde)
+
+# Finner standardavviket
+sdheight<-sqrt(varians_2)
+```
+
+```{r}
+library(mosaic)
+xpbinom(10, size= 60, prob = 0.1)
+```
+
+```{r}
+# Vi sjekker om det er kovarians mellom vekt og høyde
+# Det eneste vi kan tolke over dette tallet er at det er positivt
+cov(spore_under$Vekt, spore_under$Kroppshoyde)
+```
+
+```{r}
+cor(spore_under$Vekt, spore_under$Kroppshoyde)
+```
+
+```{r}
+lm = lm(Vekt ~ Kroppshoyde, data = spore_under)
+summary(lm)
+```
+
+```{r}
+spore_under %>%
+  ggplot(aes(x=Kroppshoyde, y=Vekt))+
+  geom_point()+
+  # se betyr bare konfidensintervall og betyr at det er 0.95%
+  # konfidens om at det reelle tallet ligger mellom de mørke verdien
+  # fra linjen
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+R^2^ eller R-squared utrykker andelen av forklart varians
+
+Det betyr at uavhengige variabel y forklarer "koeffisienten" % av variansen til den avhengige variabelen x.
+
+```{r}
+xpbinom(0, size=3, prob=0.25)
+```
+
+```{r}
+xpbinom(0, size=10, prob=0.39)
+```
+
+```{r}
+xpbinom(22, size=100, prob=0.25)
+```
+
+```{r}
+xpbinom(14, size=100, prob=0.25)
+```
+
+```{r}
+se <- sdheight / sqrt(nrow(spore_under))
+
+se
+```
+
+```{r}
+xpnorm(172, mean = 175, sd = 1.4)
+```
+
+```{r}
+t.test(spore_under$Kjonn$Kvinne)
+```
+
+Regresjonsanalyse:
+
+Hvis x så forventer vi y\
+
+Avhengig variabel - den vi ønsker å utforske = y
+
+Uavhengig variabel som forklarer den avhengige variabelen
+
+```{r}
+spore_under %>%
+  ggplot(aes(x=Kroppshoyde, y=Vekt))+
+  geom_point()+
+  geom_smooth(method = lm, se = FALSE)
+  #scale_x_continuous(limits = c(0,200))+
+  #scale_y_continuous(limits = c(0,200))
+```
+
+```{r}
+model<-lm(Vekt ~ Kroppshoyde, spore_under)
+summary(model)
+
+# Se på hvilket konfidensnivå er dette signifikant på kodene, når kroppshoyde har *** betyr det at den hadde vært signifikant selv om det er strengere vilkår.
+
+# p-verdien må være under konfidensnivået for å være signifikant ellers
+```
+
+```{r}
+# Gir vekten til personen som har kropphøyde 172
+Verdi = data.frame(Kroppshoyde = 172)
+predict(model, Verdi)
+```
+
+```{r}
+# Viser alle verdiene på punktene til linjene som vi har tegnet, kun linjen
+fit<-fitted(model)
+fit
+```
+
+```{r}
+# Avvik fra forventning til linjen
+residuals(model) 
+```
+
+En lineær regresjon finner vårt beste estimat på hva linjen burde være, men kan ikke finne den "sanne" linjen.
+
+lm bruker OLS og minimerer avstand mellom regresjonslinjen og observasjonene.
+
+R^2^ Forklart varians
+
+Vi ser på mutiple R squared:
+
+som sier at 0.3151 eller 31.51% av den avhengige variabelen kan forklares av den uavhengige variabelen.
+
+Det vil si at 31.51% av vekten kan forklares av kroppshøyden.
+
+Residual standard error: På gjennomsnitt er standardavviket 12.11 kilo i denne sammenhengen.
+
+## Ikke-lineære regresjoner
+
+Kan ofte se dette fra scatterplots
+
+Må gi en logisk forklaring på hvorfor en bruker ikke-lineære variabler. Men du må argumentere hvorfor, og det er ikke alltid like lett å forstå hvorfor.
+
+Korrelasjon og kausalitet:
+
+Viktig: Korrelasjon =/ Kausalitet

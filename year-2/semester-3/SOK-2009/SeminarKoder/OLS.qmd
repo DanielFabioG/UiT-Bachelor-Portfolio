@@ -1,0 +1,108 @@
+---
+title: "OLS"
+author: "Daniel"
+format: html
+editor: visual
+---
+
+## Quarto
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+library(Ecdat)
+data(Bwages)
+```
+
+```{r}
+# Define the function to simulate data
+simulate_data <- function(N) {
+  x <- sample(0:10, N, replace = TRUE)
+  
+  epsilon <- rnorm(N, 0, 5)
+  
+  y <- 3 + 2*x + epsilon
+  return(data.frame(utdanning=x, lonn=y))
+}
+
+# Set sample size
+N <- 500
+
+# Generate simulated data for the sample size
+data <- simulate_data(N)
+
+
+model<-lm(lonn~ utdanning, data)
+
+summary(model)
+```
+
+```{r}
+data %>%
+  ggplot(aes(x=utdanning, y= lonn))+
+  geom_point()+
+  geom_smooth(method= lm, se =FALSE)
+  #scale_y_continuous(limits = c(0,10))
+```
+
+```{r}
+# Set sample size
+N <- 10
+
+model<-lm(lonn~ utdanning, data)
+
+summary(model)
+```
+
+```{r}
+data %>%
+  ggplot(aes(x=utdanning, y= lonn))+
+  geom_point()+
+  geom_smooth(method= lm, se =FALSE)
+  #scale_y_continuous(limits = c(0,10))
+```
+
+```{r}
+# Define the function to simulate data
+simulate_data <- function(N) {
+  x <- sample(0:10, N, replace = TRUE)
+  
+  epsilon <- rnorm(N, 0, 5)
+  
+  y <- 3 + 2*x + epsilon
+  return(data.frame(utdanning=x, lonn=y))
+}
+
+# Set sample size
+N <- 100
+
+# Generate simulated data for the sample size
+data <- simulate_data(N)
+
+
+model<-lm(lonn~ utdanning, data)
+
+summary(model)
+```
+
+```{r}
+data %>%
+  ggplot(aes(x=utdanning, y= lonn))+
+  geom_point()+
+  geom_smooth(method= lm, se =FALSE)
+```
+
+```{r}
+model <- lm(wage~ exper + educ, data = Bwages)
+
+summary(model)
+```
+
+```{r}
+Bwages %>%
+  ggplot(aes(x=exper, y= wage, color=educ))+
+  geom_point(alpha=0.7)+
+  geom_smooth(method = "lm")+
+  theme(legend.position = "bottom")+
+  labs(x="År med erfaring", y="Lønn")
+```

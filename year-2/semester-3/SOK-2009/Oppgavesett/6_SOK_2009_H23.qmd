@@ -1,0 +1,111 @@
+---
+title: "Mappeoppgave 1 - Økonomi, statistikk og programmering "
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 6, SOK-2009, Høst 2023"
+format: pdf
+echo: true
+toc: true
+toc-title: "Innholdsliste"
+warning: false
+---
+
+```{r, echo=FALSE}
+rm(list=ls())
+library(tidyverse)
+```
+
+# Oppgave 5^\*^
+
+## Deloppgave 5.1
+
+Anta at du har to sett med to seksidede terninger. Noen andre kaster terningene og skriver ned summen av prikker fra begge terningene $T^1_2$ og $T^2_2$ . Du får ikke se terningene men får vite at summen fra sett en er større en fra sett to dvs. $T^1_2 > T^2_2$. La oss si at du tar ut to terninger en fra sett en $t^1_1$ og en fra sett to $t^2_2$.
+
+1.  Er forventningverdien lik for disse to terningene? Forklar svaret ditt.
+
+Ja, forventningsverdien for en terning er alltid $E(T)=\frac{1+2+3+4+5+6}{6}=3.5$ uansett om terningen er valgt fra sett 1 eller 2.
+
+## Deloppgave 5.2
+
+Tegn en graf med mulige utfall for $T_1$ og $T_2$. Hvilke utfall er mulige og hvilke er ikke mulige gitt $T^1_2>T^2_2$?
+
+```{r}
+terninger <- expand.grid(1:6, 1:6, 1:6, 1:6) 
+names(terninger) <- c("t1_1", "t1_2", "t2_1", "t2_2")
+glimpse(terninger)
+```
+
+```{r}
+# Generer alle mulige utfall for to terninger
+utfall <- expand.grid(T1=2:12, T2=2:12)
+
+# Sjekker hvilke punkter som oppfyller betingelsen T2^1 > T2^2
+utfall$condition <- utfall$T1^2 > utfall$T2^2
+
+utfall %>%
+  ggplot(aes(x=T1, y=T2, color=condition)) +
+  geom_point() +
+  geom_abline()+
+  scale_color_manual(values = c("palevioletred", "limegreen"),
+                     labels = c("Ikke mulige utfall", "Mulige utfall")) +
+     labs(title=expression("Mulige utfall for " * T[1] * 
+                             " og " * T[2] * " med betingelsen " 
+                           * T[2]^1 > T[2]^2),
+          x=expression(T[2]^1),
+          y=expression(T[2]^2),
+          color=expression(T[1]^2 > T[2]^2)) +
+     theme_minimal() +
+     scale_x_continuous(breaks=2:12) +
+     scale_y_continuous(breaks=2:12)
+```
+
+Er det uniform sannsynlighet for utfallene? Ja det er uniform sannsynlighet men for betingelsen om at t1 er større enn t2 så er ikke alle utfall i utfallsrommet mulig så den relative sannsynligheten for de mulige utfallene vil være uniform.
+
+3\. Bruk R og regn ut forventningsverdien til de to terningene.
+
+Tips: 1. Formelen for trekkning av X mulige r ganger med tilbakelegging er Xr . For fire seksidede terninger altså X =6 r = 4.
+
+Sjekk også <https://tma4245.math.ntnu.no/hendelser-og-sannsynlighet/uniform-sannsynlighetsmodell/kombinatorikk-ordnet-utvalg-trekning-med-tilbakelegging/>
+
+eller <https://www.hackmath.net/en/calculator/combinations-and-permutations>.
+
+Lag 36x36 vektorer med et tall for hver terning, det vil si \[(1,1)(1,1)\], \[(1,1)(1,2)\],\[(1,1)(1,3)\],.........., \[(6,6)(6,6)\].
+
+Dette er utfallsrommet for to sett med to terninger. Du må muligens bruke en spesial komando for å få til dette datasettet.
+
+Sjekk kode på: <https://stackoverflow.com/questions/45878448/creating-sample-space-in-r>
+
+## Deloppgave 5.3
+
+2\. Fjern alle vektorer der terning sett en er større en terningsett to dvs. der \[(1, 1) \< (1, 2)\].
+
+```{r}
+sett_1 <- terninger[terninger$t1_1 + terninger$t1_2 > terninger$t2_1 + terninger$t2_2, ]
+glimpse(sett_1)
+```
+
+## Deloppgave 5.4
+
+3\. Du skal nå sitte igjen med litt mindre en halvparten av de \[36 × 36 \] utfallene. (Disse oppfyller at summen av terningkast på to er større en en $T^1_2>T^2_2$.)
+
+```{r}
+nrow(sett_1) # Utfall der T^1_2 > T^2_2
+```
+
+## Deloppgave 5.5
+
+4\. Kalkuler forventningen til den første av terningen. Alle utfall er like sannsynlige så dette er lett.
+
+```{r}
+forventningsverdi_t1_1 <- mean(sett_1$t1_1)
+forventningsverdi_t1_1
+```
+
+# Appendiks
+
+Fått hjelp av ChatGPT 4 med advanced data analysis for noe kode for figur.
+
+[Hjelp med figur](https://chat.openai.com/c/2bef38fa-2ef9-4dd7-a845-b79ad24b7a83)
+
+Satt også og jobbet med kandidatnummer 5 så det er mulig at det er store likheter ved våre besvarelser.

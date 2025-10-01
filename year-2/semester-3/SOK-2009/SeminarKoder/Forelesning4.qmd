@@ -1,0 +1,76 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list=ls())
+library(datarium)
+library(tidyverse)
+data(marketing)
+```
+
+```{r}
+model <- lm(sales~youtube + facebook + newspaper,data = marketing)
+
+summary(model)
+```
+
+```{r}
+# Adjusted R squared er viktig å se i en multippel regresjon om du har for mange
+# uavhengige variabler, da denne straffer deg for å bruke for mange.
+# Er den lav mens R^2 er høy så må du sjekke modellen din
+
+model2 <- lm(sales~youtube + facebook,data = marketing)
+  
+summary(model2)
+```
+
+```{r}
+marketing %>%
+  ggplot(aes(x=newspaper, y=sales))+
+  geom_point()+
+  geom_smooth(method ="lm",se = FALSE)
+```
+
+```{r}
+cor(marketing)
+```
+
+```{r}
+library(car)
+vif(model)
+```
+
+```{r}
+mreg <- lm(sales ~ youtube*facebook, marketing)
+options(scipen =999)
+summary(mreg)
+```
+
+```{r}
+marketing %>%
+  ggplot(aes(x=youtube, y=sales))+
+  geom_point()+
+  geom_smooth(method ="lm",se = FALSE)
+```
+
+```{r}
+marketing %>%
+  ggplot(aes(x=facebook, y=sales))+
+  geom_point()+
+  geom_smooth(method ="lm",se = FALSE)
+```
+
+```{r}
+avPlots(mreg)
+```
+
+```{r}
+avPlots(model)
+```
+
+```{r}
+avPlots(model2)
+```

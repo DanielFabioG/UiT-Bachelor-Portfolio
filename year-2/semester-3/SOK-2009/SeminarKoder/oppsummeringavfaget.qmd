@@ -1,0 +1,294 @@
+---
+title: "forelesningoppsummering"
+format: pdf
+editor: visual
+---
+
+## Utdanning på en skole hvem vet
+
+```{r}
+rm(list=ls()) 
+library(tidyverse)
+library(car)
+load(url("http://www.principlesofeconometrics.com/poe5/data/rdata/star5_small.rdata"))
+
+ data<-star5_small
+ rm(star5_small)
+```
+
+```{r}
+summary(data)
+```
+
+```{r}
+mean(data$mathscore)
+
+median(data$mathscore)
+
+# Brukes basically bare for å kvadreres for å finne standardavviket
+var(data$mathscore)
+
+# Standardavviket tilsier at tallene er 48.5 over eller under gjennomsnittet
+sd(data$mathscore)
+```
+
+```{r}
+data <- na.omit(data)
+# Kovariansen sier om hvordan forhold variablene har mellom seg
+# Variablene beveger seg i samme retning da tallet er positivt
+# 0 er ikke noe forhold, negativt er at de beveger seg vekk fra hverandre
+cov(data$mathscore, data$tchexper)
+```
+
+```{r}
+# Korrelasjonskoeffisienten måler både retning og grad av samvariasjon (mellom -1 og 1)
+# 0.5-0.7 er moderat, over 0.7 er sterk
+cor(data$mathscore, data$tchexper)
+```
+
+```{r}
+# Viser korrelasjonskoeffisienten til alle variablene
+cor(data)
+```
+
+```{r}
+# Standardfeil er standardavviket til gjennomsnittet
+# SE_M = Standardavviket / kvadratroten til n
+# Dette betyr at på gjennomsnitt er vår data så langt ifra gjennomsnittet til populasjonen
+# Dette kommer an på hvor "stort" tallet er, siden mathscore går til 626 i øverste verdi kan man "anta" at dette er et lavt tall
+# Hadde mathscore gått til 27, kan man si at på gjennomsnitt er vår data langt ifra
+sd(data$mathscore)/sqrt(nrow(data))
+```
+
+```{r}
+# Standardfeil til korrelasjonskoeffisienten
+sqrt(1-cor(data$mathscore, data$tchexper)^2)/sqrt(nrow(data)-2)
+
+# Korrelasjonskoeffisienten
+cor(data$mathscore, data$tchexper)^2
+```
+
+Konfidensintervall
+
+Vanligsvis for oss 95%
+
+Hvis vi har et estimat som er likt 10, og et konfidensnivå på 05% vil det være alle verdier mellom 9.5 og 10.5
+
+Vi kan da anta at det er 95% sjanse for at den ordentlige verdien er mellom disse to verdiene et sted.
+
+Gir kun mening å lage hvis vi har en faktisk test å evaluere
+
+Hypotesetesting (t-test)
+
+$$t = \frac{observert gjennomsnitt - nullhypotese} {estimert standardavvik til gjennomsnitt}$$
+
+```{r}
+t.test(readscore ~ small, data = data)
+
+```
+
+```{r}
+t.test(readscore ~ small, alternative = "greater", data= data)
+```
+
+```{r}
+t.test(readscore ~ small, alternative = "less", data= data)
+```
+
+```{r}
+# Enkel lineær regresjon
+# y = b * x + a
+# a og b kalles for regresjonskoeffisienter
+# Vi har avhengig variabel som vi ønsker å utforske yi
+# Uavhengige variabelen er den som vi bruker den å forklare den avhengige xi
+```
+
+```{r}
+reg <- data %>%
+  lm(formula =totalscore ~tchexper)
+
+summary(reg)
+```
+
+```{r}
+data %>%
+  ggplot(aes(x=tchexper, y=totalscore))+
+  geom_point()+
+  geom_smooth(se=FALSE, method="lm")
+```
+
+```{r}
+# Hva må være sant? Gjennomsnittet til redisualene er 0 for alle fitted (estimerte( verdier))
+# Visuell undersøkelse:
+data %>%
+  ggplot(aes(fitted(reg), y = residuals(reg)))+
+  geom_point()+
+  geom_smooth()+
+  geom_hline(yintercept = 0)
+```
+
+```{r}
+# Sjekker om redisualene er normalfordelt
+shapiro.test(residuals(reg))
+
+# Shapiro- test: nullhypotesen er at residualene er normalfordelt
+
+# Vårt resultat: residualene er ikke normalfordelt, det er et brudd siden p-verdien er under 0.5
+
+
+```
+
+```{r}
+# Normalitet: Q-Q plot
+# Sjekker vår fodelinger opp mot en hypotetisk konstruert normalfordeling. Avvik fra linjen langs midten peker mot brudd
+
+data %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(reg)))+
+  geom_abline(color = "red")
+```
+
+Homoskedastisitet
+
+Hva må være sant? Residualene har lik varians for alle fitted verdier
+
+```{r}
+# Breusch-Pagan test, fra pakken car
+# Har en p-verdi på 0.91 som ikke impliserer et brudd
+ncvTest(reg)
+```
+
+```{r}
+data %>%
+  ggplot(aes(fitted(reg), sqrt(abs(rstandard(reg)))))+
+  geom_point()
+```
+
+```{r}
+#Visuell undersøkelse av homoskedastisitet
+# Er linjen primært sett rett er antakelsen ikke brutt
+# Det vil si at det er homoskedastisk, og ikke heteroskedastisk
+# Kan også være et checkmark ish for å vise et brudd
+data %>%
+  ggplot(aes(fitted(reg), sqrt(abs(rstandard(reg)))))+
+  geom_point()+
+  geom_smooth(method ="loess")
+```
+
+Multippel regresjon
+
+```{r}
+# Viser alle variabler med .
+mreg <- data %>%
+  lm(formula = totalscore ~ .)
+
+summary(mreg)
+```
+
+```{r}
+mreg <- data %>%
+  lm(formula = totalscore ~ aide + regular + tchexper)
+
+summary(mreg)
+```
+
+Ny antakelse for multippel regresjon
+
+Men den har en ny som er kollinearitet som er en korrelasjon mellom to eller flere av de uavhengige variablene.
+
+```{r}
+# Vi kan sjekke om det er kollinearitet ved bruk av korrelasjonsmatrisen fra tidligere
+cor(data)
+```
+
+```{r}
+# Men vi bruker heller en VIF-test, kommer fra pakken car
+# fanger opp kollinearitet mellom par av variabler og grupper av variabler, og gir en enkel verdi
+# Denne error betyr at det er perfekt kollinearitet
+mreg2 <- data %>%
+  lm(formula = totalscore ~ .)
+vif(mreg2)
+```
+
+```{r}
+# R mener det er for godt til å være sant siden man har med "perfekte" korrelerte varibler
+mreg2 <- data %>%
+  lm(formula = totalscore ~ aide + mathscore + readscore + regular + tchexper)
+vif(mreg2)
+```
+
+```{r}
+mreg2 <- data %>%
+  lm(formula = totalscore ~ aide + mathscore + regular + tchexper)
+summary(mreg2)
+```
+
+```{r}
+mreg2 <- data %>%
+  lm(formula = totalscore ~ aide + readscore + regular + tchexper)
+summary(mreg2)
+```
+
+**Deskriptiv Statistikk**: Dette omfatter metoder for å oppsummere og organisere data. Eksempler inkluderer gjennomsnitt (middelverdi), median, modus, og standardavvik. For eksempel, i et datasett med testresultater, vil gjennomsnittet gi deg en idé om den typiske poengsummen, mens standardavviket viser hvor spredt poengsummene er rundt gjennomsnittet.
+
+**Varians:**
+
+**Inferensiell Statistikk**: Dette er prosessen med å bruke data fra en prøve for å trekke konklusjoner om en større populasjon. Det inkluderer bruk av hypotesetesting, konfidensintervaller og regresjonsanalyse. For eksempel, hvis du vil vite om en ny undervisningsmetode forbedrer studentenes prestasjoner, kan du sammenligne prøveresultater før og etter implementeringen ved hjelp av en t-test.
+
+**Sannsynlighetsfordelinger**: Disse beskriver hvordan sannsynlighetene distribueres over ulike utfall i et eksperiment. Normalfordelingen er en av de mest kjente fordelingene. Den er sentral i mange statistiske analyser og er kjent for sin klokkeformede kurve.
+
+**Hypotesetesting**: Dette er en metode for å avgjøre om det er tilstrekkelig bevis for å støtte en bestemt hypotese om en populasjon. Den inkluderer nullhypotese (H0) og alternativ hypotese (H1), type I- og type II-feil, og p-verdi. For eksempel, i medisinsk forskning kan du teste effektiviteten av en ny behandling sammenlignet med en standardbehandling.
+
+**Konfidensintervaller**: Dette er et intervall av estimater som med en viss konfidensgrad (ofte 95%) inneholder den sanne verdien av en ukjent populasjonsparameter. For eksempel, hvis du estimerer gjennomsnittshøyden på voksne menn i en by, kan du si at du er 95% sikker på at den sanne gjennomsnittshøyden ligger innenfor ditt konfidensintervall.
+
+**Lineær Regresjon**: Dette er en metode for å modellere forholdet mellom en avhengig variabel og en eller flere uavhengige variabler. Den brukes ofte til å forutsi verdien av den avhengige variabelen basert på verdiene av de uavhengige variablene. For eksempel, i økonomi, kan du bruke lineær regresjon for å forutsi forbrukerutgifter basert på inntekt og alder.
+
+**Korrelasjon**: Dette måler styrken og retningen av et lineært forhold mellom to variabler. Korrelasjonskoeffisienter varierer fra -1 til 1, hvor -1 indikerer en perfekt negativ lineær relasjon, 0 ingen lineær relasjon, og 1 en perfekt positiv lineær relasjon. For eksempel, i sosiologi, kan du studere korrelasjonen mellom utdanningsnivå og inntekt.
+
+### **1. Varians**
+
+Varians er et mål på spredningen eller variabiliteten i et datasett. Det forteller oss hvor langt verdier i et datasett ligger fra gjennomsnittet (middelverdien) av datasettet. Formelen for varians er gitt ved: ${Varians} (\sigma^2) = \frac{\sum (x_i - \mu)^2}{N})$
+
+\$ hvor ​ representerer hver verdi i datasettet, μ er gjennomsnittet av alle verdier, og N er antall observasjoner.
+
+Eksempel: La oss si at vi har fem observasjoner: 2, 4, 6, 8, 10. Gjennomsnittet μ er 6. Variansen vil være summen av kvadratene av avvikene fra gjennomsnittet, delt på antall observasjoner, som er 5 i dette tilfellet.
+
+### **2. Standardavvik**
+
+Standardavviket er kvadratroten av variansen. Det gir en mer intuitiv forståelse av spredningen i dataene, da det er i samme enhet som dataene selv. Formelen er: ${Standardavvik} (\sigma) = \sqrt{\frac{\sum (x_i - \mu)^2}{N}}) = \sqrt\sigma^2 = \sqrt Varians$
+
+Fortsettelse av eksemplet ovenfor, standardavviket vil være kvadratroten av variansen vi beregnet.
+
+### **3. Normalfordeling**
+
+Normalfordelingen, også kjent som Gaussisk fordeling, er en kontinuerlig sannsynlighetsfordeling som er symmetrisk rundt gjennomsnittet. Den har en karakteristisk klokkeformet kurve. I en normalfordeling er gjennomsnittet, medianen, og modusen det samme. Et viktig aspekt ved normalfordelingen er at omtrent 68% av dataene faller innenfor ett standardavvik fra gjennomsnittet, 95% innenfor to standardavvik, og 99.7% innenfor tre standardavvik.
+
+### **4. Kron og Mynt Eksempel**
+
+Dette er et klassisk eksempel i sannsynlighetsteori. Når du kaster en mynt, er det to mulige utfall: kron (K) eller mynt (M). Antagelsen om en 'rettferdig' mynt gir at sannsynligheten for hvert utfall (K eller M) er 0.5. Hvis du kaster mynten mange ganger, vil den relative frekvensen av K og M nærme seg 0.5, noe som demonstrerer loven om store tall.
+
+### **Andre Fundamentale Statistikkunnskaper:**
+
+-   **Gjennomsnitt (Middelverdi)**: Gjennomsnittet er summen av alle verdier delt på antall verdier.
+
+-   **Median**: Medianen er den midterste verdien i et datasett når det er sortert i stigende eller synkende rekkefølge.
+
+-   **Modus**: Modusen er verdien som forekommer hyppigst i et datasett.
+
+-   **Sannsynlighet**: Dette er et mål på hvor sannsynlig det er at en bestemt hendelse vil inntreffe.
+
+-   **Loven om Store Tall**: Denne loven sier at når antall forsøk i et tilfeldig eksperiment øker, vil den empiriske sannsynligheten av en hendelse nærme seg den teoretiske sannsynligheten.
+
+# Løsning av oppgavesettet sine oppgaver
+
+## Oppgave 1
+
+## Oppgave 2
+
+## Oppgave 3
+
+## Oppgave 4
+
+## Oppgave 6
+
+# Hva som skal være med i presentasjonen til slutt:

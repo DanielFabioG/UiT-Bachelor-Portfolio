@@ -1,0 +1,43 @@
+---
+title: "SOK-2009"
+description: |
+      Statistikkoppgaver i SOK-2009.  
+date: last-modified
+author:
+  - name: Daniel Fabio Groth
+    affiliation: UiT The Arctic University of Norway <br> Faculty of Biosciences, Fisheries and Economics.
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    code-tools: true
+    self-contained: true
+    df-print: kable
+    output-file: "index"
+    output-ext:  "html"
+editor: visual
+warning: false
+toc: true
+tof: true
+---
+
+# **SOK-2009-1 23H Økonomi, statistikk og programmering**
+
+Alle oppgaver gitt gjennom dette kurset finnes i "Oppgaver" seksjonen, mens alt som tilhører Eksamen tilhører "Eksamen" seksjonen.
+
+```{=html}
+<div class="center" style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Oppgaver</div>
+            <a href="/SOK-2009/BED-2011/Enkelstatistikk.html" class="larger">Oppgave 1
+            <br>
+            </a>
+
+        </div>
+    </div>
+</div>
+```
+## Referanser
+
+Materialene til disse oppgavene og prosjektet er utformet med referanse til ressursene og bidragene gitt i studieplanen for SOK-2009. Dette inkluderer forelesningene holdt av Øivind D. Schøyen og Chris. Til tross for den ytterste omsorg som er tatt under forberedelsen av disse materialene, er eventuelle uoverensstemmelser eller feil som utilsiktet kan ha oppstått, helt og holdent mitt ansvar.

@@ -1,0 +1,477 @@
+---
+title: "Økonomi, Statistikk og programmering presentasjon"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 6, SOK-2009, Høst 2023"
+editor: visual
+format: 
+  revealjs:
+    theme: solarized
+    chalkboard: true
+    smaller: true
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 16pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+nocite: |
+  @*
+toc: true
+toc-title: "Innholdsfortegnelse"
+---
+
+# Innlevering 1 (Oppgave 5\*)
+
+```{r}
+#|output: false
+rm(list=ls())
+library(tidyverse)
+library(car)
+library(plotly)
+load(url("http://www.principlesofeconometrics.com/poe5/data/rdata/mroz.rdata"))
+```
+
+## Deloppgave 5.1
+
+Anta at du har to sett med to seksidede terninger. Noen andre kaster terningene og skriver ned summen av prikker fra begge terningene $T^1_2$ og $T^2_2$ . Du får ikke se terningene men får vite at summen fra sett en er større en fra sett to dvs. $T^1_2 > T^2_2$. La oss si at du tar ut to terninger en fra sett en $T^1_1$ og en fra sett to $T^2_2$.
+
+1.  Er forventningverdien lik for disse to terningene? Forklar svaret ditt.
+
+. . .
+
+Nei, den er ikke lik siden vi har betinget sannsynlighet. (Her skrev jeg egentlig ja, og bommet litt på oppgaven opprinnelig)
+
+Forventningsverdien for en terning er alltid $E(T)=\frac{1+2+3+4+5+6}{6}=3.5$ , men når vi får betinget sannsynlighet så endres sannsynligheten seg.
+
+## Deloppgave 5.2
+
+Tegn en graf med mulige utfall for $T_1$ og $T_2$. Hvilke utfall er mulige og hvilke er ikke mulige gitt $T^1_2>T^2_2$?
+
+. . .
+
+```{r}
+terninger <- expand.grid(1:6, 1:6, 1:6, 1:6) 
+names(terninger) <- c("t1_1", "t1_2", "t2_1", "t2_2")
+#glimpse(terninger)
+```
+
+Her ser man en graf med mulige utfall:
+
+. . .
+
+::: columns
+::: {.column width="60%"}
+```{r}
+# Generer alle mulige utfall for to terninger
+utfall <- expand.grid(T1=2:12, T2=2:12)
+
+# Sjekker hvilke punkter som oppfyller betingelsen T2^1 > T2^2
+utfall$condition <- utfall$T1^2 > utfall$T2^2
+
+plot<-utfall %>%
+  ggplot(aes(x=T1, y=T2, color=condition)) +
+  geom_point(size=3) +
+  geom_abline()+
+  scale_color_manual(values = c("palevioletred", "limegreen"),
+                     labels = c("Ikke mulige utfall", "Mulige utfall"))+
+  labs(title="Mulige utfall for sett 1 og 2 med betingelsen at sett 1 > 2",
+       x="T1",
+       y="T2",
+       color="$T_1^2 > T_2^2$")+
+  theme_bw() +
+     scale_x_continuous(breaks=2:12) +
+     scale_y_continuous(breaks=2:12)
+
+plotly<-ggplotly(plot)
+
+plotly_fix <- plotly %>%
+  layout(
+    title = TeX("\\text{Mulige utfall for:}T_2^1 >T_2^2"),
+    xaxis = list(title = '$T_2^1$'),
+    yaxis = list(title = '$T_2^2$')
+  ) %>%
+  config(mathjax = "cdn") %>%
+  layout(autosize = F, width = 600, height = 450)
+
+plotly_fix
+```
+:::
+
+::: {.column width="40%"}
+::: incremental
+-   Er det uniform sannsynlighet?
+-   Nei, det er det ikke. Fordi der er alle utfall like sannsynlige.
+-   $P(A) = g/m$
+-   Siden vi vet at $T_1 > T_2$ har vi betinget sannsynlighet.
+-   Dette kan skrives som $P(A|B)$, som leses som sannsynlighet for hendelse A gitt hendelse B.
+-   Utfallsrommet vises i de grønne prikkene, mens ikke mulige utfall vises da i de røde.
+:::
+:::
+:::
+
+## Deloppgave 5.3
+
+```{r}
+terninger$vektor_rep <- apply(terninger, 1, function(x) paste(c(x[1], x[2], x[3], x[4]), collapse = " "))
+
+# Lager en TRUE or FALSE statement for verdier av terningsett 1 er større enn terningsett 2
+terninger$vektor_rep_2 <- (terninger$t1_1 + terninger$t1_2) > (terninger$t2_1 + terninger$t2_2)
+
+# Filtrere for å beholde kun de radene der vektor_rep_2 er TRUE
+terninger_true <- subset(terninger, vektor_rep_2)
+```
+
+Bruk R og regn ut forventningsverdien til de to terningene.
+
+. . .
+
+::: columns
+::: {.column width="60%"}
+```{r, echo=TRUE}
+# Forventningsverdien for en enkel terning med uniform sannsynlighet
+terning_forventning <- mean(terninger$t1_1)
+
+# Forventningsverdien til de to terningene med betinget sannsynlighet
+terningsett_t1_forventning <- mean(terninger_true$t1_1)
+terningsett_t2_forventning <- mean(terninger_true$t2_1)
+print(terning_forventning)
+print(terningsett_t1_forventning)
+print(terningsett_t2_forventning)
+```
+:::
+
+::: {.column width="40%"}
+::: incremental
+-   $E(T) = \frac{1}{6} \sum_{T=0}^{6} T$
+
+-   $E(T_1^1) = \frac{\sum_{(T_1^1, T_1^2, T_2^1, T_2^2) \in S'} T_1^1}{|S'|}$
+
+-   $E(T_2^1) = \frac{\sum_{(T_1^1, T_1^2, T_2^1, T_2^2) \in S'} T_2^1}{|S'|}$
+:::
+:::
+:::
+
+## Deloppgave 5.4
+
+1.Lag 36x36 vektorer med et tall for hver terning, det vil si \[(1,1)(1,1)\], \[(1,1)(1,2)\],\[(1,1)(1,3)\],.........., \[(6,6)(6,6)\].
+
+Dette er utfallsrommet for to sett med to terninger. Du må muligens bruke en spesial kommando for å få til dette datasettet.
+
+. . .
+
+Å printe ut utfallsrommet gir oss 1296 vektorer som er utfallsrommet til de to terningsettene:
+
+. . .
+
+```{r}
+# Printer ut alle
+terninger$vektor_rep
+```
+
+## Deloppgave 5.5
+
+Fjern alle vektorer der terning sett en er større en terningsett to dvs. der \[(1, 1) \< (1, 2)\].
+
+. . .
+
+Da ender man opp på "omtrent" halvparten av vektorene, måten jeg gjorde dette på var å ta $({T_1^1} + {T_1^2}) > (T_2^1 + T_2^2)$ og lagret det i en TRUE/FALSE statement for å så filtrere TRUE vektorene fra datasettet og printer dem ut:
+
+. . .
+
+Og ender opp på 575 vektorer.
+
+. . .
+
+Om man deler de totale vektorene på to i utfallsrommet så kan man se at dette er omtrent 73 mindre vektorer/utfall i utfallsrommet.
+
+```{r, echo=TRUE}
+print(nrow(terninger_true))
+print(nrow(terninger)/2)
+```
+
+. . .
+
+Grunnen til dette er som vi har sett på tidligere i figuren.
+
+## Deloppgave 5.5
+
+Kalkuler forventningen til den første av terningen. Alle utfall er like sannsynlige så dette er lett.
+
+. . .
+
+Har allerede svart på dette men kan kjapt vise det på tavlen igjen.
+
+# Innlevering 2 (Regresjonsanalyse)
+
+## Hvorfor regresjonsanalyse?
+
+::: incremental
+-   **Finne den beste rette linjen som passer til et sett datapunkter**
+
+-   **Forståelelse av relasjon mellom to eller flere variabler**
+
+-   **Prediksjon**
+
+-   **Beslutningstaking**
+
+-   **Effektivitet**
+
+-   **Allsidighet**
+
+-   **Kvantifisering av påvirkning**
+:::
+
+::: notes
+**Forståelse av Relasjoner:** Regresjonsanalyse hjelper oss med å forstå hvordan ulike variabler henger sammen. For eksempel, i økonomi kan den brukes til å se hvordan rentesatser påvirker boligpriser.
+
+**Prediksjon:** Den brukes til å forutsi verdier av en avhengig variabel basert på en eller flere uavhengige variabler. Dette er nyttig i mange felt, som værvarsling eller markedsanalyse.
+
+**Beslutningstaking:** Ved å analysere data, kan regresjonsanalyse gi innsikt som er avgjørende for beslutningsteking i bedrifter og offentlig forvaltning.
+
+**Effektivitet:** Den er effektiv til å analysere store datamengder for å finne trender og mønstre som kanskje ikke er tydelige ved første øyekast.
+
+**Allsidighet:** Regresjonsanalyse kan tilpasses mange typer data og er derfor relevant i mange forskjellige disipliner, fra biologi til økonomi.
+
+**Kvantifisering av påvirkning:** Den kan kvantifisere styrken på sammenhenger mellom variabler, noe som er viktig for å forstå hvor betydelig en variabel er i en gitt kontekst.
+
+Kort sagt, regresjonsanalyse er et kraftig verktøy som gir dyptgående innsikter i data, noe som er uunnværlig i en verden hvor data spiller en stadig viktigere rolle.
+:::
+
+## Min hypotese
+
+Datasettet vi har fått inneholder mye data på inntekt, arbeidserfaring og utdanningsnivå, spesielt for kvinner. Jeg har lyst å se om det kan finnes en korrelasjon mellom utdanning og slekt, og vil da se om det er en større korrelasjon om at barn som har utdannede foreldre også tar utdanning selv.
+
+. . .
+
+```{r}
+
+knitr::kable(head(arrange(mroz)))
+```
+
+. . .
+
+Derfor tar jeg tar den avhengige variabelen "Kvinnens utdanningsnivå i år" for 1975 og den uavhengige variabelen "Kvinnens mor sitt utdanningsnivå i år" og sjekker om det er en korrelasjon.
+
+## Spredningsmål til variablene
+
+::: columns
+::: {.column width="40%"}
+```{r, echo=TRUE}
+# Varians
+var(mroz$educ)
+
+# Standardavviket
+sqrt(var(mroz$educ))
+
+# Kovarians
+cov(mroz$educ, mroz$mothereduc)
+```
+:::
+
+::: {.column width="60%"}
+::: incremental
+-   $s^2$ Brukes for å finne det forventede kvadrerte avviket fra forventningsverdi
+
+-   $\frac{\sum (x_i - \overline{x})^2}{n-1}$
+
+-   $s =\sqrt{s^2}$ Brukes for å finne standardavviket og tallet sier hvor mye verdien av det faktiske estimatet avviker over eller under gjennomsnittet
+
+-   Kovariansen sier om hvordan forhold variablene har mellom seg. Variablene beveger seg i samme retning da tallet er positivt, 0 er ikke noe forhold, negativt er at de beveger seg vekk fra hverandre
+:::
+:::
+:::
+
+## Testing av hypotesen
+
+```{r}
+model <- lm(educ ~mothereduc, data= mroz)
+#cor<- cor(mroz$educ, mroz$mothereduc)
+
+#r2<-round(cor(mroz$educ, mroz$mothereduc)
+          
+#cor.test(mroz$educ, mroz$mothereduc)
+#summary(model)
+```
+
+Kjører en enkel lineær regresjonsanalyse $\hat{y} = \hat\alpha + \hat\beta x$, hatten betyr bare at verdiene er estimert.
+
+. . .
+
+Så får jeg ut denne utskriften:
+
+::: columns
+::: {.column width="35%"}
+```{r}
+print(summary(model))
+
+mroz %>%
+  ggplot(aes(x=mothereduc, y=educ))+
+  geom_point()+
+  geom_smooth(method="lm", se=FALSE, color="palevioletred")+
+  theme_minimal()+
+  labs(title ="",
+       x="Mødrenes utdanning",
+       y="Kvinners utdanning",
+       source="Datasett mroz av Tom Mroz")+
+  geom_label(x = 13.5,
+           y = 4.5,
+           label = paste("R^2 == ", round(cor(mroz$educ, mroz$mothereduc)^2, 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE)+
+  geom_label(x = 13.5,
+           y = 6,
+           label = paste("R == ", round(cor(mroz$educ, mroz$mothereduc), 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE)
+```
+:::
+
+::: {.column width="65%"}
+::: incremental
+-   **Residualene** viser minste, første kvartil, median, tredje kvartil og maksverdi.
+-   **Intercept** viser hvor regresjonslinjen starter når morens utdanning er 0
+-   **Morens utdanning** forklarer at for hvert år ekstra med utdanning går datterens utdanning opp med 0.29478
+-   **Standard error** er standardavviket til gjennomsnittet $\frac{Estimate}{Std. Error}$
+-   **T-verdien** viser hvor mange standardavvik koeffisienten ligger fra den
+-   **\*\*\*** sier at resultatet er signifikant og ikke har oppstått ved tilfeldighet (p \< 0.05)
+-   **P-verdien** her er \< 2.2e-16 som er det minste tallet R kan operere med, og forklarer om det vi ser på er faktiske observasjoner. (Om nullhypotesen er sann)
+-   $R^2$ sier hvor mye av datterens utdanning (avhengige variabel) som kan forklares av den uavhengige variabelen morens utdanning som her forklares med 18.95%
+-   Residual standard error er standardavviket av residualene, altså hvor langt unna er verdiene fra den predikerte linjen eller modellen
+:::
+:::
+:::
+
+::: notes
+Degrees of freedom er $n-2$ , her blir det 751 siden datasettet har 753 observasjoner og 2 koeffisienter som blir predikert av modellen som trekkes fra.
+:::
+
+## Videre testing av hypotesen med flere variabler
+
+For å se om det kan være noen videre sammenheng mellom flere i familien med utdanning tar jeg flere variabler inn i regresjonen og kjører en multippel regresjon.
+
+. . .
+
+Jeg legger til variabelen "Mannens utdanning" for å se om det er en sammenheng mellom "Kvinners utdanning", "Morens utdanning" og "Mannens utdanning"
+
+## Multippel regresjonsanalyse
+
+Kjører en multippel lineær regresjonsanalyse: $y_i = \alpha + \beta_1 x_1, _i + \beta_2 x_2, _i ... \beta_k x_k, _i + \epsilon_i$
+
+. . .
+
+::: columns
+::: {.column width="40%"}
+```{r}
+model_2 <- lm(educ ~mothereduc + heduc, data= mroz)
+
+summary(model_2)
+```
+:::
+
+::: {.column width="60%"}
+::: incremental
+-   **Mannens utdanning** forklarer at for hvert år ekstra med utdanning går Kvinnens utdanning opp med 0.39711
+-   Det er statistisk signifikant
+-   Lav p-verdi
+-   $R^2$ er enda høyere og sier at de to uavhengige variablene forklarer enda mer, faktisk nå 43.71% av kvinnens utdanning.
+-   Enda viktigere er det å se på Adjusted $R^2$ siden med flere variabler er det en modifisert versjon av $R^2$ og straffer deg for å bruke for mange uavhengige variabler i modellen.
+-   I denne utskriften er Adjusted $R^2$ 0.4356 som ikke er langt unna, så det betyr at det ikke er tilfeldighet som gjør at den ekstra variabelen forklarer kvinnens utdanning.
+:::
+:::
+:::
+
+## Konklusjon om nullhypotesen holder
+
+Sjekker først den enkle regresjonsanalysen
+
+. . .
+
+::: columns
+::: {.column width="50%"}
+```{r}
+mroz %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(model)))+
+  geom_abline(color="red")+
+  theme_bw()
+```
+
+```{r}
+mroz %>%
+  ggplot(aes(fitted(model), sqrt(abs(rstandard(model)))))+
+  geom_point()+
+  geom_smooth(method ="loess")+
+  geom_hline(yintercept = 1, color = "palevioletred")+
+  theme_bw()
+```
+:::
+
+::: {.column width="50%"}
+::: incremental
+```{r, echo=TRUE}
+    shapiro.test(residuals(model))
+```
+
+-   Sammenligner fordelingen av residualene med en normal fordeling.
+
+-   I shapiro testen kommer det ut en lav p-verdi som sier at det er statistisk signifikant bevis for at dataene ikke følger en normalfordeling
+
+-   Hvis residualene avviker fra den røde linjen tyder det på brudd.
+
+-   Tar også en visuell undersøkelse av homoskedastisitet, med en "loess" local estimated scatterplot smoothing
+
+-   Er den ikke lineær kan man si at det er heteroskedastistisk og antakelsen bryter
+
+-   For å se mer presist om modellen fungerer vil jeg også sjekke ut forholdet til multippel regresjon
+:::
+:::
+:::
+
+## Konklusjon om nullhypotesen holder
+
+For multippel regresjon
+
+. . .
+
+::: columns
+::: {.column width="50%"}
+```{r}
+mroz %>%
+  ggplot()+
+  geom_qq(aes(sample = rstandard(model_2)))+
+  geom_abline(color="red")+
+  theme_bw()
+```
+
+```{r}
+mroz %>%
+  ggplot(aes(fitted(model_2), sqrt(abs(rstandard(model_2)))))+
+  geom_point()+
+  geom_smooth(method ="loess")+
+  geom_hline(yintercept = 1, color = "palevioletred")+
+  theme_bw()
+```
+:::
+
+::: {.column width="50%"}
+::: incremental
+```{r, echo=TRUE}
+    shapiro.test(residuals(model_2))
+```
+
+-   Her ser vi også at det bryter med normalfordelingen
+-   Her er p-verdien under 0.05 som sier at det ikke er statistisk signifikant bevis for at dataene er normalfordelt.
+-   I figuren kan man se at W i shapiro-testen er ganske presis, den går fra 0-1 og sier hvor normalfordelt residualene er, 0.9951 er et høyt tall og det vises i figur også.
+-   Residualene vi ser på er feilleddet i likningen vi så på for regresjonsanalysen $\epsilon_i$
+-   I denne visuelle undersøkelsen av homoskedastisitet brytes også antakelsen.
+:::
+:::
+:::

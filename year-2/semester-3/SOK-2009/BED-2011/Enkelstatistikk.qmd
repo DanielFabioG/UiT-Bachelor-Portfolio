@@ -1,0 +1,76 @@
+---
+author: "Daniel Fabio G."
+title: "Enkel statistikksanalyse av oppmøteeffekt"
+format: html
+editor: visual
+code-tools: true
+---
+
+```{r}
+#| output: false
+rm(list=ls())
+library(tidyverse)
+library(httr)
+```
+
+```{r}
+# Taken from chatgpt
+# Downloading data directly from the internet
+response <- GET("https://res.cloudinary.com/edtech/raw/upload/v1576586901/microsites/Learning%20Resources/Statistikk%20og%20sannsynlighetsregning/OppmoteEffektivitet.Rdata")
+
+if (http_status(response)$category == "Success") {
+  writeBin(content(response, "raw"), "local_data.Rdata")
+  load("local_data.Rdata")
+} else {
+  print(paste("Failed to download: ", http_status(response)$message))
+}
+rm(response)
+```
+
+```{r}
+# Calculate the median
+median_x <- median(OppmoteEffektivitet$Oppmote)
+print(paste("Medianen er:", median_x))
+```
+
+```{r}
+arithmetic_mean <- mean(OppmoteEffektivitet$Oppmote)
+print(paste("Det aritmetiske gjennomsnittet er", round(arithmetic_mean)))
+```
+
+```{r}
+# Sort the dataframe based on the 'Oppmote' column in descending order
+OppmoteEffektivitet <- arrange(OppmoteEffektivitet, desc(Oppmote))
+
+# Get the largest value from the sorted dataframe
+largest_value2 <- OppmoteEffektivitet$Effektivitet[1]
+
+# Sort the dataframe based on the 'Oppmote' column in descending order
+OppmoteEffektivitet <- arrange(OppmoteEffektivitet, desc(Effektivitet))
+
+# Get the largest value from the sorted dataframe
+largest_value <- OppmoteEffektivitet$Effektivitet[1]
+
+# Print the largest value
+print(paste("Den høyeste prosent på effektiviteten er:", round(largest_value)))
+```
+
+```{r}
+print(paste("Effektiviteten til den ansatte med høyest oppmøte er", ceiling(largest_value2)))
+```
+
+```{r}
+# Square the values in the 'Effektivitet' column
+kvadrert_values <- OppmoteEffektivitet$Effektivitet ^ 2
+
+# Add these squared values as a new column to the dataframe
+OppmoteEffektivitet$Kvadrert_Effektivitet <- kvadrert_values
+
+OppmoteEffektivitet_2 <- OppmoteEffektivitet %>%
+  summarise(sum_kvadrert = sum(Kvadrert_Effektivitet, na.rm = TRUE)) %>%
+  pull(sum_kvadrert)
+```
+
+```{r}
+print(paste("Summen av alle de kvadrerte verdiene er:", OppmoteEffektivitet_2))
+```
