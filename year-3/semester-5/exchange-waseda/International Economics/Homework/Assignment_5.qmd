@@ -1,0 +1,120 @@
+---
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+    toccolor: black
+warning: false
+echo: false
+---
+
+# Home assignment 5: The Melitz effect
+
+
+The following questions are based on the Excel spreadsheet entitled “heterogeousfirms.xls”. This provides data for a hypothetical monopolistically competitive market with heterogeneous firms. 
+
+Each firm is numbered from 1 to 100, and has its marginal product of labor φ marked. The common value of the fixed labor requirement, f, is marked at the top of the spreadsheet. For each firm, an assumed value for the firm’s initial quantity produced is marked as well; assume that this has been derived by setting each firm’s marginal cost equal to its marginal revenue. Fixed cost for production f = 50. And fixed cost for exporting g = 25.
+
+Note that firms with higher marginal products of labor are assumed to produce more output.
+
+```{r}
+#Load the excel spreadsheet 
+rm(list=ls())
+library(readxl) 
+library(tidyverse)
+
+url <- "https://raw.githubusercontent.com/DanielFabioG/data/main/heterogeous_firms.xls"
+temp <- tempfile(fileext = ".xls")
+
+# Download the file to a temporary location
+download.file(url, temp, mode = "wb")
+
+# Read the Excel file and cut first 3 rows
+data <- read_excel(temp, skip = 4)
+rm(temp, url)
+```
+
+(a) Compute each firm’s employment of labor under autarky.
+
+```{r}
+f <- 50
+g <- 25
+
+# Calculate the employment of labor under autarky
+data <- data %>%
+  mutate(Labor_autarky = f + `Quantity produced under autarky.` / `Marginal product of labor, Φ.`)
+
+# Show the first 10 rows of the data
+head(data, 10)
+```
+(b) Use this information to compute the industry’s labor productivity (total output per
+worker).
+
+```{r}
+# Calculate the industry's labor productivity
+industry_labor_productivity <- sum(data$`Quantity produced under autarky.`) / sum(data$Labor_autarky)
+
+# Round the result to 2 decimals
+round(industry_labor_productivity, 2)
+```
+(c) Now, suppose that the industry is opened to trade, and in accordance with the Melitz effect, the least efficient 15% of the firms drop out. Further, suppose that firm #54 and all of the firms more efficient than firm #54 export, while the remainder of the surviving firms produce only for the domestic market. Suppose that exporting firms increase their output by 10% compared to autarky, while non-exporters reduce their output by 10% compared to autarky. Now, redo your calculations in parts (a) and (b). Interpret your results. In particular, what happens to industry productivity and why?
+
+```{r}
+# Lets make a new column where the 15 % least efficient firms are marked as "dropouts"
+# the middle will be marked as "domestic" and the most efficient firms as "exporters"
+data <- data %>%
+  mutate(Export = ifelse(row_number() <= 15, "Dropouts",
+                          ifelse(row_number() <= 53, "Domestic", "Exporters")))
+
+# Calculate the new quantity produced under trade
+data <- data %>%
+  mutate(`Quantity produced under trade` = ifelse(Export == "Dropouts", 0,
+                                                  ifelse(Export == "Domestic", `Quantity produced under autarky.` * 0.9, 
+                                                         `Quantity produced under autarky.` * 1.1)))
+
+# Calculate the labor under trade
+data <- data %>%
+  mutate(Labor_trade = ifelse(Export == "Dropouts", 0,
+                              ifelse(Export == "Domestic", f + `Quantity produced under autarky.` * 0.9 / `Marginal product of labor, Φ.`,
+                                     f + g + `Quantity produced under autarky.` * 1.1 / `Marginal product of labor, Φ.`)))
+
+# Show the last 10 rows of the data
+tail(data, 10)
+```
+
+```{r}
+# Calculate the industry's labor productivity under trade
+industry_labor_productivity_trade <- sum(data$`Quantity produced under trade`) / sum(data$Labor_trade)
+
+# Round the result to 2 decimals
+round(industry_labor_productivity_trade, 2)
+
+```
+(d) Draw a graph to illustrate these results.
+
+```{r, fig.width=10, fig.height=6}
+# Plotting the labor productivity under autarky and trade with a line plot
+
+fig <-data %>%
+  ggplot(aes(x = 1:nrow(data), y = Labor_autarky, color = "Autarky")) +
+  geom_line(linewidth = 1.5) +
+  geom_point(aes(y = Labor_trade, color = "Trade")) +
+  labs(title = "Labor productivity under autarky and trade",
+       x = "Firm number",
+       y = "Labor productivity") +
+  scale_color_manual(values = c("Autarky" = "cornflowerblue", "Trade" = "palevioletred")) +
+  # Draw vertical dashed segments with fixed x, xend, y, and yend values
+  geom_segment(x = 1, xend = 1, y = 0, yend = data$Labor_autarky[1], linetype = "dashed", color = "black", linewidth = 1) +
+  geom_segment(x = 15, xend = 15, y = 0, yend = data$Labor_trade[16], linetype = "dashed", color = "black", linewidth = 1) +
+  geom_segment(x = 53, xend = 53, y = 0, yend = data$Labor_trade[54], linetype = "dashed", color = "black", linewidth = 1) +
+  theme_minimal()
+
+fig
+```
+
+

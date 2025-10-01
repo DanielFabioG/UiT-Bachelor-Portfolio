@@ -1,0 +1,490 @@
+---
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+    toccolor: black
+echo: false
+warning: false
+bibliography: documentobjects/texstuff/references.bib
+csl: documentobjects/texstuff/apa.csl
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+\newgeometry{left=0cm, right=0cm, top=0cm, bottom=0cm}
+\vspace*{0.5cm}
+\begin{flushleft}
+    \vspace*{0.5cm}
+    \hspace*{2.5cm}{\color{black}\fontsize{11}{13.2}\selectfont Waseda University \\[0.2em]
+    \hspace*{2.5cm}\color{black}\fontsize{8}{13.2}\selectfont School of Political Science and Economics \\[0.2em]
+    \hspace*{2.5cm}\large{\color{black}\textbf{Research project}}  \\[0.5em]
+\hspace*{2.5cm}\color{black}\fontsize{11}{13.2}\selectfont Economic Policy 4 \\[0.5em]
+    \hspace*{2.5cm}\color{black}\fontsize{11}{13.2}\selectfont Quantitative Analysis, Fall 2024 \\[0.5em]
+    \hspace*{2.0cm}
+    \par}
+\end{flushleft} 
+\restoregeometry
+\tableofcontents
+\newpage
+
+
+# Introduction
+
+Introduction to the research project here.
+
+
+## Research question
+
+How does objective financial literacy (as measured by quiz-style questions on interest, inflation, and compounding) relate to young adults’ annual household income and willingness to take financial risks in the United States, and does ethnicity moderate these relationships?
+
+## Hypotheses
+
+H1 (Income Relationship):
+Young adults in the U.S. who demonstrate higher objective financial literacy will report higher annual household income.
+
+H2 (Risk Relationship):
+Young adults in the U.S. who demonstrate higher objective financial literacy will exhibit a greater willingness to take financial risks.
+
+H3 (Ethnicity as Moderator):
+The positive relationships in H1 and H2 will differ by ethnicity, such that the effect of financial literacy on income and risk tolerance is stronger (or weaker) for certain ethnic groups.
+
+\newpage
+
+# Data
+
+Explanation for the data here and what it is.
+
+
+## Variables
+
+This needs to be written better:
+
+We are going to look at the variables Objective Measure: M6, M7, M8, and M31 test concrete knowledge and are widely recognized as a legitimate indicator of financial literacy which will be the independent variable.
+
+The dependent variables will be the annual household income and the willingness to take financial risks.
+
+These three variables in the dataset are the following:
+
+M6, M7, M8, and M31 (Objective Measure: M6, M7, M8, and M31 test concrete knowledge and are widely recognized as a legitimate indicator of financial literacy)
+
+A8_2021 (Annual household income)
+
+J2, which is risk tolerance.
+
+A4A_new_w , if we also include ethnicity this will be the moderator variable.
+
+- A50B (Binary variable for age and gender)
+
+We also might control for these variables:
+
+- A41 (Highest education of the person(s) that raised the respondent)
+
+- P52 (Do you expect to inherit $10,000 or more in the future?)
+
+
+```{r, warning=FALSE}
+rm(list = ls())
+library(tidyverse)
+library(stargazer)
+library(summarytools)
+
+url <- "https://raw.githubusercontent.com/DanielFabioG/data/refs/heads/main/NFCS_2021_DATA.csv"
+data <- read.csv(url)
+```
+
+```{r}
+
+# Selecting the variables of interest, renaming them,
+# and filtering the data to include only young adults
+data <- data %>%
+  select(M6, M7, M8, M31, A8_2021, J2, A4A_new_w, A50B, A41, P52) %>% 
+  rename(Financial_literacy = c(M6, M7, M8, M31),
+         Annual_household_income = A8_2021,
+         Risk_tolerance = J2,
+         Sex = A50B,
+         Education_parent = A41,
+         Inheritance = P52,
+         Ethnicity = A4A_new_w) %>%
+  # 1 is male 18-24 while 7 is female 18-24
+  filter(Sex %in% c(1, 7))
+
+# Making sex_and_age a male and female variable
+data$Sex <- factor(data$Sex, levels = c(1, 7), labels = c("Male",
+                                                          "Female"))
+
+# Making ethnicity a factor variable
+data$Ethnicity <- factor(data$Ethnicity, levels = c(1, 2),
+                         labels = c("White non-Hispanic",
+                                    "Non-White"))
+
+# Fixing inheritance and making it a factor
+data$Inheritance <- factor(data$Inheritance, levels = c(1, 2),
+                           labels = c("Yes",
+                                      "No"))
+
+# Remove NA from Inheritance
+data <- data %>%
+  filter(!is.na(Inheritance))
+
+# Fixing education and making it a factor
+data$Education_parent <- factor(data$Education_parent, levels = c(1:6),
+                                labels = c("Did not complete high school",
+                                           "High school",
+                                           "Some college",
+                                           "Associate's degree",
+                                           "Bachelor's degree",
+                                           "Post graduate degree"))
+
+# Remove NA from Education_parent
+
+data <- data %>%
+  filter(!is.na(Education_parent))
+
+# Risk tolerance goes from 1 to 10, where 1 is not at all and 10 is very willing, 
+#we will just remove dont know and prefer not to answer
+data <- data %>%
+  filter(Risk_tolerance %in% c(1:10))
+
+# Annual household income goes from 1 to 10 where 1 is less than $15,000 
+# and 10 is $300,000 or more
+data <- data %>%
+  filter(Annual_household_income %in% c(1:10))
+
+# Financial literacy question 1: 
+# Suppose you had $100 in a savings account and the interest rate was 2%
+# per year. After 5 years, how much do you think you would have in the
+# account if you left the money to grow?
+
+
+data <- data %>%
+  filter(Financial_literacy1 %in% c(1:3))
+
+# Financial literacy question 2:
+
+#Imagine that the interest rate on your savings account was 1% per year
+# and inflation was 2% per year. After 1 year, how much would you be able
+# to buy with the money in this account? 
+
+data <- data %>%
+  filter(Financial_literacy2 %in% c(1:3))
+
+# Financial literacy question 3:
+
+# If interest rates rise, what will typically happen to bond prices?
+
+data <- data %>%
+  filter(Financial_literacy3 %in% c(1:3))
+
+# Financial literacy question 4:
+
+#Suppose you owe $1,000 on a loan and the interest rate you are charged
+# is 20% per year compounded annually. If you didn't pay anything off, at
+# this interest rate, how many years would it take for the amount you owe
+# to double?
+
+data <- data %>%
+  filter(Financial_literacy4 %in% c(1:3))
+
+# Now to make the financial literacy variable we will recode 
+# the variables to be 1 if correct and 0 if incorrect
+# The ifelse function takes the correct answer and assigns 1 to it,
+#and 0 to the incorrect answers and stores it in the new variable
+# where it will have a sum of 0-4
+data <- data %>%
+  mutate(Financial_literacy = ifelse(Financial_literacy1 == 1, 1, 0) +
+                                ifelse(Financial_literacy2 == 3, 1, 0) +
+                                ifelse(Financial_literacy3 == 2, 1, 0) +
+                                ifelse(Financial_literacy4 == 2, 1, 0))
+
+# Removing the individual financial literacy questions
+data <- data %>%
+  select(-Financial_literacy1,
+         -Financial_literacy2,
+         -Financial_literacy3,
+         -Financial_literacy4)
+
+data$Annual_household_income <- ordered(data$Annual_household_income, 
+                         levels = c(1,2,3,4,5,6,7,8,9,10),
+                         labels = c("<$15k", "15-25k", "25-35k", 
+                                    "35-50k", "50-75k", "75-100k", 
+                                    "100-150k", "150-200k", 
+                                    "200-300k", "300k+") )
+
+
+
+# Checking for missing values
+# data %>%
+#   summarise_all(~sum(is.na(.)))
+
+```
+
+The variables going to be used in this analysis can be seen in the following \autoref{tab:variables_data}.
+
+```{=tex}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\hline
+Variable & Description \\
+\hline
+\hline
+Financial Literacy & Sum of 4 financial literacy questions, score from 0-4 \\
+Annual Household Income & From less than 15k to 300.000k \\
+Risk Tolerance & Willingness to take financial risks \\
+Ethnicity & Binary variable between white non-Hispanic and non-white \\
+Sex & Binary variable between Male and Female \\
+Education Parent & Highest education of the person(s) that raised the respondent \\
+Inheritance & No or Yes between expected future inheritance \\
+\hline
+\end{tabular}
+\caption{Variables used in the analysis}
+\label{tab:variables_data}
+\end{table}
+```
+
+To furthermore explain the variables, financial literacy is a sum of 4 financial literacy questions, with a score from 0 to 4. The annual household income is the annual household income with variables between 0-10 where 1 is less than 15,000 dollars and 10 is $300,000 or more. 
+
+Risk tolerance is the willingness to take financial risks with variables between 1-10 where 1 is no risk at all and 10 is very willing to take risks.
+
+Inheritance is a binary variable between no and yes, where no is no expected future inheritance and yes is expected future inheritance above 10,000 dollars.
+
+Education parent is the highest education of the person(s) that raised the respondent, with variables between 1-6 where 1 is did not complete high school and 6 is a postgraduate
+
+Ethnicity is a binary variable between white non-Hispanic and non-white.
+
+
+## Descriptive statistics
+
+```{r}
+# Descriptive statistics
+#descr(data, style = "rmarkdown")
+
+```
+
+```{=tex}
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrr}
+\hline
+ & Annual Household Income & Financial Literacy & Risk Tolerance \\
+\hline
+\hline
+\textbf{Mean}         & 3.58   & 2.05   & 6.48   \\
+\textbf{Std.Dev}      & 2.19   & 1.11   & 2.57   \\
+\textbf{Min}          & 1.00   & 0.00   & 1.00   \\
+\textbf{Q1}           & 2.00   & 1.00   & 5.00   \\
+\textbf{Median}       & 3.00   & 2.00   & 7.00   \\
+\textbf{Q3}           & 5.00   & 3.00   & 8.00   \\
+\textbf{Max}          & 10.00  & 4.00   & 10.00  \\
+\textbf{MAD}          & 2.97   & 1.48   & 2.97   \\
+\textbf{IQR}          & 3.00   & 2.00   & 3.00   \\
+\textbf{CV}           & 0.61   & 0.54   & 0.40   \\
+\textbf{Skewness}     & 0.58   & 0.01   & -0.28  \\
+\textbf{SE.Skewness}  & 0.09   & 0.09   & 0.09   \\
+\textbf{Kurtosis}     & -0.38  & -0.72  & -0.83  \\
+\textbf{N.Valid}      & 784.00 & 784.00 & 784.00 \\
+\textbf{Pct.Valid}    & 100.00 & 100.00 & 100.00 \\
+\hline
+\end{tabular}
+\caption{Descriptive Statistics for my data (N = 784)}
+\label{tab:descriptive_data}
+\end{table}
+
+```
+
+The descriptive statistics for the data can be seen in \autoref{tab:descriptive_data}.
+
+Need to finish descriptive statistics and explain the standard deviation, mean, and other statistics.
+
+The descriptive statistics for annual household income show that the mean is 3.58, with a standard deviation of 2.19. The minimum is 1, which is less than 15,000 dollars, and the maximum is 10, which is 300,000 dollars or more. The median is 3, which is between 25,000 and 35,000 dollars. The interquartile range is 3, which is between 35,000 and 50,000 dollars. The skewness is 0.58, which is positive and means that the distribution right-skewed.
+
+The kurtosis is -0.38, which means the distribution is flatter than the normal. The mean absolute deviation is 2.97, and the coefficient of variation is 0.61.
+
+Financial literacy which is the sum of 4 financial literacy questions has a mean of 2.05, with a standard deviation of 1.11. The minimum is 0, and the maximum is 4. The median is 2, and the interquartile range is 2. The skewness is 0.01, which means that the distribution is close to a normal distribution, and has no skewness or you can say it is symmetrical. 
+
+The the kurtosis is -0.72. A negative kurtosis means that the distribution is flatter than a normal distribution.
+
+Financial Literacy is a variable that was made by summing up the correct answers to 4 financial literacy questions, where the respondents ended up with a score between 0 and 4.
+
+## Data Visualization
+
+```{r}
+# Convert income to numeric by using midpoints
+data <- data %>%
+  mutate(
+    Annual_household_income_numeric = case_when(
+      Annual_household_income == "<$15k" ~ 7500,
+      Annual_household_income == "15-25k" ~ 20000,
+      Annual_household_income == "25-35k" ~ 30000,
+      Annual_household_income == "35-50k" ~ 42500,
+      Annual_household_income == "50-75k" ~ 62500,
+      Annual_household_income == "75-100k" ~ 87500,
+      Annual_household_income == "100-150k" ~ 125000,
+      Annual_household_income == "150-200k" ~ 175000,
+      Annual_household_income == "200-300k" ~ 250000,
+      Annual_household_income == "300k+" ~ 300000
+    )
+  )
+
+
+
+# Relation between financial literacy and annual household income
+#Scatterplot
+ggplot(data, aes(x = Financial_literacy, y = Annual_household_income_numeric, color=Sex)) +  
+  geom_jitter(aes(color =Sex), alpha = 0.5) +  # Adds jitter to the points
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Adds regression line
+  labs(title = "",
+       x = "Financial Literacy Score",
+       y = "Annual Household Income (Numeric)") +
+  theme_minimal()+
+  scale_y_continuous(labels = scales::dollar_format(prefix = "$"))+
+  scale_color_manual(values = c("cornflowerblue", "palevioletred"))+
+  theme(legend.position = "bottom")
+```
+
+```{r}
+# Show the distribution of financial literacy between genders
+data %>%
+  ggplot(aes(x = Financial_literacy))+
+  geom_bar(aes(fill =Sex), position = "dodge") +
+  labs(title = "",
+       x = "Financial Literacy Score",
+       y = "Count of Respondants",
+       fill = "Sex") +  
+  theme_minimal()+
+  theme(legend.position = "bottom")+
+  scale_fill_manual(values = c("cornflowerblue", "palevioletred"))
+```
+```{r}
+# Show the distribution of Annual household income between genders
+data %>%
+  ggplot(aes(x = Annual_household_income))+
+  geom_bar(aes(fill =Sex), position = "dodge") +
+  labs(title = "",
+       x = "Annual Household Income",
+       y = "Count of Respondants",
+       fill ="Sex") +
+  theme_minimal()+
+  theme(legend.position = "bottom")+
+  scale_fill_manual(values = c("cornflowerblue", "palevioletred"))
+```
+
+
+```{r}
+#Bar chart
+ggplot(data, aes(x = factor(Financial_literacy), fill = factor(Annual_household_income))) +
+  geom_bar(position = "dodge") + labs(
+    title = "Distribution of Income Brackets by Financial Literacy Level",
+    x = "Financial Literacy Level",
+    y = "Count",
+    fill = "Income Bracket"  ) +  theme_minimal()
+```
+
+
+# Regression Analysis
+
+Our group is going to use an ordinal logistic regression model to analyze the relationship between financial literacy, annual household income, and willingness to take financial risks in the United States for young adults. We will also investigate if financial literacy has a different effect on income and risk tolerance and moderate these relationships by sex, ethnicity (not sure yet), and expected future inheritance to see if the effect of financial literacy on income and risk tolerance is stronger (or weaker) for certain groups.
+
+
+## Model specification
+
+The model we have to use is an ordinal logistic regression model, which is a type of regression analysis used for predicting the relationship between ordinal dependent variables and one or more independent variables. The dependent variable is ordinal, which means that it has a natural order, but the intervals between the categories are not equal. The independent variables can be either continuous or categorical.
+
+The ordinal logistic regression model without conctrol variables is specified as:
+
+$$logit(P(\text{Income} \leq j)) = \alpha_j + \beta_1\times\text{Financial Literacy}$$
+
+where Annual Houshold Income is the dependent variable and Financial Literacy is the independent variable. A positive coefficient for Financial Literacy would indicate that higher financial literacy is associated with higher annual household income, or more precisely, a higher probability of being in a higher income category. In R we can fit this model using the polr function from the MASS package.
+
+```{r, warning=FALSE}
+library(MASS)
+# Ordinal logistic regression model
+
+# Fit the model
+fit <- polr(Annual_household_income ~ Financial_literacy,
+            data = data)
+
+
+# Summarize the model with stargazer
+stargazer(fit, type = "text")
+```
+## Interpretation of the results
+
+Model 1 with no control variables and interaction terms shows that the effect of financial literacy on annual household income is not statistically significant. The odds ratio coefficient for financial literacy is -0.042, which means that a one-unit increase in financial literacy is associated with a 4.2% decrease in the odds of being in a higher income category. Which is opposite to what we expected, but not statistically significant. This basically means that I am wasting my time studying economics and finance, I should have studied something else.
+
+To explore this further, we will add control variables and interaction terms to the model.
+
+## Adding control variables
+
+The model with control variables is specified as:
+
+$$logit(P(\text{Income} \leq j)) = \alpha_j + \beta_1\times\text{Financial Literacy} + \beta_2\times \text{Ethnicity} + \beta_3\times \text{Sex} + \beta_4\times \text{Education Parent}$$
+
+where we control for ethnicity, sex, education parent, and inheritance. We can fit this model using the polr function from the MASS package.
+
+```{r, warning=FALSE}
+# Multiple ordinal logistic regression model
+fit2 <- polr(Annual_household_income ~ Financial_literacy + Ethnicity + Sex * Ethnicity + Education_parent,
+             data = data)
+
+# Summarize the model with stargazer
+stargazer(fit2, type = "text")
+```
+## Interpretation with control variables
+
+Model 2 with control variables and interaction terms shows that the effect of financial literacy on annual household income now becomes statistically significant at the 0.05 level. The odds ratio coefficient for financial literacy now becomes even more negative with a coefficient of -0.192, which means that a one-unit increase in financial literacy is associated with a 19.2% decrease in the odds of being in a higher income category. This is a very interesting result, and it suggests that financial literacy is negatively associated with annual household income. 
+
+We also find that being female is strongly associated with lower income, with a coefficient of -1.106. The same can be said for non-white, but to a lower effect where the coefficient is -0.371.
+
+Maybe not so interestingly we find that the higher education of the person(s) that raised the respondant is also significantly associated with higher log odds of being in a higher income category. With 6.8% for Some college and up to 16.7% for a postgraduate degree.
+
+The regression model shows that financial literacy is negatively associated with annual household income, which is the opposite of what we expected. We also find that being a female is associated with lower income. The same can be said for non-white, but to a lower effect. We also find that higher education is associated with higher income.
+
+## Model Comparison
+
+```{r, echo=TRUE}
+# Model comparison
+ anova(fit, fit2, test = "Chisq")
+```
+Doing an ANOVA test which is a test that compares the fit of two models to see if the more complex model is significantly better than the simpler model. This test here shows that model2 is not necessarily a better fit than model 1, and the residual deviance which is a measure of how well the model fits the data where lower is better is not significantly different between the two models. But the p value is extremely small, so we can reject the null hypothesis that the simpler model is better, which makes sense since we added multiple important control variables.
+
+
+# Conclusion
+
+Overall the results show that financial literacy is negatively associated with annual household income, which is the opposite of what we expected. This is a very interesting result and suggests that financial literacy may not be as important as previously thought for young adults in the United States. We also find that being female and non-white is strongly associated with lower log odds of being in a lower income bracket, which is a concerning result. We also find that higher education is associated with higher income, which is a positive result.
+
+Some limitations of this study are that after filtering the data for financial literacy, annual household income, and willingness to take financial risks, we were left with a relatively small sample size of 780 young adults in the United States out of 3009, where alot got removed because they answered dont know or prefer not to answer. This could have biased the results, and we should be careful when generalizing the results to the entire population of young adults in the United States. Also, the sample size of non-white young adults was relatively small, which could have affected the results.
+
+However this is just a correlation and not causation, so we cannot say that financial literacy causes lower income among young adults in the US, but it is an interesting result that should be further investigated in future research.
+
+\newpage
+
+# Appendix
+
+
+# References

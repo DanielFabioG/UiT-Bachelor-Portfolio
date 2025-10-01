@@ -5,12 +5,13 @@
 - Provider: Waseda University
 
 ## Courses taken
-List the courses taken abroad and their UiT equivalences. Include syllabi and grade documentation.
 
-## Resources
-- syllabi/
-- coursework/
-- transfer-credits/
-
-## Notes
-Keep any mapping/approval documentation required by UiT.
+- Development Economics
+- International Economics
+- Econometrics
+- Game Theory
+- History of Economic Thought
+- Linear Algebra
+- Microeconomics II
+- Public Finance
+- Quantitative Analysis
