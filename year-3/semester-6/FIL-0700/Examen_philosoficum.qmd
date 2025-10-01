@@ -1,0 +1,177 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Times New Roman
+    documentclass: scrartcl
+    papersize: a4
+    toc: false
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{setspace}
+  - \setstretch{1.5}
+  - \usetikzlibrary{shapes.geometric, arrows, arrows.meta, positioning, calc}
+  - \usepackage{tabularx}
+  - \renewcommand{\maketitle}{}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+  - \usepackage{colortbl}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkblue}{RGB}{115,150,255}
+  - \definecolor{lighterblue}{RGB}{131, 191, 212} 
+  - \definecolor{lightblue}{RGB}{178,211,220}
+keep-tex: false
+nocite: |
+  @*
+---
+
+```{=tex}
+\hypersetup{linkcolor=black}
+\renewcommand{\contentsname}{Innholdsfortegnelse}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+\newpage
+```
+
+
+# Bakgrunn
+
+Jeg har valgt å svare på oppgave 2,3,4 og 5 i Examen Philosophicum FIL-0702.
+
+# Oppgave 2
+
+## Utilitarisme
+
+I følge utilitarismen vil det være moralsk riktig å vaksinere barn i dette scenarioet fordi det vil redde flere hundre menneskeliv. Dette er fordi vaksinen vil gi flokkimmunitet, som vil redusere risikoen for at gamle mennesker blir syke og dør. Selv om barna selv ikke vil ha noe særlig nytte av vaksinen, så vil det være en stor fordel for samfunnet som helhet. Utilitarismen fokuserer på å maksimere lykken for flest mulig eller hva som gir best nytte for alle [@anfinsen2013menneske, s 112], og i dette tilfellet vil vaksinering av barn føre til en betydelig økning i lykken for de gamle menneskene som ellers ville blitt syke og dødd. Siden det ikke finnes noen statistikk for hvor mange av barna som ville fått alvorlige bivirkninger av vaksinen, kan vi anta at det er en lav risiko for alvorlige bivirkninger. Men hypotetisk sett, la oss si at 0.01% av barna ville fått komplikasjoner og det finnes 575 000[^1] barn i Norge under 9 år. Med enkel prosentregning kan vi se hvor mange barn hypotetisk ville fått alvorlige bivirkninger:
+
+$$
+575000 \times 0.01\% = 575000 \times \frac{0.01}{100} = 575000 \times 0.0001 = 57.5
+$$
+
+
+Det vil si at 57 barn kan få alvorlige bivirkninger av vaksinen. Så da ville utilitarismen si at det er verdt å vaksinere barna, fordi det vil redde flere hundre menneskeliv, selv om 57 barn kan få alvorlige bivirkninger, ettersom de er ute etter å maksimere lykken for flest mulig.
+
+Men uten å ha noe særlig nytte av vaksinen vil det være problematisk å vaksinere barn. Det kan føre til at barna får bivirkninger av vaksinen, og at de ikke ønsker å ta vaksinen. Dette kan føre til en reduksjon i lykken for barna, og dermed vil det kanskje ikke være rettferdig å tvinge dem til å ta vaksinen. Ettersom det ikke er lagt til noen andre alternativer, finnes det derfor ikke et godt alternativ til å vaksinere barna, så derfor vil utilitarismen si at det er moralsk riktig å vaksinere barna. Men en normalt kritikk mot utilitarismen er at den ikke tar hensyn til enkeltindividers rettigheter og verdighet. I dette tilfellet kan det være problematisk å vaksinere barn uten deres samtykke, selv om det vil redde flere hundre menneskeliv [@anfinsen2013menneske, s 114-115]. Utilitarismen kan derfor kritiseres for å være for fokusert på å maksimere lykken for flest mulig, uten å ta hensyn til enkeltindividers rettigheter og verdighet.
+
+[^1]: I følge [SSB](https://www.ssb.no/befolkning/faktaside/befolkningen) er det 575 000 barn i Norge under 9 år.
+
+## Kants pliktetikk
+
+I følge Kants pliktetikk vil det være moralsk galt å vaksinere barn i dette scenarioet. Dette er fordi Kants pliktetikk fokuserer på at vi skal handle ut fra plikter og prinsipper, og ikke ut fra konsekvenser [@anfinsen2013menneske, s 127]. I dette tilfellet vil det være galt å vaksinere barn uten deres samtykke, selv om det vil redde flere hundre menneskeliv. Dette er fordi det vil være å bruke barna som et middel for å oppnå et mål, nemlig å redde livene til de gamle menneskene. Ifølge Kants pliktetikk skal vi alltid behandle mennesker som mål i seg selv, og ikke bare som middel for å oppnå våre egne mål [@anfinsen2013menneske, s 128]. Dette betyr at vi ikke kan bruke barna som et middel for å oppnå et mål, selv om det vil redde flere hundre menneskeliv.
+
+# Oppgave 3
+
+## John Lockes kontraktsteori
+
+John Locke begrunner statens legitimitet gjennom kontraktsteori, der han mener at staten er en kontrakt mellom frie og likestilte individer [@anfinsen2013menneske, s 174]. Han mener at staten er nødvendig for å beskytte individets rettigheter og friheter, og at den skal være basert på samtykke fra folket. Locke mener at individet har en naturlig rett til liv, frihet og eiendom, og at staten må respektere disse rettighetene. Hvis staten ikke gjør det, har individet rett til å gjøre opprør mot den [@anfinsen2013menneske, s 177].
+
+## Jean-Jacques Rousseaus kontraktsteori
+
+I motsetning til Locke, så bygger Rousseau sin kontraktsteori på ideen om allmennviljen, som er den kollektive viljen til folket. Rousseau mener at staten skal representere allmennviljen, og at individet må underordne seg denne viljen for å oppnå ekte frihet. Han mener at individet kan oppnå frihet gjennom deltakelse i det politiske fellesskapet, og at dette fellesskapet er nødvendig for å oppnå rettferdighet og likhet [@anfinsen2013menneske, s 180].
+
+Ettersom han mener flertallet bestemmer hva som er rett eller galt, så vil minoriteter som er uenige i statens politikk og nekter å etterkomme dens befalinger ikke kunne rettferdiggjøres. Noe som er i strid med Locke sin kontraktsteori, som sier at individet har rett til å kritisere og motsette seg statens politikk hvis den ikke ivaretar innbyggernes interesser [@anfinsen2013menneske, s 177].
+
+## Sammenligning av Locke og Rousseau
+
+Locke og Rousseau har forskjellige syn på forholdet mellom individet og staten. Locke mener at individet er en selvstendig aktør som inngår en kontrakt med staten for å beskytte sine rettigheter, mens Rousseau mener at individet må underordne seg allmennviljen for å oppnå ekte frihet. Dette kan ses som en kritikk av Lockes mer liberale tilnærming, der han legger vekt på individets rettigheter og friheter, mens Rousseau legger vekt på fellesskapet og allmennviljen.
+
+
+# Oppgave 4
+
+## Empirisk konsekvens
+
+En empirisk konsekvens er en påstand som følger deduktivt fra hypotesen og som kan testes empirisk, [@anfinsen2013menneske, s 227]. I historien om oppdagelsen av Neptun er den empiriske konsekvensen at hvis det finnes en åttende planet som påvirker banen til Uranus, så vil observasjonene av Uranus bane stemme overens med de forutsagte posisjonene.
+
+## Hjelpehypotese (testbetingelser)
+
+En hjelpehypotese er en antagelse som må være sann for at hypotesen skal kunne testes. I historien om oppdagelsen av Neptun er hjelpehypotesene at Newtons gravitasjonslov gjelder for alle planeter i solsystemet, og at det ikke finnes andre faktorer som påvirker Uranus bane.
+
+## Falsifisering av gravitasjonsloven
+
+Gratitasjonsloven til Newton ble ikke falsifisert da observasjonene viste at banen til Uranus ikke var som forventet. Dette er fordi det fortsatt var mulig at det fantes en åttende planet som påvirket Uranus bane, og derfor kunne hypotesen fortsatt være sann. Falsifisering skjer når en hypotese ikke stemmer med observasjonsutsagn, og i dette tilfellet var det fortsatt mulig å forklare observasjonene med en annen hypotese.
+
+Videre så beregnet astronomene hvor stor en slik planet måtte være ved bruk av gravitationsloven til Newton, og hvor på himmelen den var å finne. Dette viser at gravitasjonsloven fortsatt var gyldig, og når oppdagelsen av Neptun ble bekreftet ved teleskopisk observasjon, så styrket det gravitasjonsloven til Newton.
+
+I følge Popper, så styrkes en hypotese når den overlever falsifikasjon[@anfinsen2013menneske, s 238] og i dette tilfellet så ble gravitasjonsloven styrket ved at den forklarte observasjonene av Uranus bane og oppdagelsen av Neptun. Dette viser at gravitasjonsloven fortsatt er gyldig eller sann, siden den ikke ble falsifisert av observasjonene.
+
+
+# Oppgave 5
+
+*a) Flere av teoriene om menneskelige behov presentert i Bærekraftig utvikling (kapittel 6) argumenterer for at alle mennesker har noen grunnleggende objektive behov (også kalt kapabiliteter), men at disse behovene (kapabilitetene) kan tilfredsstilles på forskjellige måter. Ta utgangspunkt i minst to av teoriene i kapittel 6 og vis hvordan et grunnleggende behov kan tilfredsstilles gjennom ulike nivåer av ressursbruk. Hva er forholdet mellom behov og forbruk?*
+
+I følge Doyal og Gough er det to grunnleggende behov som må tilfredsstilles for at mennesker skal kunne leve et godt liv. Disse behovene er biologiske og sosiale behov. Biologiske behov inkluderer mat, vann, helse og sikkerhet, mens sosiale behov inkluderer tilhørighet, anerkjennelse og selvrealisering. Disse følger av deres tre moralske imperativer, som er å tilfredsstille menneskelige behov, respektere naturens grenser og sikre sosial rettferdighet. Figuren under viser bærekraftig utviklings moralske imperativer, [@holden2021baerekraftig, s 32].
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[every text node part/.style={align=center}]
+\draw (-1,0) node[anchor=north]{Tilfredstille \\ menneskelige \\ behov}
+  -- (5,0) node[anchor=north]{Respektere \\ naturens \\ grenser}
+  -- (2,4) node[anchor=south]{Sikre sosial rettferdighet}
+  -- cycle;
+\node[below] at (2,2) {Bærekraftig \\ utvikling};
+\end{tikzpicture}
+\end{center}
+```
+
+## Kapabiliteter
+
+Kapabilitetsteorien ble utviklet i 1980, og er en teori om hvordan mennesker kan oppnå et godt liv. Teorien fokuserer på hva mennesker faktisk kan gjøre med de ressursene de har tilgjengelig, og hvordan disse ressursene kan brukes til å oppnå et godt liv. Kapabilitetsteorien skiller mellom to typer kapabiliteter: funksjonelle kapabiliteter og aktivitet. Funksjonelle kapabiliteter er de evnene og ferdighetene som mennesker har, mens aktivitet er de handlingene og aktivitetene som mennesker kan utføre med disse kapabilitetene. Kapabilitetsteorien fokuserer på hvordan mennesker kan bruke sine kapabiliteter til å oppnå et godt liv, og hvordan disse kapabilitetene kan utvikles og forbedres over tid [@holden2021baerekraftig, s 26].
+
+## Menneskelig utvikling
+
+En av teoriene som diskuteres i kapittel 6 er menneskelig utvikling, som fokuserer på hvordan mennesker kan utvikle seg og forbedre sine kapabiliteter over tid. Menneskelig utvikling handler om å utvikle menneskelige ressurser, som utdanning, helse og teknologi, for å oppnå et godt liv. Dette kan gjøres ved å investere i utdanning og helse, og ved å utvikle teknologi som kan forbedre livskvaliteten for mennesker. Menneskelig utvikling fokuserer på hvordan mennesker kan bruke sine kapabiliteter til å oppnå et godt liv, og hvordan disse kapabilitetene kan utvikles og forbedres over tid [@holden2021baerekraftig, s 28].
+
+## Menneskelige behov
+
+I 1943 publiserte Abraham Maslow en teori om menneskelige grunnleggende behov. Hans teori sier at disse behovene er trygghet, anerkjennelse, sosiale behov og selvrealisering. Senere bygger Doyal og Gough videre på teorien og definerer mellomliggende behov som helse, utdanning og teknologi.
+
+Deres teori om menneskelige behov ble utviklet samtidig som teorien om utvikling ble utformet. De fokuserte på hvordan mennesker kan oppnå et godt liv ved å tilfredsstille sine grunnleggende behov. Videre nevner de forbrukersamfunnet og hvordan det påvirker menneskelige behov. De mener at forbrukersamfunnet kan føre til at mennesker blir mer opptatt av materielle goder, og at dette kan føre til en reduksjon i livskvaliteten. Dette kan skje fordi mennesker blir mer opptatt av å kjøpe ting, og nevner at vi har kommet langt opp i Maslows behovspyramide [^2], og at vi derfor ikke lenger er opptatt av å tilfredsstille våre grunnleggende behov. De nevner også at for å tilfredstille de grunnleggende behovene trenger man mellomliggende behov, som må være på plass men mener at det ikke er nødvendig å ha et maksimumsnivå for dekking av behovene [@holden2021baerekraftig, s 31].
+
+[^2]: Maslows behovspyramide er en teori om menneskelige behov som ble utviklet av Abraham Maslow i 1943. Teorien fokuserer på hvordan mennesker har forskjellige behov, og hvordan disse behovene må tilfredsstilles for at mennesker skal kunne leve et godt liv. Behovene er delt inn i fem nivåer, fra de mest grunnleggende behovene til de mest komplekse behovene. De fem nivåene er: fysiologiske behov, sikkerhetsbehov, sosiale behov, anerkjennelse og selvrealisering.
+
+*b) Drøft påstanden: «Vi bør utvikle et maksimumsnivå for dekking av (sosialt skapte) behov, eller et begrep om grenser for forbruk». Hvordan kan Doyal og Gough med ideen om «optimal dekking av mellomliggende behov» kaste lys over denne problematikken?*
+
+I følge Doyal og Gough er det viktig å utvikle et maksimumsnivå for dekking av behov, fordi dette kan bidra til å redusere forbruket av naturressurser og sikre bærekraftig utvikling. De mener at det er nødvendig å sette grenser for forbruket, fordi dette kan bidra til å redusere presset på naturressursene og sikre at de er tilgjengelige for fremtidige generasjoner. Dette kan gjøres ved å utvikle et begrep om grenser for forbruk, som kan bidra til å regulere forbruket av naturressurser og sikre bærekraftig utvikling, [@holden2021baerekraftig, s 30-31].
+
+
+
+\newpage
+
+## Appendix KI
+
+Jeg har ikke brukt ChatGPT til å skrive tekst for meg.
+
+Når jeg skriver dokumentene mine i Rstudio så er det en plugin som heter Github Copilot. Når jeg skriver kommentarer eller bare skriver kodelinjer så kan den foresøke å fullføre kodelinjene eller tekst mens jeg skriver den. Noen ganger klarer den det, men andre ikke. Det er vanskelig å dokumentere hver bruk der den er brukt siden det automatisk skjer under skriving, men siden det ikke er på plass en slik dokumentasjon så kan all tekst antas som at det er brukt Github Copilot. Nærmere info om dette KI verktøyet kan ses på <https://github.com/features/copilot>
+
+\newpage
+
+## Litteraturliste
+
+Video: Bærekraft, vekst og naturens grenser
+

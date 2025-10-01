@@ -1,0 +1,168 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Times New Roman
+    documentclass: scrartcl
+    papersize: a4
+    toc: false
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+    toc-depth: 2
+    number-sections: true
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{setspace}
+  - \setstretch{1.5}
+  - \usetikzlibrary{shapes.geometric, arrows, arrows.meta, positioning, calc}
+  - \usepackage{tabularx}
+  - \renewcommand{\maketitle}{}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+  - \usepackage{colortbl}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkblue}{RGB}{115,150,255}
+  - \definecolor{lighterblue}{RGB}{131, 191, 212} 
+  - \definecolor{lightblue}{RGB}{178,211,220}
+keep-tex: false
+nocite: |
+  @*
+---
+
+```{=tex}
+\hypersetup{linkcolor=black}
+\renewcommand{\contentsname}{Innholdsfortegnelse}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+\newpage
+```
+
+# Innledning
+
+I denne oppgaven vil jeg redegjøre for det teleologiske og det mekanistiske synet på naturen, og drøfter hvilket av de to synene som er best egnet til å forklare biologiske fenomener.
+
+Jeg går først igjennom kjennetegn på det teleologiske verdensbildet, og forklarer hvordan Aristoteles argumenterte for teleologien. Etterpå går jeg inn på overgangen til det mekanistiske verdenssynet, og betydningen Kopernikus, Galileo, Kepler og Newton hadde for overgangen til det nye natursynet ved deres bruk av empiri og matematikk.
+
+Videre drøfter jeg hvordan det mekanistiske synet på naturen har blitt utfordret av moderne biologi, og hvordan kanskje det teleologiske synet kan gi en bedre forståelse av biologiske fenomener. Jeg diskuterer hvordan det teleologiske synet kan være relevant i dagens samfunn, og hvordan det kan bidra til en bedre forståelse av naturen og menneskets plass i den.
+
+Avslutningsvis konkluderer jeg med en oppsummering av hovedpoengene i oppgaven som gir en vurdering av hvilket syn som er best egnet til å forklare biologiske fenomener.
+
+# Det teleologiske synet på naturen
+
+Det teleologiske synet på naturen er et syn som har røtter tilbake til antikken, som har vært en viktig del av den vestlige filosofiske tradisjonen. Teleologi kommer fra det greske ordet "telos", som betyr "mål" eller "hensikt". Selve ordet teleologi betyr "føremål" eller "formålsrettet". Teleologisk natursyn kan da beskrives som formålsrettet natursyn. Det teleologiske synet innebærer at naturen har en hensikt eller et mål, og alt i naturen er rettet mot å oppnå dette målet. Dette synet ble først formulert av Aristoteles, som mente alt i naturen har en iboende hensikt eller formål. Han argumenterte for at alt i naturen streber etter å realisere sin egen essens, og dette er grunnen til at vi kan observere orden og struktur i naturen. [@anfinsen2013menneske, s 195-196]
+
+Aristoteles delte opp naturen i fire kategorier: substans, forandring, årsak og formål. Substans er det som eksisterer i seg selv, forandring er det som skjer med substansen. Årsak får forandringen til å skje, og formål er det som substansen streber etter å oppnå. [@anfinsen2013menneske, s 196-198] Dette synet på naturen var en del av Aristoteles' filosofi.
+
+##Kosmologi
+
+Det teleologiske synet på naturen var også nært knyttet til Aristoteles' kosmologi, som var basert på det geosentriske verdensbilde. Dette innebar at jorden var i sentrum av universet, og alt annet beveget seg rundt jorden. Aristoteles mente det var fem elementer som alt var bygget opp av: jord, vann, luft, ild og eter[^2]. Disse elementene hadde en naturlig plass i universet, og alt i naturen strebet etter å oppnå sin iboende hensikt. [@anfinsen2013menneske, s 206]
+
+[^2]: Eter er et gammelt begrep for en hypotetisk substans som ble antatt å fylle rommet mellom himmellegemene, og som ble sett på som en perfekt og uforanderlig substans.
+
+For å forstå hvordan det teleologiske synet på naturen ble utfordret, er det viktig å se på hvordan dette synet ble endret av de vitenskapsmennene som kom etter Aristoteles. Dette skjedde i løpet av renessansen og opplysningstiden, hvor nye ideer og metoder ble utviklet for å forstå naturen.
+
+# Det mekanistiske synet på naturen
+
+Det mekanistiske synet på naturen har røtter tilbake til renessansen, og som har vært en viktig del av den moderne vitenskapelige tradisjonen. I dette synet kan naturen forstås som en maskin, og at alt i naturen kan forklares med fysiske lover og matematiske modeller. Det mekanistiske synet ble utviklet av blant annet Copernicus, Galileo, Newton og Kepler, som alle bidro til å endre måten vi ser på naturen. 
+
+## Copernicus og Galileo
+
+Copernicus utviklet en heliosentrisk modell av solsystemet, hvor solen er i sentrum og planetene beveger seg rundt solen. Dette var en radikal endring fra det geosentriske synet som hadde vært dominerende i mange århundrer. [@anfinsen2013menneske, s 208]
+
+Galileo Galilei var en av de første som brukte eksperimenter for å teste sine hypoteser, og utviklet en ny metode for å forstå naturen. Han mente at matematikk var naturens språk og vi måtte bruke matematikk for å forstå naturen. Han utførte eksperimenter med fallende legemer, og fant at tunge objekter falt like fort som lette objekter [@anfinsen2013menneske, s 217]. Han hjalp også Copernicus med å bekrefte den heliosentriske modellen ved å observere månen og planetene med teleskopet, og oppdaget at Venus hadde faser, noe som ikke kunne forklares med det geosentriske synet. [@anfinsen2013menneske, s 214]
+
+## Newton og Kepler
+
+Isaac Newton utviklet tre lover om bevegelse og gravitasjon, som forklarte hvordan planetene beveget seg rundt solen. Han viste at den samme kraften som fikk et eple til å falle ned fra et tre, også var den samme kraften som holdt planetene i bane rundt solen. [@anfinsen2013menneske, s 211-212]
+
+Newtons lover for bevegelse og gravitasjon gjorde det mulig å forstå naturen på en ny måte, som førte til en vitenskapelig revolusjon. Han viste at naturen kunne forstås som en maskin, og at alt i naturen kunne forklares med fysiske lover og matematiske modeller. [@anfinsen2013menneske, s 211-212]
+
+Johannes Kepler utviklet tre lover om planetenes bevegelse, hvor den første loven sier planetene beveger seg i ellipser rundt solen, den andre loven sier at en planet beveger seg raskere jo nærmere den er solen, og den tredje loven sier at planetenes omløpstid er proporsjonal med avstanden fra solen. [@anfinsen2013menneske, s 214-215] 
+
+Med disse vitenskapsmennene gikk naturvitenskapen fra å være en del av filosofien til å bli en selvstendig vitenskap. Slik at det mekanistiske synet på naturen ble dominerende, og det teleologiske synet ble forkastet. 
+
+
+# Mekanikken, fysikk og moderne biologi
+
+Da mekanikken ble ført frem som det dominerende natursynet, endret det tankemåten om hva biologi er og hvordan man skal studere den. Er det en fysisk vitenskap, eller er det noe helt annerledes? Ernst Mayr i *Hvordan biologi skiller seg fra de fysiske vitenskapene* mener det sistnevnte. Han argumenterer for at når de fysikken vokste frem, så endret vi måten vi studerte biologien i vitenskapen. Biologi i seg selv er komplekse systemer og kan kanskje ikke bli uttrykt i form av matematiske lover eller modeller, slik som fysikkens og mekanikkens tankemåte tilsier. [@mayr1985biology, s 1-2]
+
+Dette uheldige synet fysikken har gitt oss om biologi er noe Mayr argumenterer for at må endres. Han mener biologi er en egen vitenskap som ikke kan reduseres til fysikkens lover. Dette synet deles også av Raymond Noble og Denis Noble i *Understanding Living Systems*, hvor de argumenterer for at biologi er komplekse systemer som ikke kan forklares med de samme lovene som gjelder for fysiske systemer. [@noble2023understanding, s 1-13]
+
+På grunn av dette har biologiens utvikling vært begrenset av vitenskapsfilosofene fra tidligere generasjoner, hvor de har har hatt et mekanistisk syn på naturen hvor levende organismer adlød de samme lovene som de fysiske systemene, og at ingen andre lover kunne gjelde for biologiske systemer. I det siste århundret har det kommet en endring i synet på biologi, hvor man ikke lengre har kunnet neglisjere de særegne biologiske fenomenene som ikke kan forklares med de fysiske lovene. Dette førte til splittelse mellom biologene som enda mener biologi fortsatt er en del av fysikken, og de som mener at biologi er en egen vitenskap. [@mayr1985biology, s 2]
+
+## Vitalisme
+
+De uforklarte aspektene ved biologiske prosseser som ikke kan forklares med de fysiske lovene, har ført til at mennesker har utviklet teorier som prøver å forklare disse fenomenene. En av de mest kjente teoriene er vitalismen, som hevder det finnes en "vital force[^3]" eller "vis viva[^4]" som er ansvarlig for livsprosessene i organismer. Vitalismen ble utviklet på 1700-tallet av filosofer som Henri Bergson og Hans Driesch, og var en reaksjon på det mekanistiske synet på naturen. [@mayr1985biology, s 3]
+
+[^3]: Vital force (vital kraft) er en hypotetisk kraft som ble antatt å være ansvarlig for livsprosessene i organismer, og som ikke kunne forklares med de fysiske lovene.
+
+[^4]: Vis viva er et gammelt begrep for livskraft, og ble brukt av filosofer som Bergson og Driesch for å beskrive den hypotetiske kraften som var ansvarlig for livsprosessene i organismer.
+
+Vitalistene mente det var en forskjell mellom levende og døde organismer, og denne forskjellen ikke kunne forklares med de fysiske lovene. De mente det var enten den fysiske verdenen eller den biologiske verdenen, og de ikke kunne reduseres til hverandre. Dette synet skapte kontroverser mellom fysikalister og vitalister, og begge sidene var overbevist om at de hadde rett. I dag ser man tilbake på vitalismen som en feilslutning, og den døde ved overgangen til det moderne synet på biologi på 1900-tallet. Dette ble starten på å lete etter en ny måte å forstå biologi på. [@mayr1985biology, s 3-4]
+
+# Teleologien og moderne biologi
+
+Artikkelen *Forholdet mellom fysikk og biologi* av Ragnar Fjelland, diskuter hvordan det teleologiske synet på naturen kan være relevant i dagens samfunn, og hvordan biologien overskrider fysikkens rammer. Fjelland nevner at grunnen til dette hovedsaklig er knyttet opp mot reduksjonisme[^5], som er en viktig del av det mekanistiske synet på naturen. Under Aristoteles teleologi forklarte han i motsetning til reduksjonisme, at inndelingen av objekter i deler ikke nødvendigvis gir en forståelse av helheten, og brukte heller en hierarkisk[^6] tilnærming til å forstå naturen [@fjelland2003om, s 3]. 
+
+[^5]: Reduksjonisme er en tilnærming innen vitenskapen som går ut på å forklare komplekse fenomener ved å bryte dem ned i enklere deler, og studere disse delene hver for seg.
+
+[^6]: Hierarkisk tilnærming er en tilnærming innen vitenskapen som går ut på å forstå komplekse fenomener ved å se på hvordan delene henger sammen i et hierarki, og hvordan de påvirker hverandre.
+
+Både Mayr og Fjelland er enige om at det teleologiske synet på naturen kan være mer relevant for moderne biologi, og at det kan bidra til en bedre forståelse av biologiske fenomener enn fysikkens reduksjonisme.
+
+## Darwinisme
+ 
+Charles Darwin utviklet teorien om naturlig utvalg i boken *Artenes opprinnelse* i 1859, hvor han argumenterte for at arter utvikler seg over tid gjennom prosessen med naturlig seleksjon. Det er her det berømte uttrykket "survival of the fittest" kommer fra, eller som Darwin selv proklamerte "survival of the most fit". 
+
+Samtidig som Darwin utviklet sin teori, var det også en annen forskning som skjedde innen biologi, nemlig Gregor Mendel sin forskning på arvelighet. Mendel viste at egenskaper ble overført fra foreldre til avkom gjennom gener, og at disse genene kunne være dominante eller recessive. Dette var en viktig oppdagelse som senere førte til utviklingen av genetikken, og som ikke i seg selv forklarte noe om evolusjon, men sammen med Darwins teori om naturlig utvalg, dannet dette grunnlaget for moderne biologi.
+
+Men biologien støter fortsatt på problemer her også. Fossile funn tyder på at evolusjon har skjedd i sprang, og ikke gradvis som Darwin først trodde, derfor er det ikke alltid lett å forklare hvordan evolusjon skjer gjennom naturlig seleksjon eller tilfeldig variasjon [@fjelland2003om, s 4].
+
+Det gjøres også påpekninger av andre eksempler for hvordan det teleologiske synet kan være mer relevant for moderne biologi, som for eksempel i studier av dyreatferd og økologi, eksempel fra spillet Life av Conway, og Niels Bohrs ide om komplementaritet, hvor han brukte uttrykket for å beskrive hvordan lys kan oppføre seg både som partikler og bølger, avhengig av hvordan det blir målt [@fjelland2003om, s 4-10], men dette blir for omfattende å inkludere i oppgaven.
+
+## Frigjøring av biologien
+
+Om man ser på biologien ved kun bruk av reduksjonisme, fysikk og modeller så virker det ikke som at biologer kan forklare biologiske fenomener. Mayr argumenterer for at lovene som er utviklet av fysikken til biologien mer kan anses som faktumer, og at flere forfattere som har forsøkt å matematisk beskrive biologiske fenomener, har mislykkes. Dette er fordi biologiske fenomener er så komplekse at de ikke kan reduseres til enkle matematiske modeller, og at det derfor er nødvendig å bruke andre metoder for å forstå dem. Det må finnes en ny måte å forstå biologi på, som kommer seg unna svakhetene til fysikken og vitalismen, og derfor burde biologi betraktes som sin egen vitenskap, og som står i sentrum av alle vitenskaper [@mayr1985biology, s 8-9].
+
+En konsekvens av dette er at biologien kan frigjøre seg fra fysikken, og at biologiske fenomener kan forstås på en annen måte enn det som er gjort tidligere. Dette kan føre til en bedre forståelse av biologiske prosesser, og kan bidra til å konstruere en filosofi som er mye bedre egnet til å forstå biologiske fenomener enn det fysiske synet på naturen [@mayr1985biology, s 12]. Dette kan også føre til en bedre forståelse av menneskets plass i naturen, og hvordan vi kan forholde oss til naturen på en mer bærekraftig måte. 
+
+
+# Diskusjon og konklusjon
+
+Å frigjøre biologien fra fysikken kan være en viktig del av å forstå hvordan vi kan forholde oss til naturen på en mer bærekraftig måte. Aristoteles teleologi kan være en viktig del av dette, og kan bidra til å gi en bedre forståelse av hvordan biologiske prosesser fungerer. Fysikken virker til å gjøre det vanskeligere å forstå biologiske prosesser, og kan føre til en reduksjonistisk tilnærming som ikke tar hensyn til kompleksiteten i biologiske systemer. Dette kan føre til en misforståelse av hvordan naturen fungerer, og å frigjøre eller frakoble biologien fra fysikken kan være en viktig del av å forstå hvordan vi kan forstå biologi, og hvordan vi kan forklare biologiske fenomener bedre enn det som er gjort tidligere.
+
+\newpage
+
+## Appendix KI {.unnumbered .unlisted}
+
+Jeg har ikke brukt ChatGPT til å skrive tekst for meg.
+
+Når jeg skriver dokumentene mine i Rstudio så er det en plugin som heter Github Copilot. Når jeg skriver kan den foresøke å fullføre kode eller tekst mens jeg skriver. Det er vanskelig å dokumentere hver bruk der den er brukt siden det automatisk skjer under skriving, men siden det ikke er på plass en slik dokumentasjon så kan all tekst antas som at det er brukt Github Copilot. Nærmere info om dette KI verktøyet kan ses på <https://github.com/features/copilot>
+
+\newpage
+
+## Litteraturliste {.unnumbered .unlisted}

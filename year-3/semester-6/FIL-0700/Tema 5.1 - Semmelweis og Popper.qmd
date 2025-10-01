@@ -1,0 +1,205 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Arial
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \usetikzlibrary{shapes.multipart}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+# Tema 5.1: Semmelweis og Popper
+
+## Oppgave 1
+
+*Historien om Semmelweis inneholder to bekreftelser (styrkinger) og en falsifikasjon.*
+
+a) Forklar hva som er hypotese og empirisk konsekvens i de forskjellige tilfellene, og sett opp argumenter for dem slik det gjøres i lærebokas avsnitt 5.4.2. Du trenger ikke ta med testbetingelser (hjelpehypoteser).
+
+En hypotese, forkortet til H, er en antagelse om sammenhenger mellom fenomener som kan testes empirisk, mens en empirisk konsekvens (EK) er en påstand som følger deduktivt fra hypotesen og som kan testes empirisk.[@ex_phil_bok, s 227]
+
+Læreboken setter argumentene opp slik:
+
+$P_1: \text{Hvis H, så EK.}$
+
+forkortet til:
+
+$P_1: H \rightarrow EK.$
+
+Om EK stemmer med observasjonsutsagn, så bekreftes konsekventen, og hypotesen styrkes. Videre får vi da:
+
+$P_2: \text{EK}$
+
+eller:
+
+$P_2: \text{ikke EK}(dvs. \neg {EK}).$
+
+og da får man følgende konklusjoner:
+
+$K_1: \text{H}$
+
+eller:
+
+$K_2: \neg {H}.$
+
+Om EK ikke stemmer med observasjonsutsagn, så falsifiseres hypotesen og kalles for en modus tollens. Disse to kalles slutningsformer for hypoteser via styrking og falsifikasjon.[@ex_phil_bok, s 228]
+
+Disse to slutningene kan sees i følgende tabell:
+
+```{=tex}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Modus tollens & Bekreftelse av konsekventen \\
+\hline
+\hline
+$P_1: H \rightarrow EK$ & $P_1: \rightarrow {EK}$ \\
+\hline
+$P_2: \neg \underline{EK}$ & $P_2:  \underline{EK}$ \\
+\hline
+$K: \neg {H}$ & $K: H$ \\
+\hline
+\end{tabular}
+\vspace{0.5cm}
+\end{center}
+```
+
+I Ignaz Semmelweis tilfelle jobbet han på en legeklinikk for fødselshjelp, og han observerte at dødeligheten på hans klinikk var årlig på rundt 17 prosent mens den på andre klinikker bare var på 2-3 prosent. Mer spesielt inkluderte dette også en annen klinikk som lå i samme bygg men som ble drevet av jordmødre og ikke leger. Semmelweis ble oppmerksom på dette og begynte å undersøke hva som kunne være årsaken til at deres klinikk alene hadde så høy dødelighet, når naboklinikken i samme bygg ikke hadde det. Han observerte at leger og medisinstudenter som jobbet på klinikken startet arbeidsdagen med å dissekere lik, deriblant kvinner som hadde dødd av barselfeber fra forrige dag før de gikk videre til å behandle pasienter og avsluttet dagen med fødselshjelp.
+
+Med disse observasjonene som utgangspunkt, formulerte Semmelweis en hypotese om at barselfeber forårsakes av likstoff og en empirisk konsekvens som sa at dersom legene vasket hendene etter kontakt med lik, ville barselfeber reduseres. Semmelweis innførte denne rutinen, og barselfeber forkomsten gikk ned til 2-3 prosent. Dette var en bekreftelse av konsekventen, og hypotesen ble styrket.
+
+$P_1$: Hvis barselfeber forårsakes av likstoff, så vil barselfeber reduseres dersom legene vasker hendene etter kontakt med lik.
+
+$P_2$: Vask av hender etter kontakt med lik reduserer barselfeber.
+
+$K_1$: Barselfeber forårsakes av likstoff.
+
+Men noen år senere observerte Semmelweis at kvinner også fikk barselfeber uten å ha vært i kontakt med likstoff, derfor ble hypotesen nå falsifisert siden personer fikk barselfeber uten å ha vært i kontakt med likstoff.
+
+$P_1$: Hvis barselfeber forårsakes av likstoff, vil bare personer i kontakt med lik få barselfeber.
+
+$P_2$: Personer som ikke har vært i kontakt med lik får barselfeber.
+
+$K$: Barselfeber forårsakes ikke av likstoff.
+
+Til slutt antok Semmelweis at siden personer fikk barselfeber uten å ha vært i kontakt med likstoff så må stoffet som forårsaker barselfeber forekomme i alt organisk materiale, også levende. Semmelweis formulerte da en ny hypotese som sa hvis barselfeber forårsakes av alt organisk materiale både levende og dødt så vil innføring av håndvask før hver undersøkelse føre til en enda større reduksjon av barselfeber.
+
+$P_1$: Hvis barselfeber forårsakes av alt organisk materiale både levende og dødt, vil innføring av håndvask før hver undersøkelse føre til en enda større reduksjon av barselfeber.
+
+$P_2$: Håndvask før hver undersøkelse fører til enda større reduksjon av barselfeber.
+
+$K$: Barselfeber forårsakes av alt organisk materiale både levende og dødt.
+
+
+Den empiriske konsekvensen av denne hypotesen var at dersom legene vasket hendene etter enhver undersøkelse, ville barselfeber reduseres. Dette viste seg å stemme, og barselfeberdødligheten gikk ned til under 1 prosent. Derfor ble konsekvensen bekreftet siden den empiriske konsekvensen var sann, og hypotesen var styrket. [@ex_phil_bok, s 227-228]
+
+\newpage
+
+b) Er argumentene du har satt opp logisk gyldige? Begrunn svaret.
+
+At et argument er logisk gyldig betyr det at det er umulig for premissene å være sanne og konklusjonen falsk. Derimot kan slutningsformen bekreftelse av konsekventen ha ugyldige premisser og en sann konklusjon, som da blir en logisk ugyldig slutning i følge [@ex_phil_bok, s 222-223] 
+
+Dette vil da si at argumentene for Semmelweis sin første hypotese er logisk ugyldig siden konklusjonen er sann men premissene er falske.
+
+Den andre slutningsformen modus tollens er derimot logisk gyldig siden det er umulig for premissene å være sanne og konklusjonen falsk. Derfor er argumentene for Semmelweis sin andre hypotese logisk gyldig. Siden det ikke er tilfelle at personer som ikke har vært i kontakt med lik får barselfeber, så er det umulig for premissene å være sanne og konklusjonen falsk.
+
+
+c) Når det gjelder Semmelweis’ første hypotese, hvilke elementer i historien tilhører oppdagelsesprosessen, og hvilke tilhører begrunnelsesprosessen?
+
+Figuren under viser den vitenskapelige prosessen, hvor vi utikler en hypotese under oppdagelse og tester den under bekreftelse [@ex_phil_bok, s 220].
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[every text node part/.style={align=center}]
+    % Enlarged filled boxes
+    \node[draw, rectangle, fill=darkgrey, minimum width=3cm, minimum height=1.5cm] (A) at (0,0) {Naturen};
+    \node[draw, rectangle, fill=darkgrey, minimum width=3cm, minimum height=1.5cm] (B) at (4,0) {Hypotese};
+
+    % Unfilled text-only nodes
+    \node (C) at (8,0) {Utlede konsekvenser \\ av hypotese};
+    \node (D) at (-3.2,0) {Observasjon \\ og \\ eksperiment};
+    \node (E1) at (2,2) {Oppdagelsesprosessen};
+    \node (E2) at (2,-2) {Bekreftelsesprosessen};
+
+    % Arrows
+    \draw[->, thick] (A.north) to[bend left=45] (B.north);
+    \draw[->, thick] (B.south) to[bend left=45] (A.south);
+\end{tikzpicture}
+\end{center}
+
+```
+
+Oppdagelsesprosessen er den delen av prosessen hvor Semmelweis observerte at dødeligheten på hans klinikk var årlig på rundt 17 prosent mens den på andre klinikker bare var på 2-3 prosent.
+
+Begrunnelsesprosessen er den delen av prosessen hvor Semmelweis formulerte en hypotese om at barselfeber forårsakes av likstoff og en empirisk konsekvens som sa at dersom legene vasket hendene etter kontakt med lik, ville barselfeber reduseres.
+
+
+## Oppgave 2
+
+*Forklar hvorfor Karl Popper mener vi får en bedre teori om vitenskap ved å vektlegge falsifikasjon, ikke verifikasjon.*
+
+Før Karl Popper lanserte sin teori om vitenskap, var det vanlig å se på vitenskapelig fremskritt som en prosess hvor en hypotese ble bekreftet gjennom observasjoner og eksperimenter. Og som sett på tidligere så er det to slutningsformer for hypoteser, bekreftelse av konsekventen og modus tollens, hvor bekreftelse av konsekventen er en logisk ugyldig slutningsform siden det er mulig for premissene å være falske og konklusjonen sann.[@ex_phil_bok, s 222-223] 
+
+Popper mente da at det var en bedre teori om vitenskap ved å vektlegge falsifikasjon, ikke verifikasjon ettersom han tenkte at oppdagelsesprosessen ikke var interresant. Ved å vektlegge falsifikasjon, så vil en hypotese som er falsifisert bli forkastet, og Popper mente at vitenskapelige fremskritt skjer ved å falsifisere teorier ikke bekrefte dem.[@ex_phil_bok, s 238] Det betyr bare at man kvitter seg med det som ikke stemmer og beholder det som stemmer, til vi eventuelt finner noe som stemmer bedre eller en ny oppdagelse gjør at vi må forkaste det vi har.
+
+Når vi vektlegger falsifikasjon handler det altså om å kritisere teorier og hypoteser for å se om de fortsatt holder, og dette i motsetning til verifikasjon gjør at vi normalt burde få bedre tiltro til teorier som har blitt hardt testet og som fortsatt holder. Ved falsifikasjon går man deduktivt og ikke induktivt til verks [@ex_phil_bok, s 240]. Vi lærer om verden ved å eliminere det som ikke stemmer, og ikke ved å bekrefte det som stemmer. Dette kan være en bedre teori om vitenskap fordi det er en mer kritisk tilnærming til vitenskapen og gjør at vi kan få en bedre forståelse av verden rundt oss.
+
+## Oppgave 3
+
+
+*Bruk Semmelweis’ forskning som eksempel og gjør rede for Poppers syn på vitenskapelig fremskritt.*
+
+Popper mente at selv om en teori har blitt bekreftet mange ganger, så er det fortsatt mulig for den å bli falsifisert i fremtiden. Derfor vil teorier alltid være midlertidige og aldri endelig bekreftet, og dette kaller han for at en teori er korroborert eller herdet. Men en teori kan aldri bli endelig bekreftet, selv om den har motsatt seg mange forsøk på å bli falsifisert.[@ex_phil_bok, s 241] Om teorien i framtiden skulle bli falsifisert så vil det være et vitenskapelig framskritt, og man får da et nytt problem som trenger nye hypoteser og teorier for å løse. [@ex_phil_bok, s 242] 
+
+Semmelweis sin forskning ville Popper sett på som vitenskapelige fremskritt ettersom han formulerte en hypotese om at barselfeber forårsakes av likstoff og videre testet denne hypotesen ved å innføre rutiner for håndvask etter kontakt med likstoff. Senere så falsifiserte Semmelweis denne hypotesen da han observerte at kvinner også fikk barselfeber uten å ha vært i kontakt med likstoff. Derfor formulerte han en ny hypotese om at barselfeber forårsakes av alt organisk materiale både levende og dødt og testet denne hypotesen ved å innføre rutiner for håndvask før hver undersøkelse. Dette ville Popper sett på som et vitenskapelig fremskritt ettersom den nye teorien løste det tidligere problemet og bestod de nye testene som falsifiserte den gamle teorien, men samtidig også ga en mer presis forklaring på fenomenet enn at kun likstoff forårsaket barselfeber. [@ex_phil_bok, s 242]
+
+## Oppgave 4
+
+*Forklar hvorfor det i praksis kan være vanskelig å vite om vitenskapelige hypoteser er usanne. Hva har dette å si for Poppers teori om vitenskap?*
+
+I praksis kan det være vanskelig å vite om vitenskapelige hypoteser er usanne ettersom det er umulig å teste alle mulige konsekvenser av en hypotese og spesielt om man legger til hjelpehypoteser. Dette betyr at det alltid vil være en mulighet for at en hypotese kan bli falsifisert i fremtiden, selv om den har blitt bekreftet mange ganger. I moderne forskning så brukes det også instrumenter og metoder som kan være feilkalibrerte eller feilaktige, og dette kan føre til at en hypotese som er falsifisert i virkeligheten kunne ha blitt bekreftet om instrumentene hadde vært riktig kalibrert. Boken bruker et eksempel hvor CERN hadde funnet en partikkel som gikk raskere enn lysets hastighet, men som senere viste seg å være en feil i måleutstyret siden det var en løs kabel. [@ex_phil_bok, s 245] Hadde det ikke vært for at forskerne var skeptiske til resultatene og undersøkte det nærmere, så kunne det ha blitt en stor vitenskapelig sensasjon som senere viste seg å være feil.
+
+Popper mener fortsatt at falsifikasjon er bedre, siden testbetingelse også må gjennomgå falsifikasjon og ikke bare bekreftelse selv om man da har med så mange testbetingelser og antakelser slik at det blir vanskelig å direkte vite hvilken betingelse som forårsaket falsifiseringen.[@ex_phil_bok, s 246] 
+
+Dette kan da bli et paradox hvor en teori ikke må falsifiseres for fort, og hvor den heller ikke kan beholdes for lenge ettersom det kan finnes andre alternativer. [@ex_phil_bok, s 246]
+\newpage
+
+# Litteraturliste

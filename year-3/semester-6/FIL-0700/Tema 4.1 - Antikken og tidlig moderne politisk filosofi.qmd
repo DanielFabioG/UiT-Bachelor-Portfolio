@@ -1,0 +1,108 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Calibri
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+# Tema 4:1: Antikken og tidlig moderne politisk filosofi
+
+## Oppgave 1
+
+*I Platons idealsamfunn må alle akseptere det yrket de blir tildelt etter endt skolegang, uavhengig av hva de selv har mest lyst til. Hvorfor er dette ifølge Platon rettferdig?*
+
+I verket Staten argumenterer Platon for at det er rettferdig at alle aksepterer det yrket de blir tildelt etter endt skolegang, uavhengig av hva de selv har mest lyst til. Dette begrunner han med at det er en naturlig orden i samfunnet, og at det er viktig at alle gjør det de er best egnet til for samfunnet som helhet. Staten oppstår fordi vi som mennesker har behov og trenger hverandre for å dekke disse behovene, og at dette gjøres best med arbeidsfordeling @ex_phil_bok, s 152.
+
+For å finne ut hvilke type arbeid eller yrker en person defineres mennesker gjennom tre karakteregenskaper:
+
+1.  Begjær
+2.  Vilje
+3.  Fornuft
+
+Med dette mener Platon at mennesker er født med ulike egenskaper og evner og vil bruke disse naturlige karakteregenskapene til å fordelene mennesker til hvilket arbeid som er best egnet for deres evner. Derfor blir det viktig å finne ut egenskapene til ethvert individ, som vil føre til at samfunnet fungerer best mulig, og oppdra disse egenskapene slik at de foredles til dyd @ex_phil_bok, s 153.
+
+Videre argumenterer Platon med at dette er rettferdig fordi mennesker utfører sin oppgave eller rolle for samfunnet, og dermed bidrar til at samfunnet fungerer best mulig @ex_phil_bok, s 154. Og videre argumenterer at samfunnet oppnår harmoni og balanse når alle gjør det de er best egnet til, og at det da er rettferdig.
+
+## Oppgave 2
+
+*Gjør kort rede for følgende begreper og forbindelsene mellom dem: kontraktsteori, liberalisme og republikanisme.*
+
+#### Kontraktsteori
+
+Kontraktsteorien startet med utgangspunktet at alle mennesker er født frie, og at vi som naturlige frie mennesker inngår i en kontrakt med en stat for å sikre våre rettigheter og friheter @ex_phil_bok, s 167.
+
+#### Liberalisme
+
+Liberalisme er en politisk ideologi som sier at staten er opprettet for å beskytte innbyggerne og sikre orden og stabilitet, men uten å gripe inn i individets frihet eller personlige valg og affærer @ex_phil_bok, s 168.
+
+#### Republikanisme
+
+Republikanisme er en politisk ideologi som oppstod i antikken og som i motsetning til liberalismen, som fokuserer på hele individets frihet både positivt og negativt så fokuserer republikanismen på positiv frihet, som bedre definert vil være frihet **til** å eksempelvis delta i politiske prosesser og påvirke samfunnet @ex_phil_bok, s 168. 
+
+*Anta at du tilhører en minoritet som er uenig i statens politikk og derfor nekter å etterkomme dens befalinger. I hvilken grad kan en slik oppførsel rettferdiggjøres ifølge...*
+
+a)  *Hobbes?*
+
+I følge Hobbes er staten en maktoverføring fra frie individer som autoriserer en eller en gruppe personer for å opptre for deres vegne for å forlate naturtilstanden @ex_phil_bok, s 172. Staten må ha en sterk og autoritær makt og innbyggerne må følge statens lover og regler. Dette begrunner han med at mennesker er født egoistiske og at det er viktig at staten har en sterk autoritet for å sikre fred og orden i samfunnet @ex_phil_bok, s 173. Derfor mener Hobbes at innbyggerne kun kan følge statens lover og regler, og at herskeren har avgjørende autoritet til å bestemme over borgerne uten at de kan kritisere eller motsette seg statens politikk. Derfor kan en slik oppførsel ikke rettferdiggjøres ifølge Hobbes.
+
+b)  *Locke?*
+
+I samhold med Hobbes mener Locke at statsdannelse er en kontrakt mellom frie og likestile individer @ex_phil_bok, s 174. Men i motsetning til autoritær makt sier Locke at staten skal være dannet ved en folkevalgt regjering og at innbyggerne selv velger forsamlingen som skal ha denne makten. Det er her utviklingen av det moderne demokratiet startet. Locke mener videre at innbyggerne har rett til å motsette seg og kritisere statens politikk, og at de har rett til å gjøre opprør mot staten hvis de mener at staten ikke ivaretar innbyggernes interesser @ex_phil_bok, s 177. Derfor kan en slik oppførsel rettferdiggjøres ifølge Locke.
+
+c)  *Rousseau?*
+
+Rousseau sin statsdannelse er noe annerledes enn Hobbes og Locke. Rousseau mener at staten er en kontrakt mellom alle innbyggerne i et samfunn, og at staten skal representere borgernes individuelle viljer til en felles vilje, som han kaller for allmennviljen @ex_phil_bok, s 180. De folkevalgte representantene er underlagt og forpliktet til å følge allmennviljen, og derfor ville en minoritet som er uenig i statens politikk og nekter å etterkomme dens befalinger ikke kunne rettferdiggjøres ifølge Rousseau. Men dette begrunner han med at allmennviljen er det som er best for samfunnet som helhet, og at flertallet bestemmer hva som er rett og galt @ex_phil_bok, s 180.
+
+*Hobbes, Locke og Rousseau har svært forskjellige oppfatninger av naturtilstanden. Hvilken av disse oppfatningene mener du er best egnet som grunnlag for en teori om en rettferdig stat? Begrunn svaret.*
+
+Hobbes sin naturtilstand er preget av konflikter mellom mennesker for knappe ressurser, hvor det er et skille mellom mennesker fra sterk til svak, men selv om noen er fysisk sterk kan den svakeste vinne ved å være listig, eller ved å samarbeide med andre mennesker @ex_phil_bok, s 169.
+
+Locke derimot mener at naturtilstanden er et enkelt samfunn hvor mennesker lever sammen i små grupper og ikke har en politisk autoritet som styrer dem @ex_phil_bok, s 174. Og at det er et enkelt samfunn med handel, enkle regler og institusjoner som sikrer fred og orden i det lille samfunnet.
+
+Rousseau i likhet med Hobbes og Locke referer også til naturtilstanden som grunn til å danne en stat, men til forskjell fra naturtilstanden til Hobbes, som er preget av konflikter og kamp om ressurser @ex_phil_bok, s 179, så mener Rousseau at naturtilstanden er preget av harmoni og likestilling, og at grunnen til at vi danner staten er knapphet på disse ressursene, klima og naturendringer som gjør at vi kan samarbeide bedre for å overleve @ex_phil_bok, s 178.
+
+I min oppfatning virker Locke sin naturtilstand mest egnet som grunnlag for en rettferdig stat, ettersom den allerede er smått preget av regler og institusjoner som sikrer orden og fred i et allerede mindre samfunn. Jeg føler også at Locke sin naturtilstand er den som etter min mening høres mest realistisk ut, og at hans ideer om demokrati samt rettferdighet er noe som jeg personlig står for, og tenker også at hans statsteori er den som er mest egnet for å skape en god og rettferdig stat.
+
+\newpage
+
+# Litteraturliste

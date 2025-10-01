@@ -1,0 +1,91 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Calibri
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+# Tema 3:2: Lykke og dydsetikk
+
+## Oppgave 1
+
+Kim sier: "Et godt og lykkelig liv for meg er å være berømt. Det har ingenting å si hvordan jeg blir det eller hvordan livet mitt ellers er." I hvilken grad og på hvilken måte kan man kritisere dette utsagnet ut fra
+
+a)  et hedonistisk syn på lykke?
+
+Hvis man følger hedonismen, vil det si at man er lykkeligere med mer nytelse og mindre smerte @ex_phil_bok, s. 117-118. Berømmelse i seg selv gir kan føre til nytelse, men det er ikke sikkert at det gir mer nytelse enn smerte. Berømmelse kan også føre til stress, press og kritikk og andre ubehagelige sider. Fra et hedonistisk synspunkt ignorerer Kim at det er andre faktorer enn berømmelse som kan påvirke lykken hennes. Som hedonismen sier kan det være andre ting som gir mer nytelse og mindre smerte enn berømmelse som ikke er tatt med i betraktningen og kan påvirke det totale lykkenivået hennes. Dette blir enda tydeligere hvis vi antar at det finnes ulike kvaliteter av nytelse, slik John Stuart Mill hevder @ex_phil_bok, s. 115. Det virker fornuftig å tro at gleden man får av å være berømt er relativt overfladisk og av lav kvalitet, sammenlignet med den dypere nytelsen man opplever fra for eksempel kunst, kunnskap eller andre former for personlig utvikling.
+
+b)  preferanseteorien?
+
+Preferanseteorien sier at det er det som er ønsket som er den grunnleggende preferanse. Kim sier at det er berømmelse som er det gode for henne @ex_phil_bok, s. 119. Det er da ikke mulig å kritisere utsagnet hennes ut fra preferanseteorien, fordi det er det hun ønsker og kan være et problem med preferanseteorien, som gjør at få filosofer støtter den.
+
+c)  informert preferanseteorien?
+
+Informert preferanseteori sier at vi bare blir lykkeligere av det vi ønsker hvis vi er informert om det eller har rasjonelle grunner til å ønske det @ex_phil_bok, s. 120. Man må ha kunnskap om hva som er godt for en og hva som gir lykke og tenkt gjennom det. Derfor kan man kritisere Kim fordi hun ikke har tenkt gjennom hva som gir lykke og hva som er godt for henne. Hun har ikke tenkt gjennom hva som gir henne lykke og hva som er godt for henne, og har derfor ikke rasjonelle grunner til å ønske berømmelse.
+
+Om Kim har tenkt gjennom hva som gir henne lykke og hva som er godt for henne, og mener fortsatt at berømmelse er det som gir henne lykke, kan ikke informert preferanseteori kritisere henne heller. Innenfor filosofien finnes det også filosofer som mener at Kim tar feil, og at den informerte preferanseteorien er feil.
+
+d)  Aristoteles’ syn på lykke?
+
+Aristoteles mener at vi er lykkelige når vi virker på best mulig måte som menneske og når vi oppfyller vår funksjon @ex_phil_bok, s. 142. Berømmelse er ikke en del av menneskets funksjon, og det er derfor ikke sikkert at berømmelse er det som gir Kim lykke. Lykke er noe vi gjør og ikke man føler eller kan ønske. Derfor er det ikke opp til oss å bestemme om vi virker på best mulig måte. Ifølge Aristoteles så skjer dette når vi realiserer vår egen natur og funksjon, som innebærer å leve et moralsk liv og bruk av sunn fornuft @ex_phil_bok, s. 143.
+
+Vi vet ikke om det finnes en slik felles natur og funksjon for mennesket, og det er derfor vanskelig å kritisere Kim, og si om Kim er lykkelig eller ikke.
+
+\newpage
+
+## Oppgave 2
+
+Gjør rede for forholdet mellom lykke, dyd og moral hos Aristoteles.
+
+I fra tidligere oppgave vet vi at Aristoteles mener at vi er lykkelige når vi virker på best mulig måte som menneske og når vi oppfyller vår funksjon @ex_phil_bok, s. 142. Lykke er ikke noe vi får i et øyeblikk, men noe som vi oppnår over livet @ex_phil_bok, s. 136. Derfor må en lykkelig person ha levd et godt liv, og tillært personlige egenskaper som gjør at man over tid håndterer ulike situasjoner i tråd med menneskets funksjon. 
+
+Dette kaller Aristoteles for dygder, og er er en stabil holdning som gjør at vi handler riktig og blir lykkelig @ex_phil_bok, s. 138. Det er to typer dygder: moralske dygder og intellektuelle dygder. Moralske dygder er de som gjør at vi handler riktig i forhold til andre mennesker, mens intellektuelle dygder er de som gjør at vi handler riktig i forhold til oss selv. En moralsk god person må da handle med en fast og stabil holdning @ex_phil_bok, s. 138. Man kan ikke bare gjør det riktige til noen tider. Og en person som har ærlighet som en dyd, vil alltid være ærlig, uavhengig av situasjonen.
+
+En person som er dygdig vil også være moralsk god, og vil føle medlidenhet med personer som har det vondt, og ikke bare gjøre det riktige for å gjøre det riktige. Dygd involverer også en form av innsikt, som Aristoteles kaller for fronesis @ex_phil_bok, s. 141. Dette er en form for innsikt som gjør at vi kan se hva som er riktig og galt i en spesifikk situasjon. Det betyr at det ikke er opp til den dygdiige personen å bestemme hva som er riktig, men at personen bare kan innse hva som er riktig.
+
+Det vi kan se er at lykke, dyd og moral er nært knyttet sammen. Dygdene får oss til å handle moralsk og riktig, og dette gjør oss lykkelige. Lykke er derfor noe vi oppnår over tid, og er ikke noe vi får i et øyeblikk.
+
+\newpage
+
+# Litteraturliste
+

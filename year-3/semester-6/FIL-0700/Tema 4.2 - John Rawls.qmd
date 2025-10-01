@@ -1,0 +1,130 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Arial
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+# Tema 4:2: John Rawls
+
+## Oppgave 1
+
+*Forklar hvordan Rawls tenker seg at vi kan bruke et slør av uvitenhet i begrunnelsen av prinsipper for et rettferdig samfunn.*
+
+John Rawls var en amerikansk filosof som er mest kjent for sitt verk *A Theory of Justice* fra 1971. I dette verket begynner Rawls å utvikle en teori om rettferdighet som kan fungere som et alternativ til utilitarisme og andre tidligere teorier om rettferdighet. Rawls bygger videre på grunnleggende ideer fra kontraktsteorien, og han forsøker å utvikle en teori om rettferdighet som er uavhengig av konkrete moralske og politiske tradisjoner [@ex_phil_bok, s 181].
+
+Rawls’ kontraktsteori i motsetning til Hobbes, Locke og Rousseau har et abstrakt utgangspunkt. Kontraktsteorien hans er hypotetisk, og starter som et tankeeksperiment. Denne hypotetiske situasjonen kaller Rawls for den opprinnelige posisjonen. I den opprinnelige posisjonen er personene som skal inngå kontrakten, plassert bak et slør av uvitenhet. Dette betyr at de ikke vet noe om sin egen posisjon i samfunnet, sine egne evner, interesser og hvordan status de har [@ex_phil_bok, s 181].
+
+Dette mener Rawls gir et godt utgangspunkt for å utvikle prinsipper for et rettferdig samfunn. Bak et slør av uvitenhet vil personene i den opprinnelige posisjonen være tvunget til å tenke på hva som er rettferdig for alle, og ikke bare hva som er best for seg selv. Sløret av uvitenhet vil også skjule informasjon som kan gi personene en urettferdig fordel, og ta bort prinsipper som er urettferdige for andre i forhandlingene [@ex_phil_bok, s 182].
+
+
+## Oppgave 2
+
+John Rawls rettferdighetprinsipper:
+
+1. Enhver person har det samme ufravikelige krav på et fullstendig system av grunnleggende friheter, et system som er forenlig med et slikt frihetssystem for alle, og
+
+2. Sosiale og økonomiske ulikheter skal oppfylle to betingelser: For det første skal de knyttes til stillinger og posisjoner som er tilgjengelig for alle under forhold som sikrer rimelig sjanselikhet, og for det andre skal de være til størst mulig gagn for de dårligste stilte medlemmene av samfunnet (forskjellsprinsippet). [@ex_phil_bok, s 183]
+
+a) frata en radikal politisk gruppering friheter og rettigheter for å sikre et mer harmonisk og produktivt samfunn?
+
+I følge Rawls første rettighetsprinsipp har enhver person et ufravikelig krav på et fullstendig system av grunnleggende friheter. Dette betyr at det ikke er riktig å frata en radikal politisk gruppering friheter og rettigheter i samfunnet. Men i følge Rawls er det mulig å begrense friheten deres men da må begrensningen være lik for alle.
+
+*Er det ifølge Rawls’ rettferdighetsprinsipper riktig å..*
+
+
+b) nekte en fattig minoritet å praktisere sin kultur slik at de på sikt kan bli mer velstående?
+
+Frihetsprinsippet til Rawls sier at alle har rett til et fullstendig system av grunnleggende friheter. Dette betyr at det ikke er riktig å nekte en fattig minoritet å praktisere sin kultur for å bli mer velstående, men det går ikke utover forskjellsprinsippet, som sier at sosiale og økonomiske ulikheter skal være til størst mulig gagn for de dårligst stilte medlemmene av samfunnet. Men på grunn av frihetsprinsippets første prioritet over forskjellsprinsippet, strider det imot Rawl.
+
+
+c) gi ekstra friheter og rettigheter til personer med samisk bakgrunn for at den samiske kulturen skal overleve?
+
+Frihetsprinsippet til Rawls sier at alle har rett til et fullstendig system av grunnleggende friheter, men det betyr ikke at det er riktig å gi ekstra friheter og rettigheter til personer med samisk bakgrunn da dette strider imot at alle skal ha de samme ufravikelige krav på et fullstendig system av grunnleggende friheter.
+
+d) la det offentlige betale for innbyggernes utdanning?
+
+Sosiale og økonomiske ulikheter skal oppfylle to betingelser: For det første skal de knyttes til stillinger og posisjoner som er tilgjengelig for alle under forhold som sikrer rimelig sjanselikhet, og for det andre skal de være til størst mulig gagn for de dårligste stilte medlemmene av samfunnet (forskjellsprinsippet). Det er derfor riktig å la det offentlige betale for innbyggernes utdanning da dette vil være til størst mulig gagn for de dårligst stilte medlemmene av samfunnet. Dog i et hypotetisk samfunn hvor alle innbyggere er rike og har lik tilgang til utdanning, vil jeg ikke si det strider i mot Rawls rettferdighetsprinsipp.
+
+e) la enkelte bedriftsledere tjene flere hundre ganger så mye som de fattigste i samfunnet?
+
+Under forskjellsprinsippet til Rawls, som sier at stillinger og posisjoner skal være størst mulig gagn for de dårligste stilte i samfunnet, så blir derfor det ikke riktig å la enkelte bedriftsledere tjene flere hundre ganger så mye som de fattigste i samfunnet. 
+
+Derimot hvis det kun er noen enkelte bedriftsledere som tjener flere hundre ganger så mye som de fattigste i samfunnet, så kan det også være til gagn for et samfunn som helhet ettersom de produserer større kvantum av goder til en lavere pris som gjør at de fattigste i samfunnet også kan ha råd til disse godene. Så personlig er det mulig at det kan være til gagn for de dårligst stilte i samfunnet, men det forutsetter at det er en god balanse mellom de som tjener mye og de som tjener lite, og at inntektsulikhetene ikke blir for store.
+
+f) ha et monarki av den norske typen?
+
+Det er ikke riktig å ha et monarki av den norske typen i følge Rawls rettferdighetsprinsipper. Dette er fordi monarkiet gir enkelte personer en urettferdig fordel i samfunnet, og det strider derfor imot Rawls rettferdighetsprinsipper. Det er heller ikke mulig for andre personer enn kongefamilien å bli konge eller dronning, og dette strider også imot Rawls rettferdighetsprinsipper.
+
+## Oppgave 3
+
+*Hva er Robert Nozicks eksempel med Wilt Chamberlain ment å fortelle oss om Rawls’ rettferdighetsteori?*
+
+Robert Nozick var en amerikansk filosof som er kjent for sitt verk *Anarchy, State, and Utopia* fra 1974, og kanskje enda mer kjent som en av de fremste kritikerne av John Rawls teori om rettferdighet. Nozick mener at Rawls’ teori om rettferdighet er feil, og han forsøker å vise dette ved hjelp av et tankeeksperiment som han kaller Wilt Chamberlain-eksempelet [@ex_phil_bok, s 185].
+
+Wilt Chamberlain-eksempelet:
+
+1. Anta at Wilt Chamberlain, en kjent basketballspiller, inngår en kontrakt med en idrettsarena om at han skal få 25 cent for hver billett som selges til kampene hans.
+
+2. Anta at 1 million personer går på kampene til Wilt Chamberlain, og at de betaler 25 cent ekstra for å se ham spille.
+
+3. Dette betyr at Wilt Chamberlain får 250 000 dollar ekstra for hver kamp han spiller.
+
+4. Nozick mener at dette eksempelet viser at Rawls teori om rettferdighet er feil, fordi det viser at det er mulig å skape sosiale og økonomiske ulikheter som ikke er urettferdige, ettersom individene frivillig gikk med på å skape den økonomiske forskjellen. [@ex_phil_bok, s 186]
+
+Bedre forklart mener han at Rawls teori om rettferdighet er feil fordi den ikke tar hensyn til rettighetene til enkeltindividene. Nozick mener at enkeltindividene har rett til å eie sin egen kropp og sitt eget arbeid, og at de har rett til å bruke disse ressursene til å skape sosiale og økonomiske ulikheter som de selv ønsker. Nozick mener derfor at det er urettferdig å begrense enkeltindividene på denne måten, og at Rawls’ teori om rettferdighet er feil fordi den forsøker å gjøre dette. 
+
+Nozick diskuterer også at det å akseptere forskjellen bryter med Rawls’ likhetsprinsipp og at overskuddet til kampene da burde omfordeles, men dette bryter da med prinsippet om frihet fordi det er en tvungen omfordeling av ressurser som fansen frivillig har gitt til Wilt Chamberlain. [@ex_phil_bok, s 185-186].
+
+
+## Oppgave 4
+
+*Hva mener Rawls med at rettferdighetsprinsippene hans skal være gjenstand for en overlappende konsensus? Hvorfor er en slik form for konsensus nødvendig ifølge Rawls?*
+
+I et fritt demokratisk samfunn vil det alltid være ulike synspunkter rundt moralske, politiske og religiøse spørsmål, og Rawls påpeker at det vil være urealistisk at samfunnet vil bli enig om en samfunnsoppfatning som omfatter en av disse doktrinene. Dette betyr at det er vanskelig å oppnå enighet om hva som er rettferdig og legitimt i et samfunn. Og utfordringene til rettferdighetsprinsippene blir å forene rettferdighetsoppfatning som finner en nøytral grunn for å kunne bli akseptert av alle borgere i et samfunn. [@ex_phil_bok, s 188]
+
+Videre for å akseptere rettferdighetsprinsippene må de utvikles som en felles løsning som inneholder felles interesser og verdier som alle borgere i samfunnet aksepterer fra forskjellige og kanskje motsigende doktriner. Når samfunnet kommer frem til en slik enighet for rettferdighetsprinsippene, vil det være en overlappende konsensus. Dette betyr at rettferdighetsprinsippene vil være gjenstand for en konsensus når ulike religioner og kulturer kommer til samme konklusjoner selv om de kommer fra forskjellige bakgrunner og kulturer. [@ex_phil_bok, s 188]
+
+\newpage
+
+# Litteraturliste

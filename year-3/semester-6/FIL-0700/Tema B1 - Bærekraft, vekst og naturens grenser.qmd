@@ -1,0 +1,134 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 11pt
+    mainfont: Arial
+    documentclass: scrartcl
+    papersize: a4
+    toc: false
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+\newpage
+
+# Tema B:1 Bærekraft, vekst og naturens grenser
+
+## Oppgave 1: Er du enig eller uenig i at økt økonomisk vekst er nødvendig for å oppnå bærekraftig utvikling, slik FN anbefaler?
+
+Bærekraftig utvikling er en utvikling som tilfredsstiller nytten til dagens generasjon uten å ødelegge mulighetene for at framtidige generasjoner skal kunne tilfredsstille sine behov. FN anbefaler at økt økonomisk vekst er nødvendig for å oppnå bærekraftig utvikling. Økonomisk vekst er en økning i bruttonasjonalproduktet (BNP), som er en indikator på den økonomiske aktiviteten i et land. 
+
+Økonomisk vekst kan føre til økt velstand og bedre levekår for befolkningen. Legg merke til bruk av begrepet "kan". For at økonomisk vekst skal føre til bærekraftig utvikling, trenger man også økonomisk utvikling. I fattige land hvor befolkningen lever under fattigdomsgrensen, trenger de ikke kun økonomisk utvikling for å hindre at de livnærer seg av naturressurser som ikke er fornybare. Eksempler på dette er hogging av regnskog, overfiske eller utvinning av mineraler som ikke er fornybare, da disse er nødvendige for at de skal overleve. Det trengs også en forming av menneskelig kapital som utdanning, helse og teknologi. Det trengs utvikling av sterke institusjoner som kan regulere økonomisk aktivitet og fordele ressurser rettferdig. Det trengs også en utvikling av sosial kapital som tillit og samarbeid. Får man dette til, kan økonomisk vekst inkludert økonomisk utvikling føre til bærekraftig utvikling sammen. Hovedessensen for at dette skal lykkes er at man forhindrer barnearbeid, får de på skolebenken slik at de får kunnskap om hvordan de heller kan bedre forvalte naturressursene, og at de får en utdanning som gjør at de kan bidra til samfunnet. På sikt kommer levestandard til å øke, og kunnskap og ny teknologi kan føre til at man enten kan erstatte naturressursene med fornybare ressurser, eller øker effektiviteten i bruken av naturressursene, og dermed oppnår bærekraftig utvikling.
+
+I land som Norge som allerede har en høy levestandard, er det ikke nødvendig med økonomisk vekst ved bruk av ikke-fornybare ressurser. Her er det viktigere å fokusere på økonomisk vekst ved bruk av enten fornybare ressurser, eller ny teknologi som kan erstatte naturressursene. I essens trenger land som allerede er rike, å fokusere på å få ned forbruket av naturressurser, og heller fokusere på å øke effektiviteten i bruken av naturressursene, de første landene som klarer å effektivisere dette, vil være de som baner vei for resten av verden og viser at økonomisk vekst kan fortsette selv under bærekraftig utvikling.
+
+## Oppgave 2: Tese 5 i Bærekraftig utvikling hevder at bærekraftig utvikling består av tre moralske imperativer
+
+a) Gjør kort rede for de tre moralske imperativene.
+
+Figuren under viser bærekraftig utviklings moralske imperativer. Modellen viser hvordan bærekraftig utvikling avhenger av å sikre sosial rettferdighet, tilfredsstille menneskelige behov og respektere naturens grenser. De tre imperativene er like viktige, og de er gjensidig avhengige av hverandre.
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[every text node part/.style={align=center}]
+\draw (-1,0) node[anchor=north]{Tilfredstille \\ menneskelige \\ behov}
+  -- (5,0) node[anchor=north]{Respektere \\ naturens \\ grenser}
+  -- (2,4) node[anchor=south]{Sikre sosial rettferdighet}
+  -- cycle;
+\node[below] at (2,2) {Bærekraftig \\ utvikling};
+\end{tikzpicture}
+\end{center}
+```
+
+Å tilfredsstille menneskelige behov handler om å sikre at alle mennesker har tilgang til grunnleggende behov som mat, vann, helse, utdanning og arbeid. Å respektere naturens grenser handler om å ta vare på naturen og sikre at vi ikke bruker opp naturressursene raskere enn de kan fornyes. Å sikre sosial rettferdighet handler om å fordele ressurser og goder rettferdig, slik at alle mennesker har like muligheter til å leve et godt liv. Til sammen skaper de tre imperativene en balanse mellom menneskelige behov, sosial rettferdighet og naturens grenser, som er nødvendig for å oppnå bærekraftig utvikling.
+
+
+b) Hva forteller figur 1.1, kapittel 1, om hvordan forholdet mellom de tre imperativene har utviklet seg siden 1987?
+
+Figuren viser gloable $CO_2$ utslipp fra 1987 til parisavtalen trådte i kraft i 2016. Figuren viser oss hvordan globale $CO_2$ utslipp har økt fra 1987 til 2016. $CO_2$ er en drivhusgass som forårsaker global oppvarming. Global oppvarming er en av de største truslene mot bærekraftig utvikling, fordi den fører til klimaendringer som kan true menneskelige behov, sosial rettferdighet og naturens grenser. Samtidig kan det sees at utslippene har flatet ut fra rike land, ettersom rike land eksporterer produksjonen sin til fattige land, og dermed har de rike landene redusert sine utslipp. Dette er en form for "substitusjon" som ikke er bærekraftig, fordi det fører til at fattige land får høyere utslipp, og dermed øker de globale utslippene. Vi som bor i et rikt land som Norge legger ikke merke til våre utslipp, men hvis vi besøker landene vi importerer fra vil vi se hvordan vi indirekte påvirker deres utslipp og bidrar til global oppvarming, ved å for eksempel bestille billige varer fra Kina via alibaba/temu, eller bestille klær fra Bangladesh via H&M.
+
+c) Mener du at de tre moralske imperativene er like viktige, eller bør det være en innbyrdes prioritering mellom dem?
+
+Da FN lanserte bærekraftsålene i 2015, var de en slags diskusjon rundt de tre moralske imperativene, hvor alle målene som ble satt opp var like viktige. Dette er fordi de tre imperativene er gjensidig avhengige av hverandre. Det er vanskelig å trekke fram at en av de tre imperativene er viktigere enn de andre, fordi de er alle nødvendige for å oppnå bærekraftig utvikling. Om man skal trekke frem en viktig faktor, så er det at naturen selv viser oss hvor mye den tåler av menneskelige inngrep, og hvor mye den tåler av ressursuttak. Så det er viktig for oss å respektere disse økosystemene slik at vi videre i fremtiden kan leve av de ressursene som naturen gir oss.
+
+\newpage
+
+## Oppgave 3: Svak og sterk bærekraft
+
+a) Gjør kort rede for skillet mellom svak og sterk bærekraft. Bruk begrepet om substitusjon i redegjørelsen.
+
+Svak bærekraft er en form for bærekraft som tillater substitusjon mellom menneskeskapt kapital og naturkapital. Dette betyr egentlig bare at om en ressurs blir tom kan man substituere den med en annen ressurs. 
+
+Matematisk definerer @vatn2021baerekraftig svak bærekraft som:
+
+$$
+\frac{\partial K}{\partial t} + \frac{\partial N}{\partial t} \geq 0
+$$
+
+Hvor $K$ er menneskeskapt kapital, $N$ er naturkapital og $t$ er tid. @vatn2021baerekraftig viser til at $\frac{\partial K}{\partial t}$ er endringen i menneskelig kapital, og at $N$ kan reduseres så lenge summen av disse to fortsatt er positiv over tid. Dette betyr at svak bærekraft tillater at naturkapitalen reduseres, så lenge menneskeskapt kapital øker tilsvarende.
+
+Sterk bærekraft er en form for bærekraft som ikke tillater substitusjon mellom menneskeskapt kapital og naturkapital. Dette betyr at om en ressurs blir tom, så er den tom.
+
+$$
+\frac{\partial N}{\partial t} \geq 0
+$$
+
+Sterk bærekraft innebærer da at naturressursen øker over tid, noe som igjen blir en utfordring som blir for bred.
+
+Oppsummert fanger ikke svak bærekraft opp at naturressurene kan brukes opp, mens sterk bærekraft blir for vanskelig å få til, så man trenger å finne en balanse mellom de to.
+
+b) Hva er de viktigste grensene naturen setter for den økonomiske utviklingen?
+
+@vatn2021baerekraftig viser til at naturen selv setter grenser for økonomisk utvikling. En av de viktigste grensene er at naturen har en begrenset mengde ressurser som kan brukes av mennesker. Dette betyr at vi ikke kan fortsette å bruke naturressursene raskere enn de kan fornyes, fordi det vil føre til at naturens *naturlige* evne til å regenerere seg selv kollapser. Dette kan kalles for naturens resiliens. 
+
+Det diskuteres også om hvorvidt det faktisk er mulig å erstatte naturressurser med menneskeskapt kapital. På 70-tallet kom boken "The limits to growth" som hevdet at det ikke var mulig å erstatte naturressurser med menneskeskapt kapital, og at økonomisk vekst derfor måtte stoppe. Dette ble da kritisert av deriblant Solow, som hadde utviklet en modell som viste at økonomisk vekst kunne fortsette selv om naturressersene ble brukt opp, så lenge teknologien ble bedre. 
+
+I dag er det fortsatt ikke helt klart om hvem som egentlig har rett, eller om det er en mellomting. Men det er klart at vi ikke kan fortsette å bruke opp ressursene vi har på jorden, med mindre vi klarer å utvinne ressurser fra verdensrommet.
+
+c) Hvilken betydning vil du si valget av svak eller sterk bærekraft har for forholdet mellom bærekraftig utviklings tre moralske imperativer (jf. oppgave 2)?
+
+Om man velger svak bærekraft, vil det være lettere å oppnå bærekraftig utvikling, og dagens generasjoner som lever i rike land vil kunne fortsette å leve som de gjør i dag, og hvorvidt fremtidens generasjoner får gjøre det samme i både rike og fattige land vil være avhengig av hvorvidt de klarer å erstatte naturressursene med menneskeskapte, fornybare ressurser eller utvinning fra verdensrommet. 
+
+Sterk bærekraft vil være vanskeligere å oppnå, og det vil kreve at vi endrer måten vi lever på i dag. Dette vil kreve at vi reduserer forbruket av naturressurser, og at vi endrer måten vi produserer og forbruker varer og tjenester på. På individnivå vil det kreve at vi endrer livsstil, og at vi tar ansvar for vårt eget forbruk, som man kan se at mange mennesker faktisk gjør i dag. Derimot i kapitalismen er det vanskelig å få til en endring, da kapitalismen er så innvevd i samfunnet vårt at, det eneste som kan endre dette er en revolusjon i samfunnet, eller en så katastrofal biosfære kollaps at vi er nødt til å endre oss nå.
+
+\newpage
+
+## Litteraturliste
+
+Video: Bærekraft, vekst og naturens grenser

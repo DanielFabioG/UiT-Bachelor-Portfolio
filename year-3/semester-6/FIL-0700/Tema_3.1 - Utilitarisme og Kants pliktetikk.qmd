@@ -1,0 +1,103 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    mainfont: Calibri
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+# Tema 3.1
+
+1.  **Les avsnittet om utilitarisme i innledningen. Anta at vi har en situasjon hvor ingen er verken lykkelige eller ulykkelige. Hvordan vil en utilitarist rangere alternativene nedenfor? Svaret må begrunnes.**
+
+```{=html}
+<!-- -->
+```
+a)  **250 personer får 1 enhet lykke hver.**
+b)  **Du og 10 andre personer får 20 enheter lykke hver.**
+c)  **50 personer får 2 enheter ulykkelighet hver, 50 personer får 8 enheter lykke hver.**
+d)  **Barnet ditt får 50 enheter lykke, 100 andre personer får en enhet lykke hver.**
+e)  **100 personer får en enhet ulykkelighet hver.**
+f)  **200 personer får 5 enheter lykke hver, 5 personer får 180 enheter ulykkelighet hver.**
+g)  **Ingen endringer i lykkenivået for noen.**
+
+Er det noe ved denne rangeringen som fremstår som problematisk? Forsøk i så fall å forklare hvorfor.
+
+Utilitarisme er den handlingen som gir best nytte for alle, eller det som maksimerer lykke @ex_phil_bok, s 112.
+
+I følge utilitarismen vil dette da bli rangeringen:
+
+1.  Alternativ c ($50 \cdot 8 - 50 \cdot 2= 300$ enheter lykke)
+2.  Alternativ a ($250 \cdot 1 = 250$ enheter lykke)
+3.  Alternativ b ($11 \cdot 20 = 220$ enheter lykke)
+4.  Alternativ d ($1 \cdot 50 + 100 \cdot 1 = 150$ enheter lykke)
+5.  Alternativ f ($(200 \cdot 5) – (5 \cdot 180) = 100$ enheter lykke)
+6.  Alternativ g ($0$ enheter lykke)
+7.  Alternativ e ($-100$ enheter lykke)
+
+Man kan ikke egentlig tallfeste lykke, som er et problem i seg selv.
+
+Det er også problematisk at utilitarismen ikke tar hensyn til rettferdighet. I alternativ f er det 5 personer som får 180 enheter ulykke hver, mens 200 personer får 5 enheter lykke hver. Dette er en stor forskjell i nytte, og det er problematisk at utilitarismen ikke tar hensyn til dette.
+
+I rangeringen kommer alternativ f bedre ut enn både alternativ e og g. Det er imidlertid viktig å merke seg at et lite mindretall får det veldig dårlig. Ifølge utilitarismen veier flertallets lykke opp for denne ulempen. Likevel kan man spørre om det er moralsk riktig å "bruke" noen få for at mange skal få det bedre? Dette er en vanlig kritikk av utilitarismen, som ofte hevdes å ikke vise nok respekt for enkeltmennesker og minoriteter @ex_phil_bok, s 114-115.
+
+2.  **Gi en kort oversikt over hvilke positive og negative konsekvenser det å tillate aktiv dødshjelp vil ha for lykken til de involverte parter. Vurder deretter hvorvidt vi ifølge utilitarismen bør tillate aktiv dødshjelp.**
+
+Positive konsekvenser ved aktiv dødshjelp er at pasienten slipper å lide, og at pårørende slipper å se pasienten lide. Dette vil gi en økning i lykke for pasienten og pårørende. Negative konsekvenser ved aktiv dødshjelp er at det kan være vanskelig å vite om pasienten virkelig ønsker å dø, og at det kan være vanskelig å vite om pasienten er i stand til å ta en slik avgjørelse. Dette kan føre til at pasienten dør unødvendig, og at pårørende får en dårlig samvittighet. Dette vil gi en reduksjon i lykke for pasienten og pårørende.
+
+Ifølge utilitarismen bør vi tillate aktiv dødshjelp hvis det gir en økning i lykke for de involverte parter. Hvis det er sannsynlig at pasienten vil lide mer ved å leve enn ved å dø, og at pårørende vil lide mer ved å se pasienten lide enn ved å se pasienten dø, så bør vi tillate aktiv dødshjelp. Hvis det derimot er sannsynlig at pasienten vil lide mindre ved å leve enn ved å dø, og at pårørende vil lide mindre ved å se pasienten lide enn ved å se pasienten dø, så bør vi ikke tillate aktiv dødshjelp.
+
+Om man har aktiv dødshjelp vil det også kunne føre til å allokere ressurser til andre pasienter som kan ha bedre nytte av det, og dermed øke lykken til flere.
+
+3.  **Toppidrettsutøveren Lance benytter seg av EPO for å skaffe seg et bedre utgangspunkt enn konkurrentene. Ta utgangspunkt i universaliseringsformuleringen av det kategoriske imperativ og forklar hvorfor Lance handler i strid med Kants etikk.**
+
+Ifølge universaliseringsformuleringen av det kategoriske imperativ skal vi handle slik at vi kan ønske at alle handler på samme måte @ex_phil_bok, s 127. Hvis alle toppidrettsutøvere brukte EPO for å skaffe seg et bedre utgangspunkt enn konkurrentene, så ville det ikke lenger være mulig å skaffe seg et bedre utgangspunkt enn konkurrentene ved å bruke EPO. Dette er fordi alle ville bruke EPO, og dermed ville alle ha samme utgangspunkt. Lance handler derfor i strid med Kants etikk fordi han ønsker å skaffe seg et bedre utgangspunkt enn konkurrentene ved å bruke EPO, selv om han ikke kan ønske at alle toppidrettsutøvere handler på samme måte.
+
+4.  **Surrogati innebærer at en kvinne bærer frem og føder et barn for en annen person eller et annet par. De siste årene har det blitt mer og mer vanlig at mennesker fra rike land betaler kvinner fra fattige land for å utføre denne oppgaven. Diskuter hvorvidt denne formen for surrogati er i strid med humanitetsformuleringen av det kategoriske imperativ.**
+
+Ifølge humanitetsformuleringen av det kategoriske imperativ skal vi behandle andre som mål i seg selv, og ikke bare som middel til å oppnå våre egne mål @ex_phil_bok, s  128. Hvis en kvinne bærer frem og føder et barn for en annen person eller et annet par, så behandler hun seg selv som et middel til å oppnå deres mål. Dette er fordi hun bruker sin egen kropp til å bære frem og føde et barn for dem, og dermed behandler hun seg selv som et middel til å oppnå deres mål. Hvis en kvinne fra et rikt land betaler en kvinne fra et fattig land for å bære frem og føde et barn for henne, så behandler hun kvinnen fra det fattige landet som et middel til å oppnå sitt eget mål @ex_phil_bok, s 129. Dette er fordi hun bruker kvinnen fra det fattige landet til å bære frem og føde et barn for henne, og dermed behandler hun kvinnen fra det fattige landet som et middel til å oppnå sitt eget mål. Surrogati er derfor i strid med humanitetsformuleringen av det kategoriske imperativ fordi det innebærer at en kvinne behandler seg selv eller en annen kvinne som et middel.
+
+Derimot hvis kvinnen som bærer frem barnet gjør det frivillig og handler ut fra fritt valg vil det ikke være i strid med humanitetsformuleringen av det kategoriske imperativ.
+
+Konklusjon er at noen former for surrogati kan være i strid med humanitetsformuleringen av det kategoriske imperativ, mens andre former for surrogati kan være i samsvar med humanitetsformuleringen av det kategoriske imperativ.
+
+\clearpage

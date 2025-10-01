@@ -1,0 +1,129 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/forside_ex_phil.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 11pt
+    mainfont: Arial
+    documentclass: scrartcl
+    papersize: a4
+    toc: true
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references_ex_phil.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usepackage{tabularx}
+  - \usepackage{colortbl}
+  - \usepackage{xcolor}
+  - \renewcommand{\maketitle}{}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkgrey}{RGB}{220,220,220}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+nocite: |
+  @*
+---
+
+\newpage
+
+# Tema 5.2 Kuhn og overgangen fra det teleologiske til det mekanistiske verdensbildet
+
+## Innledning
+
+I denne oppgaven skal jeg se nærmere på hvordan det mekanistiske verdensbildet erstattet det teleologiske verdensbildet. Jeg vil først se på hva som kjennetegnet det teleologiske verdensbildet som Aristoteles argumenterte for, og deretter gå inn på hvordan kirken omfavnet Aristoteles' verdensbilde helt fra antikken og frem til renessansen, noe som med tilbakeblikk ble en stor hindring for vitenskapelig utvikling.
+
+Videre vil jeg se på hvordan det teleologiske verdensbildet ble endret av Kopernikus, Galileo, Kepler og Newton i renessansen og opplysningstiden ved bruk av empiriske metoder og matematiske lover som til slutt vant over geosentrismen og Aristoteles fysikk og kosmologi.
+
+Til slutt vil jeg gå gjennom Kuhns teori som forklarer overgangen fra det teleologiske til det mekanististke verdensbildet, og hvordan dette passer inn i teorien hans om paradigmer og vitenskapelige revolusjoner.
+
+## Det teleologiske natursynet
+
+Aristoteles utviklet det teleologiske natursynet basert på hans teori om at prosseser i naturen er rettet mot mål, og at det er dette som i hovedsak er naturens hensikt. Ordet teleologi betyr formålsrettet, så når man da sier teleologisk natursyn, betyr det formålsrettet natursyn. Dette var første gang en helhetlig teori om naturens hensikt ble formulert og ble fort adaptert av den vestlige verden, og dominerte verdensbildet helt fra 300 år f.Kr frem til 1600 e.Kr. [@ex_phil_bok, s. 195]
+
+Det teleologiske synet består av fenomener som har formål eller funksjoner som disse fyller, det vil si at når valnøttreet vokser utfyller det sin funksjon, og nøttens funksjon er å enten ramle ned eller bli plukket av et ekorn som grever det ned slik at det kan spire og vokse til et nytt tre. Dette er en form for årsakssammenheng som Aristoteles mente var en del av naturen, og at det var naturens hensikt å fylle disse funksjonene.[@ex_phil_bok, s 196] Videre definerte Aristoteles i verket *Metafysikken* forskjellen mellom substans og forandring, og at substans er en selvstendig ting og forandring er det som er foranderlig, for eksempel kan en bil være gul, men den kan også bli rød, og da har den ingen egen eksistens, mens substansen er bilen. Det kan også forekomme naturlig substans, for eksempel en stein som er en substans i seg selv, og forandringen er at den kan bli knust til grus, men det er fortsatt en stein i form av grus i forandringen. [@ex_phil_bok, s. 197] Aristoteles mente at det eksisterte fire typer forandringer, nemlig kvalitativ, kvantitativ, substansiell og stedsforandring hvor i tre av disse fortsetter tingene å eksistere, mens i substansiell forandring blir tingene til noe annet, for eksempel steinen som blir til grus. [@ex_phil_bok, s. 197]
+
+## Kirken og det teleologiske verdensbildet
+
+Aristoteles forhold til begrepet Gud var at han mente at når de ulike substansene i naturen utfyller sin funksjon, enten om det er ved å vokse, bevege seg eller forandre seg, så er det en slags søken om å opprettholde en harmonisk orden. Når de aktualiserer sine potensialer, og da spesielt en beveger han kaller for den ubevegede bevegeren, som er en slags form for Gud, er det fordi den ubevegede bevegeren ikke har potensial igjen å gjennomføre. Merk at selv om han definerer dette som Gud, så mener han ikke i en tradisjonell forstand, så det er ikke en gud som kan tilbes[@ex_phil_bok, s. 202].
+
+Dette teleologiske verdensbilde ble tolket i et positivt lys av den katolske kirken under middelalderen, og ble en del av kirkens teologi, og enhver som utfordret dette verdensbildet ble sett på som en heretiker, eller kjetter (person med vranglære).[@ex_phil_bok, s. 207] Vitenskapelig utvikling ble derfor sett på som en trussel mot kirkens makt, og det var derfor vanskelig å utfordre det teleologiske verdensbildet, ettersom heretikere ble både torturert og brent på bål.
+
+## Aristoteles kosmologi
+
+Aristoteles kosmologi var basert på hans teleologiske verdensbilde, og han mente at jorden var i sentrum av universet, og at alt annet beveget seg rundt jorden. Han mente at det var fem elementer som alt var bygget opp av, nemlig jord, vann, luft, ild og eter, og at disse elementene hadde en naturlig plass i universet. Han mente at jorden var i midten av universet, og at alt annet beveget seg rundt jorden, og at det var en naturlig orden i universet.[@ex_phil_bok, s 206]
+
+Kosmologien hans innebar geosentrisme[^1], og han bekreftet dette med observasjoner av at eksempelvis solen står opp i øst og går ned i vest, og at stjernene beveger seg rundt jorden. Han argumenterte også for at om jorden hadde en akse som roterer, så ville en stein sluppet fra en høyde falle vest for tårnet hvis jorden roterte østover, og når dette ikke skjedde, så bekreftet dette teorien hans at jorden var i ro og befant seg i midten av universet.[@ex_phil_bok, s. 207]
+
+Den geosentriske modellen ble videre ferdigutviklet av Ptolemaios, hvor modellen av solsystemet viste at planetene beveget seg i perfekte sirkler rundt jorden, og var svært kontroversiell ettersom banene til planetene matematisk ikke ga mening og planeten Venus for eksempel hadde en merkelig bane som ikke kunne forklares, ettersom planeten noen ganger beveget seg bakover på himmelen, noe som ikke ga mening i den geosentriske modellen. [@ex_phil_bok, s. 212]
+
+Dette kommer jeg tilbake til senere, ettersom det var en av grunnene til at det mekanistiske verdensbildet ble utviklet, og Kuhn forklarer denne overgangen som en vitenskapelig revolusjon når en anamoli oppstår i et paradigme. [@ex_phil_bok, s. 250]
+
+![](dokumentobjekter/figurer/pto.png){width="900" height="340"}
+
+[^1]: Bildet er hentet fra [reddit](https://www.reddit.com/r/Astronomy/comments/s99umt/motion_of_solar_system_planets_relative_to_earth/#lightbox) og viser Ptolemaios geosentriske modell av solsystemet.
+
+Nicolaus Copernicus var en av de første som utfordret den katolske kirke og geosentrismen, og utviklet en heliosentrisk modell av solsystemet, hvor han mente at solen var i sentrum av universet og at jorden og planetene beveget seg rundt solen i sirkler, som dannet grunnlaget for det mekanistiske verdensbildet. [@ex_phil_bok, s. 208]
+
+## Det mekanistiske verdensbildet
+
+Det mekanistiske verdensbildet ble utviklet av blant annet Copernicus, Galilei, Kepler og Newton, og var basert på en ny måte å se på naturen under rennesansen, som av ordet betyr gjenfødelse. Under middelalderen ble mennesket under kristendommen og den katolske kirke ansett som syndige og svake, men revolusjonen av boktrykkerkunsten, nye empiriske metoder og større interesse for kunnskap førte til at mennesket søkte nye sannheter og tiden ble kalt for humanismen. [@ex_phil_bok, s. 207]
+
+En av de viktigste personene for det mekanistiske verdensbildet var Isaac Newton som utviklet tre lover om bevegelse og gravitasjon, og som forklarte hvordan planetene beveget seg rundt solen, dette var en videreutvikling av Copernicus sin heliosentriske modell, hvor han aldri klarte med fysiske lover å forklare hvordan planetene beveget seg rundt solen. Newtons lover forklarte med fysikk og matematikk hvordan planetene beveget seg rundt solen, og at det var en kraft som holdt planetenes bane, og at denne kraften var den universelle gravitasjonen som matematisk kan sees nedenfor. [@ex_phil_bok, s. 211]
+
+$$
+F = G \frac{m_1 m_2}{r^2}
+$$
+Med Newtons nye lover for bevegelse og gravitasjon, kunne man da plutselig beskrive hvordan den samme kraft eller gravitasjon som fikk et eple til å falle ned fra et tre, også var den samme kraften som holdt planetene i bane rundt solen. Dette gjorde at perspektivet på naturen endret seg drastisk, ettersom hvis naturen er lik overalt, kan man forklare alt med fysiske lover og matematikk, og at det ikke lenger var nødvendig å forklare naturen med Gud eller teleologi. [@ex_phil_bok, s. 211-212]
+
+Med ny teknologi som teleskopet kunne Galilei se at månen hadde kratre, at Venus hadde faser og at Jupiter hadde måner, noe som ikke passet inn i den geosentriske modellen, og som videre støttet Copernicus sin heliosentriske modell. [@ex_phil_bok, s. 214] En teori som Copernicus fortsatt ikke hadde klart å kvitte seg med var at planetene beveget seg i perfekte sirkler, og det var først med Johannes Kepler at dette ble endret. Kepler utviklet tre lover om planetenes bevegelse, hvor den første loven sier at planetene beveger seg i ellipser rundt solen, den andre loven[^2] sier at en planet beveger seg raskere jo nærmere den er solen, og den tredje loven sier at planetenes omløpstid er proporsjonal med avstanden fra solen. [@ex_phil_bok, s. 214-215]
+
+![](dokumentobjekter/figurer/kepler.png){width="850" height="300"}
+
+[^2]: Bildet er hentet fra [theory labster](https://theory.labster.com/keplers_second_law/) og viser Johannes Keplers andre lov om planetenes bevegelse.
+
+## Eksperimentell naturtilnærming
+
+Galilei var en av grunnleggerne til den nye paradigmet innenfor vitenskapen, og han var en av de første som utførte eksperimenter for å teste sine hypoteser. Han mente at matematikk var naturens språk, og for å forstå naturen måtte vi forstå matematikken. Han utførte eksperimenter med fallende legemer, og fant at tunge objekter falt like fort som lette objekter, og at det var luftmotstand som gjorde at objektene falt saktere. [@ex_phil_bok, s. 217]
+
+Det nye verdensbildet ble nå basert på eksperimenter og observasjoner, og ikke lenger på filosofi og teologi, og ble en ny måte å se på naturen kvantitativt, i motsetning til det teleologiske verdensbildet som var kvalitativt. Dette ble en vitenskapelig revolusjon, og Kuhn forklarer dette som et paradigmeskifte hvor vi ser verden på en ny måte. [@ex_phil_bok, s. 247]
+
+## Kuhns teori om paradigmer og vitenskapelige fremskritt
+
+Thomas Kuhn var en amerikansk fysiker og filosof som utviklet en teori om paradigmer[^3] og vitenskapelige revolusjoner, og mente at vitenskapen ikke utvikler seg lineært, men i store sprang over lengre tid. Hans teori går ut på at vitenskapen er delt inn i paradigmer, som er en felles forståelse av hvordan verden fungerer, og at vitenskapen utvikler seg innenfor disse paradigmer. Når en anamoli oppstår, det vil si at en observasjon ikke stemmer overens med paradigmet, så vil det oppstå en vitenskapelig revolusjon, og et nytt paradigme vil oppstå. [@ex_phil_bok, s. 250]
+
+Dette kan vi se i overgangen fra det teleologiske til det mekanistiske verdensbildet, hvor det teleologiske verdensbildet ble utfordret av Galilei, Copernicus, Kepler og Newton, og at det mekanistiske verdensbildet ble etablert som et nytt paradigme. Dette var en vitenskapelig revolusjon, og Kuhn mener at vitenskapen utvikler seg i slike revolusjoner, og at det er en ny måte å se på vitenskapen på. [@ex_phil_bok, s. 250]
+
+Overgangen til et nytt paradigme ifølge Kuhn kan være vanskelig, ettersom det er mange som har en interesse i å opprettholde det gamle paradigmet, og han sier at i noen tilfeller kan det ta tid siden det gamle paradigmet må dø ut med personene som fortsetter å tro på det gamle paradigmet. [@ex_phil_bok, s. 252] Han forklarer dette med en illustrasjon og sier at det er som å se en figur som kan være en and eller en kanin, og at det er vanskelig å se begge samtidig, og at om du aldri har sett en kanin før så vil du ikke kunne se kaninen i det hele tatt. [@ex_phil_bok, s. 253]
+
+Kuhns teori om paradigmer og revolusjoner er gode beskrivelser på hvordan vitenskapen utvikler seg. Men det er også rettet kritikk mot teorien hans, ettersom Kuhn mener at paradigmer ikke foregår med rasjonelle argumenter, med ved holistisk [^4] forståelse av vitenskapen, og da kan dette kan anklages som en form for relativisme. [@ex_phil_bok, s. 254]
+
+
+[^3]: Et paradigme er et rammeverk med ny forskning og teorier som ilag danner en helhet, og som danner grunnlaget for ny forskning og teorier. [@ex_phil_bok, s. 247]
+
+[^4]: Holisme er en forståelse av tilværelsen om hvordan alt henger sammen, og at en enkelt del ikke kan forstås uten å se på helheten.
+
+\newpage
+
+## Litteraturliste
