@@ -1,0 +1,57 @@
+---
+title: "SOK-1004"
+description: |
+      Cases og prosjektoppgaver i SOK-1004.  
+date: last-modified
+author:
+  - name: Daniel Fabio Groth
+    affiliation: UiT The Arctic University of Norway <br> Faculty of Biosciences, Fisheries and Economics.
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    self-contained: true
+    df-print: kable
+    output-file: "index"
+    output-ext:  "html"
+editor: visual
+warning: false
+toc: true
+tof: true
+---
+
+SOK-1004-1 22H Økonomiske emner og programmering
+
+Alle oppgaver gitt gjennom dette kurset finnes i "Cases" seksjonen, mens alt som tilhører prosjektoppgavene tilhører "Prosjekt" seksjonen.
+
+```{=html}
+<div class="center" style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Cases</div>
+            <a href="/SOK-1004/Cases/Case_1_reworked.html" class="larger">Case 1</a>
+            <br>
+            <a href="/SOK-1004/Cases/Case_2_reworked.html" class="larger">Case 2</a>
+            <br>
+            <a href="/SOK-1004/Cases/Case_3_reworked.html" class="larger">Case 3</a>
+            <br>
+            <a href="/SOK-1004/Cases/Case_4_reworked.html" class="larger">Case 4</a>
+            <br>
+            <a href="/SOK-1004/Cases/Case_5_reworked.html" class="larger">Case 5</a>
+        </div>
+    </div>
+    <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Prosjekt</div>
+            <a href="/SOK-1004/Mappeoppgave1/Mappeoppgave_1_reworked.html" class="larger">Første mappeoppgave</a>
+            <br>
+            <a href="/SOK-1004/Mappeoppgave2/Mappeoppgave_2_reworked.html" class="larger">Andre mappeoppgave</a>
+            <br>
+            <a href="/SOK-1004/Prosjektoppgave/Prosjektoppgave_reworked.html" class="larger">Prosjektoppgaven</a>
+        </div>
+    </div>
+</div>
+```
+## Referanser
+
+Materialene til disse oppgavene og prosjektet er utformet med referanse til de uvurderlige ressursene og bidragene gitt i studieplanen for SOK-1004. Dette inkluderer de flotte forelesningene holdt av Derek J Clark og Even Solstvedt Hvinden. Til tross for den ytterste omsorg som er tatt under forberedelsen av disse materialene, er eventuelle uoverensstemmelser eller feil som utilsiktet kan ha oppstått, helt og holdent mitt ansvar utenom noe av koden skrevet i Case 3 som er tatt fra løsningsforslaget.

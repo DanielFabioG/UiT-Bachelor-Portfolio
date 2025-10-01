@@ -1,0 +1,472 @@
+---
+title: "Bedriftsøkonomisk analyse"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 114, BED-1013NETT, Høst 2023"
+editor: visual
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+nocite: |
+  @*
+header-includes:
+  - "\\usepackage{caption}"
+  - "\\captionsetup{font=small}"
+  - "\\usepackage{hyperref}"
+  - "\\renewcommand{\\figureautorefname}{Figur}"
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+---
+
+```{=tex}
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
+```
+```{r}
+#| output: false
+rm(list=ls())
+```
+
+# Investering og Avskrivning (25%)
+
+Maskininvesteringer AS vurderer å investere i en ny maskin til driften sin som vil kunne bidra stort til produksjonen de neste årene. Men samtidig har bedriften et annet investeringsprosjekt de kan investere i som er beregnet til å gi 14 % avkastning.
+
+Med de midlene bedriften har tilgjengelig pr i dag, så vil de kun kunne investere i enten maskinen eller prosjektet.
+
+Du får i oppgave å gjøre en investeringsanalyse av maskinen for å finne ut hvilken av alternativene de burde gå for. Du får følgende informasjon om maskin investeringen: (Alt er ekskl.mva.)
+
+Investeringskostnad: 6.600.000 kr
+
+Frakt og monteringskostnad: 250.000 kr
+
+Utrangeringsverdi: 600.000 kr
+
+Levetid: 6 år.
+
+I tillegg vil investeringen binde opp omløpsmidler til en verdi av 350.000 kr som frigjøres i slutten av investeringens levetid.
+
+Investeringen vil bidra med et årlig innbetalingsoverskudd på 1.800.000 kr
+
+```{python}
+# Oppgave 1
+import numpy_financial as npf
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definer investeringskostnadene og kontantstrømmer
+investeringskostnad = 6600000 + 250000  # Investeringskostnad pluss frakt og monteringskostnad
+omløpsmidler = 350000
+innbetalingsoverskudd = 1800000
+utrangeringsverdi = 600000
+```
+
+## Sett opp en kontantstrømoppstilling som viser netto kontantstrøm for investeringen.
+
+```{python}
+# Initielle kontantstrøm (år 0)
+kontantstrom = [-investeringskostnad - omløpsmidler]
+
+# Kontantstrømmer for år 1 til 5 med append
+for i in range(1, 6):
+    kontantstrom.append(innbetalingsoverskudd)
+
+# Legger til innbetalingsoverskudd utragerinsverdi + omløpsmidler og får ut kontantstrømoppstillingen
+kontantstrom.append(innbetalingsoverskudd + utrangeringsverdi + omløpsmidler)
+
+# Skriv ut kontantstrømmene
+print(kontantstrom)
+```
+
+## Beregn investeringens nåverdi og internrente og forklar hva dette betyr.
+
+```{python}
+# Beregn NPV og IRR
+diskonteringsrente = 0.14
+npv = npf.npv(diskonteringsrente, kontantstrom)
+irr = npf.irr(kontantstrom)
+
+print(f"NPV: {npv}")
+print(f"IRR: {irr}")
+```
+
+Nåverdien er den verdien investeringen vil ha idag av et fremtidlig beløp (for eksempel 6 år som vi bruker)
+
+Internrente er diskonteringsrenten som gir netto nåverdi når du setter den lik null i en kontantstrømanalyse.
+
+## Hvilken investering vil du anbefale bedriften å gå for? (maskin eller prosjekt?) begrunn svaret.
+
+```{python}
+# Sammenligner NPV for maskininvesteringen med det alternative prosjektet
+if npv > 0:
+    anbefaling = "Maskininvesteringen er å foretrekke siden nåverdien er positiv."
+else:
+    anbefaling = "Det alternative prosjektet er å foretrekke siden maskininvesteringen har en negativ nåverdi."
+
+print(f"NPV for maskininvesteringen: {npv}")
+print(anbefaling)
+```
+
+Bedriften bestemmer seg for å investere i maskinen.
+
+Du får i oppgave å beregne avskrivningene av maskinen over dens levetid etter både lineær metode og saldometoden.
+
+Saldoavskrivningssats for maskinen er 20 %.
+
+## Sett opp avskrivningstabeller for maskinen etter lineær og saldo metoden.
+
+```{python}
+avskrivningssats = 0.20
+# Lineær avskrivning per år
+lineaer_avskrivning_per_år = (investeringskostnad - utrangeringsverdi) / 6
+
+# Beregning av saldoavskrivning
+saldo_avskrivning = []
+bokfort_verdi = investeringskostnad
+
+for i in range(6 - 1):
+    avskrivning_dette_aaret = bokfort_verdi * avskrivningssats
+    saldo_avskrivning.append(avskrivning_dette_aaret)
+    bokfort_verdi -= avskrivning_dette_aaret
+
+# Siste års avskrivning justeres for å ende opp med utrangeringsverdien
+saldo_avskrivning.append(bokfort_verdi - utrangeringsverdi)
+
+print(lineaer_avskrivning_per_år)
+print(saldo_avskrivning)
+```
+
+## Hva er maskinens totale anskaffelseskost?
+
+```{python}
+# Oppgave E
+investeringskostnad
+```
+
+$Investeringskostnad + frakt\; og\; monteringskostnad$ = 6.850.000
+
+## Hva er avskrivningsgrunnlaget?
+
+```{python}
+# Oppgave F, samme svar
+investeringskostnad
+```
+
+Avskrivningsgrunnlaget er det samme som maskinens totale anskaffelseskost.
+
+## Hva blir UB verdi i år 6? oppgi svar for begge metodene.
+
+```{python}
+# Oppgave G
+# UB-verdi for lineær avskrivning
+ub_verdi_linear = investeringskostnad - (lineaer_avskrivning_per_år * 6)
+
+# UB-verdi for saldometoden
+ub_verdi_saldo = investeringskostnad - sum(saldo_avskrivning)
+
+ub_verdi_linear, ub_verdi_saldo
+```
+
+I år 6 blir blir UB-verdien den samme for både lineær og saldo-metoden.
+
+# KRV -- Analyse (25%)
+
+Bedriften Alfabetix AS selger tre ulike produkter som har ulik dekningsgrad.
+
+Salgsbudsjettet og beregnet dekningsgrad for 2023 viste følgende tall
+
+Produkt A B C
+
+Salgsinntekter kr 825.000 kr 675.000 kr 450.000
+
+Dekningsgrad /DG) 40% 35% 50%
+
+Bedriftens faste kostnader er budsjettert til 540.000.
+
+## Sett opp resultatbudsjettet for bedriften
+
+```{python}
+# Oppgave 2
+# Definere variabler
+salgsinntekter = {"A": 825000, "B": 675000, "C": 450000}
+dekningsgrader = {"A": 0.40, "B": 0.35, "C": 0.50}
+faste_kostnader = 540000
+```
+
+```{python}
+# Oppgave a, noe scuffed
+# Beregning av dekningsbidrag for hvert produkt
+dekningsbidrag = {i: salgsinntekter[i] * dekningsgrader[i] for i in salgsinntekter}
+
+# Totalt dekningsbidrag og resultat
+totalt_dekningsbidrag = sum(dekningsbidrag.values())
+resultat = totalt_dekningsbidrag - faste_kostnader
+
+# Beregning av nullpunktomsetning
+vektet_dekningsgrad = sum(dekningsbidrag[i] for i in dekningsbidrag) / sum(salgsinntekter.values())
+nullpunktomsetning = faste_kostnader / vektet_dekningsgrad
+
+print(f"Dekningsbidraget er: {dekningsbidrag}")
+print(f"Totalt dekningsbidrag er: {totalt_dekningsbidrag}")
+print(f"Resultatet er - faste kostnader: {resultat}")
+print(f"Nullpunktomsetningen er : {nullpunktomsetning}")
+```
+
+## Beregn bedriftens nullpunktomsetning og sikkerhetsmargin i kroner og prosent basert på budsjettert produktsammensetning.
+
+```{python}
+# Oppgave b
+# Beregning av vektet dekningsgrad basert på produktsammensetning
+vektet_dekningsgrad = sum([dekningsbidrag[i] for i in dekningsbidrag]) / sum(salgsinntekter.values())
+
+# Beregning av nullpunktomsetning basert på vektet dekningsgrad
+nullpunktomsetning_beregnet = faste_kostnader / vektet_dekningsgrad
+
+# Beregning av sikkerhetsmargin i kroner og prosent
+total_omsetning = sum(salgsinntekter.values())
+sikkerhetsmargin_kroner_beregnet = total_omsetning - nullpunktomsetning_beregnet
+sikkerhetsmargin_prosent_beregnet = (sikkerhetsmargin_kroner_beregnet / total_omsetning) * 100
+
+nullpunktomsetning_beregnet, sikkerhetsmargin_kroner_beregnet, sikkerhetsmargin_prosent_beregnet
+```
+
+## Utarbeid et diagram som viser bedriftens nullpunkt og resultat for budsjettåret 2023.
+
+```{python, include=FALSE}
+# Oppgave c
+
+# Definerte data for omsetning og kostnader
+total_omsetning = sum(salgsinntekter.values())
+variable_kostnader = total_omsetning - totalt_dekningsbidrag
+faste_kostnader = 540000
+
+# Beregne totale kostnader ved ulike omsetningsnivåer
+omsetningsnivaer = range(0, int(total_omsetning) + 100000, 100000)
+
+# Beregner resultatet ved forskjellige omsetningsnivåer
+resultat_ved_omsetning = [i - (faste_kostnader + variable_kostnader * (i / total_omsetning)) for i in omsetningsnivaer]
+
+# Plotter resultatet mot omsetning
+fig, ax = plt.subplots(figsize=(14, 8))
+ax.plot(omsetningsnivaer, resultat_ved_omsetning, label='Resultat', color='blue')
+
+# Markerer nullpunktomsetningen
+ax.axvline(x=nullpunktomsetning_beregnet, color='red', linestyle='--', label='Nullpunktomsetning')
+ax.axhline(y=0, color='black', linestyle='-')
+
+# Setter labels
+ax.set_xlabel('Omsetning (kr)', fontsize=14)
+ax.set_ylabel('Resultat (kr)', fontsize=14)
+ax.legend()
+plt.savefig("figur1.png", dpi = 300)
+```
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{figur1.png}
+  \captionof{figure}{Resultat ved forskjellige omsetningsnivåer for Alfabetix AS (2023)}
+  \label{fig:test1}
+\end{figure}
+```
+Nå mot slutten av budsjettåret viser prognoser at salget for de tre produktene ser ut til å bli:
+
+Produkt A B C
+
+Salgsinntekter kr 800.000 kr 525.000 kr 625.000
+
+Dekningsgrad /DG) 40% 35% 50%
+
+## Beregn nullpunktomsetningen og sikkerhetsmarginen i kroner og prosent basert på salgsprognosene og uendret DG pr. produkt
+
+```{python}
+# Oppgave d
+# Nye prognoser
+salgsinntekter_prognose = {"A": 800000, "B": 525000, "C": 625000}
+
+# Kjører samme kode på nytt med oppdaterte prognoser
+dekningsbidrag_prognose = {i: salgsinntekter_prognose[i] * dekningsgrader[i] for i in salgsinntekter_prognose}
+
+totalt_dekningsbidrag_prognose = sum(dekningsbidrag_prognose.values())
+
+
+vektet_dekningsgrad_prognose = totalt_dekningsbidrag_prognose / sum(salgsinntekter_prognose.values())
+nullpunktomsetning_prognose = faste_kostnader / vektet_dekningsgrad_prognose
+
+
+total_omsetning_prognose = sum(salgsinntekter_prognose.values())
+sikkerhetsmargin_kroner_prognose = total_omsetning_prognose - nullpunktomsetning_prognose
+sikkerhetsmargin_prosent_prognose = (sikkerhetsmargin_kroner_prognose / total_omsetning_prognose) * 100
+
+nullpunktomsetning_prognose, sikkerhetsmargin_kroner_prognose, sikkerhetsmargin_prosent_prognose
+```
+
+## Forklar hva nullpunktsomsetningen er og hvorfor denne blir forskjellig. Hvordan vil du bruke denne kunnskapen til å øke bedriftens lønnsomhet fremover?
+
+Nullpunktsomsetningen er det omsetningsnivået hvor en bedrifts totale inntekter akkurat dekker de totale kostnadene, inkludert både variable og faste kostnader. På dette punktet har bedriften verken fortjeneste eller tap. Det er et kritisk mål for bedrifter fordi det angir minimumsnivået av salg som er nødvendig for å unngå økonomisk tap.
+
+Hvis prisene i produktene endres blir nullpunktomsetningen å endres enten positivt eller negativt fordi totalsummen som gjør slik at bedriften dekker de totale kostnadene vil jo endres, samt forskjellige salg for produkter med forskjellig dekningsgrad blir også å endre nullpunktomsetningen.
+
+Med denne kunnskapen virker det som det er lurt å selge produkter som har høy dekningsgrad for å dekke faste kostnader.
+
+# Normalkostregnskap (25%)
+
+Normale Bokstaver AS tilvirker og selger to produkter, A og B. Bedriften benytter normalsatser etter bidragsprinsippet i sin kalkulasjon. For 20x3 foreligger følgende budsjettall:
+
+Direkte materialkostnader 500 000
+
+Direkte lønn tilvirkningsavdeling 1 1 000 000
+
+Direkte lønn tilvirkningsavdeling 2 800 000
+
+Indirekte kostnader er budsjettert avdelingsvis med følgende beløp for 20x3:
+
+Variable Faste Sum
+
+Materialavdeling 50 000 150 000 200 000
+
+Tilvirkningsavdeling 1 200 000 800 000 1 000 000
+
+Tilvirkningsavdeling 2 50 000 500 000 550 000
+
+Salgs- og adm. avdeling 10 000 300 000 310 000
+
+Arbeidstimer 2 000 timer
+
+For materialavdelingen benyttes direkte materialer som kostnadsdriver.
+
+I tilvirkningsavdeling 1 er direkte lønn kostnadsdriver, i tilvirkningsavdeling 2 arbeidstimer og i salgs- og administrasjonsavdelingen tilvirkningsmerkost solgte varer.
+
+## Beregne de avdelingsvise normalsatsene.
+
+```{python}
+# Oppgave 3
+# a)
+totale_indirekte_kostnader = {
+    "Materialavdeling": 200000,
+    "Tilvirkningsavdeling 1": 1000000,
+    "Tilvirkningsavdeling 2": 550000
+}
+
+kostnadsdrivere = {
+    "Materialavdeling": 500000,
+    "Tilvirkningsavdeling 1": 1000000,
+    "Tilvirkningsavdeling 2": 2000
+}
+
+# Beregning av normalsatser
+normalsatser = {i: totale_indirekte_kostnader[i] / kostnadsdrivere[i] for i in totale_indirekte_kostnader}
+
+normalsatser
+```
+
+I oktober 20x3 er følgende direkte kostnader registrert på de enkelte produkter:
+
+Produkt A B
+
+Direkte materialkostnader 10 000 30 000
+
+Direkte lønn tilvirkningsavdeling 1 22 000 74 000
+
+Direkte lønn tilvirkningsavdeling 2 19 000 58 000
+
+Arbeidstimer 84 124
+
+Virkelig registrerte indirekte kostnader i oktober måned utgjorde:
+
+Variable Faste
+
+Materialavdeling 5 000 13 000
+
+Tilvirkningsavdeling 1 22 000 65 000
+
+Tilvirkningsavdeling 2 5 500 40 000
+
+Salgs- og adm. avdeling 1 200 26 000
+
+Produktene A og B er ferdigprodusert og solgt i perioden. Inngående beholdning varer i arbeid for produkt A utgjorde kr 5 000. Inngående beholdning ferdige varer for produkt B var på kr 50 000. På slutten av perioden var det ingen varer på lager. Salgsinntektene for de ulike produktene var kr 200 000 for produkt A og kr 330 000 for produkt B.
+
+## Sett opp et komplett driftsregnskap etter bidrags prinsippet for oktober måned for denne bedriften. Bruk gjerne vedlagte skjema/mal.
+
+```{python}
+# Direkte kostnader for produkter A og B
+direkte_kostnader_A = {'Materialer': 10000, 'Lønn avd. 1': 22000, 'Lønn avd. 2': 19000, 'Timer': 84}
+direkte_kostnader_B = {'Materialer': 30000, 'Lønn avd. 1': 74000, 'Lønn avd. 2': 58000, 'Timer': 124}
+
+# Registrerte indirekte kostnader for oktober
+indirekte_kostnader = {
+    'Materialavdeling': {'Variable': 5000, 'Faste': 13000},
+    'Tilvirkningsavdeling 1': {'Variable': 22000, 'Faste': 65000},
+    'Tilvirkningsavdeling 2': {'Variable': 5500, 'Faste': 40000},
+    'Salgs- og adm. avdeling': {'Variable': 1200, 'Faste': 26000}
+}
+
+# Salgsinntekter for produktene
+salgsinntekter_produkter = {'A': 200000, 'B': 330000}
+
+# Beregning av bidragsmargin per produkt
+bidragsmargin_A = salgsinntekter_produkter['A'] - sum(direkte_kostnader_A.values())
+bidragsmargin_B = salgsinntekter_produkter['B'] - sum(direkte_kostnader_B.values())
+
+# Beregning av driftsresultatet
+totalt_bidragsmargin = bidragsmargin_A + bidragsmargin_B
+totalt_faste_kostnader = sum([sum(i.values()) for i in indirekte_kostnader.values()])
+driftsresultat = totalt_bidragsmargin - totalt_faste_kostnader
+
+# Resultater
+print(f"Bidragsmargin A: {bidragsmargin_A}") 
+print(f"Bidragsmargin B: {bidragsmargin_B}") 
+print(f"Total bidragsmargin: {totalt_bidragsmargin}" )
+print(f"Totalt faste kostnader: {totalt_faste_kostnader}") 
+print(f"Driftsresultat: {driftsresultat}")
+```
+
+## Analyser dekningsdifferansen i tilvirkningsavdeling 2 i oktober, og gi korte kommenter til avvikene.
+
+```{python}
+# Normalsatser fra tilvirkningsavdeling 2
+normalsats_tilvirkningsavd_2 = normalsatser['Tilvirkningsavdeling 2']
+
+# Beregning av budsjettert bidrag for tilvirkningsavdeling 2
+budsjettert_bidrag_A = direkte_kostnader_A['Timer'] * normalsats_tilvirkningsavd_2
+budsjettert_bidrag_B = direkte_kostnader_B['Timer'] * normalsats_tilvirkningsavd_2
+totalt_budsjettert_bidrag = budsjettert_bidrag_A + budsjettert_bidrag_B
+
+# Faktiske indirekte kostnader for tilvirkningsavdeling 2
+faktiske_indirekte_kostnader = indirekte_kostnader['Tilvirkningsavdeling 2']['Variable'] + indirekte_kostnader['Tilvirkningsavdeling 2']['Faste']
+
+# Beregning av faktisk bidrag for tilvirkningsavdeling 2
+faktisk_bidrag_A = salgsinntekter_produkter['A'] - (direkte_kostnader_A['Lønn avd. 2'] + faktiske_indirekte_kostnader)
+faktisk_bidrag_B = salgsinntekter_produkter['B'] - (direkte_kostnader_B['Lønn avd. 2'] + faktiske_indirekte_kostnader)
+totalt_faktisk_bidrag = faktisk_bidrag_A + faktisk_bidrag_B
+
+# Beregning av dekningsdifferansen
+dekningsdifferanse = totalt_faktisk_bidrag - totalt_budsjettert_bidrag
+
+
+print(f"Total budsjettert bidrag: {totalt_budsjettert_bidrag}" )
+print(f"Totalt faktisk bidrag: {totalt_faktisk_bidrag}") 
+print(f"Differanse: {dekningsdifferanse}")
+```
+
+Ser ut som det er en positiv dekningsdifferanse i avvikene.
+
+# Produktvalg (25%)
+
+Kom aldri så langt
+
+# Appendiks
+
+Har fått hjelp av github co-pilot til å "fullføre" noen kodelinjer

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel Fabio Groth">
+
+<title>SOK-1004: Case 1 - reworked</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Case_1_reworked_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Case_1_reworked_files/libs/quarto-html/quarto.js"></script>
+<script src="Case_1_reworked_files/libs/quarto-html/popper.min.js"></script>
+<script src="Case_1_reworked_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Case_1_reworked_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Case_1_reworked_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Case_1_reworked_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Case_1_reworked_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Case_1_reworked_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Case_1_reworked_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: darkslateblue;
+    }
+    </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">SOK-1004: Case 1 - reworked</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Daniel Fabio Groth </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#instruksjoner" id="toc-instruksjoner" class="nav-link active" data-scroll-target="#instruksjoner">Instruksjoner</a></li>
+  <li><a href="#bakgrunn" id="toc-bakgrunn" class="nav-link" data-scroll-target="#bakgrunn">Bakgrunn</a></li>
+  <li><a href="#i.-api-visualisering" id="toc-i.-api-visualisering" class="nav-link" data-scroll-target="#i.-api-visualisering">I. API, visualisering</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-ia-rydd-i-data" id="toc-oppgave-ia-rydd-i-data" class="nav-link" data-scroll-target="#oppgave-ia-rydd-i-data">Oppgave Ia: Rydd i data</a></li>
+  <li><a href="#oppgave-ib-lag-en-figur" id="toc-oppgave-ib-lag-en-figur" class="nav-link" data-scroll-target="#oppgave-ib-lag-en-figur">Oppgave Ib: Lag en figur</a></li>
+  </ul></li>
+  <li><a href="#oppgave-iia-omorganisere-datasett-med-pivot_wider" id="toc-oppgave-iia-omorganisere-datasett-med-pivot_wider" class="nav-link" data-scroll-target="#oppgave-iia-omorganisere-datasett-med-pivot_wider">Oppgave IIa: Omorganisere datasett med <code>pivot_wider()</code></a></li>
+  <li><a href="#oppgave-iib-beregn-vekst" id="toc-oppgave-iib-beregn-vekst" class="nav-link" data-scroll-target="#oppgave-iib-beregn-vekst">Oppgave IIb: Beregn vekst</a></li>
+  <li><a href="#oppgave-iic-omorganisere-datasett-med-pivot_longer" id="toc-oppgave-iic-omorganisere-datasett-med-pivot_longer" class="nav-link" data-scroll-target="#oppgave-iic-omorganisere-datasett-med-pivot_longer">Oppgave IIc: Omorganisere datasett med <code>pivot_longer()</code></a></li>
+  <li><a href="#oppgave-iid-figur-med-vekst" id="toc-oppgave-iid-figur-med-vekst" class="nav-link" data-scroll-target="#oppgave-iid-figur-med-vekst">Oppgave IId: Figur med vekst</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+<p>Denne oppgaven er tilpasset fra <a href="https://uit-sok-1004-h21.github.io/case_1_bnp.html">Case 1</a>, skrevet av Øystein Myrland for kurset SOK-1004, høsten 2021. Eventuelle feil og mangler er mine egne. Rett spørsmål og kommentarer til <a href="mailto:even.c.hvinden@uit.no">even.c.hvinden@uit.no</a>.</p>
+<section id="instruksjoner" class="level2">
+<h2 class="anchored" data-anchor-id="instruksjoner">Instruksjoner</h2>
+<p>Denne oppgaven skal løses interaktivt i RStudio ved å legge inn egen kode og kommentarer. Det ferdige dokumentet lagres med kandidatnummeret som navn <code>[kandidatnummer]_SOK1004_C1_H22.qmd</code> og lastes opp på deres GitHub-side. Hvis du har kandidatnummer 43, så vil filen hete <code>43_SOK1004_C1_H22.qmd</code>. Påse at koden kjører og at dere kan eksportere besvarelsen til pdf. Dere leverer lenken til GitHub-repositoriumet i Canvas.</p>
+</section>
+<section id="bakgrunn" class="level2">
+<h2 class="anchored" data-anchor-id="bakgrunn">Bakgrunn</h2>
+<p>Vi skal analysere utviklingen i bruttonasjonalprodukt (BNP) per person i Norge. Vi bruker data Statistisk Sentralbyrå (SSB), tabell “09842: BNP og andre hovedstørrelser (kr per innbygger), etter statistikkvariabel og år”. Tabellen inneholder årlige data på BNP per innbygger, fra 1970 til 2021.</p>
+</section>
+<section id="i.-api-visualisering" class="level2">
+<h2 class="anchored" data-anchor-id="i.-api-visualisering">I. API, visualisering</h2>
+<p>SSB gir oss tilgang til sine data via en <a href="https://www.ssb.no/omssb/tjenester-og-verktoy/api">API</a> (<em>Application Programming Interface</em>), programvare som lar to applikasjoner kommunisere med hverandre. SSB tilbyr en API med&nbsp;<a href="https://data.ssb.no/api/v0/dataset/">ferdige datasett</a>. Her er det om lag 250 kontinuerlig oppdaterte datasett med en fast URL over de mest brukte tabellene i Statistikkbanken.</p>
+<p>For å få tilgang til tabellen med bruttonasjonalprodukt må vi benytte tjenesten <a href="https://www.ssb.no/omssb/tjenester-og-verktoy/api/px-api">PxWebApi</a>. Her finner du en <a href="https://data.ssb.no/api/v0/no/console/">API konsoll</a> med en søkefunksjon. Prøv å søk på “<code>bnp</code>” og merk forslaget: tabell 09842. Søk på denne, og noter URL-en. Den vil vi bruke etterpå.</p>
+<p>Til å laste ned dataene skal vi bruke en R-pakke, <a href="https://cran.r-project.org/web/packages/PxWebApiData/index.html">PxWebApiData</a>, som SSB har laget. I første omgang skal vi bruke funksjonen <code>ApiData()</code>. Syntaksen er ikke den samme som i <code>tidyverse</code>, og har noen litt uvante egenskaper, herunder lagring i tegnformat og en kombinasjon av norsk og engelsk.</p>
+<p><strong>Tips:</strong> Det er typisk instruktivt å se på <a href="https://cran.r-project.org/web/packages/PxWebApiData/vignettes/Introduction.html">eksempel på bruk</a>. Da har man et intuitivt utgangspunkt for hvordan koden kan brukes.</p>
+<p>Jeg vil nå vise dere trinnvis hvordan å laste ned dataene. Formålet er å gi dere en idé på hvordan man kan lære seg å bruke en ny pakke eller funksjon. Vi begynner med å laste inn nødvendige pakker:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PxWebApiData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>NB!</strong> Du må installere <code>PxWebApiData</code> først. Kjør kommandoen <code>install.packages("PxWebApiData")</code> i konsollen. Det må kun gjøres én gang.</p>
+<p>Vi bruker funksjonen <code>ApiData()</code> til å hente tabell 09842. Som notert ovenfor fant vi URL-en ved hjelp av søkefunksjonen til SSB. Først prøver vi å laste ned dataene direkte, uten ytterligere tilvalg, og tar en titt på hva vi får.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lenke <span class="ot">&lt;-</span> <span class="st">"http://data.ssb.no/api/v0/no/table/09842"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> lenke <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ApiData</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`09842: BNP og andre hovedstørrelser (kr per innbygger), etter statistikkvariabel og år`
+                                statistikkvariabel   år   value
+1                            Bruttonasjonalprodukt 1970   23616
+2                            Bruttonasjonalprodukt 2021  778730
+3                            Bruttonasjonalprodukt 2022 1020805
+4 Konsum i husholdninger og ideelle organisasjoner 1970   12283
+5 Konsum i husholdninger og ideelle organisasjoner 2021  298958
+6 Konsum i husholdninger og ideelle organisasjoner 2022  331008
+7   MEMO: Bruttonasjonalprodukt. Faste 2015-priser 1970  215602
+8   MEMO: Bruttonasjonalprodukt. Faste 2015-priser 2021  627433
+9   MEMO: Bruttonasjonalprodukt. Faste 2015-priser 2022  642200
+
+$dataset
+  ContentsCode  Tid   value
+1          BNP 1970   23616
+2          BNP 2021  778730
+3          BNP 2022 1020805
+4    KonsumHIO 1970   12283
+5    KonsumHIO 2021  298958
+6    KonsumHIO 2022  331008
+7      MEMOBNP 1970  215602
+8      MEMOBNP 2021  627433
+9      MEMOBNP 2022  642200</code></pre>
+</div>
+</div>
+<p><strong>Merk følgende:</strong> <code>df</code> inneholder to datasett i formatet <code>data.frame</code>. Datasettene heter <code>"09842: BNP og andre hovedstørrelser (kr per innbygger), etter statistikkvariabel og år"</code> og <code>dataset</code>. Datasettene inneholder 9 verdier av 3 variabler. Variabelen <code>value</code> er identisk. Variablene <code>år</code> og <code>Tid</code> inneholder de identiske verdiene <code>"1970"</code>, <code>"2020"</code> og <code>"2020"</code>. Merk at disse er i tegnformat <code>&lt;chr&gt;</code> (derav anførselstegnene) og ikke en numerisk verdi, for eksempel <code>&lt;dbl&gt;</code>. Variabelen <code>statistikkvariabel</code> og <code>ContentsCode</code> inneholder henholdsvis verdiene <code>BNP</code>, <code>KonsumHIO</code> <code>MEMOBNP</code> og <code>Bruttonasjonalprodukt, Konsum i husholdninger og ideelle organisasjoner</code> og <code>MEMO: Bruttonasjonalprodukt. Faste 2015-priser</code>.</p>
+<p>Vi har altså ikke fått hele tabell 09842, men verdiene for tre statistikkvariabler over tre tidsperioder, lagret med forskjellige variabelnavn og verdier.</p>
+<p>Det vi trenger er <strong>metadata</strong>: Informasjon som beskriver innholdet i dataene, slik at vi kan filtrere API-spørringen. Kjør følgende kode.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> lenke <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ApiData</span>(<span class="at">returnMetaData =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Åpner vi listen <code>metadata</code> fra minnet så kan vi se nærmere på den i øvre venstre vindu i Rstudio. Her ser vi to lister kalt <code>[[1]]</code> og <code>[[2]]</code>. Listene beskriver variablene vi kan filtrere på. Liste <code>[[1]]</code> har fire variable: <code>code</code>, <code>text</code>, <code>values</code>, og <code>valueTexts</code>. Alle variablene er <code>&lt;chr&gt;</code>. Liste <code>[[2]]</code> har de samme foregående fire variablene samt en variabel <code>time</code>.</p>
+<ul>
+<li><p><code>code</code> viser navnene på variablene vi bruker i funksjonen <code>ApiData()</code> for å filtrere. Den tar verdiene <code>ContentsCode</code> og <code>Tid</code>. Legg merke til at utviklerne i SSB her blander norsk og engelsk.</p></li>
+<li><p><code>text</code> er en unik tekstverdi tilknyttet verdien på <code>code</code> som forklarer hva vi ser på. Den tar verdien <code>statistikkvariabel</code> og <code>år</code>. Vi kan altså filtrere på statistikkvariabel og år.</p></li>
+<li><p><code>values</code> viser hvilke verdier av statistikkvariabel og år vi kan velge, med henholdsvis 6 og 52 forskjellige verdier. Du vil kjenne igjen tre av hver fra den første spørringen ovenfor.</p></li>
+<li><p><code>valueTexts</code> gir en unik tekstverdi tilknyttet verdien på <code>values</code> som forklarer oss hva vi ser på. For <code>Tid</code> og <code>år</code> er de identiske, men for <code>ContentsCode</code> og <code>statistikkvariabel</code> får vi en mer fullstendig forklaring.</p></li>
+<li><p><code>time</code> er en logisk variabel, og tar derfor to verdier: <code>TRUE</code> og <code>FALSE</code>. I dette tilfellet indikerer den at variabelen <code>Tid</code> måler tid, hvilket gjør at funksjonene i pakken vil behandle <code>Tid</code> på en annen måte enn en statistikkvariabel.</p></li>
+</ul>
+<p>Vi har nå informasjonen vi trenger til å laste ned BNP-tall mellom 1970 og 2021. Jeg velger å ta BNP med både løpende og faste priser.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> lenke <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ApiData</span>(<span class="at">Tid =</span> <span class="fu">paste</span>(<span class="dv">1970</span><span class="sc">:</span><span class="dv">2021</span>), <span class="at">ContentsCode =</span> <span class="fu">c</span>(<span class="st">"BNP"</span>,<span class="st">"MEMOBNP"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>På venstre side av likhetstegnet bruker vi <code>code</code> fra metadata. På høyre side velger vi verdier fra <code>values</code>. Merk at jeg bruker funksjonen <code>paste()</code> for å konvertere numeriske verdier, for eksempel <code>&lt;dbl&gt;</code> til tegn <code>&lt;chr&gt;</code>.</p>
+<p>La oss rydde i data. Det er tre ting å ta tak i:</p>
+<ol type="1">
+<li><p><code>df</code> lagrer informasjonen i to tabeller med samme informasjon, som vist over. Det er unødvendig.</p></li>
+<li><p>Årstallene er lagret som tegn, <code>&lt;chr&gt;</code>. Disse skulle heller være heltall, <code>&lt;int&gt;</code>.</p></li>
+<li><p>Formatet <code>data.frame</code> er underlegent <code>tibble</code>.</p></li>
+</ol>
+<section id="oppgave-ia-rydd-i-data" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-ia-rydd-i-data">Oppgave Ia: Rydd i data</h3>
+<p>Skriv kode som lagrer dataene som én tibble med anstendige variabelnavn og årstall som heltall. Fremover bruker jeg “var”, “tid”, og “verdi” for “statistikkvariabel”, “Tid”, og “value”.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Her henter jeg ut en av listene, gjør om fra chr til int og skifter navn</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bnp_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df[[<span class="dv">2</span>]]) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tid =</span> <span class="fu">parse_number</span>(Tid)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">bnp =</span> value) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">var =</span> ContentsCode) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">tid =</span> Tid)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(df, metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="oppgave-ib-lag-en-figur" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-ib-lag-en-figur">Oppgave Ib: Lag en figur</h3>
+<p>Følgende kode skaper en enkel figur.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bnp_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>tid, <span class="at">y=</span>bnp))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_1_reworked_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Lag en pen figur som viser BNP i tusener av kroner per person, i både løpende og faste priser, mellom 2000 og 2021. Skriv en tydelig forklaring og tolkning av figuren. Hvordan har inntektene utviklet seg? Forklar forskjellen mellom BNP i løpende og faste priser. Til hvilke formål er de mest relevante?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bnp_df <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tid <span class="sc">&gt;=</span> <span class="dv">2000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> tid, <span class="at">y =</span> bnp, <span class="at">color =</span> var)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2021</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Kr per innbygger"</span>, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Bruttonasjonalprodukt - BNP (kr per innbygger)"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">""</span>, <span class="at">color =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)<span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'Løpende BNP'</span>, <span class="st">'Fast BNP'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_1_reworked_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<ol type="1">
+<li><p><em>Løpende BNP (også kjent som nominell BNP) er verdien av et lands produksjon av varer og tjenester målt i faktiske priser for det pågjeldende året. Den tar ikke hensyn til inflasjon eller endringer i pengeverdien.</em></p></li>
+<li><p><em>Reell BNP (også kjent som BNP i faste priser) er verdien av et lands produksjon av varer og tjenester justert for inflasjon eller deflasjon. Dette betyr at den tar hensyn til prisendringer over tid, slik at man kan se den virkelige økonomiske veksten eller tilbakegangen.</em></p></li>
+<li><p><em>Inflasjon er en generell økning i prisnivået på varer og tjenester over tid, noe som fører til at pengenes kjøpekraft avtar. Deflasjon er det motsatte, hvor prisnivået generelt faller.</em></p></li>
+<li><p><em>Reell BNP er ansett som en bedre indikator på økonomisk vekst fordi den utelukker effekten av inflasjon/deflasjon, og gir dermed et mer nøyaktig bilde av økonomiens faktiske utvikling.</em></p></li>
+<li><p><em>Løpende BNP er nyttig for sammenligning av økonomier på dagens prisnivå, men det kan være vanskelig å identifisere den virkelige økonomiske veksten på grunn av inflasjonens innvirkning.</em></p></li>
+</ol>
+<p><em>I sum brukes både løpende BNP og reell BNP for å gi forskjellige perspektiver på en økonomis ytelse og utvikling. Reell BNP er spesielt viktig når man ønsker å forstå den underliggende økonomiske veksten, justert for inflasjonens påvirkning. Løpende BNP kan være nyttig for sammenligning av økonomier i en gitt periode, men det er viktig å ta hensyn til inflasjonen når man tolker tallene for å få et mer nøyaktig bilde.</em></p>
+<p><em>(Oppsummert versjon av min forrige tekst via AI)</em></p>
+<ol start="2" type="I">
+<li>Transformasjon, visualisering</li>
+</ol>
+<p>Våre data er en tidsserie, hvilket betyr at rekkefølgen i observasjonene er ordnet etter tid. Vi skal nå regne prosentvis, årlig endring. La <span class="math inline">\(x_t\)</span> være BNP i år <span class="math inline">\(t\)</span>. For eksempel vil <span class="math inline">\(x_{1970}\)</span> være <span class="math inline">\(23616\)</span>.</p>
+<p>Den årlige endringen i BNP fra år <span class="math inline">\(t-1\)</span> til <span class="math inline">\(t\)</span> er gitt ved <span class="math inline">\(x_{t}-x_{t-1}\)</span>. I samfunnsøkonomi er det vanlig å betegne dette som <span class="math inline">\(\Delta x_{t} := x_{t}-x_{t-1}\)</span>. Tegnet <span class="math inline">\(\Delta\)</span> er den greske bokstaven delta og betegner differanse. For eksempel vil <span class="math inline">\(\Delta x_{1971}=26363-23616=2747\)</span> kroner.</p>
+<p>I mange tilfeller er vi interesserte i relativ vekst: Hvor mye økte BNP, relativt til hva den var i utgangspunkt? Den mest brukte enheten er hundredeler eller prosentvis endring, gitt ved <span class="math inline">\(100 \times \Delta x_{t}/x_{t-1}\)</span>. For eksempel var den prosentvise endringen i BNP i 1971 <span class="math inline">\(100 \times \Delta x_{1971}/x_{1970}=100\times(2747/23616)\approx11.6\)</span>, hvor <span class="math inline">\(\approx\)</span> betegner “omtrent lik” da jeg viser svaret med kun én desimal. Tilsvarende kan man skrive at <span class="math inline">\(\Delta x_{1971}/x_{1970}=2747/23616\approx0.116=11.6\%\)</span>, hvor tegnet <span class="math inline">\(\%\)</span> betegner at beløpet oppgis i hundredeler eller prosent.</p>
+</section>
+</section>
+<section id="oppgave-iia-omorganisere-datasett-med-pivot_wider" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-iia-omorganisere-datasett-med-pivot_wider">Oppgave IIa: Omorganisere datasett med <code>pivot_wider()</code></h2>
+<p>Vi skal lage to variable <code>dBNP</code> og <code>dMEMOBNP</code> som viser relativ endring i <code>BNP</code> og <code>MEMOBNP</code>. Til dette formålet skal vi bruke kommandoene <code>pivot_wide()</code> og <code>pivot_long()</code> til å omorganisere dataene. Jeg anbefaler dere først å lese <a href="https://r4ds.had.co.nz/tidy-data.html#pivoting">kapittel 12.3</a> i pensum. Betrakt følgende kode.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> bnp_df <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var, <span class="at">values_from =</span> bnp) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Beskriv konkret hva koden gjorde. Sammenlign <code>df</code> og <code>df_wide</code>.</p>
+<p><em>Koden gjør sånn at den lange variabelen “var” blir vid eller “wide”. Den omorganiserer dataen sånn at BNP og MEMOBNP går ut av radene og blir plassert i to forskjellige kolonner med den tilhørende dataen presentert under seg i sine egne variabler.</em></p>
+</section>
+<section id="oppgave-iib-beregn-vekst" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-iib-beregn-vekst">Oppgave IIb: Beregn vekst</h2>
+<p>Til å beregne endring er funksjonen <code>lag()</code> meget nyttig. I denne konteksten er begrepet <em>lag</em> et engelsk verb som beskriver foregående observasjon. Bruker vi funksjoenen <code>lag()</code> på en variabel (kolonne) så returnerer den en ny kolonne hvor verdien er lik foregående observasjon. Betrakt følgende kode:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_wide <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LBNP =</span> <span class="fu">lag</span>(BNP,<span class="at">n=</span>1L)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LMEMOBNP =</span> <span class="fu">lag</span>(MEMOBNP,<span class="at">n=</span>1L))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># legger variablene i rekkefølge</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_wide) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(<span class="st">"LBNP"</span>, <span class="at">.before =</span> <span class="st">"MEMOBNP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">tid</th>
+<th style="text-align: right;">BNP</th>
+<th style="text-align: right;">LBNP</th>
+<th style="text-align: right;">MEMOBNP</th>
+<th style="text-align: right;">LMEMOBNP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">23616</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">215602</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1971</td>
+<td style="text-align: right;">26363</td>
+<td style="text-align: right;">23616</td>
+<td style="text-align: right;">226242</td>
+<td style="text-align: right;">215602</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1972</td>
+<td style="text-align: right;">29078</td>
+<td style="text-align: right;">26363</td>
+<td style="text-align: right;">236487</td>
+<td style="text-align: right;">226242</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1973</td>
+<td style="text-align: right;">32805</td>
+<td style="text-align: right;">29078</td>
+<td style="text-align: right;">245483</td>
+<td style="text-align: right;">236487</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1974</td>
+<td style="text-align: right;">37734</td>
+<td style="text-align: right;">32805</td>
+<td style="text-align: right;">253534</td>
+<td style="text-align: right;">245483</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1975</td>
+<td style="text-align: right;">42884</td>
+<td style="text-align: right;">37734</td>
+<td style="text-align: right;">264625</td>
+<td style="text-align: right;">253534</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Hvis vi bruker den matematiske notasjonen diskutert tidligere så har vi nå kolonner med <span class="math inline">\(x_{t}\)</span> (<code>BNP</code>, <code>MEMOBNP</code>) og <span class="math inline">\(x_{t-1}\)</span> (<code>LBNP</code>, <code>LMEMOBNP</code>).</p>
+<p>Bruk funksjonen <code>mutate()</code> til å lage en ny variabel med relativ endring i <code>BNP</code> og <code>MEMOBNP</code> i <code>df_wide</code> og lagre de som <code>DBNP</code> og <code>DMEMOBNP</code>.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_wide <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DBNP =</span> BNP <span class="sc">-</span> LBNP,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">DMEMOBNP =</span> MEMOBNP <span class="sc">-</span> LMEMOBNP,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">prosBNP =</span> <span class="dv">100</span> <span class="sc">*</span> (BNP <span class="sc">-</span> <span class="fu">lag</span>(BNP)) <span class="sc">/</span> <span class="fu">lag</span>(BNP),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">prosRBNP =</span> <span class="dv">100</span> <span class="sc">*</span> (MEMOBNP <span class="sc">-</span> <span class="fu">lag</span>(MEMOBNP)) <span class="sc">/</span> <span class="fu">lag</span>(MEMOBNP))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="oppgave-iic-omorganisere-datasett-med-pivot_longer" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-iic-omorganisere-datasett-med-pivot_longer">Oppgave IIc: Omorganisere datasett med <code>pivot_longer()</code></h2>
+<p>Bruk nå funksjonen <code>pivot_longer()</code> til å transformere <code>df_wide</code> til det opprinnelige formatet, altså med variablene <code>var</code> og <code>verdi</code>. Kall den transformerte tabellen for <code>df_long</code>.</p>
+<p><strong>NB!</strong> Husk å bruk anførselstegn (<code>"[variabelnavn]"</code>) når du definerer nye variable i <code>pivot_longer()</code>.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df_wide <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tid, prosBNP, prosRBNP) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(prosBNP, prosRBNP), <span class="at">names_to =</span> <span class="st">"var"</span>, <span class="at">values_to =</span> <span class="st">"bnp"</span>, <span class="at">names_prefix =</span> <span class="st">"pros"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="oppgave-iid-figur-med-vekst" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-iid-figur-med-vekst">Oppgave IId: Figur med vekst</h2>
+<p>Lag en pen figur med prosentvis vekst i nominelt og reelt BNP per person fra 1970 til 2021. Finnes det observasjoner med negativ vekst i reell BNP? Hva skyldes dette?</p>
+<p><strong>Merknad:</strong> Det er en del støy i data. Prøv å kombinere <code>geom_point()</code> og <code>geom_smooth()</code> for å få et bedre inntrykk av den langsiktige utviklingen.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> tid, <span class="at">y =</span> bnp, <span class="at">color =</span> var)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1970</span>, <span class="dv">2021</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">scale =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Prosentvis endring"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Bruttonasjonalprodukt"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">""</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'Løpende BNP'</span>, <span class="st">'Fast BNP'</span>))<span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_1_reworked_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

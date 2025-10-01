@@ -1,0 +1,254 @@
+---
+title: "SOK-1004 H23 - Case 4"
+author: "Presentasjonsgjennomgang"
+format: 
+  revealjs:
+    theme: solarized
+    chalkboard: true
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 16pt
+    documentclass: scrartcl
+    papersize: a4
+echo: true
+output: true
+editor: visual
+---
+
+# Instruksjoner
+
+Denne oppgaven er laget av Even S. Hvinden og oppdatert av Derek J. Clark. Sistnevnte er ansvarlig for eventuelle feil og mangler og presenteres av Daniel Fabio Groth.
+
+Oppgaven skal løses interaktivt i RStudio ved å legge inn egen kode og kommentarer. Det ferdige dokumentet lagres med kandidatnummeret som navn `[kandidatnummer]_SOK1004_C4_H23.qmd` og lastes opp på deres GitHub-side. Hvis du har kandidatnummer 43, så vil filen hete `43_SOK1004_C4_H23.qmd`. Påse at koden kjører og at dere kan eksportere besvarelsen til pdf. Lever så lenken til GitHub-repositoriumet i Canvas.
+
+# Bakgrunn, læringsmål
+
+Innovasjon er en kilde til økonomisk vekst. I denne oppgaven skal vi se undersøke hva som kjennetegner bedriftene som bruker ressurser på forskning og utvikling (FoU). Dere vil undersøke FoU-kostnader i bedriftene fordelt på næring, antall ansatte, og utgiftskategori. Gjennom arbeidet vil dere repetere på innhold fra tidligere oppgaver og øve på å presentere fordelinger av data med flere nivå av kategoriske egenskaper.
+
+# Last inn pakker
+
+```{r}
+# output | false
+rm(list=ls()) 
+library(tidyverse)
+library(rjstat)
+library(gdata)
+library(httr)
+library(plotly)
+```
+
+# Oppgave I: Introduksjon til histogram
+
+Et histogram eller frekvensfordeling er en figur som viser hvor ofte forskjellige verdier oppstår i et datasett. Frekvensfordelinger spiller en grunnleggende rolle i statistisk teori og modeller. Det er avgjørende å forstå de godt. En kort innføring følger.
+
+La oss se på et eksempel. I datasettet `mtcars` viser variabelen `cyl` antall sylindere i motorene til kjøretøyene i utvalget.
+
+```{r, fig.width=6,fig.height=4}
+#| code-line-numbers: "|4|"
+data(mtcars)
+mtcars %>%
+  ggplot(aes(cyl)) +
+  geom_histogram()+
+  theme_minimal()
+```
+
+## Oppgave I: Introduksjon til histogram forts
+
+Verdiene av variabelen er er gitt ved den horisontale aksen, antall observasjoner på den vertikale aksen. Vi ser at det er 11, 7, og 14 biler med henholdsvis 4, 6, og 8 sylindere.
+
+La oss betrakte et eksempel til. Variabelen `mpg` i `mtcars` måler gjennomsnittlig drivstoffforbruk i amerikanske enheter. Variabelen er målt med ett desimal i presisjon.
+
+```{r, fig.width=6,fig.height=4}
+#| output-location: column
+data(mtcars)
+mtcars %>%
+  ggplot(aes(mpg)) +
+  geom_histogram(binwidth=.75) +
+  theme_minimal()
+```
+
+Datasettet inneholder mange unike verdier, hvilket gir utslag i et flatt histogram, noe som er lite informativt. Løsningen da er å gruppere verdier som ligger i nærheten av hverandre. Kommandoen `binwidth` i `geom_histogram()` bestemmer bredden av intervallene som blir slått sammen. Kan du forklare hvorfor alle unike verdier blir telt ved å å bruke `binwidth = 0.1?`
+
+## Oppgave 1 forts
+
+Eksperimenter med forskjellige verdier for `binwidth` og forklar hva som kjennetegner en god verdi.
+
+```{r}
+mtcars %>%
+  ggplot(aes(mpg)) +
+  geom_histogram(binwidth=0.1) +
+  theme_minimal()
+```
+
+Argumentet binwidth i histogram har flere funksjoner. Tallet i binwidth bestemmer både størelsen på stolpene i grafene og nøyaktigheten av dataen som blir framstilt. Et stort tall vil gi deg en stor stolpe og vise verdier med store intervaller. Et lite tall i binwidth vill gi deg små stolper men vil også fremvise data med høyere presisjon. (Undertegnede kaller dette for spaghetti)
+
+# Oppgave II: Last ned og rydd i data
+
+Vi skal nå undersøkene dataene i [Tabell 07967: Kostnader til egenutført FoU-aktivitet i næringslivet, etter næring (SN2007) og sysselsettingsgruppe (mill. kr) 2007 - 2022 SSB](https://www.ssb.no/statbank/table/07967). Dere skal laster de ned ved hjelp av API. Se [brukerveiledningen](https://www.ssb.no/api/pxwebapi/_/attachment/inline/019c05e0-35ad-4757-87a0-ba7fbf4a68e2:46a164479bc10a67eee4b472cd891f001ca19da5/Api_brukerveiledning.pdf) her.
+
+Bruk en JSON-spørring til å laste ned alle statistikkvariable for alle år, næringer, og sysselsettingsgrupper med 10-19, 20-49, 50-99, 100-199, 200 - 499, og 500 eller flere ansatte. Lagre FoU-kostnader i milliarder kroner. Sørg for at alle variabler har riktig format, og gi de gjerne enklere navn og verdier der det passer.
+
+```{r}
+# besvar oppgave II her
+url <- "https://data.ssb.no/api/v0/no/table/07967/"
+
+query <- '{
+  "query": [
+    {
+      "code": "NACE2007",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "A-N",
+          "C",
+          "G-N",
+          "A-B_D-F"
+        ]
+      }
+    },
+    {
+      "code": "SyssGrp",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "10-19",
+          "20-49",
+          "10-49",
+          "50-99",
+          "100-199",
+          "200-499",
+          "500+"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+df <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+```
+
+# Datamanipulering
+
+```{r}
+#| code-line-numbers: "|20,21,22,23,24,25,26,27|"
+#Endringer i originalt dataset
+df$år <- as.integer(df$år) #gjør om år kolonne fra chr til num
+
+df <- df %>%
+  rename( #endrer navn nå value kolonne
+    næring = `næring (SN2007)`,
+    verdi = value,
+    gruppe = sysselsettingsgruppe,
+    var = statistikkvariabel
+  ) %>%
+  mutate(
+    #Gjør om verdi fra millioner til milliarder
+    verdi = verdi/1000,
+    
+    gruppe = str_replace(gruppe, "sysselsatte", ""),
+    
+    var = str_replace(var,"Lønnskostnader", "Lønn")
+  )
+
+gruppe_navn <- df$gruppe %>% #liste med unike navn til spesifik kolonne "gruppe"
+  unique()
+
+var_navn <- df$var %>%
+  unique()
+
+næring_navn <- df$næring %>%
+  unique()
+```
+
+# Oppgave III: Undersøk fordelingen
+
+Vi begrenser analysen til bedrifter med minst 20 ansatte og tall fra 2015 - 2022. Lag en figur som illustrerer fordelingen av totale FoU-kostnader fordelt på type næring (industri, tjenesteyting, andre) og antall ansatte i bedriften (20-49, 50-99, 100-199, 200-499, 500 og over). Tidsdimensjonen er ikke vesentlig, så bruk gjerne histogram.
+
+**Merknad.** Utfordringen med denne oppgaven er at fordelingene er betinget på verdien av to variable. Kommandoen `facet_grid()` kan være nyttig til å slå sammen flere figurer på en ryddig måte.
+
+```{r}
+#| code-line-numbers: "|14|"
+# besvar oppgave III her
+
+plot<- df %>%
+  filter(
+    år >= 2015,
+    gruppe %in% c(gruppe_navn[2],gruppe_navn[4:7]),
+    næring %in% c(næring_navn[2:4]),
+    var %in% var_navn[1]
+  ) %>%
+  mutate(gruppe = factor(gruppe, levels = gruppe_navn[2:7])) %>% #sorterer gruppe i stigende rekke
+  ggplot(aes(x = verdi, fill = gruppe)) +
+  geom_histogram(binwidth = 0.25) +
+  theme_minimal() +
+  facet_grid(gruppe ~ næring) +
+  labs(
+    x = "Milliarder i Kr",
+    y = "Antall observasjoner",
+    title = 'FoU kostnader totalt 2015-2022'
+  ) +
+  theme(legend.position = 'bottom')
+```
+
+# Oppgave III: Figur (ved plotly)
+
+```{r}
+p<- ggplotly(plot)
+
+p <- p %>% layout(legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.3, yanchor = "top"))
+
+# Display the plot
+p
+```
+
+# Oppgave IV: Undersøk fordelingen igjen
+
+Kan du modifisere koden fra oppgave II til å i tillegg illustrere fordelingen av FoU-bruken på lønn, innleie av personale, investering, og andre kostnader?
+
+**Merknad.** Kommandoen `fill = [statistikkvariabel]` kan brukes i et histogram.
+
+```{r}
+#| code-line-numbers: "|10|"
+# besvar oppgave III her
+plot_2<-df %>%
+  filter(
+    år >= 2015,
+    gruppe %in% c(gruppe_navn[2],gruppe_navn[4:7]),
+    næring %in% c(næring_navn[2:4]),
+    var %in% c(var_navn[1], var_navn[3:5])
+  ) %>%
+  mutate(gruppe = factor(gruppe, levels = gruppe_navn[2:7])) %>% #sorterer gruppe i stigende rekke
+  ggplot(aes(x = verdi, fill = var)) +
+  geom_histogram(binwidth = 0.25) +
+  theme_minimal() +
+  facet_grid(gruppe ~ næring) +
+  labs(
+    x = "Milliarder i Kr",
+    y = "Antall observasjoner",
+    title = 'FoU kostnad etter kategori'
+  ) +
+  theme(legend.position = 'bottom')
+```
+
+# Oppgave IIII: Figur (ved plotly)
+
+```{r}
+p<- ggplotly(plot_2)
+
+p <- p %>% layout(legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.3, yanchor = "top"))
+
+# Display the plot
+p
+```

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel Fabio Groth">
+
+<title>SOK-1004: Case 2 - reworked</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Case_2_reworked_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Case_2_reworked_files/libs/quarto-html/quarto.js"></script>
+<script src="Case_2_reworked_files/libs/quarto-html/popper.min.js"></script>
+<script src="Case_2_reworked_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Case_2_reworked_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Case_2_reworked_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Case_2_reworked_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Case_2_reworked_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Case_2_reworked_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Case_2_reworked_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: darkslateblue;
+    }
+    </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">SOK-1004: Case 2 - reworked</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Daniel Fabio Groth </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#instruksjoner" id="toc-instruksjoner" class="nav-link active" data-scroll-target="#instruksjoner">Instruksjoner</a></li>
+  <li><a href="#bakgrunn" id="toc-bakgrunn" class="nav-link" data-scroll-target="#bakgrunn">Bakgrunn</a></li>
+  <li><a href="#last-inn-pakker" id="toc-last-inn-pakker" class="nav-link" data-scroll-target="#last-inn-pakker">Last inn pakker</a></li>
+  <li><a href="#last-ned-data" id="toc-last-ned-data" class="nav-link" data-scroll-target="#last-ned-data">Last ned data</a></li>
+  <li><a href="#i.-karbonintensitet-i-produksjon" id="toc-i.-karbonintensitet-i-produksjon" class="nav-link" data-scroll-target="#i.-karbonintensitet-i-produksjon">I. Karbonintensitet i produksjon</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-ia" id="toc-oppgave-ia" class="nav-link" data-scroll-target="#oppgave-ia">Oppgave Ia</a></li>
+  <li><a href="#oppgave-ib" id="toc-oppgave-ib" class="nav-link" data-scroll-target="#oppgave-ib">Oppgave Ib</a></li>
+  <li><a href="#oppgave-ic" id="toc-oppgave-ic" class="nav-link" data-scroll-target="#oppgave-ic">Oppgave Ic</a></li>
+  </ul></li>
+  <li><a href="#ii.-konsumbaserte-co2-utslipp" id="toc-ii.-konsumbaserte-co2-utslipp" class="nav-link" data-scroll-target="#ii.-konsumbaserte-co2-utslipp">II. Konsumbaserte CO2-utslipp</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-iia" id="toc-oppgave-iia" class="nav-link" data-scroll-target="#oppgave-iia">Oppgave IIa</a></li>
+  <li><a href="#oppgave-iib" id="toc-oppgave-iib" class="nav-link" data-scroll-target="#oppgave-iib">Oppgave IIb</a></li>
+  </ul></li>
+  <li><a href="#iii.-produksjon--og-konsumbaserte-utslipp" id="toc-iii.-produksjon--og-konsumbaserte-utslipp" class="nav-link" data-scroll-target="#iii.-produksjon--og-konsumbaserte-utslipp">III. Produksjon- og konsumbaserte utslipp</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+<section id="instruksjoner" class="level2">
+<h2 class="anchored" data-anchor-id="instruksjoner">Instruksjoner</h2>
+<p>Denne oppgaven skal løses interaktivt i RStudio ved å legge inn egen kode og kommentarer. Det ferdige dokumentet lagres med kandidatnummeret som navn <code>[kandidatnummer]_SOK1004_C2_H22.qmd</code> og lastes opp på deres GitHub-side. Hvis du har kandidatnummer 43, så vil filen hete <code>43_SOK1004_C2_H22.qmd</code>. Påse at koden kjører og at dere kan eksportere besvarelsen til pdf. Lever så lenken til GitHub-repositoriumet i Canvas.</p>
+</section>
+<section id="bakgrunn" class="level2">
+<h2 class="anchored" data-anchor-id="bakgrunn">Bakgrunn</h2>
+<p>Økonomisk vekst gir økt kjøpekraft og velferd. Økningen i økonomisk aktivitet har hittil blitt muliggjort gjennom å utnytte fossile energikilder som kull, olje og gass. Forbrenningen av hydrokarboner har over tid økt mengden CO2 i atmosfæren og forårsaket endringer i klimaet. Klimaendringene medfører en rekke kostnader, blant andre hyppigere og mer intense innslag av ekstreme værforhold. I den grad veksten drives av fossile energikilder er det ikke opplagt at høyere økonomisk aktivitet vil øke menneskelig velferd på sikt. Vi står ovenfor en avveining mellom økt kjøpekraft og klimaendringer.</p>
+<p>I denne oppgaven skal vi utforske avveiningen mellom kjøpekraft og klimaendringer ved å studere sammenhengen mellom CO2-utslipp og bruttonasjonalprodukt (BNP) på tvers av land. Data henter vi fra <a href="https://ourworldindata.org/co2-emissions">OWID</a>. En beskrivelse av dataene (kodebok) finnes <a href="https://github.com/owid/co2-data/blob/master/owid-co2-codebook.csv">her</a>.</p>
+<p>Vi skal utforske følgende: Hvilke land har høyest CO2 utslipp? Hvordan kan utslippene sammenlignes når vi tar hensyn til befolkningen og størrelsen på økonomiene? Kan bruken av kull til energiproduksjon forklare forskjellen mellom land? Hvordan stiller utslippene seg når vi justerer for internasjonal handel og skiller mellom produksjon og forbruk?</p>
+<p><strong>Merknad.</strong> I oppgaven definerer jeg variabler matematisk og ber dere lage figurer av de. Alle variablene finnes i datasettet. En del av oppgaven er å finne de.</p>
+</section>
+<section id="last-inn-pakker" class="level2">
+<h2 class="anchored" data-anchor-id="last-inn-pakker">Last inn pakker</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="last-ned-data" class="level2">
+<h2 class="anchored" data-anchor-id="last-ned-data">Last ned data</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="i.-karbonintensitet-i-produksjon" class="level2">
+<h2 class="anchored" data-anchor-id="i.-karbonintensitet-i-produksjon">I. Karbonintensitet i produksjon</h2>
+<p>Vi skal studere sammenhengen mellom BNP og CO2 for de fem største økonomiene i verden, målt ved kjøpekraftjustert BNP. Disse landene er:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"China"</span>, <span class="st">"United States"</span>, <span class="st">"India"</span>, <span class="st">"Japan"</span>, <span class="st">"Germany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Betrakt følgende figur:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gdp =</span> gdp<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">co2 =</span> co2<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>gdp, <span class="at">y=</span>co2, <span class="at">color =</span> country))<span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"CO2"</span>, <span class="at">x =</span> <span class="st">"GDP"</span>, <span class="at">title =</span> <span class="st">"GDP vs CO2"</span>, <span class="at">subtitle =</span> <span class="st">"Production-based C02 emissions, billions of tons. </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">GDP in trillions of USD, constant 2011 prices at purchasing power parity. 1850-2020."</span>, <span class="at">color =</span> <span class="st">"Country"</span>)<span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Kommandoen <code>geom_smooth()</code> bruker en såkalt lokal regresjon til å tegne en kurve gjennom datapunktene. Dere kan tenke på dette som en gjennomsnittlig sammenheng, eller at man har tegnet en strek gjennom datapunktene med en penn.</p>
+<section id="oppgave-ia" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-ia">Oppgave Ia</h3>
+<p>Gi en fullstendig og nøyaktig beskrivelse av figuren. Tolk helningen på linjene og diskuter variasjon mellom og innad i landene. Drøft hvilke forhold figuren illustrerer på en god måte og hvilken informasjon som er vanskelig å tolke.</p>
+<p><em>Grafen fremstiller en sammenligning mellom verdens fem største økonomier og deres produksjonsbaserte CO2-utslipp i forhold til deres kjøpekraftsjusterte brutto nasjonalprodukt (BNP). Tidsperioden som er kartlagt strekker seg fra 1850 til 2020.</em></p>
+<p><em>Det som kan utledes fra grafen, er en tilsynelatende forbindelse mellom høyere produksjonsbaserte CO2-utslipp og et økt BNP. Likevel er det verdt å merke seg unntak, som tilfellet med USA. Her har BNP fortsatt å vokse til tross for en nedgang i produksjonsbaserte CO2-utslipp.</em></p>
+<p><em>Grafen har imidlertid noen svakheter. Den klarer ikke nøyaktig å markere hvilke årstall som dataene representerer. Dessuten er en betydelig mengde datapunkter konsentrert i den venstre delen av figuren. Dette kunne ha vært avbildet mer effektivt med en logaritmisk skala for bedre å spre datapunktene og gjøre tolkningen mer oversiktlig.</em></p>
+</section>
+<section id="oppgave-ib" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-ib">Oppgave Ib</h3>
+<p>Vi betrakter nå et normalisert mål på sammenhengen CO2-utslipp og inntekt. La <span class="math inline">\(CO2_{t}\)</span> og <span class="math inline">\(BNP_{t}\)</span> være henholdsvis årlige utslipp av CO2 og brutto nasjonalprodukt i år <span class="math inline">\(t\)</span>. Vi måler <span class="math inline">\(CO2_{t}\)</span> i kilogram og <span class="math inline">\(BNP_{t}\)</span> i kjøpekraftjusterte USD ved faste 2011-priser. Vi kan definere karbonintensiteten i produksjon som <span class="math inline">\(CI_{t}=CO{2}_{t}/BNP_{t}\)</span>, altså antall kilogram CO2 per USD i verdiskapning.</p>
+<p>Lag en figur som viser karbonintensiteten <span class="math inline">\(CI_{t}\)</span> til de fem største økonomiene (navnene er lagret i variabelen <code>list</code> over) fra 1850 til 2020. Sammenlign <span class="math inline">\(CI_{t}\)</span> med helningen fra figuren i oppgave Ia. Gi en fullstendig og nøyaktig beskrivelse av figuren. Drøft minst to forhold som du tror kan være av avgjørende betydningen for å forklare variasjonen innad og mellom land.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ci =</span> (co2<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(gdp<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">12</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>ci, <span class="at">color=</span>country)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1850</span>, <span class="dv">2020</span>), <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Karbonintensiteten til de fem største økonomiene"</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Ton CO2 utslipp per milliard dollar av BNP"</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">color=</span><span class="st">"Land"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Grafen illustrerer en sammenligning mellom verdens fem største økonomier, der den spesifikt fremhever forholdet mellom produksjon av CO2 (i kilogram) per produsert dollar i brutto nasjonalprodukt (BNP).</em></p>
+<p><em>Et viktig aspekt som grafen viser, er effekten av befolkningsvekst, økonomisk vekst og introduksjonen av alternative energikilder over tid. Alle de representerte landene viser en generell nedadgående trend i forholdet mellom kg CO2-utslipp per produsert dollar i BNP, noe som indikerer en økende effektivitet og/eller bruk av mindre karbonintensive teknologier.</em></p>
+<p><em>Spesielt er det bemerkelsesverdige endringer i enkelte land som Kina og Tyskland. I Kina observeres en markant økning i karbonintensitet og produksjon etter et betydelig skifte i landets regjeringsstruktur. Samtidig ser vi i Tyskland en kraftig reduksjon i både produksjon og CO2-utslipp per dollar av BNP under landets involvering i andre verdenskrig.</em></p>
+<p><em>Disse trekkene understreker hvordan både økonomiske og politiske endringer kan ha dype innvirkninger på et lands karbonavtrykk og deres forhold til den globale økonomien.</em></p>
+</section>
+<section id="oppgave-ic" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-ic">Oppgave Ic</h3>
+<p>Undersøk hvorvidt bruken av kull som energikilde kan forklare forskjellen i karbonintensitet mellom de fem største landene. Lag to figurer og 100-200 ord med tekst. Husk å gi en fullstendig og nøyaktig beskrivelse av figurene.</p>
+<p><strong>Figur 1</strong></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coal_co2 =</span> coal_co2<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>coal_co2, <span class="at">color=</span>country))<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1850</span>, <span class="dv">2020</span>), <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Årlig utslipp av CO2 fra kull"</span>, <span class="at">x=</span><span class="st">""</span>, </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"CO2, billioner av tonn"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">color=</span><span class="st">"Land"</span>)<span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Figur 1 fremstiller det årlige karbonutslippet fra verdens fem største økonomier, målt i billioner tonn. Kina skiller seg markant ut med en betydelig vekst i karbonutslipp siden årtusenskiftet, noe som hovedsakelig kan tilskrives landets økende bruk av kull som energikilde.</em></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ci =</span> (co2<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(gdp<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">12</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>ci, <span class="at">color=</span>country))<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">1.1</span>)<span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1850</span>, <span class="dv">2020</span>), <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Karbonintensiteten til de fem største økonomiene"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Ton CO2 utslipp per milliard dollar av BNP"</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">color=</span><span class="st">"Land"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>På den andre siden gir Figur 2 en detaljert fremstilling av karbonintensiteten i produksjonen i disse fem landene. Det er verdt å merke seg at Japan, Tyskland og USA viser en nedadgående trend både i bruk av kull som energikilde og i CO2-utslipp per produsert dollar i BNP.</em></p>
+<p><em>I kontrast til dette, viser India og Kina en økende trend i bruk av kull som energikilde, noe som reflekteres i deres økende CO2-utslipp. Selv om dette ikke nødvendigvis resulterer i en markant økning i kg CO2 per dollar av BNP, kan dette i stor grad tilskrives det faktum at disse to landene har betydelig større befolkninger. Dermed vil det totale utslippet være større, selv om utslippet per innbygger eller per produsert dollar av BNP kanskje ikke øker i samme grad.</em></p>
+</section>
+</section>
+<section id="ii.-konsumbaserte-co2-utslipp" class="level2">
+<h2 class="anchored" data-anchor-id="ii.-konsumbaserte-co2-utslipp">II. Konsumbaserte CO2-utslipp</h2>
+<p>I den foregående analysen har vi slått fast at Kina har høy karbonintensitet i produksjon og at kullforbrenning står for en høy andel av deres utslipp. I hvilken grad kan utslippene knyttes til eksportrettet produksjon? I dataene fra OWID har de variable som de kaller konsumbaserte utslipp, for eksempel variabelen <code>consumption_co2.</code></p>
+<section id="oppgave-iia" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-iia">Oppgave IIa</h3>
+<p>Forklar hvordan konsumbaserte CO2-utslipp er konstruert og hvordan vi skal tolke den.</p>
+<p><em>Konsumbaserte CO2-utslipp er en beregning av nasjonale eller regionale CO2-utslipp, der man tar hensyn til inn- og utgående handel. Dette gir et mer nøyaktig bilde av et lands faktiske karbonfotavtrykk ved å vurdere karbonutslippet fra både det de produserer selv og det de forbruker gjennom import.</em></p>
+<p><em>Når et land produserer varer som genererer store mengder CO2 og deretter eksporterer disse varene, reduseres landets konsumbaserte CO2-utslipp tilsvarende. Det vil si at CO2-utslippet som er tilknyttet produksjonen av disse eksporterte varene, ikke regnes som en del av det eksporterende landets konsumbaserte utslipp.</em></p>
+<p><em>På den annen side, hvis et land importerer varer som genererer store mengder CO2 i løpet av produksjonen, legges disse utslippene til i det importørende landets konsumbaserte CO2-utslipp. Dette gjenspeiler at selv om landet kanskje ikke selv produserer store mengder CO2, bidrar det indirekte til global oppvarming gjennom sitt forbruk av importerte varer.</em></p>
+<p><em>På denne måten gir konsumbaserte CO2-utslipp et mer nyansert og komplett bilde av et lands bidrag til globale CO2-utslipp, ved å vurdere både nasjonal produksjon og internasjonal handel.</em></p>
+</section>
+<section id="oppgave-iib" class="level3">
+<h3 class="anchored" data-anchor-id="oppgave-iib">Oppgave IIb</h3>
+<p>Lag en figur som viser utviklingen av konsumbasert CO2 per person og totale, konsumbaserte utslipp. Gi en fullstendig og nøyaktig beskrivelse av figuren og forklar hva den viser.</p>
+<p><strong>Hint:</strong> Hvis du bruker <code>geom_point()</code> så kan spesifisere én av variablene ved tilvalget <code>size</code> i <code>aes()</code>.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cumulative_co2=</span> cumulative_co2<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>consumption_co2_per_capita, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span>country, <span class="at">size=</span>cumulative_co2))<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1990</span>, <span class="dv">2020</span>))<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Konsumbasert co2 per person og totale utslipp"</span>, <span class="at">subtitle=</span><span class="st">"Totale utslipp vises i størrelsen på boblene"</span>, <span class="at">y=</span><span class="st">"co2 per person, i tonn"</span>, <span class="at">size=</span><span class="st">"Billioner av tonn"</span>, <span class="at">colour=</span><span class="st">"Land"</span>, <span class="at">x=</span><span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)<span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Grafen fremstiller mengden konsumbaserte CO2-utslipp per innbygger i hvert land, målt i tonn. Det er viktig å merke seg at utslippene som er inkludert her, kun gjelder nasjonale eller regionale utslipp, det vil si at de ikke tar hensyn til CO2 knyttet til eksporterte varer.</em></p>
+<p><em>Størrelsen på hvert punkt på grafen representerer det totale volumet av CO2-utslipp for det aktuelle landet, uttrykt i milliarder tonn per år. Igjen er dette kun basert på utslipp som skjer innenfor landets grenser, og ekskluderer utslipp som er knyttet til produksjon av varer for eksport.</em></p>
+<p><em>Dermed gir figuren et visuelt bilde av hvert lands interne produksjon av CO2, både på en per person basis og som en total årlig sum, og tillater dermed for en sammenligning av de relative CO2-utslippene mellom forskjellige land.</em></p>
+</section>
+</section>
+<section id="iii.-produksjon--og-konsumbaserte-utslipp" class="level2">
+<h2 class="anchored" data-anchor-id="iii.-produksjon--og-konsumbaserte-utslipp">III. Produksjon- og konsumbaserte utslipp</h2>
+<p>Betrakt følgende figur, og gi en konkret forklaring på hva den viser.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> list) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>trade_co2_share, <span class="at">color =</span> country))<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">1990</span>,<span class="dv">2020</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Traded CO2 share"</span>, <span class="at">title =</span> <span class="st">"Traded CO2 as share of production-based emissions"</span>, <span class="at">subtitle =</span> <span class="st">"CO2 embedded in trade. Share of production based emissions. Percent. 1950-2020.</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">Positive (negative) value indicates net imports (export) of CO2 emissions."</span>, </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Country"</span>)<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Case_2_reworked_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Figuren illustrerer handel mellom forskjellige økonomier uttrykt i CO2-utslipp. Den gir innsikt i hvilke land som i hovedsak eksporterer CO2-genererende varer, og hvilke land som i stor grad importerer slike varer.</em></p>
+<p><em>Som figuren tydelig viser, fungerer Kina og India i stor grad som nettoeksportører av CO2, det vil si at de produserer og eksporterer varer som fører til betydelige CO2-utslipp. Amerika, derimot, fungerer stort sett som en importør av CO2, bortsett fra en kort periode på 1990-tallet.</em></p>
+<p><em>Japan og Tyskland viser en større tendens til å importere CO2-genererende varer enn å eksportere dem. Y-aksen på grafen illustrerer nettoeksport eller nettoimport av CO2 i prosent.</em></p>
+<p><em>Verdier under null på y-aksen indikerer at et land er en nettoeksportør av CO2, mens verdier over null indikerer at et land er en nettoimportør av CO2. På denne måten gir figuren et klart bilde av CO2-utslipp knyttet til global handel, og hvilke land som bidrar mest til disse utslippene, enten gjennom produksjon eller forbruk.</em></p>
+<p><em>NB: All tekst i kursiv er forbedret via AI som hjelpemiddel.</em></p>
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

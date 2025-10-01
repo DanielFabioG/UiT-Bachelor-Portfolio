@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel Fabio Groth">
+
+<title>SOK-1004: Mappeoppgave 1 - reworked</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Mappeoppgave_1_reworked_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Mappeoppgave_1_reworked_files/libs/quarto-html/quarto.js"></script>
+<script src="Mappeoppgave_1_reworked_files/libs/quarto-html/popper.min.js"></script>
+<script src="Mappeoppgave_1_reworked_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Mappeoppgave_1_reworked_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Mappeoppgave_1_reworked_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Mappeoppgave_1_reworked_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Mappeoppgave_1_reworked_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Mappeoppgave_1_reworked_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Mappeoppgave_1_reworked_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: darkslateblue;
+    }
+    </style>
+
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">SOK-1004: Mappeoppgave 1 - reworked</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Daniel Fabio Groth </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#oppgave-1.-årsaker-og-konsekvenser-av-ulikhet" id="toc-oppgave-1.-årsaker-og-konsekvenser-av-ulikhet" class="nav-link active" data-scroll-target="#oppgave-1.-årsaker-og-konsekvenser-av-ulikhet">Oppgave 1. Årsaker og konsekvenser av ulikhet</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-1a" id="toc-oppgave-1a" class="nav-link" data-scroll-target="#oppgave-1a">Oppgave 1a</a></li>
+  <li><a href="#oppgave-1b" id="toc-oppgave-1b" class="nav-link" data-scroll-target="#oppgave-1b">Oppgave 1b</a></li>
+  <li><a href="#oppgave-1c" id="toc-oppgave-1c" class="nav-link" data-scroll-target="#oppgave-1c">Oppgave 1c</a></li>
+  </ul></li>
+  <li><a href="#oppgave-2.-måling-av-ulikhet" id="toc-oppgave-2.-måling-av-ulikhet" class="nav-link" data-scroll-target="#oppgave-2.-måling-av-ulikhet">Oppgave 2. Måling av ulikhet</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-2a" id="toc-oppgave-2a" class="nav-link" data-scroll-target="#oppgave-2a">Oppgave 2a</a></li>
+  <li><a href="#oppgave-2b" id="toc-oppgave-2b" class="nav-link" data-scroll-target="#oppgave-2b">Oppgave 2b</a></li>
+  </ul></li>
+  <li><a href="#oppgave-3.-inntektsulikhet-i-norge-2008-2019" id="toc-oppgave-3.-inntektsulikhet-i-norge-2008-2019" class="nav-link" data-scroll-target="#oppgave-3.-inntektsulikhet-i-norge-2008-2019">Oppgave 3. Inntektsulikhet i Norge 2008-2019</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-3a" id="toc-oppgave-3a" class="nav-link" data-scroll-target="#oppgave-3a">Oppgave 3a</a></li>
+  <li><a href="#oppgave-3b" id="toc-oppgave-3b" class="nav-link" data-scroll-target="#oppgave-3b">Oppgave 3b</a></li>
+  </ul></li>
+  <li><a href="#oppgave-4.-casestudie-tromsø-kommune-2015" id="toc-oppgave-4.-casestudie-tromsø-kommune-2015" class="nav-link" data-scroll-target="#oppgave-4.-casestudie-tromsø-kommune-2015">Oppgave 4. Casestudie: Tromsø kommune 2015</a>
+  <ul class="collapse">
+  <li><a href="#oppgave-4a" id="toc-oppgave-4a" class="nav-link" data-scroll-target="#oppgave-4a">Oppgave 4a</a></li>
+  <li><a href="#oppgave-4b" id="toc-oppgave-4b" class="nav-link" data-scroll-target="#oppgave-4b">Oppgave 4b</a></li>
+  <li><a href="#oppgave-4c" id="toc-oppgave-4c" class="nav-link" data-scroll-target="#oppgave-4c">Oppgave 4c</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+<section id="oppgave-1.-årsaker-og-konsekvenser-av-ulikhet" class="level1">
+<h1>Oppgave 1. Årsaker og konsekvenser av ulikhet</h1>
+<section id="oppgave-1a" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-1a">Oppgave 1a</h2>
+<p><strong>Hva menes med inntektsulikhet i et land?</strong></p>
+<p><em>Inntektsulikhet i et land er hvordan den totale inntekten er fordelt over befolkningen. Mer ujevn fordelt inntekt betyr at inntektsulikheten er høyere. Fordelingen av inntekt kan undersøkes på flere måter, hvor de mest brukte måtene å undersøke inntektsulikhet på er ved Gini-koeffisienten, S80/S20 og P90P10.</em></p>
+<p><em>En normal måte å måle inntektsulikhet på er at man deler inn husholdningene i ti kategorier (desiler), rangert fra lavest til høyest, og måler desilene mot hverandre for å få en oversikt over inntektsulikheten.</em></p>
+</section>
+<section id="oppgave-1b" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-1b">Oppgave 1b</h2>
+<p><strong>Hva er mulige grunner for at inntekten er fordelt ulikt i samfunnet?</strong></p>
+<p><em>En mulig grunn kan være den teknologiske revolusjonen, ettersom samfunnet trenger flere mennesker med høyere utdanning og kompetanse. Dette gjør at andelen jobber der det kreves middels kompetanse blir mindre, mens andelen sysselsatte i topp av kompetanse går opp, som gjør at inntektene blir mer ulikt fordelt. Inntektene i teknologiske bransjer som IT og finanssektor har gått opp, mens lavt kvalifisert arbeidskraft ikke har klart å følge etter.</em></p>
+<p><em>Den teknologiske revolusjon har hatt stor effekt av globaliseringen, der teknologi har gjort det slik at sluttproduktet i verdikjedene nå kan ha samarbeid mellom land. Produksjon kan eksempelvis flyttes til land hvor arbeidskostnadene per produsert enhet er lave, og arbeiderne er lavt lønnet, mens de på toppen av verdikjedene får inn mesteparten av inntektene.</em></p>
+<p><em>En annen mulig grunn kan være (NSW – Non Standard Work). Dette vil si selvstendig næringsdrivende, midlertidig ansatte eller deltidsansatte. NSW-ansatte har siden 1990-tallet stått for 60 prosent av jobbveksten, men NSW-ansatte blir betalt mindre selv om de gjør samme arbeid som fast ansatte. (kilde: nho_perspektivmeldingen_6_okende-ulikhet, side 156). NSW-jobber øker sysselsatte i bunnen av inntektsskalaen, og øker dermed også ulikheten av inntekt i samfunnet.</em></p>
+<p><em>En til årsak kan være innvandring. En innvandrer står ikke på lik linje for høyere inntekt sammenlignet med en person som er født statsborger, og ikke alle innvandrere klarer å etablere seg like godt i samfunnet. I Norge er kun 68,9 prosent av innvandrere sysselsatt, mot 79,2 prosent av den øvrige befolkningen. Innvandrere tjener også mindre enn resten av befolkningen med samme utdanningsnivå. Størst forskjell finner man med personer som har fullført videregående, hvor inntektene til innvandrere var 18 prosent mindre enn nordmenn. (SSB, 2022)</em></p>
+</section>
+<section id="oppgave-1c" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-1c">Oppgave 1c</h2>
+<p><strong>Hvilke konsekvenser kan ulikhet i inntektsfordelingen føre til?</strong></p>
+<p><em>Først og fremst så kan en konsekvens av ulikhet i inntektsfordelingen gjøre slik at det blir vanskeligere for mennesker nederst i samfunnet å skape gode liv for seg selv og sine egne. Personer med lavere inntekter har dårligere levestandard, og vil også få forventet kortere levealder. (Økende ulikhet, s. 162).</em></p>
+<p><em>En annen konsekvens av økende inntektsulikhet kan være at de som er nederst i inntektsstigen får mistro til staten i landet og ønsker bedre fordelingspolitikk, siden de føler seg utelatt fra den økonomiske veksten.</em></p>
+<p><em>Økonomisk inntektsulikhet kan gi lavere etterspørsel etter varer og tjenester i samfunnet, ettersom de med minstelønn får mindre kjøpekraft, og er de i samfunnet som er størst konsumenter. (Økende ulikhet, s. 163).</em></p>
+<p><em>Inntektsfordelingen kan også føre til positive endringer. Økonomiske insentiver kan være med å påvirke studenter til å studere for å få mer inntekt i fremtiden, eller en arbeider til å jobbe hardt for å få bedriften sin til å tjene mer penger. Når det er muligheter i samfunnet til å øke inntekt med høyere utdanning eller gjennom hardt arbeid kan det gi tilbake innovasjon og vekst. (19. economic inequality)</em></p>
+</section>
+</section>
+<section id="oppgave-2.-måling-av-ulikhet" class="level1">
+<h1>Oppgave 2. Måling av ulikhet</h1>
+<section id="oppgave-2a" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-2a">Oppgave 2a</h2>
+<p><strong>Forklar hvordan Gini-koeffisientene beregnes og hvordan de bør tolkes. Hva måler P90P10 og S80S20?</strong></p>
+<p><em>Gini-koeffisienten gir oss et enkelt mål på graden av ulikhet i form av et tall mellom 0-1. Hvis alle har lik inntekt, får Gini-koeffisienten verdien 0. Om en enkel person mottar all inntekt, får gini-koeffisienten sin maksimale verdi, som er 1.</em></p>
+<p><em>P90P10 sorterer befolkningen etter størrelse på inntekt og skatt og deler befolkningen opp i ti like store grupper (kalt desiler) etter hvor mye inntekt de har. For å beregne P90P10 tar man forholdstallet mellom personen som befinner seg mellom desil 9 og 10, målt mot personen som befinner seg på desil 1 og 2. Det tallet x som kommer ut når man beregner dette betyr at person på P90, har x ganger inntekt til person som befinner seg på P10.</em></p>
+<p><em>S80/S20 viser forholdstallet mellom gjennomsnittsinntekten til de 20% av befolkningen som har høyest inntekt, og gjennomsnittsinntekten til de 20% som har lavest inntekt. De aller rikeste og fattigste blir tatt med, noe som gjør at forholdstallet blir større enn P90P10.</em></p>
+<p><em>Siden Gini-koeffisienten er et enkelt tall på graden av ulikhet bør den bli fremstilt sammen med andre målinger for ulikhet, slik som P90P10 og S80/S20. Målingene er god for å tolkes over tid, og tolkes over land.</em></p>
+<p><em>Gini-koeffisienten utregnes som A / (A + B) = Gini.</em></p>
+<p><em>A er arealet av området på Lorenz-kurven delt på arealet av trekanten til Lorenz-kurven under 45-graders linjen. På figuren nedenfor vil A være i Lorenz-kurven, og B vil være under Lorenz-kurven.</em></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gglorenz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/uit-sok-1004-h22/uit-sok-1004-h22.github.io/main/data/skatt_troms_2015.RDS"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>skatt_troms_2015 <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gzcon</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eksempel på Gini, med Lorenz-kurve</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>harstad <span class="ot">&lt;-</span><span class="fu">filter</span>(skatt_troms_2015, kommnr <span class="sc">==</span> <span class="st">"1903"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(harstad, <span class="fu">aes</span>(inntekt))<span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_lorenz</span>()<span class="sc">+</span> <span class="co"># tegner Lorenz</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate_ineq</span>(harstad<span class="sc">$</span>inntekt)<span class="sc">+</span> <span class="co"># beregner Gini</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="st">"Eksempel på lorenz-kurve"</span>)<span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept=</span> <span class="dv">1</span>, <span class="at">linetype=</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="oppgave-2b" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-2b">Oppgave 2b</h2>
+<p><strong>Diskuter svakheter og styrker med disse målene på ulikhet. I hvilke situasjoner er hvert mål mest relevant?</strong></p>
+<p><em>Gini-koeffisienten er en matematisk formel for ulikhet som gir et tall mellom 0 og 1. En styrke med Gini-koeffisienten er at den kan brukes for å få en oversikt over økonomisk ulikhet mellom land og over tid. En svakhet med gini-koeffisienten er at alt for mye informasjon oppsummeres i et enkelt tall. Dette gjør at det finnes mye informasjon i utregningen som man ikke klarer å observere med Gini-koeffisienten alene.</em></p>
+<p><em>P90P10 er en måling for ulikhet som tar for seg forholdstallet mellom desil 9 (P90) og desil 1(P10), det vil si de som er rett under de rikeste og rett over de fattigste. Dette er en god måling på ulikhet hvis man vil ekskludere ekstreme observasjoner.</em></p>
+<p><em>S80S20 viser forholdstallet av gjennomsnittsinntekten til de 20 prosent rikeste og de 20 prosent fattigste. Dette er også styrken til denne målingen, da man får med alle observasjoner fra toppen og bunnen i målingen. Svakheter med denne målingen er at du får datapunkter (inntekt) som stikker seg veldig ut inn i observasjonen, og den er heller ikke god på å måle observasjoner som ligger på midten av inntektsskalaen. Dette er også en svakhet med alle tre målingene.</em></p>
+</section>
+</section>
+<section id="oppgave-3.-inntektsulikhet-i-norge-2008-2019" class="level1">
+<h1>Oppgave 3. Inntektsulikhet i Norge 2008-2019</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/uit-sok-1004-h22/uit-sok-1004-h22.github.io/main/data/oecd_data_nor.csv"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>oecd_n <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="oppgave-3a" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-3a">Oppgave 3a</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>oecd_n <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"År"</span> <span class="ot">=</span> <span class="st">"Year"</span>, <span class="st">"Målinger"</span> <span class="ot">=</span> <span class="st">"MEASURE"</span>, <span class="st">"Verdi"</span> <span class="ot">=</span> <span class="st">"Value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Målinger <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"GINI"</span>, <span class="st">"GINIB"</span>, <span class="st">"GINIG"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> År, <span class="at">y=</span> Verdi, <span class="at">color=</span> Målinger)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">2008</span>, <span class="dv">2012</span>, <span class="dv">2015</span>, <span class="dv">2018</span>)) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="fu">factor</span> (AGE, (<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"TOT"</span>, <span class="st">"WA"</span>, <span class="st">"OLD"</span>))), </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="st">"TOT"</span> <span class="ot">=</span> <span class="st">"Alle"</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"WA"</span> <span class="ot">=</span> <span class="st">"Arbeidere"</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"OLD"</span> <span class="ot">=</span> <span class="st">"Pensjonister"</span>))) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gini verdier i Norge"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Gi en nøyaktig beskrivelse av figuren med de tre Gini-målene. Bruk figuren til å svare på følgende spørsmål:</strong></p>
+<p><em>Figuren viser Gini-koeffisient på vertikal akse og årstall på horisontal akse. Det er tre forskjellige Gini-utregninger av inntekter som måles. Figuren viser endringer i inntektsulikhet for arbeidere, pensjonister og alle over 11 år.</em></p>
+<p><strong>Hva viser Gini-målene om utviklingen av ulikhet i Norge?</strong></p>
+<p><em>Gini-målene viser at pensjonister har størst ulikhet i markedsinntekt før skatt og overføringer. Den viser også at inntektsulikheten i Norge øker smått fra 2008 til 2015, men har en synkende trend etter 2015. Pensjonister har størst endring i inntektsulikheten i 2015 før skatt og overføringer, og årene etter. Dersom man ser på disponibel inntekt så er den for eksempel lik i 2008 og 2019, selv om Gini-verdien i markedsinntekt før skatt og overføringer er gått opp fra 2008.</em></p>
+<p><strong>Hvordan forklarer man eventuelle forskjeller mellom de tre Gini-koeffisientene?</strong></p>
+<p><em>Den røde målingen som heter GINI er Gini-koeffisienten regnet ut ifra disponibel inntekt etter skatt og overføringer.</em></p>
+<p><em>Den grønne målingen, som heter GINIB er Gini-koeffisienten regnet ut ifra markedsinntekt før skatt og overføringer. Med markedsinntekt tas også inntekten med fra verdiskapningen i den løpende produksjonen i samfunnet.</em></p>
+<p><em>Den blå målingen, som heter GINIG er Gini-koeffisienten beregnet ut ifra bruttoinntekt.</em></p>
+<p><strong>Er det forskjeller i ulikhet mellom arbeidere og pensjonister?</strong></p>
+<p><em>Gini-verdiene viser at pensjonister har mindre ulikhet i brutto og disponibel inntekt enn arbeidere. Verdiene for pensjonistene ligger på ca 0.28 i bruttoinntekt og ca 0.22 i disponibel inntekt mot 3 og 0.28 for arbeidere. Når man tar med markedsinntekt og overføringer har pensjonister en Gini-verdi på ca 0.6 målt over årene mot litt under 0.4 på arbeidere. Når man ser på dette er forskjellene i ulikhet merkbart store.</em></p>
+<p><strong>Hvilken rolle spiller samfunnets institusjoner, for eksempel skatte- og pensjonssystemet, for utjevning av ulikhet mellom arbeidere og pensjonister?</strong></p>
+<p><em>Norges institusjoner virker til å ha en god effekt på å utjevne ulikheter i inntekt for arbeidere, og har en særdeles merkbar effekt for pensjonister. Pensjonistene får en veldig lav Gini-verdi på 0.2 i disponibel inntekt etter at samfunnets institusjoner har utjevnet ulikhetene, sammenlignet mot 0.26 for arbeidere. For arbeidere virker det som at samfunnets institusjoner har en innvirkning på ulikheten, men ikke like stor som på pensjonistene.</em></p>
+</section>
+<section id="oppgave-3b" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-3b">Oppgave 3b</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>oecd_n <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"År"</span> <span class="ot">=</span> <span class="st">"Year"</span>, <span class="st">"Målinger"</span> <span class="ot">=</span> <span class="st">"MEASURE"</span>, <span class="st">"Verdi"</span> <span class="ot">=</span> <span class="st">"Value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Målinger <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"P90P10"</span>, <span class="st">"S80S20"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AGE <span class="sc">==</span> <span class="fu">c</span>(<span class="st">"WA"</span>, <span class="st">"OLD"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> År, <span class="at">y=</span> Verdi, <span class="at">color=</span> Målinger)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">2008</span>, <span class="dv">2010</span>, <span class="dv">2012</span>, <span class="dv">2014</span>, <span class="dv">2016</span>, <span class="dv">2018</span>)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="fu">factor</span> (AGE, (<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"WA"</span>, <span class="st">"OLD"</span>))), </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="st">"WA"</span> <span class="ot">=</span> <span class="st">"Arbeidere"</span>, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"OLD"</span> <span class="ot">=</span> <span class="st">"Pensjonister"</span>))) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( <span class="at">title=</span> <span class="st">"Målinger av ulikhet i inntekt for arbeidere og pensjonister"</span>, <span class="at">subtitle=</span> <span class="st">"Målinger ved P90P10 og S80S20"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Bruk figuren som grunnlag for å beskrive inntektsulikhet. Er svarene dine det samme som i 3a? Hvorfor/hvorfor ikke?</strong></p>
+<p><em>P90P10 og S80S20 målingene er utregnet gjennom disponibel inntekt. For arbeiderne så har de rikeste 20 prosent ca. fire ganger så mye i disponibel inntekt enn de fattigste 20 prosent. For arbeideren i desil 9 har han en disponibel inntekt litt over 3 ganger så mye som arbeideren i desil 1.</em></p>
+<p><em>Ser man på pensjonistene så har de 20 prosent rikeste ca. 3 ganger så mye disponibel inntekt enn de 20 prosent fattigste. Pensjonisten i desil 9 har en disponibel inntekt på litt over 2.5 ganger så stor som pensjonisten i desil 1.</em></p>
+<p><em>Inntektsulikheten er større mellom arbeidere og mindre mellom pensjonistene. Ved å se på Gini-koeffisienten fra tidligere så vil sammenhengen av målingene se korrekt ut. Fordi koeffisienten er på 0.26 for arbeidere og 0.2 for pensjonister når man ser på disponibel inntekt. Det vil si at det er forventet at inntektsulikheten er større for arbeidere enn pensjonister.</em></p>
+</section>
+</section>
+<section id="oppgave-4.-casestudie-tromsø-kommune-2015" class="level1">
+<h1>Oppgave 4. Casestudie: Tromsø kommune 2015</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tromso <span class="ot">&lt;-</span>  <span class="fu">filter</span>(skatt_troms_2015, kommnr <span class="sc">==</span> <span class="st">"1902"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>tromso <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nettoinntekt =</span> inntekt <span class="sc">-</span> skatt) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"bruttoinntekt"</span> <span class="ot">=</span> <span class="st">"inntekt"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">"nettoinntekt"</span>, <span class="st">"bruttoinntekt"</span>), <span class="at">names_to=</span><span class="st">"Inntekter"</span>, <span class="at">values_to =</span><span class="st">"bruttonetto"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>tromso[tromso <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="oppgave-4a" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-4a">Oppgave 4a</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tromso <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>fodt, <span class="at">y=</span>bruttonetto<span class="sc">/</span><span class="dv">12</span>, <span class="at">color=</span> Inntekter)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">"Brutto og nettoinntekt per mnd"</span>, <span class="at">subtitle=</span> <span class="st">"Tromsø kommune 2015"</span>, <span class="at">y =</span> <span class="st">"Månedslønn"</span>, <span class="at">x =</span> <span class="st">"Fødselsår"</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Hvordan kan vi tolke dette bildet i forhold til inntektsulikhet i Tromsø kommune, og hvilken rolle spiller skattesystemet her?</strong></p>
+<p><em>Hvis man skal tolke dette bildet for å vise inntektsulikhet i Tromsø kommune så kan man se at flertallet har en brutto og nettoinntekt per måned mellom 0 og 500.000, - kroner. Dette vil si at inntektsulikheten ikke forholdsvis ser så stor ut.</em></p>
+<p><em>Utenom disse finnes det noen få personer som tjener over 500.000. Ser man utelukkende på dembetyr det at skattesystemet tar en stor del av inntekten. Personen som tjener mest i Tromsø kommune har en bruttoinntekt på litt under 2.500.000, - kroner og etter skatt får personen en utbetaling på ca. 1.750.000, - kroner i nettoinntekt. Det vil si at skattesystemet fratrekker 750.000, - kroner i skatt, noe som er 30 prosent av bruttoinntekten.</em></p>
+<p><em>De som har mindre i inntekt vil også få et mindre skattetrekk for å utjevne ulikhetene. En observasjon er at det er veldig mange personer i kommunen som står oppført med 0 kroner i inntekt, som gjør at inntektsulikheten øker.</em></p>
+</section>
+<section id="oppgave-4b" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-4b">Oppgave 4b</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bruttonetto) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, .<span class="dv">01</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">Persentil=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inntekt_fr_skatt=</span>value)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Persentil,<span class="at">y=</span>inntekt_fr_skatt<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="st">"Inntektsfordeling i Tromsø 2015 (før skatt)"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Inntekt (1000kr)"</span>, <span class="at">x=</span> <span class="st">"Persentil"</span>)<span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bruttonetto) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, .<span class="dv">01</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">Persentil=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inntekt_etter_skatt=</span>value)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Persentil,<span class="at">y=</span>inntekt_etter_skatt<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="st">"Inntektsfordeling i Tromsø 2015 (etter skatt)"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Inntekt (1000kr)"</span>, <span class="at">x=</span> <span class="st">"Persentil"</span>)<span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bruttonetto) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, .<span class="dv">01</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">Persentil=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inntekt_fr_skatt=</span>value)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Persentil,<span class="at">y=</span>inntekt_fr_skatt<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="st">"Inntektsfordeling i Tromsø 2015 (før skatt)"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Inntekt (1000kr)"</span>, <span class="at">x=</span> <span class="st">"Persentiler uten siste datapunkt"</span>)<span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">2000</span>) <span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(bruttonetto) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, .<span class="dv">01</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(df)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(<span class="at">Persentil=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inntekt_etter_skatt=</span>value)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Persentil,<span class="at">y=</span>inntekt_etter_skatt<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">title =</span> <span class="st">"Inntektsfordeling i Tromsø 2015 (etter skatt)"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Inntekt (1000kr)"</span>, <span class="at">x=</span> <span class="st">"Persentiler uten siste datapunkt"</span>) <span class="sc">+</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2000</span>)) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Hvilket bilde får du av inntektsulikhet i Tromsø kommune? Lag en tilsvarende figur for inntekt etter skatt og kommentér og forklar eventuelle forskjeller.</strong></p>
+<p><em>Bildet av inntektsulikheten i Tromsø kommune kommer tydeligere frem. Hvis man ser på de 17 første persentilene i Tromsø kommune så har de en gjennomsnittsinntekt på 0 kroner. Personene på persentil 18 til 25 har en så lav gjennomsnittsinntekt at figuren har vanskelig for å vise hvor mye personene faktisk tjener. Persentil 50 i Tromsø kommune viser at før skatt tjener median av befolkningen ca. 250.000, - kroner, og etter skatt litt over 200.000, - kroner. Hvis man sammenligner dette mot persentil 90 som tjener ca. 520.000, - og 400.000, - kroner før og etter skatt betyr det at de har en doblet inntekt enn medianen. Tar man med den aller rikeste persentilen blir bildet noe annerledes. De absolutt rikeste tjener ca. 30.000.000, - før skatt og 20.000.000, - etter skatt, som gjør at figuren blir nærmest utolkbar.</em></p>
+<p><em>Ser man på figuren uten den siste persentilen ser man at inntektene blir jevnere fordelt utover alle persentilene etter at skatten blir trukket fra. Persentil 99 går ned fra en inntekt før skatt på 1.300.000, - mot ca. 800.000, - kroner. De andre persentilene får ikke en like markant nedgang.</em></p>
+</section>
+<section id="oppgave-4c" class="level2">
+<h2 class="anchored" data-anchor-id="oppgave-4c">Oppgave 4c</h2>
+<p><strong>Er inntektsfordelingen i Tromsø mer eller mindre lik sammenliknet med landet som helhet? Gi mulige forklaringer.</strong></p>
+<p><em>Tromsø kommune har en større inntektsulikhet enn resten av landet. Norge har en Gini-koeffisient før og etter skatt på ca. 3, og 2.7. Til sammenligning har Tromsø Gini-koeffisienter på 0.47 og 0.44, før og etter skatt.</em></p>
+<p><em>Noen mulige forklaringer på dette kan være at Tromsø er en liten kommune med mange sysselsatte innenfor havbruk, fiske og boligutvikling som noen eksempler. Konsekvensen av dette gjør at det er noen få personer som blir å ha en mye større fordeling av inntekten enn resten av befolkningen, og inntektsulikheten øker.</em></p>
+<p><em>Det er et stort antall personer som ikke er sysselsatt i Tromsø kommune hvis man ser på tidligere data. De to første desilene i Tromsø kommune har en gjennomsnittsinntekt på litt over 0 kroner. Årsaker til dette kan være at Tromsø Kommune tar imot innvandrere. Tidligere sett har innvandrere en dårligere inntekt enn resten av befolkningen, og det er ikke usannsynlig at kommunen sliter med å få sysselsatt innvandrere.</em></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tromso <span class="ot">&lt;-</span>  <span class="fu">filter</span>(skatt_troms_2015, kommnr <span class="sc">==</span> <span class="st">"1902"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>tromso <span class="ot">&lt;-</span> tromso <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nettoinntekt =</span> inntekt <span class="sc">-</span> skatt)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>tromso[tromso <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tromso, <span class="fu">aes</span>(inntekt))<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_lorenz</span>()<span class="sc">+</span> <span class="co"># tegner Lorenz</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate_ineq</span>(tromso<span class="sc">$</span>inntekt)<span class="sc">+</span> <span class="co"># beregner Gini</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x=</span><span class="st">"andel av befolkningen"</span>, <span class="at">y=</span> <span class="st">"andel av inntekt"</span>, <span class="at">title =</span> <span class="st">"Lorenz-kurve, Tromsø kommune 2015"</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tromso, <span class="fu">aes</span>(nettoinntekt))<span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_lorenz</span>()<span class="sc">+</span> <span class="co"># tegner Lorenz</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate_ineq</span>(tromso<span class="sc">$</span>nettoinntekt)<span class="sc">+</span> <span class="co"># beregner Gini</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span> (<span class="at">x=</span><span class="st">"andel av befolkningen"</span>, <span class="at">y=</span> <span class="st">"andel av inntekt"</span>, <span class="at">title =</span> <span class="st">"Lorenz-kurve, Tromsø kommune 2015"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Mappeoppgave_1_reworked_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For å gå tilbake til hovedsiden trykker du <a href="https://danielfabiog.github.io/SOK-1004/">her</a>.</p>
+<p><strong>Kildeliste</strong></p>
+<p><em>Økende Ulikhet</em> (2018) <em>NHO</em>. Tilgjengelig: <a href="https://www.nho.no/publikasjoner/p/naringslivets-perspektivmelding/okende-ulikhet/" class="uri">https://www.nho.no/publikasjoner/p/naringslivets-perspektivmelding/okende-ulikhet/</a> (Sist besøkt: October 9, 2022).</p>
+<p><em>19. economic inequality,</em> <em>19. Economic inequality – The Economy</em>. Tilgjengelig: <a href="https://www.core-econ.org/the-economy/book/text/19.html" class="uri">https://www.core-econ.org/the-economy/book/text/19.html</a> (Sist besøkt: October 9, 2022).</p>
+<p><em>Slik Måler SSB ULIKHET</em>, <em>SSB</em>. Tilgjengelig: <a href="https://www.ssb.no/inntekt-og-forbruk/inntekt-og-formue/statistikk/inntekts-og-formuesstatistikk-for-husholdninger/artikler/slik-maler-ssb-ulikhet" class="uri">https://www.ssb.no/inntekt-og-forbruk/inntekt-og-formue/statistikk/inntekts-og-formuesstatistikk-for-husholdninger/artikler/slik-maler-ssb-ulikhet</a> (Sist besøkt: October 9, 2022).</p>
+<p><em>Utdanning og Lønnsnivå Hos innvandrere</em>, <em>ssb.no</em>. Tilgjengelig: <a href="https://www.ssb.no/arbeid-og-lonn/artikler-og-publikasjoner/utdanning-og-lonnsniva-hos-innvandrere" class="uri">https://www.ssb.no/arbeid-og-lonn/artikler-og-publikasjoner/utdanning-og-lonnsniva-hos-innvandrere</a> (Sist besøkt: October 9, 2022).</p>
+<p><em>Sysselsetting Blant innvandrere, Registerbasert</em>, <em>SSB</em>. Tilgjengelig: <a href="https://www.ssb.no/arbeid-og-lonn/sysselsetting/statistikk/sysselsetting-blant-innvandrere-registerbasert" class="uri">https://www.ssb.no/arbeid-og-lonn/sysselsetting/statistikk/sysselsetting-blant-innvandrere-registerbasert</a> (Sist besøkt: October 9, 2022).</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
