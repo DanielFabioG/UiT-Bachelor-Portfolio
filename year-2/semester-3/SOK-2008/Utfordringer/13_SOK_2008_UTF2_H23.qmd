@@ -1,0 +1,775 @@
+---
+title: "Utfordring 2.1 og 2.2"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 13, SOK-2008, Høst 2023"
+editor: visual
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+bibliography: referanse2.bib
+csl: norsk-apa-manual.csl
+nocite: |
+  @*
+header-includes:
+  - "\\usepackage{caption}"
+  - "\\captionsetup{font=small}"
+  - "\\usepackage{hyperref}"
+  - "\\renewcommand{\\figureautorefname}{Figur}"
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+---
+
+```{=tex}
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
+```
+```{python include=FALSE}
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+import locale
+locale.setlocale(locale.LC_ALL, 'no_NO.utf8')
+
+# Definerer symboler
+bta, E, alpha, T, w, L = sp.symbols('beta E alpha T w L')
+
+# Utledning matematisk av minstelønn under fullkommen konkurranse
+
+# Labour demand (1)
+def L_D(E,alpha,w):
+    return (E/alpha)-(1/alpha)*w
+
+# Labour supply (2) 
+def L_S(T,bta,w):
+    return -(T/bta)+(1/bta)*w
+
+# Setter labour demand = labour supply (3)
+eq_cond=sp.Eq(L_D(E,alpha,w),L_S(T,bta,w))
+
+# Løser for w og finner lønnen under fullkommen konkurranse for w (4)
+w_eq=sp.solve(eq_cond,w)
+
+# Løser for L og finner labour under fullkommen konkurranse for L (5)
+L_eq=L_D(E,alpha,w_eq[0])
+
+# Definerer numeriske verdier for å plotte
+E_num = 250
+a = 0.5
+x = np.arange(0,550,1)
+b = 0.5
+T_num = 10
+
+# Løser likevekt for w (4) med tallverdier
+w_eq_num = float(w_eq[0].subs({E: E_num, alpha: a, T: T_num, bta: b}))
+# Løser likevekt for L (5) med tallverdier
+L_eq_num = float(L_D(E_num, a, w_eq_num))
+
+
+# Løser for etterspørsel og finner etterspørselskurven (6)
+etterspørsel = sp.solve(sp.Eq(L, L_D(E,alpha,w)), w)
+
+# Definerer etterspørselskurven, bytter om på L og a men har lite betydning
+def e_p(E,L,a):
+    return E - a*L
+
+# Løser for w og finner tilbudskurven
+tilbud = sp.solve(sp.Eq(L_S(T,bta,w), L), w)
+
+# Definerer tilbudskurven, bytter litt om på variablene slik at det blir enklere
+def t_b(T,b,L):
+    return T + b*L 
+```
+
+```{python include=FALSE}
+# Plotter likevekt uten minstelonn under fullkommen konkurranse
+# Creating the ax for plotting
+def create_ax():
+    fig, ax = plt.subplots()
+    ax.set(xlim=(0, 600))
+    ax.set(ylim=(0, 320))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.set_xticks([])
+    ax.set_yticks([])
+    
+    return fig, ax
+
+# Starting fig
+fig, ax = create_ax()
+# Plotter tilbud
+ax.plot(x, t_b(T_num,b,x), label='Tilbud', color="cornflowerblue")
+# Plotter ettersporsel
+ax.plot(x,e_p(E_num,a,x), label='Etterspørsel', color="palevioletred")
+# Tegner en stiplet linje til likevekt
+ax.vlines(L_eq_num, 0, w_eq_num, linestyles='dashed', color="grey")
+ax.hlines(w_eq_num, 0, L_eq_num, linestyles='dashed', color="grey")
+# Lager L^FK som skal vaere rett atmed L_eq_num
+ax.annotate('$L^{FK}$', xy=(L_eq_num-5, -40), annotation_clip=False, size=16)
+# Lager w^FK
+ax.annotate('$W^{FK}$', xy=(-85, w_eq_num-5), annotation_clip=False,size=16)
+# Lager L^S
+ax.annotate('$L^S$', xy=(500, 270), size=18)
+# Lager L^D
+ax.annotate('$L^D$', xy=(500,10), size=18)
+
+x_1 = np.arange(0,L_eq_num,1)
+# Fyller inn overskudd
+ax.fill_between(x_1, w_eq_num,e_p(E_num, x_1, b), color="forestgreen", alpha=0.5)
+
+# Fyller inn overskudd igjen
+ax.fill_between(x_1, w_eq_num, t_b(T_num, a, x_1), color="palevioletred", alpha=0.5)
+
+plt.savefig("figur1.png", dpi=300)
+```
+
+```{python include=FALSE}
+# løser for minstelonn på 150 for Labour
+w_min = 150
+L_eq_num_min = float(L_D(E_num, b,w_min))
+
+# Starting fig
+fig, ax = create_ax()
+
+# Plotter tilbud
+ax.plot(x, t_b(T_num,b,x), label='Tilbud', color="cornflowerblue")
+# Plotter ettersporsel
+ax.plot(x,e_p(E_num,a,x), label='Etterspørsel', color="palevioletred")
+
+# Tegner en stiplet linje til likevekt
+ax.vlines(L_eq_num, 0, w_eq_num, linestyles='dashed', color="grey")
+ax.hlines(w_eq_num, 0, L_eq_num, linestyles='dashed', color="grey")
+
+# Lager L^FK som skal vaere rett atmed L_eq_num
+ax.annotate('$L^{FK}$', xy=(L_eq_num-5, -40), annotation_clip=False, size=16)
+# Lager w^FK
+ax.annotate('$W^{FK}$', xy=(-85, w_eq_num-10), annotation_clip=False, size=16)
+# Lager L^S
+ax.annotate('$L^S$', xy=(500, 270), size=18)
+
+# Definerer integralet for dodvektstapet
+x_2 = np.arange(0,L_eq_num_min+1,1)
+# Definerer en tredje x som brukes til o vite hvor jeg integrerer
+x_3 = np.arange(L_eq_num_min, L_eq_num+1,1).astype(float)
+
+# Fyller inn overskudd
+ax.fill_between(x_2, w_min,e_p(E_num, x_2, b), color="forestgreen", alpha=0.5)
+
+# Fyller inn overskudd igjen
+ax.fill_between(x_2, w_min, t_b(T_num, a, x_2), color="palevioletred", alpha=0.5)
+
+# Fyller inn dodvektstapet
+ax.fill_between(x_3, e_p(E_num, x_3, b), t_b(T_num, a, x_3), color="grey", alpha=0.5)
+
+# Lager L^D
+ax.annotate('$L^D$', xy=(500,10), size=18)
+# Legger til en minstelonn på 150
+ax.hlines(w_min, 0, 500, linestyles='--', color="black")
+# Lager W^min
+ax.annotate('$W^{min}$', xy=(-85,145), annotation_clip=False, size=16)
+# Lager en ny linje til likevekten for L^min
+ax.vlines(L_eq_num_min, 0, w_min, linestyles='dashed', color="grey")
+# Putter inn L^min
+ax.annotate('$L^{min}$', xy=(L_eq_num_min-25,-40), annotation_clip=False, size=16)
+# Lager en pil
+ax.annotate("", (L_eq_num_min,10), (L_eq_num, 10), arrowprops={"arrowstyle":"->", "color":"black", "lw":2})
+plt.savefig("figur2.png",dpi=300)
+```
+
+```{python include=FALSE}
+# Starter utregningen for monopsoni
+
+FK_TC = w*L
+FK_TC_diff = sp.diff(FK_TC, L)
+
+#monop_TC= w(L)*L
+monop_tc=(T+bta*L) *L
+monop_tc_diff = sp.diff(monop_tc, L)
+monop_tc_diff #grensekostnad
+
+# E-alpha*L = MRP
+MRP = (E-alpha*L)
+
+betingelse = sp.Eq(monop_tc_diff, MRP)
+
+L_tilbud = sp.solve(betingelse, L)[0]
+
+L_tilbud_num = L_tilbud.subs([(E, E_num), (alpha, a), (T, T_num), (bta, b)])
+
+w_tilbud = T+bta*L_tilbud_num
+
+w_tilbud_num = w_tilbud.subs([(T, T_num), (bta, b)])
+
+#grenseinntekt = grensekostnad
+mlc = monop_tc_diff
+
+# Definerer den nye funksjonen for margin labour cost
+def t_b_monopsoni(T,b,L):
+    return 2*L*b+T
+```
+
+```{python include=FALSE}
+# Plotter likevekt under monopsoni uten minstelonn
+
+# Starting fig
+fig, ax = create_ax()
+# Plotter tilbud
+ax.plot(x, t_b(T_num,b,x), label='Tilbud', color="cornflowerblue")
+# Plotter ettersporsel
+ax.plot(x,e_p(E_num,a,x), label='Etterspørsel', color="palevioletred")
+
+# Lager L^S
+ax.annotate('$L^S$', xy=(500, 270), size=18)
+# Lager L^D
+ax.annotate('$L^D$', xy=(500,10), size=18)
+
+# Legger til MLC
+ax.plot(x, t_b_monopsoni(T_num,b,x))
+
+# Tegner en stiplet linje til likevekt
+ax.vlines(L_tilbud_num, 0, t_b_monopsoni(T_num,b,L_tilbud_num), linestyles='dashed', color="grey")
+ax.hlines(w_tilbud_num, 0, L_tilbud_num, linestyles='dashed', color="grey")
+
+ax.annotate('$W^M$', xy=(-75, w_tilbud_num-5), annotation_clip=False, size=16)
+# Lager L^S
+ax.annotate('$MLC$', xy=(320, 300), size=18)
+# Lager L^D
+ax.annotate('$L^M$', xy=(L_tilbud_num-5,-40), size=16, annotation_clip=False)
+
+x_5 = np.arange(L_tilbud_num,L_eq_num+1,1).astype(float)
+
+ax.fill_between(x_5,e_p(E_num, x_5, b), t_b(T_num, a, x_5), color ="palevioletred", alpha =0.3)
+
+plt.savefig("figur3.png", dpi=300)
+```
+
+```{python include=FALSE}
+# Plotter likevekt med minstelonn under monopsoni
+
+# Starting fig
+fig, ax = create_ax()
+# Plotter tilbud
+ax.plot(x, t_b(T_num,b,x), color="cornflowerblue")
+# Plotter ettersporsel
+ax.plot(x,e_p(E_num,a,x), color="palevioletred")
+
+# Lager L^S
+ax.annotate('$L^S$', xy=(500, 270), size=18)
+# Lager L^D
+ax.annotate('$L^D$', xy=(500,10), size=18)
+
+# Legger til MLC
+ax.plot(x, t_b_monopsoni(T_num,b,x))
+
+# Tegner en stiplet linje til likevekt
+ax.vlines(L_tilbud_num, 0, t_b_monopsoni(T_num,b,L_tilbud_num), linestyles='dashed', color="grey")
+ax.hlines(w_tilbud_num, 0, L_tilbud_num, linestyles='dashed', color="grey")
+
+ax.annotate('$W^M$', xy=(-75, w_tilbud_num-5), annotation_clip=False, size=16)
+# Lager L^S
+ax.annotate('$MLC$', xy=(320, 300), size=18)
+# Lager L^D
+ax.annotate('$L^M$', xy=(L_tilbud_num-5,-45), size=16, annotation_clip=False)
+
+# Legger til en minstelonn på 150
+ax.hlines(w_min, 0, 500, linestyles='--', color="black")
+# Lager W^min
+ax.annotate('$W^{min}$', xy=(-75,145), annotation_clip=False, size=16)
+# Lager en ny linje til likevekten for L^min
+ax.vlines(L_eq_num_min, 0, w_min, linestyles='dashed', color="grey")
+# Putter inn L^min
+ax.annotate('$L^{min}$', xy=(L_eq_num_min-5,-45), annotation_clip=False, size=16)
+# Fyller inn dodvektstapet
+ax.fill_between(x_3, e_p(E_num, x_3, b), t_b(T_num, a, x_3), color="grey", alpha=0.5, label="Dødvektstap")
+# fyller inn anti-dodvektstapet
+x_6 = np.arange(L_tilbud_num,L_eq_num_min+1,1).astype(float)
+# overskudd
+ax.fill_between(x_6,e_p(E_num, x_6, b), t_b(T_num, a, x_6), color="blue", alpha=0.5, label = "Overskudd")
+# Lager en pil
+ax.annotate("", (L_tilbud_num,10), (L_eq_num_min, 10), arrowprops={"arrowstyle":"<-", "color":"black", "lw":2})
+ax.legend(loc="best")
+plt.savefig("figur4.png",dpi=300)
+```
+
+```{python include = FALSE}
+# Begynner på grafisk analyse av fagforeninger
+L =sp.symbols("L", real=True, positive=True)
+
+# Define a function that describes the market's labor demand
+Uf = ((800 - 0.08 * L) - 100) * L 
+
+L_derivert = sp.diff(Uf, L)
+
+# Finner L_max
+L_max = sp.solve(L_derivert, L)[0]
+
+w = 800 - 0.08 * L
+
+w_max = w.subs(L, L_max)
+
+nytte = (w_max - 100) * L_max
+```
+
+```{python include = FALSE}
+x8 = np.linspace(0.01, 10000, 100)
+x9 = np.linspace(float(L_max), 8670, 100)
+
+def wages(x8):
+    return 800 - 0.08 * x8
+
+nyttekurve = sp.solve(Uf - nytte, w)
+
+nyttekurve_func = sp.lambdify(L, nyttekurve[0])
+
+# Plotte show
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set(xlim=(0, 12000))
+    ax.set(ylim=(0, 1200))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.set_xticks([])
+    ax.set_yticks([])
+    
+    return fig, ax
+
+fig, ax = create_ax()
+
+
+# Plotter labour demand
+ax.plot(x8, wages(x8), color = "cornflowerblue")
+
+# Plotter indif
+ax.plot(x8,nyttekurve_func(x8), color="palevioletred")
+
+# equlibrium
+ax.vlines(L_max,0, w_max, color='green', linestyle='dashed')
+ax.hlines(w_max,0,L_max, color="green", linestyles="dashed")
+
+# verdi for reservasjonslønn som er 100
+ax.hlines(100,10000,0, color="black")
+
+# L^D
+ax.annotate('$L^D$', xy=(10000,40), size=14, color="cornflowerblue")
+
+# W^r
+ax.annotate('$W^r$', xy=(10000,90), size=14)
+# U0
+ax.annotate('$U_0$', xy=(10000, 250), size=14)
+# L^M
+ax.annotate('$L^M$', xy=(4050, 5), size=14)
+# W^M
+ax.annotate('$W^M$', xy=(50, 460), size=14)
+
+# filling between L_max to 9500
+ax.fill_between(x9, wages(x9),100, alpha=0.5, label="Effektivitetstap")
+ax.legend(loc="best")
+plt.savefig("figur8.png",dpi=300)
+```
+
+```{r}
+#| output: false
+# Loading packages needed
+# Fikser UTF-8 encoding siden python kode før resetter encoding
+rm(list = ls())
+options(encoding = "UTF-8")
+library(tidyverse)
+library(eurostat)
+library(ggrepel)
+library(OECD)
+```
+
+```{r}
+#| output: false
+# Using the package eurostat to download the data needed
+# Getting the data for minimum wage in percentage of mean wage
+eurostat_1 <- get_eurostat(id = "earn_mw_avgr2", 
+                     type = "label")
+# Getting employment data
+eurostat_2 <- get_eurostat(id = "lfsi_emp_a", 
+                     type = "label")
+```
+
+```{r}
+# Filtering out what I dont want and letting what I want to look at remain
+# I have to remove montenegro and albania since they are not in the other data
+eurostat_1 <- eurostat_1 %>%
+  filter(indic_se == 'Monthly minimum wage as a proportion of the mean gross monthly earnings',
+         time == "2021-01-01",
+         nace_r2 == 'Industry, construction and services (except activities of households as employers and extra-territorial organisations and bodies)',
+         !geo %in% c("Montenegro", "Albania"))
+
+# Same for eurostat_2, and removing some aggregated values for countries
+eurostat_2 <- eurostat_2 %>%
+  filter(age == 'From 20 to 64 years',
+         time == "2021-01-01",
+         sex == "Total",
+         unit == 'Percentage of total population',
+         !geo %in% c('Euro area – 20 countries (from 2023)',
+                         'European Union - 27 countries (from 2020)'),
+         indic_em == 'Persons in the labour force (former name: active persons)')
+
+
+# Merging the filtered dataframes to one dataframe
+eurostat <- merge(eurostat_1, eurostat_2, by=c("geo", "time"))
+
+# Renaming the variables to know what they are
+eurostat <- eurostat %>%
+  select(geo, values.x,values.y) %>%
+  rename(min_wage= values.x, syssel_rate = values.y)
+
+# Removing the old dataframes
+rm(eurostat_1, eurostat_2)
+```
+
+```{r}
+# Using the OECD package to download the datasets
+OECD_tud <-get_dataset("TUD")
+OECD_gender <- get_dataset("MIG_NUP_RATES_GENDER")
+```
+
+```{r}
+# Fixing the year variable, filtering for 2018 and removing time and renaming
+OECD_tud <-OECD_tud %>%
+  mutate(year = as.numeric(Time), org_rate = as.numeric(ObsValue)) %>%
+  filter(year == 2018) %>%
+  select(-Time) %>%
+  rename(COUNTRY = LOCATION)
+
+# Same here
+OECD_gender <-OECD_gender %>%
+  mutate(year = as.numeric(Time), employ_rate = as.numeric(ObsValue)) %>%
+  filter(year == 2018, GENDER == "TOT", RATE == "U_RATE") %>%
+  select(-Time)
+
+# Filtering for the NB which is the data for people born in the country
+# Removing SVK since it is not in the other dataset
+OECD_NB <- OECD_gender %>%
+  filter(BIRTH == "NB", !COUNTRY == "SVK")
+
+# Filtering for the data for people that was born outside the country
+OECD_FB <- OECD_gender %>%
+  filter(BIRTH == "FB")
+
+# Merging the datasets to use for ggplot
+OECD_finish <- merge(OECD_tud, OECD_FB, by=c("COUNTRY", "year"))
+
+# Merging the other datasets to use for ggplot
+OECD_finish_2 <- merge(OECD_tud, OECD_NB, by=c("COUNTRY", "year"))
+
+# Selecting what to keep
+OECD_finish <-OECD_finish %>%
+  select(COUNTRY,employ_rate,org_rate)
+
+# Selecting what to keep
+OECD_finish_2 <-OECD_finish_2 %>%
+  select(COUNTRY,employ_rate,org_rate)
+
+# Removing old datasets
+rm(OECD_NB, OECD_FB, OECD_gender, OECD_tud)
+```
+
+```{r}
+#| output: FALSE
+# Resultat av regresjonsanalysen
+model <- lm(syssel_rate ~ min_wage, eurostat)
+summary(model)
+```
+
+```{r, warning=FALSE}
+fig_5<-eurostat %>%
+  ggplot(aes(x=syssel_rate, y=min_wage, label=geo))+
+  geom_point(color = "palevioletred")+
+  geom_text_repel()+
+  labs(y="Minstelønninger", x="Sysselsetting for alder 20-64",
+       caption= "Kilde: Eurostat, earn_mw_avgr2 og lfsi_emp_a",
+       subtitle ="Næringshovedgrupper: Industri, konstruksjon og service (B-S)")+
+  theme_bw()+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))+
+  scale_x_continuous(labels = scales::percent_format(scale = 1))+
+  geom_smooth(method = lm, se= FALSE)+
+  geom_label(x = 83,
+           y = 50,
+           label = paste("R^2 == ", round(cor(eurostat$syssel_rate, eurostat$min_wage)^2, 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE)
+ggsave("figur5.png",dpi=300, width = 7, height = 5)
+```
+
+```{r}
+#| output: FALSE
+# Resultat av regresjonsanalysen
+model <- lm(org_rate ~ employ_rate, OECD_finish_2)
+summary(model)
+```
+
+```{r, warning=FALSE}
+fig_6<-OECD_finish_2 %>%
+  ggplot(aes(x=org_rate, y=employ_rate, label=COUNTRY))+
+  geom_point(color="cornflowerblue")+
+  geom_smooth(method =lm, se= FALSE)+
+  labs(x="Organisasjonsgrad", y="Arbeidsledighetsraten",
+       caption="Kilde: OECD")+
+  theme_bw()+
+  theme(text = element_text(size=18))+  
+  scale_y_continuous(labels = scales::percent_format(scale = 1),
+                     breaks = c(5,10,15,20),
+                     limits = c(0,21))+
+  scale_x_continuous(labels = scales::percent_format(scale = 1))+
+  geom_text_repel()+
+  geom_label(x = 75,
+           y = 18,
+           label = paste("R^2 == ", round(cor(OECD_finish_2$org_rate, OECD_finish_2$employ_rate)^2, 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE,
+           size=7)
+ggsave("figur6.png", dpi = 300, height = 5, width = 7)
+```
+
+```{r}
+#| output: FALSE
+# Resultat av regresjonsanalysen
+model <- lm(org_rate ~ employ_rate, OECD_finish)
+summary(model)
+```
+
+```{r, warning=FALSE}
+fig_7<-OECD_finish %>%
+  ggplot(aes(x=org_rate, y=employ_rate,, label=COUNTRY))+
+  geom_point(color="cornflowerblue")+
+  geom_smooth(method =lm, se= FALSE)+
+  labs(x="Organisasjonsgrad", y="Arbeidsledighetsraten",
+       caption="Kilde: OECD")+
+  theme_bw()+
+  theme(text = element_text(size=18))+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))+
+  scale_x_continuous(labels = scales::percent_format(scale = 1))+
+  geom_text_repel()+
+  geom_label(x = 75,
+           y = 18,
+           label = paste("R^2 == ", round(cor(OECD_finish$org_rate, OECD_finish$employ_rate)^2, 2)),
+           hjust = 0,
+           vjust = 0,
+           parse = TRUE,
+           size=7)
+ggsave("figur7.png", dpi = 300, height = 5, width = 7)
+```
+
+# Utfordring 2.1 Minstelønn
+
+1.  Bruk økonomisk teori og grafisk analyse til å gi intuisjon til begge disse påstandene:
+
+    1.  «Minstelønninger fører til **økt** fattigdom».
+
+    2.  «Minstelønninger fører til **mindre** fattigdom».
+
+## Matematisk utledning
+
+For å kunne finne lønningen i en fullkommen konkurranse så setter vi opp to likninger der $L^D$ er etterspørsel etter arbeidskraft (Labour demand) og $L^S$ er tilbudet av arbeidskraft (Labour supply).
+
+Da har vi likningene:
+
+$$L^D = \frac{\mathrm{E}}{\alpha} - \frac{1}{\alpha}w \tag{1}$$
+
+$$L^S = -\frac{T}{\beta}+\frac{1}{\beta}w \tag{2}$$
+
+Vi setter disse lik hverandre for å løse likningen for w for å finne lønningen:
+
+$$\frac{\mathrm{E}}{\alpha} - \frac{1}{\alpha}w = -\frac{T}{\beta}+\frac{1}{\beta}w \tag{3}$$
+
+Og løser for w og da får vi lønnen:
+
+$$w^{FK} = \frac{T\alpha + \mathrm{E}\beta}{\alpha+\beta} \tag{4}$$
+
+Videre for å løse for L så setter jeg likning (4) inn i likning (1) og finner likevektpunktet for L:
+
+$$L^{FK} = \frac{\mathrm{E}}{\alpha} - \frac{E\beta+T\alpha}{\alpha(\alpha+\beta)} \tag{5}$$
+
+For å kunne lage etterspørselkurven må likning (1) skrives om og løses slik at $w$ står på venstre side av likhetstegnet, og da får man at:
+
+$$w^{FK} = E-L^D\alpha \tag{6}$$ Gjør det samme for tilbudskurven og skriver om likning (2) slik at $w$ står på venstre side av likhetstegnet og får da:
+
+$$w^{FK} = T+\beta L^S \tag{7}$$
+
+## Grafisk analyse under fullkommen konkurranse
+
+For å plotte disse kurvene og løse for likevekten grafisk, må man gi de algebraiske uttrykkene tallverdier. Dette går jeg ikke dypere inn på i denne oppgaven. (For å se full utregning av den grafiske analysen matematisk videre så ligger dette i kode).
+
+I \autoref{fig:test1} ser man grafisk hvordan likevekten er før en minstelønn blir introdusert under fullkommen konkurranse. Den blå linjen $L^S$ er tilbudet av arbeidskraft mens den røde linjen $L^D$ er etterspørselen etter arbeidskraft. Her er ingen arbeidsledige siden alle som vil ha arbeid tar lønnen $W^{FK}$ og alle som tilbyr arbeidskraft til en høyere lønn deltar ikke på arbeidsmarkedet.
+
+Når en minstelønn innføres blir det en ny likevekt som kan sees i \autoref{fig:test2} hvor arbeidstakere som tidligere var ansatt under $L^{FK}$ til en lavere minstelønn $W^{FK}$ blir presset ut av arbeidsmarkedet. Med innføringen av den nye likevekten $W^{min} = L^{min}$ kommer det nye arbeidstakere inn som tidligere ikke var deltakere men nå blir villige til å arbeide for den nye minstelønnen.
+
+```{=tex}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur1.png}
+  \captionof{figure}{Likevekt uten minstelønn\\under fullkommen konkurranse}
+  \label{fig:test1}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur2.png}
+  \captionof{figure}{Likevekt med minstelønn\\under fullkommen konkurranse}
+  \label{fig:test2}
+\end{minipage}
+\end{figure}
+```
+Når man diskuterer påstanden «minstelønninger fører til **økt** fattigdom» kan man argumentere for at i \autoref{fig:test2} så ser man at når minstelønnen $L^{min}$ blir innført så skjer det et negativt skift i sysselsettingen fra $L^{FK}$ som under fullkommen konkurranse vil føre til totalt sett vil det bli mindre sysselsatte i arbeidsmarkedet enn det var før innføringen.
+
+En argumentasjon for at «minstelønninger fører til **mindre** fattigdom» kan man også se her ved at selv om det blir færre sysselsatte så får de som er sysselsatt i den nye likevekten en større lønn siden i dette markedet er $W^{min} > W^{FK}$.
+
+Videre så kan man også se at når minstelønnen innføres så oppstår det et samfunnsøkonomisk tap, som defineres av integralet fra:$$Effektivitetstap = \int_{L^{min}}^{L^{FK}} (E-\alpha L - (T+ \beta L))d L  \tag{8}$$
+
+Dette er det grå fargelagte området i \autoref{fig:test2}, alle som tidligere var ansatt innenfor dette området blir nå presset ut med innføringen av minstelønnen.
+
+\clearpage
+
+## Grafisk analyse under monopsoni
+
+Markeder hvor det kun finnes en stor etterspørrer kalles for monopsoni. Når det er en monopsonistisk etterspørsel etter arbeidskraft må det også sees på den marginale kostnaden for en enhet ekstra arbeidskraft, som gjør at vi innfører grensekostnaden $MLC$ i \autoref{fig:test3}.
+
+Som man kan se vil en monopsonistisk arbeidsgiver profittmaksimere hvor grensekostnaden $MLC$ tangerer $L^D$ men vil samtidig kun ansette arbeidskraft og betale lønn hvor $L^M = W^M$. Det oppstår også et effektivitetstap som angis i det rosa området som er tapet på effektiviteten i arbeidsmarkedet mellom fullkommen konkurranse til monopsoni uten en minstelønn.
+
+For påstanden «minstelønninger fører til **økt** fattigdom» kan man argumentere for at uten en minstelønn i et monopsonistisk marked vil det ansettes mindre arbeidskraft enn hva markedet tilbyder og de som er arbeidstakere må ta en lavere lønn enn hva et fullkomment arbeidsmarked vil gi, som kan føre til økt fattigdom.
+
+```{=tex}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur3.png}
+  \captionof{figure}{Likevekt uten minstelønn\\under monopsoni}
+  \label{fig:test3}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur4.png}
+  \captionof{figure}{Likevekt med minstelønn\\under monopsoni}
+  \label{fig:test4}
+\end{minipage}
+\end{figure}
+```
+I \autoref{fig:test4} så innføres det en minstelønn under monopsoni. Effekten av minstelønnen vil variere utifra hvor den blir plassert i forhold til lønnen under fullkommen konkurranse. Som man kan se her vil den føre til at den monopsonistiske etterspørreren vil få et skift fra å kun ansette $L^M$ til å nå måtte ansette $L^{min}$ fordi minstelønnen $W^{min} > W^M$. Markedet vil da få en ny likevekt hvor $W^{min}$ tangerer $L^D$ siden den marginale kostnaden av å ansette flere arbeidere her ikke inntreffer fordi monopsonisten må betale $W^{min}$ allerede fra den første ansatte.
+
+Derfor i et monopsonistisk marked med en minstelønn kan man argumentere for at «minstelønninger fører til **mindre** fattigdom» siden det har en positiv effekt som kan sees i det blå området i \autoref{fig:test4}, hvor minstelønnen blir å få et positivt "overskudd" av arbeidskraft som gjør at monopsonisten ansetter flere enn tidligere.
+
+Det kan også argumenteres for at hvis minstelønnen $W^{min}$ hadde vært plassert rett i underkant markedslikevekten for et fullkomment marked så ville en monopsonistisk arbeidsgiver ansatt arbeidskraft helt frem til $W{min}$ tangerer $L^S$ kurven, noe som ville innebært enda større sysselsetting under monopsoni, og det grå området ville blitt overskudd av arbeidskraft også.
+
+\clearpage
+
+## Sammenhengen mellom nivået på minstelønn og arbeidsledighet
+
+Det jeg har valgt å se på i oppgave 2.1.2 er sysselsetting for alder 20-64 som viser hvor høy prosentandel som arbeider i denne alders-grupperingen. Den avhengige variabelen som er tatt med er minstelønninger i prosent av gjennomsnittlig bruttoinntekt og næringshovedgruppene som er tatt med er klassifisert fra B-S, SSB har en god forklaring på klassifiseringen [her.](https://www.ssb.no/klass/klassifikasjoner/6)
+
+I \autoref{fig:test5} kan man se hvordan den endogene variabelen minstelønninger korrelerer mot sysselsetting for alder 20-64, begge i prosenter. Øverst til høyre i figuren kan man se determinasjons-koeffisienten $R^2$ som sier at 0.12 eller 12% av variasjonen i minstelønninger kan forklares av sysselsettingen. En $R^2$ som er under 0.2 vil vanligvis bety at lite av variansen kan forklares av den eksogene variabelen, som betyr at det er en svak sammenheng.
+
+```{=tex}
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{figur5.png}
+  \captionof{figure}{Minstelønninger i prosent av gjennomsnittlig bruttoinntekt(2021)}
+  \label{fig:test5}
+\end{figure}
+```
+Videre kan man se fra regresjons-linjen en sammenheng i at for hver økning i sysselsetting så korrelerer det i en nedgang i minstelønnen. Som gir tilknytning tilbake til den tidligere oppgaven i diskusjonen om minstelønninger fører til mindre eller mer fattigdom, fordi det man kan se er at selv om lønnen kan være noe høyere i de landene som har høyere minstelønn så betyr det at de har lavere sysselsetting. Motsatt kan det også sies at lavere minstelønn gir høyere sysselsetting.
+
+Knyttet opp mot det man har sett på analytisk så gir dette mening, det kan være positive effekter slik som sett under monopsoni med en innført minstelønn (hvor den plasseres under $W^{FK}$), og det kan ha en negativ effekt på sysselsettingen i fullkommen konkurransemarkedet hvor mindre individer blir sysselsatt fordi effekten gjør slik at etterspørselen etter arbeidskraft blir lavere, dog lønnen høyere.
+
+Til slutt vil jeg si at empiriske studier også finner forskjellige positive eller negative effekter av minstelønnen, og at 2 av 3 studier finner negative effekter av sysselsetting på minstelønn, mens det er i andre studier ikke finnes negative effekter i følge @andrea.
+
+# Utfordring 2.2 Fagforeninger
+
+## Økonomisk teori og grafisk analyse til påstanden: «Sterke fagforeninger reduserer velferden».
+
+Fagforeninger eksisterer for å maksimere nytten til alle sine medlemmer. Det gjenspeiles i at de prøver å få det best mulig for alle medlemmer, og samtidig høyest mulig lønn til alle sammen. Vi har noen hovedantakelser om at alle medlemmene kun har nytte av inntekt og konsum, at alle har lik produktivitet og alle har lik reservasjonslønn.
+
+Når en fagforening har monopolistisk makt betyr det at fagforeningen setter lønnen til medlemmene sine, men det påvirker også som vi kan se i \autoref{fig:test8} hvor mange arbeidere arbeidsgiver ansetter siden fagforeningen påvirker kun lønnen og ikke etterspørselen i markedet. Derfor må fagforeningen se på hvilke effekter som blir best å velge ettersom de ikke kan forhandle både lønn og ansettelsesforholdet.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{figur8.png}
+  \captionof{figure}{Effektivitetstap ved sterke fagforeninger}
+  \label{fig:test8}
+\end{figure}
+```
+Videre så ser man i figuren at under et fullkommen marked ville likevekten og lønnen vært hvor reservasjonslønnen $W^r$ treffer etterspørselkurven. Men fagforeningen har markedsmakt blir dette punktet flyttet til hvor lønnen og ansettelsesforholdet får maks nytte, som er i punktet hvor $LM = WM$.
+
+Det blå fargelagte området blir det nye effektivitetstapet ved at fagforeningen har monopolistisk makt, det betyr at hele dette området er arbeidere som ikke lengre får ansettelse i markedet frem til $L^M$ . Derfor kan det argumenteres for at sterke fagforeninger kan redusere velferden for de som ikke lengre får ansettelse i den nye likevekten.
+
+## Arbeidsledighet og organisasjonsgrad
+
+I \autoref{fig:test6} og \autoref{fig:test7} ser vi på den avhengige variabelen arbeidsledighet korrelert mot organisasjonsgraden i 26 forskjellige OECD-land. Det som er forskjellen mellom de to forskjellige figurene er at \autoref{fig:test6} ser vi på innenlandsfødte og i \autoref{fig:test7} ser man på utenlandsfødte.
+
+$R^2$ sier at 4 prosent av arbeidsledigheten kan forklares av organisasjonsgraden innenlands og 7 prosent av arbeidsledigheten kan forklares av organisasjonsgraden for utenlandsfødte. Normalt betyr dette at det ikke finnes noen statistisk sammenheng mellom de to variablene.
+
+```{=tex}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur6.png}
+  \captionof{figure}{Innenlandsfødte}
+  \label{fig:test6}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figur7.png}
+  \captionof{figure}{Utenlandsfødte}
+  \label{fig:test7}
+\end{minipage}
+\end{figure}
+```
+I \autoref{fig:test6} kan man se at når fagforeningene forhandler for de ansatte og har stor større dekningsgrad kan de utføre mer effektive forhandlinger. En rasjonell fagforening som har lyst å maksimere nytten til sine medlemmer vil tenke at de vil skaffe høyst mulig lønn til sine medlemmer, men kan også være med på å gå ned i lønn så lenge flere får ansettelsesforhold. Dette kan forklares i den noe svake korrelasjonen hvor arbeidsledigheten går ned når organisasjonsgraden går opp. Empirisk forskning sier også at det er vanskelig å studere effekten av fagforeninger på lønn, sysselsetting og arbeidsledighet, men det sier at om forhandlingene er bedre koordinert blir det lavere arbeidsledighet og høyere sysselsetting.
+
+I \autoref{fig:test7} så kan som sett tidligere i grafisk analyse at den motsatte effekten kan oppstå ved for eksempel monopolmakt for fagforeninger. Her kan man se at høyere organisasjonsgrad gjør at arbeidsledigheten går opp, dette er også en noe svak korrelasjon. Noe av forklaringen til at høy organisasjonsgrad gir forskjellige resultater for innenlands og utenlandsfødte kan også være fordi utenlandsfødte arbeidstakere kan ha andre preferanser enn innenlandsfødte.
+
+Resultat av en multippel lineær regresjonsanalyse:
+
+```{r}
+# Resultat av multippel regresjonsanalyse
+OECD<- merge(OECD_finish, OECD_finish_2, by=c("COUNTRY", "org_rate"))
+OECD <-OECD %>%
+  rename('Native born' = "employ_rate.x", 
+         'Foreign born' = "employ_rate.y",
+         'Organisasjonsgrad' = "org_rate")
+model <- lm(`Organisasjonsgrad` ~ `Native born` + `Foreign born`, data = OECD)
+summary(model)
+```
+
+Når man ser på organisasjonsgraden i en multippel lineær regresjonsanalyse kan man se en større korrelasjon hvor 41% av arbeidsledigheten kan forklares av organisasjonsgraden. Det man også kan se er at p-verdien til innenlandsfødte og utenlandsfødte er signifikant, som betyr at nullhypotesen ikke kan forkastes. Hvis det hadde vært 0 arbeidsledighet ville intercept forklart at det fortsatt er 24.6 prosent organisasjonsgrad.
+
+# Appendiks
+
+Bruk av KI: ChatGPT 4 inkludert advanced data analysis.
+
+[ChatGPT forespørsel for å fikse datasett for første figur](https://chat.openai.com/share/26eade71-5a65-4eaf-9ea7-09ecf978cff6) (Endte opp med å bruke koden eurostat \<- merge(eurostat_1, eurostat_2, by=c("geo", "time")), og en annen bare for å se på hvilke land som var ikke var felles for begge datasett, denne fjernet jeg etter at jeg tok å filtrerte dem ut siden den ikke var relevant lengre)
+
+[Hjelp til å plassere R\^2 i tekst med en variabel](https://chat.openai.com/c/f06e45be-c889-49d7-be1b-aaf7fb769fba) (Brukte siste kodeblokk, men endret litt på den)
+
+Får ikke lov å dele ChatGPT-samtaler hvor jeg har spurt den om å analysere bilder, derfor blir noen forespørsler skrevet inn manuelt:
+
+Spørsmål: how can i write in latex the integral of bottom L\^FK to upper L\^min
+
+Svar: \\int\_{L\^{FK}}\^{L\^{min}} f(L) \\, dL (Brukte dette)
+
+[Spørsmål om hvordan matematisk vise integralet for effektivitetstap](https://chat.openai.com/share/e9b8f1bb-a1cd-496e-9d18-9473547f9b57) (Brukte uttrykket, det så rett og ble regnet rett ut)
+
+# Referanser

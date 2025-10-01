@@ -1,0 +1,708 @@
+---
+title: "Utfordring 3.1 og 3.2"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 13, SOK-2008, Høst 2023"
+editor: visual
+format: 
+  pdf:
+    geometry:
+      - top=20mm
+      - left=20mm
+      - right=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+echo: false
+warning: false
+bibliography: referanse2.bib
+csl: norsk-apa-manual.csl
+nocite: |
+  @*
+header-includes:
+  - "\\usepackage{caption}"
+  - "\\captionsetup{font=small}"
+  - "\\usepackage{hyperref}"
+  - "\\renewcommand{\\figureautorefname}{Figur}"
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+---
+
+```{=tex}
+\newpage
+\tableofcontents
+\listoffigures
+\newpage
+```
+```{r}
+#| output: False
+rm(list=ls())
+library(tidyverse)
+library(rjstat)
+library(httr)
+options(encoding = "UTF-8")
+```
+
+```{r}
+url <- "https://data.ssb.no/api/v0/no/table/12441/"
+
+query <- '{
+  "query": [
+    {
+      "code": "Kjonn",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "0"
+        ]
+      }
+    },
+    {
+      "code": "NACE2007",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "10-33"
+        ]
+      }
+    },
+    {
+      "code": "Sykefraver2",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "E"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+
+df <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+
+rm(hent_indeks.tmp, query, url)
+
+df<-df %>%
+  transmute(year = as.numeric(år),
+            verdi = as.numeric(value))
+```
+
+```{r}
+fig <-df %>%
+  ggplot(aes(x=year,y=verdi))+
+  geom_point(size=2,color="palevioletred")+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))+
+  labs(x="", y="", caption = "Kilde: SSB tabell 12441",
+       subtitle="I industri-næringen siden 2001")+
+  theme_bw()
+ggsave("figur4.png", dpi = 400)
+```
+
+```{python include=FALSE}
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+import locale
+locale.setlocale(locale.LC_ALL, 'no_NO.utf8')
+# Definerer symboler
+w, m, c, theta, l, U,s, l0 = sp.symbols('w m c theta l U sigma l0', real=True)
+# Maks arbeid
+l0_num=60
+# Hvis jobb
+l_arbeid=40
+#Inntekt utenom arbeid
+m_num=100
+#Sigma = stønad
+sigma_num=100
+# Tallverdi for theta
+theta_num = 0.5
+
+# Definer nyttefunksjonen
+nytte_func = c**theta * l**(1-theta)
+
+# Finner U når c=100 og l=60
+U_verdi = nytte_func.subs({c: m_num, l: l0_num, theta: theta_num})
+
+# Finner U når c = m_num og s_num altså 200 og l = 60 
+U_verdi_2 = nytte_func.subs({c: m_num+sigma_num, l: l0_num, theta: theta_num})
+
+# Løser for c
+c_sol = sp.solve(sp.Eq(U, nytte_func), c)[0]
+
+# Definer c som en funksjon av l ved hjelp av lambdify
+c_func = sp.lambdify(l, c_sol.subs({U: U_verdi, theta: theta_num}))
+
+# Definerer c som en funksjon av l ved hjelp av ny nytteverdi med stønad
+c_func_2 = sp.lambdify(l, c_sol.subs({U: U_verdi_2, theta: theta_num}))
+
+# Definer l-verdier fra 0.1 til 60
+l_values = np.linspace(0.1, l0_num, 500)
+
+
+```
+
+```{python include=FALSE}
+# Situasjon 1: Ingen stønad
+ikke_arb_1 = m**theta * l0**(1-theta)
+arb = (m +w *l)**theta * (l0-l)**(1-theta)
+eq1 = sp.Eq(ikke_arb_1, arb)
+
+# Løser ligning 1 for w
+sol1 = sp.solve(eq1, w)[0]
+
+# Situasjon 2: Stønad = 100
+ikke_arb_2 = (m+s)**theta * l0**(1-theta)
+eq2 = sp.Eq(ikke_arb_2, arb)
+
+# Løser ligning 2 for w
+sol2 = sp.solve(eq2, w)[0]
+
+sol_1_num = sol1.subs({theta: theta_num, l0: l0_num, l:l_arbeid,m:m_num})
+sol_2_num = sol2.subs({theta: theta_num, l0: l0_num, l:l_arbeid,m:m_num, s:sigma_num})
+
+# Setter opp budsjettbettingelsen for med og uten stønad
+def wages(l_values):
+    return m_num + sol_1_num * (l0_num-l_values)
+
+def wages_2(l_values):
+    return m_num + sol_2_num * (l0_num-l_values)
+```
+
+```{python include=FALSE}
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set(xlim=(0, 70))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="top")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_values, c_func(l_values), label=f'Nytte uten stønad')
+# Plotter budsjettbettingelser
+ax.plot(l_values, wages(l_values))
+# Viser arbeidsfri inntekt
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+# Viser hvor personen ikke går i arbeid
+ax.vlines(l0_num,0,m_num, linestyles="dashed")
+# Definerer noen punkter
+ax.text(x=61,y=100, s="$U^0$", fontsize=14)
+ax.text(x=21,y=320, s="A", fontsize=14)
+ax.text(x=20, y=-45, s='$L^{ft}$', size=12)
+ax.text(x=60, y=-45, s='$L^0$', size=12)
+ax.text(x=3, y=111, s="Arbeidsfri inntekt = m")
+ax.text(x=-2, y=400, s="$w^r$")
+ax.scatter(x=20, y=m_num + sol_1_num * (l0_num-20), zorder=2)
+ax.vlines(l0_num-l_arbeid,0,m_num + sol_1_num * (l0_num-20), linestyles="dashed")
+ax.legend()
+plt.savefig("figur1.png", dpi=300)
+```
+
+```{python include=FALSE}
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set(xlim=(0, 70))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="bottom")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_values,c_func_2(l_values), label ="Nytte med stønad", color="palevioletred")
+ax.plot(l_values, c_func(l_values), label=f'Nytte uten stønad')
+# Plotter budsjettbettingelser
+ax.plot(l_values, wages(l_values))
+ax.plot(l_values, wages_2(l_values), linestyle="--")
+# Viser arbeidsfri inntekt
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+ax.hlines(m_num+sigma_num,0,l0_num, linestyles="dashed")
+# Viser hvor personen går i arbeid
+ax.vlines(l0_num-l_arbeid,0,m_num + sol_2_num * (l0_num-20), linestyles="dashed")
+# Viser hvor personen ikke går i arbeid
+ax.vlines(l0_num,0,m_num+sigma_num, linestyles="dashed")
+# Definerer noen punkter
+ax.text(x=61,y=100, s="$U^0$", fontsize=14)
+ax.text(x=61,y=200,s="$U^1$", fontsize=14)
+ax.text(x=21,y=320, s="A", fontsize=14)
+ax.text(x=21, y=620, s="B", fontsize=14)
+# 
+ax.text(x=3, y=111, s="Arbeidsfri inntekt = m")
+#
+ax.text(x=3, y=211, s="Arbeidsfri inntekt + stønad = m + $\sigma$")
+#
+ax.text(x=20, y=-45, s='$L^{ft}$', size=12)
+ax.text(x=60, y=-45, s='$L^0$', size=12)
+ax.text(x=-2, y=400, s='$w^r$')
+ax.text(x=-2, y=825, s='$w^{rs}$')
+ax.scatter(x =20, y=m_num + sol_2_num * (l0_num-20), zorder=2, color="green")
+ax.scatter(x=20, y=m_num + sol_1_num * (l0_num-20), zorder=2)
+ax.legend()
+plt.savefig("figur2.png", dpi=300)
+```
+
+```{python include=FALSE}
+# Samme figur men med tall
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.set(xlim=(0, 70))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="top")
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_values,c_func_2(l_values), label ="Nytte med stønad", color="palevioletred")
+ax.plot(l_values, c_func(l_values), label=f'Nytte uten stønad')
+# Plotter budsjettbettingelser
+ax.plot(l_values, wages(l_values))
+ax.plot(l_values, wages_2(l_values), linestyle="--")
+# Viser arbeidsfri inntekt
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+ax.hlines(m_num+sigma_num,0,l0_num, linestyles="dashed")
+# Viser hvor personen går i arbeid
+ax.vlines(l0_num-l_arbeid,0,1000, linestyles="dashed")
+# Viser hvor personen ikke går i arbeid
+ax.vlines(l0_num,0,m_num+sigma_num, linestyles="dashed")
+# Definerer noen punkter
+ax.text(x=61,y=100, s="$U^0$", fontsize=14)
+ax.text(x=61,y=200,s="$U_1$", fontsize=14)
+ax.text(x=21,y=320, s="A", fontsize=14)
+ax.text(x=21, y=620, s="B", fontsize=14)
+ax.text(x=3, y=111, s="Arbeidsfri inntekt = m")
+ax.scatter(x=20, y=m_num + sol_1_num * (l0_num-20), zorder=2)
+ax.scatter(x =20, y=m_num + sol_2_num * (l0_num-20), zorder=2, color="green")
+ax.text(x=3, y=211, s="Arbeidsfri inntekt + stønad = m + $\sigma$")
+ax.legend()
+plt.savefig("figur3.png", dpi=300)
+```
+
+```{python include=FALSE}
+from sympy import symbols, Eq, solve, diff
+
+# Starter på lagrange for å løse nyttefunksjonen
+
+def bud_wage(l_values):
+    return (700 - 10 *l_values)
+    
+def bud_wage_2(l_values):
+    return (500-0*10 *l_values)
+
+def bud_wage_3(l_values):
+    return (650- 0.75*10*l_values)
+
+# Definerer variabler
+c, l, lam = symbols('c l lam', real=True, positive=True)
+
+# Nyttefunksjon
+utility = c**(5/7) * l**(2/7)
+
+# Definerer bibetingelsen
+constraint = Eq(700 - 10*l - c, 0)
+
+# Definerer lagrange
+L = utility + lam * (700 - 10*l - c)
+
+# Tar de partiellderiverte for c og l
+partial_c = diff(L, c)
+partial_l = diff(L, l)
+
+# Finner stasjonærpunktene
+equation1 = Eq(partial_c, 0)
+equation2 = Eq(partial_l, 0)
+
+# Løser for c l og lambda
+solutions = solve((equation1, equation2, constraint), (c, l, lam))
+```
+
+```{python include=FALSE}
+# Definerer bibetinglse
+constraint = Eq(500 - 10*l - c, 0)
+
+
+# Partiellderiverte
+partial_c = diff(L, c)
+partial_l = diff(L, l)
+
+# Finner stasjonærpunktene
+equation1 = Eq(partial_c, 0)
+equation2 = Eq(partial_l, 0)
+
+# Løser for c l og lambda
+solutions = solve((equation1, equation2, constraint), (c, l, lam))
+```
+
+```{python include=FALSE}
+# Ny bibetinglse
+constraint = Eq(650 - 0.75*10*l - c, 0)
+
+utility_2 = c**(0.4) * l**(0.6)
+
+# Ny langrange
+L = utility_2 + lam * (650 - 7.5*l - c)
+
+# Partiellderiverer
+partial_c = diff(L, c)
+partial_l = diff(L, l)
+
+# Finner stasjonærpunkter
+equation1 = Eq(partial_c, 0)
+equation2 = Eq(partial_l, 0)
+
+# Løser for c l og lambda
+solutions = solve((equation1, equation2, constraint), (c, l, lam))
+```
+
+```{python include=FALSE}
+alpha = sp.Symbol('alpha', real = True)
+# Definer nyttefunksjonen
+nytte = c**(1-alpha) * l**alpha
+# definerer sykdomsindekssen alpha med forksjellige sykdomsverdier
+alpha_num = 2/7
+alpha_num_2 = 0.6
+
+# Løser for c
+c_slag = sp.solve(sp.Eq(U, nytte), c)[0]
+# Finner U når c=100 og l=60
+nytte_verdi = nytte.subs({c: 500, l: 20, alpha: alpha_num})
+
+nytte_verdi_2 = nytte.subs({c: 357, l: 14, alpha: alpha_num})
+
+nytte_verdi_3 = nytte.subs({c: 260, l: 52})
+
+c_funk = sp.lambdify(l, c_slag.subs({U: nytte_verdi, alpha: alpha_num}))
+
+c_funk_2 = sp.lambdify(l, c_slag.subs({U: nytte_verdi_2, alpha: alpha_num_2}))
+
+c_funk_3 = sp.lambdify(l, c_slag.subs({U: nytte_verdi_3, alpha: alpha_num_2}))
+```
+
+```{python include=FALSE}
+l_verdier = np.linspace(20, 60, 1000)
+
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.set(xlim=(0, 70))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="top")
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_values, c_funk(l_values))
+# Plotter budsjettbettingelser
+ax.plot(l_values, bud_wage(l_values))
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+# Definerer noen punkter
+ax.text(x=61,y=300, s="$U^1$", fontsize=14)
+#ax.text(x=21,y=320, s="A", fontsize=14)
+ax.text(x=21, y=30, s='$L^{ht}$', size=12)
+ax.text(x=3, y=111, s="Arbeidsfri inntekt m")
+ax.text(x=-3, y=710, s="$w^r_{ht}$")
+ax.vlines(l0_num,0,m_num, linestyles="dashed")
+ax.vlines(l0_num-l_arbeid,0,700 - 10 *20, linestyles="dashed")
+plt.savefig("figur5.png", dpi = 300)
+```
+
+```{python include=FALSE}
+l_verdier_2 = np.linspace(0.1, 70, 1000)
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.set(xlim=(0, 75))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="top")
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_verdier_2, c_funk_2(l_verdier_2))
+# Plotter budsjettbettingelser
+ax.plot(l_verdier, bud_wage_2(l_verdier))
+# Plotter budsjettbettingelser
+ax.plot(l_values, bud_wage(l_values))
+# Viser arbeidsfri inntekt
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+# Viser hvor personen ikke går i arbeid
+ax.vlines(l0_num,0,500, linestyles="dashed")
+# Definerer noen punkter
+#ax.text(x=61,y=100, s="$U^0$", fontsize=14)
+ax.text(x=20, y=30, s='$L^{ht}$', size=12)
+#ax.text(x=60, y=-45, s='$L^0$', size=12)
+ax.text(x=3, y=111, s="Arbeidsfri inntekt m")
+ax.text(x=40, y=470, s="$-(w-1w)$")
+
+# Definerer noen punkter
+ax.text(x=61,y=500, s="$U^2$", fontsize=14)
+ax.text(x=-3, y=710, s="$w^r_{ht}$")
+#ax.scatter(x=20, y=m_num + sol_1_num * (l0_num-20), zorder=2)
+ax.vlines(l0_num-l_arbeid,0,700 - 10 *20, linestyles="dashed")
+plt.savefig("figur6.png", dpi = 300)
+```
+
+```{python include=FALSE}
+# Definerer en akse
+def create_ax():
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.set(xlim=(0, 75))
+    ax.set(ylim=(0, 1000))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    plt.xlabel('Fritid (l)',loc="right")
+    plt.ylabel('Konsum (c)', loc="top")
+    return fig, ax
+
+fig, ax = create_ax()
+
+# Plotter indifferenskurver
+ax.plot(l_verdier_2, c_funk_2(l_verdier_2))
+ax.plot(l_verdier_2, c_funk_3(l_verdier_2))
+# Plotter budsjettbettingelser
+ax.plot(l_verdier, bud_wage_2(l_verdier), linestyle="--")
+ax.plot(l_verdier, bud_wage_3(l_verdier))
+# Plotter budsjettbettingelser
+ax.plot(l_values, bud_wage(l_values))
+# Viser arbeidsfri inntekt
+ax.hlines(m_num,0,l0_num, linestyles="dashed")
+# Viser hvor personen ikke går i arbeid
+ax.vlines(l0_num,0,500, linestyles="dashed")
+# Definerer noen punkter
+#ax.text(x=61,y=100, s="$U^0$", fontsize=14)
+ax.text(x=20, y=30, s='$L^{ht}$', size=12)
+#ax.text(x=60, y=-45, s='$L^0$', size=12)
+ax.text(x=3, y=111, s="Arbeidsfri inntekt m")
+ax.text(x=-3, y=710, s="$w^r_{ht}$")
+# Definerer noen punkter
+ax.text(x=61,y=220, s="$U^1$", fontsize=14)
+# Definerer noen punkter
+ax.text(x=61,y=500, s="$U^2$", fontsize=14)
+ax.text(x=25, y=470, s="$-(w-0.25w)$")
+ax.vlines(l0_num-l_arbeid,0,700 - 10 *20, linestyles="dashed")
+plt.savefig("figur7.png", dpi = 300)
+```
+
+# Utfordring 3.1
+
+## Matematisk utledning
+
+3.1.1 Tone har nytte av sammensatt konsum og fritid. Vi går ut ifra en Cobb-Douglas nyttefunksjon:
+
+$$
+U(c,l) = c^\theta * l^{1-\theta} \tag{1}
+$$
+
+Hun kan ikke velge sin arbeidstid fritt. Dersom Tone jobber, må hun jobbe 40 timer per uke. Hun kan maksimalt jobbe 60 timer per uke (l0=60). Dersom Tone ikke tar en jobb, har hun tilgang til stønad.
+
+Gå ut ifra at arbeidsmarkedet er «perfekt». Utled Tone sin statiske reservasjonslønn i disse to situasjonene: 1) stønaden er lik null, 2) stønaden er lik 100 . Gjør rede for dine matematiske beregninger.
+
+Hvor $\theta$ er 0.5, og vi vet at Tone har en arbeidsfri inntekt $m$ som er 100 og hvis hun skal i arbeid må $l$ være satt som 40.
+
+Hvis Tone ikke arbeider får vi at:
+
+$$
+m^{\theta}l_{0}^{1 - \theta} \tag{2}
+$$
+
+Hvis Tone jobber, blir hennes forbruk:
+
+$$
+(m+wl)^{\theta} (l_{0}-l)^{1-\theta} \tag{3}
+$$
+
+Vi setter disse lik hverandre:
+
+$$
+m^{\theta} l_{0}^{1 - \theta}  = (m+wl)^{\theta} (l_{0}-l)^{1-\theta} \tag{4}
+$$
+
+Og løser for w for å finne hennes statiske reservasjonslønn:
+
+$$
+w^r = \frac{- m + \left(l_{0}^{1 - \theta} m^{\theta} \left(l_{0}-l\right)^{\theta - 1}\right)^{\frac{1}{\theta}}}{l} \tag{5}
+$$
+
+Ved å substituere inn tallverdier oppgitt ovenfor får vi at hennes statiske reservasjonslønn uten stønad blir 5 (i tiere).
+
+Ved å innføre en stønad $\sigma$ på 100 får vi at om Tone ikke arbeider:
+
+$$
+(m+\sigma)^{\theta}l_{0}^{1 - \theta} \tag{6}
+$$
+
+Og hvis Tone jobber blir hennes forbruk fortsatt det samme så vi setter disse lik:
+
+$$
+(m+\sigma)^{\theta} l_{0}^{1 - \theta} = (m+wl)^{\theta} (l_{0}-l)^{1-\theta} \tag{7}
+$$
+
+Vi løser for w og finner ut at hennes statiske reservasjonslønn med stønad blir:
+
+$$
+w^{r\sigma} =\frac{- m + \left(l_{0}^{1 - \theta}\left(m + \sigma\right)^{\theta} \left(l_{0}-l\right)^{\theta - 1} \right)^{\frac{1}{\theta}}}{l} \tag{8}
+$$
+
+Ved å substituere inn tallverdier oppgitt ovenfor får vi at hennes statiske reservasjonslønn med stønad blir 12.5 (i tiere).
+
+Ved å endre på størrelsen på parameteren stønad $\sigma$ kan man forandre hvilken reservasjonslønn som gjør at Tone går i arbeid.
+
+\clearpage
+
+## Økonomisk intuisjon og grafisk analyse
+
+I et perfekt arbeidsmarked er det ingen arbeidsledighet fordi alle som vil ha arbeid tar arbeid, og alle som ikke har arbeid vil ikke gå inn i arbeidsmarkedet. I \autoref{fig:test1} ser man indifferens-kurven til Tone hvor hun har en reservasjonslønn uten stønad. Reservasjonslønnen er den lønnen som gjør en arbeider indifferent mellom å jobbe eller ikke ifølge @kjelsrud. Tone har kun to valg, enten å jobbe i $L^{ft}$ eller å ikke jobbe i $L^0$ . Siden begge punktene treffer på indifferens-kurven er hun derfor indifferent mellom å arbeide eller ikke.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{figur1.png}
+  \captionof{figure}{Tones reservasjonslønn uten stønad}
+  \label{fig:test1}
+\end{figure}
+```
+I \autoref{fig:test2} så innføres en reservasjonslønn med en ny nytte inkludert en stønad $\sigma$ . Med innføringen av trygden øker verdien av å ikke delta på arbeidsmarkedet. Derfor vil Tone her kreve en høyere lønn som man kan se på den nye indifferens-kurven i punkt $B$ og. Her er reservasjonslønnen som blir innført $w^{rs}$ 12.5, og er helningen til den grønne stiplede linjen. Derfor må $w^{rs} > 12.5$ for at Tone skal velge å gå i arbeid, ellers er hun indifferent.
+
+\clearpage
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{figur2.png}
+  \captionof{figure}{Tones reservasjonslønn uten og med stønad}
+  \label{fig:test2}
+\end{figure}
+```
+I \autoref{fig:test3} vises faktiske tallverdier innsatt av den matematiske utledningen.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{figur3.png}
+  \captionof{figure}{Tones reservasjonslønn uten og med stønad inkl. tallverdier}
+  \label{fig:test3}
+\end{figure}
+```
+\clearpage
+
+## Ufullkommen konkurranse
+
+Hvilke effekter vil en stønad/trygd ha på et ufullkomment arbeidsmarked?
+
+Reservasjonslønnen endrer seg fra å være statisk til å bli dynamisk, hvor statisk er forskjellen på å være i jobb eller ikke i det hele tatt. Mens dynamisk vil si den lønnen som gjør individet indifferent mellom å akseptere et tilbud på lønn og fortsette søke arbeid. Videre så kan man nevne noen andre effekter:
+
+1.  Jobb-søker effekten: En stønad øker den dynamiske reservasjonslønnen som gjør at en arbeidstaker blir mer kresen når det kommer til valg av arbeid fordi reservasjonslønnen går opp. Noe som gjør at individet kan velge å være lengre arbeidsledig.
+2.  Lønnseffekter: Stønad kan gjøre slik at arbeideren og arbeidsgiver får en friksjon mellom hverandre, siden arbeidsgiver ikke enkelt finner ny arbeidstaker og det samme motsatt vei. Høyere stønad gir bedre forhandlingsposisjon til arbeidstaker, og høyere lønn og hvis arbeidstaker søker mindre intensivt blir det mindre verdi å ansette folk og kostnaden for å arbeidsgiver blir å øke.
+3.  Rettighetseffekter: Stønad gir incentiver for mer mennesker å delta i arbeidsmarkedet siden den øker verdien av ansettelse og arbeidsledighet over verdien av inaktivitet for de som ikke mottar stønaden.
+
+For å motvirke atferdsrisiko er det også mulig for staten å innføre sanksjoner mot de som ikke søker jobber tilstrekkelig eller som nekter å godta jobbene de blir tilbudt. Disse effektene kan være for eksempel redusert trygd/stønad, og om de da blir straffet blir alternativkostnaden av å være arbeidsledig høyere slik at de vil komme seg raskere ut i arbeidsmarkedet igjen.
+
+Empiriske funn sier også at lengre maks erstatnings-tid fører til lengre tid i arbeidsledighet, men nivået på erstatningen har mindre effekt ifølge @van2006shortening.
+
+# Utfordring 3.2
+
+## Utviklingen i egenmeldinger
+
+Sangen Tredagern av Gatas Parlament handler om egenmeldinger, og personen som synger sangen gir flere grunner til hvorfor han skal ringe å ta tre dager med egenmelding selv om personen egentlig ikke er "syk". Dette er for eksempel ikke en god grunn for å bruke egenmelding og kan klassifiseres som missbruk.
+
+I \autoref{fig:test4} ser man utviklingen av egenmeldinger i industrien fra 2001 inkludert kvinner og menn. Det man kan se er at det over tid kan observeres en svak sammenheng med at flere personer bruker egenmelding enn tidligere. I figuren vises covid-19 årene som kan avvike noe fra hva som ville vært normalt.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{figur4.png}
+  \captionof{figure}{Utvikling av egenmeldinger}
+  \label{fig:test4}
+\end{figure}
+```
+## Disencentiv-problemet i sangen
+
+Disensentiv-problemet i sangen er at friske individer eller individer som ikke er helt syke kan bli fristet til å missbruke systemet. Vi se på dette med en Cobb-Douglas nyttefunksjon som har en sykdomsindeks $\alpha$ hvor størrelsen på parameteren $\alpha > 1$ bestemmer sykdomsnivået, hvor 0 er frisk og 1 er helt syk.
+
+$$
+U(c,l) = c^{(1-\alpha)} * l^\alpha
+$$
+
+I \autoref{fig:test5} kan man se et individs optimale tilpasning mellom konsum og fritid når individet er helt frisk.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{figur5.png}
+  \captionof{figure}{Individets tilpasning når helt frisk}
+  \label{fig:test5}
+\end{figure}
+```
+\clearpage
+
+\autoref{fig:test6} viser hvordan et friskt menneske kan missbruke sykepengeordningen med en høyere $\alpha$ å gå fra venstre side av den oransje linjen i fullt arbeid til å tilpasse seg i det nye likevekts-punktet på indifferenskurven $U^2$ . Helningen til den oransje linjen blir $-(w-1w)$ og er da på det samme konsumet som individet hadde i arbeid, men tilpasningen blir på 0 timer arbeid siden individet velger å ikke ta arbeid på grunn av 100% kompensasjon fra staten, som kan referere til det samme problemet som i sangen der han som synger velger å ta tre dager egenmelding.
+
+```{=tex}
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{figur6.png}
+  \captionof{figure}{Individets tilpasning ved full kompensasjonsgrad}
+  \label{fig:test6}
+\end{figure}
+```
+Et godt virkemiddel for å kunne redusere disensentiv-effekten som sangen handler om kan være å velge en lavere kompensasjonsgrad enn 100%. I \autoref{fig:test7} så ser man at om man innfører en lavere kompensasjonsgrad så blir individet å tilpasse seg på den nye indifferenskurven $U^1$ hvor det optimale punktet for individet blir hvor den tangerer den nye reservasjonslønnen med helningen $-(w-0.25w)$ . Her vil individet velge få en mindre nytte enn tidligere og samtidig velge å gå litt i arbeid, noe som kan føre til at individet fortere vil velge å gå tilbake til arbeidsmarkedet.
+
+```{=tex}
+ \begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{figur7.png}
+  \captionof{figure}{25 prosent kompensasjonsgrad}
+  \label{fig:test7}
+\end{figure}
+```
+Avslutningsvis er det verdt å nevne at en stram sykepengeordning kan føre til at mennesker som ikke utnytter systemet kan velge å gå tilbake i arbeid selv om de ikke er friske nok.
+
+# Appendiks
+
+Bruk av KI: ChatGPT 4 inkludert advanced data analysis og funksjon for å kunne lese fra bilder.
+
+Får ikke lov å referere til chat med bilder(da dette kan missbrukes), men jeg spurte ChatGPT hvordan regne ut en lagrange funksjon i python-kode, og fikk til svar kodeblokk 6 som jeg brukte til å regne ut verdiene for å plotte de siste tre figurene, samt kodeblokk 7 og 8 som er modifiserte versjoner av 6 med andre tallverdier.
+
+Jeg har også brukt noe AI til å prøve å forklare meg noe av matematikken i første del av oppgaven da jeg ikke har helt forstått hva det har blitt spurt om.
+
+Til sist er det verdt å nevne at noe av lagrange bibetingelsene var vanskelig å forstå hvordan man skulle finne ut av, så endte opp med å bruke bibetingelsene som er satt opp i løsningsforslaget til seminar 4, og alle tallverdier og utregning er ellers også det samme som i løsningen til seminaret.
+
+# Referanser

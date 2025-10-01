@@ -1,0 +1,942 @@
+---
+title: "Utfordring 1.1 og 1.2"
+subtitle: "Fakultet for biovitenskap, fiskeri og økonomi."
+date: last-modified
+date-format: "DD-MM-YYYY"
+author: "Kandidatnummer 13, SOK-2008, Høst 2023"
+format: pdf
+echo: false
+toc: true
+toc-title: "Innholdsliste"
+warning: false
+bibliography: referanse.bib
+csl: norsk-apa-manual.csl
+nocite: |
+  @*
+---
+
+```{r}
+#| output: false
+
+# Loading packages needed
+rm(list = ls())
+library(tidyverse)
+library(rjstat)
+library(httr)
+library(eurostat)
+library(countrycode) # not really needed but keeping for future reference
+options(scipen = 999)
+library(ggrepel)
+library(openxlsx)
+```
+
+```{r}
+# Importing data, this code is used to download tables from SSB and is based on the lectures of our teacher from last year in SOK-1004, Even S. Hvinden.
+
+url <- "https://data.ssb.no/api/v0/no/table/04544/"
+
+query <- '{
+  "query": [
+    {
+      "code": "Kjonn",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "code": "Yrkesstatus",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "00"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+df_1 <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+```
+
+```{r}
+# Data for population pyramid
+url <- "https://data.ssb.no/api/v0/no/table/07459/"
+
+query <- '{
+  "query": [
+    {
+      "code": "Region",
+      "selection": {
+        "filter": "vs:Landet",
+        "values": [
+          "0"
+        ]
+      }
+    },
+    {
+      "code": "Kjonn",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "code": "Alder",
+      "selection": {
+        "filter": "agg:FemAarigGruppering",
+        "values": [
+          "F00-04",
+          "F05-09",
+          "F10-14",
+          "F15-19",
+          "F20-24",
+          "F25-29",
+          "F30-34",
+          "F35-39",
+          "F40-44",
+          "F45-49",
+          "F50-54",
+          "F55-59",
+          "F60-64",
+          "F65-69",
+          "F70-74",
+          "F75-79",
+          "F80-84",
+          "F85-89",
+          "F90-94",
+          "F95-99",
+          "F100G5+"
+        ]
+      }
+    },
+    {
+      "code": "Tid",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "2003",
+          "2023"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}'
+
+hent_indeks.tmp <- url %>%
+  POST(body = query, encode = "json")
+
+df_pop <-  hent_indeks.tmp %>%
+  content("text") %>%
+  fromJSONstat() %>%
+  as_tibble()
+```
+
+```{r}
+# Importing the data for women based on generosity of parental leave and womens employment ratio in 24 OECD (Organization for Economic Cooperation and Development) countries
+women <- read_delim("https://raw.githubusercontent.com/uit-sok-2008-h23/uit-sok-2008-h23.github.io/main/assets/women.csv", 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+# Using the package eurostat to download the data needed
+# Code used from the eurostat package description site
+eurostat <- get_eurostat(id = "hlth_sha11_hf", 
+                     type = "label")
+
+# Removing a list, query and the url to free up memory since it is not needed anymore
+rm(hent_indeks.tmp, query, url)
+```
+
+```{r}
+# Small datamanipulation with dplyr, pivoting some values for plotting purpose, changing some names and making the year column numeric
+# The arrange makes so the output of the data will go ascending from the first observation of year
+df_plot<-df_1 %>%
+  pivot_wider(names_from = statistikkvariabel, values_from = value) %>%
+  rename(arbeidstid_pr_uke = 'Faktisk arbeidstid (timer per uke)') %>%
+  transmute(year = as.numeric(år), sex = kjønn, arbeidstid_pr_uke) %>%
+  arrange(year)
+```
+
+# Innledning
+
+## (Du kan gjerne hoppe over denne om du holder på å sovne)
+
+Gjennom det siste århundret har menneskets samfunn gått gjennom store forandringer. Mennesket har nettopp gått gjennom den første store verdenskrig, den industrielle revolusjon er i full effekt og fagforeninger ser dagens lys. Kvinnens rolle er å være hjemme, mens mannen drar ut for å fiske eller er fabrikkarbeider. Det er også her den første delen av den nordiske modellen blir etablert som heter trepartssamarbeidet. Direkte forklart er dette samarbeidet mellom arbeidsgiver, arbeidstaker, fagforeninger og staten, hvor disse forhandler lønnsvilkår og eventuelt streik hvis de blir uenige.
+
+Etter organisert arbeidsliv (trepartssamarbeidet) så dagens lys har det skjedd noen endringer som har påvirket hvordan vårt moderne samfunn fungerer. Det finnes nå en velferdsmodell som virker gjennom organisert arbeidsliv, økonomisk styring og offentlig velferd, og for at den skal gå rundt må samfunnet forhindre at den ikke faller sammen.
+
+Den nordiske modellen vi har idag går rundt fordi arbeidsstyrken får en inntekt, og progressivt skattes for størrelsen på inntekten. Den andre inntekten er avgifter som vi pålegger samfunnet, for eksempel siden det er en fremtidlig kostnad tilknyttet å kjøpe tobakk så legges det på en avgift som indirekte hjelper individet med helseutgifter i fremtiden når det trenger helsehjelp.
+
+Ved hjelp av økonomisk styring kan man allokere ressurser mer effektivt ved å tildele subsidier til markeder som opplever svikt. Dette er nødvendig når markedene selv ikke klarer å oppnå likevekt, eller når det ikke er lønnsomt å investere i dem. Økonomisk styring søker dermed å korrigere de ineffektivitetene og ubalansene som kan oppstå i et åpent marked.
+
+# Utfordring 1.1 Individets arbeidstilbud
+
+## Empiriske kjønnsforskjeller i valg av arbeidstimer for menn og kvinner
+
+Familiepolitikken er viktig for fremtiden til den nordiske modellen, og to viktige punkter er hvordan vi som et samfunn skal klare å produsere nok barn, men samtidig klare passe på våre barn mens vi er ute i arbeidslivet.
+
+I tabell 04544 fra SSB ser man forskjellen mellom en gjennomsnittlig arbeidsuke for kvinner og menn fra 1996 til 2022. Som figuren viser så har man på denne tiden klart å redusere forskjellen mellom menn og kvinners arbeidsuke fra 9.4 timer i 1996, ned til kun 4.3 timers forskjell i 2022. Det man også kan tolke er at kvinners gjennomsnittlige arbeidsuker egentlig ikke har økt særlig mye på denne tiden, opp ca 1 time i gjennomsnitt, men at arbeidstiden til menn har gått betraktelig mer ned.
+
+```{r}
+# Saving some colors to use for the plot
+colours <- c("Kvinner" = "palevioletred", "Menn" = "cornflowerblue")
+
+# Making a plot to show the arithmetic mean of women vs men working weekly in Norway.
+df_plot %>%
+  ggplot(aes(x=year, y=arbeidstid_pr_uke, color=sex))+
+  geom_line(linewidth=1, alpha=0.5)+
+  geom_point(alpha=0.5)+
+  theme_minimal()+
+  theme(legend.position = "bottom")+
+  labs(title="Gjennomsnittlig arbeidstimer per uke i Norge", 
+       subtitle="Kvinner mot menn. 1996-2022.", 
+       y="Arbeidstimer per uke", 
+       x="", 
+       caption = "Kilde: SSB tabell 04544",
+       color=""
+       )+
+  scale_colour_manual(values = colours)+
+  annotate("text", x = 2000, y = 35, label = "9.4 timer forskjell")+
+  annotate("text", x = 2017, y = 35, label = "5.1 timer forskjell")+
+  geom_segment(aes(x=1996, y=30.5, xend=1996, yend=39, color="black"),
+               show.legend = FALSE, arrow = arrow(length=unit(.5, 'cm')))+
+  geom_segment(aes(x=2022, y=32, xend=2022, yend=35.5, color="black"),
+               show.legend = FALSE, arrow = arrow(length=unit(.5, 'cm')))
+```
+
+Mulige årsaker til endringen på disse 27 årene kan være gjennom familiepolitikken. (Nå går jeg litt videre fra spørsmålet ved utfordringen så du kan gjerne hoppe over dette om du sovner.) Ved å se på figuren vil man kanskje intuitivt tenke at noe har skjedd på den mannlige siden av disse subsidiene siden det er her det er størst endring i gjennomsnittlig arbeidstimer per uke. Noen klikk senere på SSB sine sider forteller [@ssbdekning] at 1. april 1993 ble det innført en fedrekvote i foreldrepermisjon som sa at totalt kunne fedre få$\frac{42 uker} {210 dager} = 0.2 = 20 dager$ foreldrepermisjon ved 100 prosent dekningsgrad. Videre kan man også se at dette har blitt utvidet ytterligere i årene etter.
+
+Dette gjorde meg nysgjerrig angående hvordan fedrekvoten så ut mot foreldrepermisjonen generelt i OECD land og jeg laget en oppdatert figur for siste år med data som var i 2022.
+
+```{r}
+# I got curious so I had to look at maternity and paternity leave for 2022
+url <- "https://www.oecd.org/els/family/PF2_5_Trends_in_leave_entitlements_around_childbirth.xlsx"
+
+# Downloading the excel spreadsheet from OECD and starting from sheet 4 that has data
+# slicing to remove useless rows, then removing some na values and renaming
+
+df_maternity <- url %>%  
+  read.xlsx(sheet=4, startRow = 1) %>% 
+  as_tibble() %>%
+  slice(-2) %>%
+  na.omit() %>%
+  rename(country = X1, year = X2, 
+         maternity_weeks = 
+           Maternity_weeks, 
+         pat_leave = Patleave) %>%
+  mutate(year = as.integer(year))
+
+# Just slicing the data manip up a bit so both me and dplyr can have a break piping
+# Now I want to select the data I want to look at
+df_maternity<-df_maternity %>%
+  select(maternity_weeks, pat_leave, country, year) %>%
+  filter(year == "2022")
+
+# I was getting lazy here and made ChatGPT help me with an issue with integers
+# so I made it write this for me 
+df_maternity$maternity_weeks <- gsub(",", ".", df_maternity$maternity_weeks)
+df_maternity$pat_leave <- gsub(",", ".", df_maternity$pat_leave)
+
+# Note this takes some values and rounds them to the number 
+# they are and not to the closest round number 
+# so there will be some "incorrect" values also I multiply 
+# pat_leave by 5 to get it to days instead of weeks
+# interestingly I had to remove spain because they have added half on half maternity
+# leave for both parents so it became an outlier when presented in days for paternity
+df_maternity <-df_maternity %>%
+  mutate(maternity_weeks = as.integer(maternity_weeks), 
+         pat_leave = as.integer(pat_leave), pat_leave = pat_leave * 5)
+```
+
+```{r}
+# Plotting the paternity(days) vs maternity leave (weeks)
+df_maternity%>%
+  filter(country != "Spain") %>%
+  ggplot(aes(x=maternity_weeks, y=pat_leave,label=country))+
+  geom_point(size=2, alpha=0.5, color="cornflowerblue")+
+  labs(x="Omsorgspermisjon mødre i uker", y="Omsorgspermisjon i dager for fedre", 
+       title="Omsorgspemisjon mødre (uker) mot fedre (dager) 2022",
+       caption= "Kilde: OECD")+
+  theme_minimal()+
+  geom_text_repel(size=2.5)
+```
+
+Spania er fjernet da fedre har rett til like mye permisjon som mødre, så foreldre-permisjonsretten endte opp med over 112 dager, som blir en ekstrem observasjon. I figuren kan man se at vi se at mange OECD-land har innført omsorgspermisjon for menn, hvor vi får et skift, slik at fedre får mer ansvar ovenfor barnet. Noe som gir et mer egalitært delt ansvar av familieansvar i hjemmet ifølge @barr . Dette betyr også at kvinner får større muligheter i arbeidslivet, hvor de har muligheter å få mer opplæring og ansvar uten at arbeidsgiver skal frykte at kvinnen forsvinner lengre perioder eller permanent på grunn av barneomsorg.
+
+### Effekten av deltidsarbeid og kvinners yrkesdeltakelse
+
+Deltidsarbeid i det moderne jobbsamfunnet har endret kvinners deltakelse i arbeidslivet. I følge empiriske studier gjort av @barr så har innføringen av deltid gjort slik at kvinner som kun hadde valget mellom fulltid eller ikke-deltakelse velger å arbeide allikevel og hvordan det har en positiv effekt på livskvaliteten, mens menn får en større positiv effekt av å jobbe fulltid.
+
+Grafisk illustrert kan vi tenke oss at kvinnen har to valg , enten å jobbe fulltid eller ikke delta i arbeidsmarkedet i det hele tatt.
+
+Som økonom er man glad i å forkorte ting så for å få en forståelse for hva som er på figurene så kommer en liten liste her:
+
+-   $h = timer\:på\:arbeid$
+
+-   $c = konsum$
+
+-   $l = antall\:timer\:fritid$
+
+Vi går ut ifra et fullkomment arbeidsmarked. I figuren under kan man se en kvinnes to indifferens-kurver som er definert via to nyttenivåer for konsum og antall timer fritid. Vi antar at individet har en reservasjonslønn, som er det laveste nivået av konsum på indifferenskurven som gjør at kvinnen ikke får mer nytte av å gå i arbeid.
+
+```{python}
+# Code is modified from lecture 13 and some other parts of micro-lectures
+# from last year
+import numpy as np
+from matplotlib import pyplot as plt
+import sympy as sp
+
+# symboler
+x_1, x_2, a, b, U_0 =sp.symbols("x_1 x_2 a b U_0", real=True, positive=True)
+U=x_1**a*x_2**b
+# vi må løse for x_2 og et gitt nyttenivå
+x_2_ind_sol=sp.solve(U-U_0,x_2)[0]
+
+indiff_x_2=sp.lambdify( (U_0,a,b,x_1), x_2_ind_sol)
+
+
+def budsjett(M, p1, p2, x1):
+    return M/p2 - p1*x1/p2
+
+# nye symboler
+p_1, p_2, m =sp.symbols("p_1 p_2 m", real=True, positive=True)
+
+# budsjett
+bud=p_1*x_1+p_2*x_2
+
+# Beregne MSB
+
+msb = sp.diff(U, x_1)/sp.diff(U,x_2)
+
+x_2_rel=sp.solve(msb-p_1/p_2,x_2)[0]
+budsj=bud.subs(x_2,x_2_rel)
+
+x_1_eq= sp.solve(budsj-m,x_1)[0]
+
+x_2_eq= x_2_rel.subs(x_1,x_1_eq)
+
+U_max=U.subs([(x_1,x_1_eq),(x_2,x_2_eq)])
+
+nytte = U_max.subs([(a,.4),(b,.35),(m,2500),(p_1,25),(p_2,30)])
+x_1_num = x_1_eq.subs([(a,.4),(b,.35),(m,2500),(p_1,25),(p_2,30)])
+x_2_num = x_2_eq.subs([(a,.4),(b,.35),(m,2500),(p_1,25),(p_2,30)])
+```
+
+I figur a har kvinnen kun valg av å arbeide fulltid eller ikke delta i arbeidsmarkedet i det hele tatt. I punkt $h_ft$ velger kvinnen ikke å delta i arbeidsmarkedet fordi hun verdsetter fritiden sin mer i punkt $E$ som er hva som kalles reservasjonslønnen. Den refererer til den laveste lønnen kvinnen er villig til å akseptere for å være villig til å gå i arbeid. Reservasjonslønnen her er for høy for at kvinnen ønsker deltakelse i arbeidsmarkedet, fordi på iso utilitetskurvene så er punkt $U_ft < U_np$ .
+
+```{python}
+x = np.linspace(0.1,70,100)
+
+def create_ax():
+                fig, ax = plt.subplots()
+                ax.set_ylabel('$c$', loc='top', rotation=0)
+                ax.set_xlabel('$l$', loc='right')
+                ax.set(xlim=(0,80))
+                ax.set(ylim=(0,100))
+                ax.spines['top'].set_color('none')
+                ax.spines['right'].set_color('none')
+                ax.set_xticks([])
+                ax.set_yticks([])
+                
+                return fig, ax
+                
+fig, ax = create_ax()
+
+# Indifference curves
+ax.plot(x, indiff_x_2(nytte-1,.4,.35,x), label='$U_{np}$', ls= '--')
+ax.plot(x, indiff_x_2(nytte-2,.4,.35,x), label='$U_{ft}$', ls= 'dotted')
+ax.plot(x, budsjett(2500, 25, 30, x), label = 'Budsjettlinje')
+
+
+# Linje fra 70 timer til budsjettlinjen
+ax.vlines(70,0,budsjett(2500, 25, 30, 70), color='green')
+# Linje fra 30 timer på x-aksen til U_np
+ax.vlines(26.5,0,indiff_x_2(nytte-1,.4,.35,26.5), color='green', ls='dashed')
+
+# Setter inn bokstaven E hvor linjen treffer budsjettlinjen
+ax.text(70,25,'E', horizontalalignment='left', verticalalignment='bottom')
+# Setter inn bokstaven A som treffer hvor U_ft treffer budsjettlinjen
+ax.text(24,55,'A', horizontalalignment='left', verticalalignment='bottom')
+# Setter inn bokstaven C som treffer U_np
+ax.text(27,74,'C', horizontalalignment='left', verticalalignment='bottom')
+
+# Setter inn h_ft som krysser U_ft fra x_1_num
+ax.text(26,-8,'$h_{ft}$', horizontalalignment='left', verticalalignment='bottom')
+
+ax.set_title('(a) Invididets tilpasning til fulltid eller ikke deltakelse')
+
+
+ax.legend(bbox_to_anchor=(0.7,0.7))
+
+plt.show()
+
+```
+
+I figur b så ser man at når muligheten for deltid definert som $U_pt$ (part time), så velger kvinnen å gå i arbeid fordi hun får mer av både fritid og konsum hvor $h_pt$ treffer i punkt $B$ .
+
+```{python}
+fig, ax = create_ax()
+
+ax.plot(x, indiff_x_2(nytte,.4,.35,x), label='$U_{pt}$', color='palevioletred')
+ax.plot(x, indiff_x_2(nytte-1,.4,.35,x), label='$U_{np}$', ls= 'dashed', color='#1f77b4')
+ax.plot(x, indiff_x_2(nytte-2,.4,.35,x), label='$U_{ft}$', ls= 'dotted', color='orange')
+
+ax.plot(x, budsjett(2500, 25, 30, x), label = 'Budsjettlinje', color='green')
+
+ax.vlines(70,0,budsjett(2500, 25, 30, 70), color='green')
+# Linje fra 27 timer på x-aksen til U_ft
+ax.vlines(26.5,0,indiff_x_2(nytte-2,.4,.35,26.5), color='green', ls='dashed')
+
+ax.text(70,25,'E', horizontalalignment='left', verticalalignment='bottom')
+
+ax.text(27,63,'A', horizontalalignment='left', verticalalignment='bottom')
+
+# tegn inn tilpasningen
+ax.vlines(x_1_num,0,x_2_num, color='black',ls='dashed')
+
+# legger til B
+ax.text(x_1_num,x_2_num,'B', horizontalalignment='left', verticalalignment='bottom')
+# legger til D som krysser U_ft fra x_1_num
+ax.text(x_1_num-2,indiff_x_2(nytte-2,.4,.35,x_1_num+10),'D', horizontalalignment='left', verticalalignment='bottom')
+
+ax.text(26,-8,'$h_{ft}$', horizontalalignment='left', verticalalignment='bottom')
+
+# Setter inn h_pt som treffer budsjettlinjen i 
+ax.text(x_1_num-1,-8,'$h_{pt}$', horizontalalignment='left', verticalalignment='bottom')
+# tittel
+ax.set_title('(b) Invididets tilpasning til timer arbeid med deltid')
+
+ax.legend(bbox_to_anchor=(0.7,0.5))
+
+plt.show()
+```
+
+Segmentet $B -> D$ måler hvor stor reduksjon i timebetalingen kvinnen er villig til å akseptere for å få en deltidsjobb, i stedet for å bli tvunget til å velge mellom å jobbe heltid eller ikke jobbe i det hele tatt ifølge @barr. Elastisiteten mellom konsum og fritid kan også forklare forskjellen mellom en persons preferanser, for eksempel hvor kvinner velger å ha større vekt på fritid, mens menn kan ha en større preferanse for konsum.
+
+## Sammenhengen mellom lengde på betalt foreldrepermisjon og yrkesdeltakelse blant kvinner
+
+Diskuter, basert på disse diagrammene og økonomisk teori, følgende påstand: «Gunstige permisjonsordninger ved fødsel sikrer høy yrkesdeltakelse blant kvinner på lang sikt»
+
+Det kan antas intuitivt at det er en liten årsakssammenheng at gunstige pensjonsordninger gjør slik at kvinner er mer hjemme med yngre barn i land som har høyt antall uker med 100% støtte, men det man også kan se på lengre sikt er at de går tilbake til arbeid. Det kan også antas at en gylden middelvei ligger et sted mellom 20-40 uker med permisjon, der landene som ligger mellom disse ukene har et stabilt ansettelsesforhold på både kort og lang sikt.
+
+```{r}
+#| output: FALSE
+
+model<- lm(tot_full_rate~fem_emp_rate_0_2, women)
+```
+
+```{r}
+# Creating a point diagram to look for correlation between full rate equivelents
+# and women with children working between 0-2
+women %>%
+  ggplot(aes(x=tot_full_rate, y=fem_emp_rate_0_2, label=country))+
+  geom_point(color="cornflowerblue")+
+  geom_text_repel(size=2.5)+
+  scale_y_continuous(labels = scales::percent_format(scale = 1),
+                     limits = c(0, 100), expand= c(0,0))+
+  labs(y="Ansettelsesprosent", x="Antall uker med 100% støtte")+
+  theme_minimal()+
+  geom_smooth(method = lm, se = FALSE)
+```
+
+Empiriske studier sier at foreldrepermisjon som gir foreldre rett til å beholde jobben har en positiv effekt på foreldrenes sysselsettingsnivå. Men kan også ha en negativ effekt på lønnen i de landene som har mer uker med 100% støtte.
+
+```{r}
+#| output: false
+
+model <-lm(tot_full_rate~fem_emp_rate_6_14, women)
+```
+
+```{r}
+# Creating a point diagram to look for correlation between full rate equivelents
+# and women with children working between 6-14
+women %>%
+  ggplot(aes(x=tot_full_rate, y=fem_emp_rate_6_14, label=country))+
+  geom_point(color="cornflowerblue")+
+  geom_text_repel(size=2.5)+
+  scale_y_continuous(labels = scales::percent_format(scale = 1),
+                     limits = c(0, 100), expand=c(0,0))+
+  labs(y="Ansettelsesprosent", x="Antall uker med 100% støtte")+
+  theme_minimal()+
+  geom_smooth(method = lm, se = FALSE)
+```
+
+```{r}
+#| output: false
+# removing this since it is not really relevant for the task
+
+colours_country <- c("palevioletred", "palevioletred","palevioletred", "palevioletred","cornflowerblue", "palevioletred","cornflowerblue", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred","palevioletred", "palevioletred")
+
+# Create a named vector for colors
+colours_country_named <- setNames(colours_country, (women$country))
+
+# Making a plot to show the employment rate of women with children 0-2
+women %>%
+  ggplot(aes(x = reorder(country, +fem_emp_rate_0_2), y=fem_emp_rate_0_2))+
+  geom_col(aes(fill=country), alpha=0.9, width = 0.5)+
+  theme_minimal()+
+  theme(legend.position = "none")+
+  labs(title="Kvinnelig arbeidsrate i 24 OECD land", 
+       subtitle="Med barn mellom 0-2 år.", 
+       y="Ansettelsesprosent", 
+       x="", 
+       caption = "Kilde: OECD",
+       color=""
+       )+
+  scale_x_discrete(guide = guide_axis(angle=45))+
+  scale_fill_manual(values = colours_country_named)+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))
+```
+
+```{r}
+#| output: false
+# removing this since it is not really relevant for the task
+# Making a plot to show the employment rate of women with children 6-14
+women %>%
+  ggplot(aes(x = reorder(country, +fem_emp_rate_6_14), y=fem_emp_rate_6_14))+
+  geom_col(aes(fill=country), alpha=0.9, width = 0.5)+
+  theme_minimal()+
+  theme(legend.position = "none")+
+  labs(title="Kvinnelig arbeidsrate i 24 OECD land", 
+       subtitle="Med barn mellom 6-14 år.", 
+       y="Ansettelsesprosent", 
+       x="", 
+       caption = "Kilde: OECD",
+       color=""
+       )+
+  scale_x_discrete(guide = guide_axis(angle=45))+
+  scale_fill_manual(values = colours_country_named)+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))
+```
+
+## Hvorfor høy yrkesdeltakelse blant norske kvinner og høye barnetall er viktig for den nordiske modellen
+
+For at den nordiske modellen skal kunne overleve trenger vi høy yrkesdeltakelse blant kvinner slik at vi fortsetter å få inn skattbar inntekt som hovedsakelig brukes til å finansiere alle godene som vi får tilbake av den. For eksempel pensjon, trygd når man havner utenfor arbeidsstyrken, subsidiert utdanning, eldreomsorg, og subsidierte helsetjenester for å nevne noen eksempler.
+
+Barnetall er også veldig viktig for den nordiske modellen, for om vi får en skjevhet i befolknings-pyramiden hvor vi får et flertall av eldre mennesker i Norge enn nyfødte barn og mennesker i arbeidsstyrken så vil samfunnet slite med å finansiere godene som modellen gir oss. Hvis antall fødsler per 2 voksne er mindre enn 2 vil befolkningen på sikt minke, fordi om 2 mennesker produserer $< 2$ barn blir befolkningen mindre. I følge @ssbfruktbar så var det rekordlav fruktbarhet i 2022 blant kvinner i Norge.
+
+51500 barn ble født ifjor, som var en nedgang på 4500 fra 2021. I 2022 var fruktbarthetstallet i Norge 1.41 barn per kvinne, som er det laveste noen gang registrert.
+
+Som man kan se i befolknings-pyramiden under så er det flere eldre mennesker i 2023 enn det var for 20 år siden i Norge og at det ikke er flere barn mellom 0-9 år, og dette kan være bekymringsverdig for fremtiden til den nordiske modellen.
+
+```{r}
+# Fixing just a big K on Kjønn
+df_pop<-df_pop %>%
+  rename(Kjønn = kjønn)
+
+# Fixing so it is possible to arrange the age groups correctly, ChatGPT helped
+df_pop$alder <- gsub("år", "", df_pop$alder)
+df_pop$alder <- gsub("100 år eller eldre", "100+", df_pop$alder)
+df_pop$alder <- gsub(" ", "", df_pop$alder)
+df_pop$alder <- gsub("100ellereldre", "100+", df_pop$alder)
+
+# Forced ChatGPT to write this for me
+age_levels <- c("0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85-89", "90-94", "95-99", "100+")
+
+# This code makes the alder col a factor and replaces alder with age_levels above
+df_pop$alder <- factor(df_pop$alder, levels = age_levels)
+
+# Code inspired by this blog post: https://www.r-bloggers.com/2023/09/creating-population-pyramid-plots-in-r-with-ggplot2/
+pyramide_2003 <- df_pop %>%
+  filter(år == 2003) %>%
+  ggplot(aes(x=alder, fill=Kjønn,
+             y = ifelse(
+               test = Kjønn == "Menn",
+               yes = -value,
+               no = value
+             )
+             )) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values = colours)
+
+# I improved upon this and made ChatGPT rewrite it to add 2023 since I had no
+# clue at all how to do it myself
+pop_pyramide <- pyramide_2003 +
+  geom_bar(data=filter(df_pop, år == 2023),
+           aes(y = ifelse(
+             test = Kjønn == "Menn",
+             yes = -value,
+             no = value
+           ), fill=Kjønn),
+           stat="identity", alpha=0.5) +
+  scale_y_continuous(
+    labels = abs,
+    limits = max(df_pop$value) * c(-1,1)
+  ) +
+  coord_flip() +
+  theme_minimal() +
+  labs(x="", y="", title="Utviklingen av mennesker i Norge over 20 år", 
+       subtitle="2003, helfargede søyler. 2023, gjennomsiktige")
+
+pop_pyramide
+```
+
+# Utfordring 1.2
+
+## Sammenhengen mellom andelen av egenbetalinger og helsetjenesteforbruk pr. innbygger
+
+```{r}
+# Small fix for variable names and fixing date.time object
+eurostat <- eurostat %>%
+  transmute(date = as.Date(time),unit = unit,
+            spending = icha11_hf, country = geo, val = values)
+```
+
+```{r}
+# Filtering for 2019 and aggregated values then pivoting it wide
+# renaming two variables afterwards in euro_wide
+euro_wide <- eurostat %>%
+  filter(date == "2019-01-01", 
+         !country %in% c('European Union - 27 countries (from 2020)',
+                         'European Union - 28 countries (2013-2020)',
+                         'European Union - 27 countries (2007-2013)',
+                         'European Union - 15 countries (1995-2004)',
+                         'Euro area – 20 countries (from 2023)',
+                         'Euro area - 19 countries  (2015-2022)',
+                         'Euro area - 18 countries (2014)',
+                         'Euro area - 12 countries (2001-2006)')) %>%
+  pivot_wider(names_from = "spending", values_from = "val") %>%
+  rename(house = 'Household out-of-pocket payment', gov = 'Government schemes and compulsory contributory health care financing schemes') %>%
+  # This code I had to read the countrycode instructions to understand
+  # how to abbreviate the country names, then decided to not use it in any way
+  # but want to keep it incase of future use
+  mutate(abbrev =countrycode(sourcevar = country, destination = "iso2c",
+                   origin = "country.name"))
+```
+
+```{r}
+# Looking for correlation with a linear regression model
+model <-lm(gov ~ house, euro_wide)
+
+# We are still taking the statisctics course but as far as I know
+# with my limited statistics knowledge a higher R-squared value means a stronger
+# correlation
+summary(model)
+```
+
+I følge @kristensen regnes $R^2 = \frac{Srr}{Syy} = 0.9159$, hvor $Srr$ er den lineære sammenhengen mens $Syy$ er totalvariasjonen. I dette tilfellet blir R-kvadrert = 0.9159 som kan tolkes som at 91.59% av variasjonen i helsetjenesteforbruket pr. innbygger kan forklares ut fra den lineære modellen. Som jeg forstår så betyr dette at det er en multilineær sammenheng mellom andelen av egenbetalinger og helsetjenesteforbruk pr. innbygger. Enklere forklart så betyr det at det er en korrelasjon mellom variablene, men dette trenger ikke bety at det er årsakssammenheng.
+
+```{r}
+# Plotting the correlation and the linear regression model
+euro_wide%>%
+  filter(unit == 'Purchasing power standard (PPS) per inhabitant') %>%
+  mutate(prosent = (house/gov)*100) %>%
+  ggplot(aes(x=prosent, y=gov,label=country))+
+  geom_point(size=2.5, alpha=0.5, color="cornflowerblue")+
+  geom_smooth(method = lm, se= FALSE, color="palevioletred")+
+  labs(x="Husholdningen selv", y="Myndighetens helsetjenesteforuk", 
+       title="Korrelasjonen mellom egenbetalinger og %andel av total helsetjenesteforbruk",
+       caption= "Kilde: Eurostat", subtitle="Percentual share of total current health expenditure justert per innbygger")+
+  theme_minimal()+
+    geom_text_repel(size=2.5)
+```
+
+Som jeg selv vil tolke figuren kan man se to virkninger av hva som skjer. Når myndighetene subsidierer mesteparten av helsetjenestene til husholdningene virker det som at det er flere som benytter seg av tilbudet, og det samme motsatt, hvis myndighetene ikke tar en stor del av helsetjenesteforbruket så er det mindre forbruk av det i husholdningen. Så svaret her virker til å være en plass i mellom.
+
+## Hvordan økt egenbetaling påvirker helsetjenesteforbruk og øker effektiviteten
+
+For å forstå hvordan økt egenbetaling kan påvirke helsetjenestebruk er det mest sentrale punktet som man kan ta fra økonomisk teori atferdsrisikoen. Det refererer til at hvis individet har null helseforsikring vil de konsumere inntil marginal-nytten er større enn marginalkostnader. Og hvis individet har full helseforsikring konsumere til marginal-nytten er positiv, dette kan føre til en adferdsrisiko hvor individet tar mer risiko enn normalt på grunn av for stor subsidiering.
+
+```{python}
+# This code is taken from the lecture in Microeconomics last year, written
+# by Derek J. Clark and modified by me for the third assignment in SOK-1006
+
+def demand(x):
+    return 75
+
+def supply(x):
+    return (200-x)/1.2
+
+x = sp.symbols('x', real=True, positive=True)
+eq = sp.Eq(demand(x), supply(x))
+
+x_eq = sp.solve(eq, x)
+x_eq = float(x_eq[0])
+
+p_eq = demand(x_eq)
+```
+
+```{python}
+# The code is a bit messy since Rstudios IDE isnt really meant to code in python
+# it is not possible to use different code blocks to continue work on the
+# same figure, so I had to write the code from scratch each time and continue upon it
+x_n = np.linspace(0.1, 500, 100)
+q= np.linspace(0,x_eq,100)
+
+# Creating the axa for plotting
+def create_ax():
+    fig, ax = plt.subplots()
+    ax.set_ylabel('Pris per enhet', loc='top')
+    ax.set_xlabel('Helsetjenester per år', loc='left')
+    ax.set(xlim=(0, 200))
+    ax.set(ylim=(0, 200))
+    ax.spines['top'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.set_xticks([])
+    ax.set_yticks([])
+    
+    return fig, ax
+
+# Startibg fig
+fig, ax = create_ax()
+
+# Plotting demand and supply
+ax.plot(x_n, [demand(x) for x in x_n], label='Tilbud')
+ax.plot(x_n, [supply(x) for x in x_n], label='Etterspørsel')
+
+# Draw lines for the new equilibrium
+ax.vlines(x_eq, 0, p_eq, linestyles='dashed', color='black')
+ax.hlines(p_eq, 0, x_eq, linestyles='dashed', color='black')
+
+# Title
+ax.set_title('Egenandel og overforbruk av helsetjenester')
+
+
+q_adjusted = np.linspace(0, x_eq, 100)
+# Filling the area below the vertical line (from y=0 to y=p_eq)
+ax.fill_betweenx([0, p_eq], 0, x_eq, color='brown', alpha=0.5)
+
+# Adding text for M_o at the 110-x axis
+ax.text(x_eq, -10, '$M_0$', horizontalalignment='center', fontsize=12)
+# Adding text for P_o at the y axis
+ax.text(-10, p_eq, '$P_0$', verticalalignment='center', fontsize=12)
+
+# Adding a text in the fill between area saying "Opprinnelige helseutgifter" før innføring av helseforsikring"
+ax.text(6, 50, 'Opprinnelige helseutgifter', fontsize=12)
+ax.text(6, 40, 'før innføring av helseforsikring', fontsize=12)
+
+# Show legend
+ax.legend(bbox_to_anchor=(1, 0.6))
+
+plt.show()
+```
+
+I figuren ovenfor kan man se i de stiplede linjen hvor et individ blir å tilpasse seg mellom $M_0$ og $P_0$ i den opprinnelige markedslikevekten før et subsidie blir lagt til.
+
+```{python}
+# Starting fig
+fig, ax = create_ax()
+
+# Plotting demand and supply
+ax.plot(x_n, [demand(x) for x in x_n], label='Tilbud')
+ax.plot(x_n, [supply(x) for x in x_n], label='Etterspørsel')
+
+# Draw lines for the new equilibrium
+ax.vlines(x_eq, 0, p_eq, linestyles='dashed', color='black')
+ax.hlines(p_eq, 0, x_eq, linestyles='dashed', color='black')
+
+# Title
+ax.set_title('Egenandel og overforbruk av helsetjenester')
+
+
+q_adjusted = np.linspace(0, x_eq, 100)
+# Filling the area below the vertical line (from y=0 to y=p_eq)
+ax.fill_betweenx([0, p_eq], 0, x_eq, color='brown', alpha=0.3)
+
+# Adding text for M_o at the 110-x axis
+ax.text(x_eq, -10, '$M_0$', horizontalalignment='center', fontsize=12)
+# Adding text for P_o at the y axis
+ax.text(-10, p_eq, '$P_0$', verticalalignment='center', fontsize=12)
+
+# Adding a text in the fill between area saying "Opprinnelige helseutgifter" før innføring av helseforsikring"
+ax.text(6, 50, 'Opprinnelige helseutgifter', fontsize=12)
+ax.text(6, 40, 'før innføring av helseforsikring', fontsize=12)
+
+# Show legend
+ax.legend(bbox_to_anchor=(1, 0.6))
+
+# New vline
+ax.vlines(200, 0, p_eq, linestyles='dashed', color='black')
+
+# Adding text for M_2 at the 181-x axis
+ax.text(181, -10, '$M_2$', horizontalalignment='center', fontsize=12)
+
+# Filling the deadweight loss area which is the area between the new vline and the supply curve but do not include the above area
+ax.fill_betweenx([0, supply(x_eq)], x_eq, 200, color='palevioletred', alpha=0.3)
+
+# Filling the deadweight loss area, which is the code I ended up taking from ChatGPT
+x_values_for_fill = np.linspace(x_eq, 200, 100)
+y_values_supply_for_fill = supply(x_values_for_fill)
+ax.fill_between(x_values_for_fill, y_values_supply_for_fill, p_eq, color='blue', alpha=0.3, label='Deadweight Loss')
+
+# Adding text for deadweight loss
+ax.text(150, 55, 'Dødvektstap', fontsize=12)
+
+# Making the new demand for a person with health insurance
+demand_2 = lambda x: 15
+ax.plot(x_n, [demand_2(x) for x in x_n], label='Tilbud med helseforsikring', color='#1f77b4')
+
+# Adding text for the new P_1
+ax.text(-22, 15, '$.15P_0$', verticalalignment='center', fontsize=12)
+
+# Adding text for 0
+ax.text(-10, 0, '$0$', verticalalignment='center', fontsize=12)
+
+plt.show()
+```
+
+Slik som vi har det i omtrent i Norge idag subsidieres det slik at vi omtrent betaler 15% av utgiftene i egenbetalinger og tilpasningen til subsidiene blir da ved $.15P_0$ , det man kan se på figuren nå er at prisen per enhet går ned, mens den nye likevekten blir $M2$ som betyr at med subsidien konsumeres det mer helsetjenester per år. I tillegg blir det en kile mellom pris per enhet og helsetjenester per år . Dette er dødvektstapet som helsetjenester per år og pris per enhet mister når subsidien blir innført. Dette blir det samfunnsøkonomiske tapet.
+
+```{python}
+# Starting fig
+fig, ax = create_ax()
+
+# Plotting demand and supply
+ax.plot(x_n, [demand(x) for x in x_n], label='Tilbud')
+ax.plot(x_n, [supply(x) for x in x_n], label='Etterspørsel')
+
+# Draw lines for the new equilibrium
+ax.vlines(x_eq, 0, p_eq, linestyles='dashed', color='black')
+ax.hlines(p_eq, 0, x_eq, linestyles='dashed', color='black')
+
+# Title
+ax.set_title('Egenandel og overforbruk av helsetjenester')
+
+
+q_adjusted = np.linspace(0, x_eq, 100)
+# Filling the area below the vertical line (from y=0 to y=p_eq)
+ax.fill_betweenx([0, p_eq], 0, x_eq, color='brown', alpha=0.3)
+
+# Adding text for M_o at the 110-x axis
+ax.text(x_eq, -10, '$M_0$', horizontalalignment='center', fontsize=12)
+# Adding text for P_o at the y axis
+ax.text(-10, p_eq, '$P_0$', verticalalignment='center', fontsize=12)
+
+# Adding a text in the fill between area saying "Opprinnelige helseutgifter" før innføring av helseforsikring"
+ax.text(6, 50, 'Opprinnelige helseutgifter', fontsize=12)
+ax.text(6, 40, 'før innføring av helseforsikring', fontsize=12)
+
+# Show legend
+ax.legend(bbox_to_anchor=(1, 0.6))
+
+# New vline
+ax.vlines(200, 0, p_eq, linestyles='dashed', color='black')
+
+# Adding text for M_1 at the 110-x axis
+ax.text(200, -10, '$M_1$', horizontalalignment='center', fontsize=12)
+
+# Filling the deadweight loss area which is the area between the new vline and the supply curve but do not include the above area
+ax.fill_betweenx([0, supply(x_eq)], x_eq, 200, color='palevioletred', alpha=0.3)
+
+# Filling the deadweight loss area, which is the code I ended up taking from ChatGPT
+x_values_for_fill = np.linspace(x_eq, 200, 100)
+y_values_supply_for_fill = supply(x_values_for_fill)
+ax.fill_between(x_values_for_fill, y_values_supply_for_fill, p_eq, color='blue', alpha=0.3, label='Deadweight Loss')
+
+# Adding text for deadweight loss
+ax.text(150, 55, 'Dødvektstap', fontsize=12)
+
+# Making the new demand for a person with health insurance
+demand_2 = lambda x: 15
+ax.plot(x_n, [demand_2(x) for x in x_n], label='Tilbud med helseforsikring', color='#1f77b4')
+
+# Adding text for the new P_1
+ax.text(-20, 15, '$.15P_0$', verticalalignment='center', fontsize=12)
+
+# Making the new demand for a person with health insurance
+demand_2 = lambda x: 15
+ax.plot(x_n, [demand_2(x) for x in x_n], label='Tilbud med helseforsikring', color='#1f77b4')
+
+# Adding text for the new P_1
+ax.text(-22, 15, '$.15P_0$', verticalalignment='center', fontsize=12)
+
+# Adding text for 0
+ax.text(-10, 0, '$0$', verticalalignment='center', fontsize=12)
+
+# New vline at the new equilibrium
+ax.vlines(181, 0, 75, linestyles='dashed', color='black')
+
+# Adding text for M_2 at the 181-x axis
+ax.text(181, -10, '$M_2$', horizontalalignment='center', fontsize=12)
+
+# Fill_between the M_0 and M_2 up to p_0
+ax.fill_betweenx([0, 75], 110, 181, color='brown', alpha=1)
+
+# Fill_between the M_0 and M_2 up to p_0
+x_values_for_fill_2 = np.linspace(x_eq, 181, 100)
+y_values_supply_for_fill_2 = supply(x_values_for_fill_2)
+ax.fill_between(x_values_for_fill_2, y_values_supply_for_fill_2, p_eq, color='blue', alpha=1, label='Deadweight Loss')
+fig
+plt.show()
+```
+
+Gratis forbruk kan føre til overforbruk, og blir en samfunnsøkonomisk ineffektiv ressursbruk, dette er hvis pris per enhet er 0 og da blir likevekten ved $M_1$ ifølge @mikko_youtube.
+
+I figuren under kan man se husholdningens egenandel mot statens subsidiering av helsetjenester for diverse OECD-land.
+
+```{r}
+# Adding the colours I want 
+colours <- c('Government schemes and compulsory contributory health care financing schemes' = "palevioletred", 'Household out-of-pocket payment' = "cornflowerblue")
+
+# This figure needed alot of filtering to work, mostly just saying to look at 2019
+# and remove some observations in country that was aggregated and not needed
+# also had to filter for types of spending I wanted to look at
+# and finally I wanted to look at percentages of spending from gov and households
+# rest is just some small finetuning to make it look better
+eurostat %>%
+  filter(date == "2019-01-01", 
+         !country %in% c('European Union - 27 countries (from 2020)',
+                         'European Union - 28 countries (2013-2020)',
+                         'European Union - 27 countries (2007-2013)',
+                         'European Union - 15 countries (1995-2004)',
+                         'Euro area – 20 countries (from 2023)',
+                         'Euro area - 19 countries  (2015-2022)',
+                         'Euro area - 18 countries (2014)',
+                         'Euro area - 12 countries (2001-2006)'),
+         spending %in% c('Government schemes and compulsory contributory health care financing schemes', 'Household out-of-pocket payment'),
+         unit == 'Percentual share of total current health expenditure (CHE)') %>%
+  ggplot(aes(x=reorder(country, val), y=val, fill=spending)) +
+  theme_minimal()+
+  geom_col(alpha=0.9) +
+  theme(legend.position = "top") +
+  scale_x_discrete(guide = guide_axis(angle=45))+
+  labs(title="Helsetjenestekostnader og type finansiering (2019)", y="", x="")+
+  scale_fill_manual(values = colours, 
+                    labels=c('Staten', 'Husholdningenes egenandel'),
+                    name= ""
+                    )+
+  scale_y_continuous(labels = scales::percent_format(scale = 1))
+```
+
+Her ser man at totalt sett så bruker Norge mest på helsetjenestekostnader, og velferdsstaten vår betaler for mesteparten av kostnaden. Dette kan også forklare hvorfor vi som et land kan ha problemer med et overforbruk av helsetjenester, erfaringsvis har vi et helsevesen som sliter med et stort trykk både på sykehusene med lange ventetider og lange ventetider generelt for helserelaterte tjenester.
+
+## Fordelingseffekter av økte egenandeler
+
+Økte egenandeler endrer etterspørselen av helsetjenester, og dette kan gjøre slik at individer som hadde råd ikke lengre har råd og da velger å ikke benytte seg av helsetjenester. Det kan også ha en effekt på ulikheten i samfunnet, hvor de som har størst inntekt blir å kunne ha større mulighet å bruke helsetjenester mens de som har mindre inntekt ikke benytter seg av de.
+
+Å finne den rette balansen mellom dette er derfor vanskelig men også viktig.
+
+# Appendiks
+
+Bruk av KI: ChatGPT 4 inkludert advanced data analysis.
+
+[ChatGPT forespørsel om endring av farger til søyler](https://chat.openai.com/share/37e54a43-9162-4396-a50c-90e3a005110b) (Endte opp med å bruke colours_country_named \<- setNames(colours_country, sort(unique(women\$country))) )
+
+[ChatGPT forespørsel om hjelp til å huske ! for å eksludere ting](https://chat.openai.com/share/2df38c59-8cae-4de7-89d3-73ecdc385db9) (Endte opp med å bruke koden med !)
+
+[Hjelp til befolkningspyramide](https://chat.openai.com/share/7aadd5cd-290a-4c62-a34f-3082adfcc2c6) (Endte opp med å bruke mye av koden hvor jeg nevner i kodeblokk at ChatGPT hjelper meg)
+
+[ChatGPT hjalp med å finne ut å bruke ggrepel for bedre plassering av labels](https://chat.openai.com/c/322b78da-a14d-4f8b-bea1-ba1e1adf4bd5) (Endte opp med å bruke pakken og endre funksjonen til geom_text_repel() heller)
+
+[ChatGPT hjalp med problem med character variabler](https://chat.openai.com/share/def3406c-22cc-4c2b-80a0-b51df59ed7e2) (Endte opp med å bruke gsub funksjon for å fjerne komma så det kunne konverteres til integer)
+
+[ChatGPT hjalp litt med fill_between i python](https://chat.openai.com/share/bc81f997-fcac-483f-8f50-8c0bbf870a9d) (Endte opp med å bruke den kodelinjen som er kommentert i koden)
+
+# Referanser

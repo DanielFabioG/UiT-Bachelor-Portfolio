@@ -1,0 +1,98 @@
+---
+title: "Indifferenskurver som ikke ble brukt i første utfordring"
+author: "Daniel Fabio G"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list = ls())
+library()
+```
+
+```{r}
+# NB this code is taken from mappeoppgave 2 in SOK-1004 last year
+# A lot of this code is written by D. J. Clark and modifications is made by me
+# to illustrate a subsidy of child care
+x <- seq(0, 4000, by = 1)
+df <- data.frame(x)
+
+# Defining some indifference curves
+u_0 <- function(x) (4000^(5/3))/x^(2/3)+2000
+u_1 <- function(x) (4741^(5/3))/x^(2/3)+2000
+u_2 <- function(x) (5500^(5/3))/x^(2/3)+2000
+
+# Defining plot settings
+plot_settings <- theme(axis.title = element_text(size = 20),
+                       plot.title = element_text(size = 20),
+                       panel.background = element_blank(),
+                       axis.line = element_line(colour = "black"),
+                       axis.text.y=element_blank(),
+                       axis.text.x=element_blank(),
+                      legend.position = "none")
+
+bud_0 <- function(x) 8500-0.8*x+3400
+
+
+figur_1 <- ggplot(df, aes(x)) +
+  geom_segment(aes(x = 0, y = bud_0(0), xend = 9000, yend = bud_0(9000)),
+               color = "black") +
+  annotate("text",x=300,y=11400, label="-w")+
+  annotate("text",x=300,y=5200, label="m", color="black")+
+  geom_segment(aes(x=0,xend=9000,y=4700,yend=4700), 
+               linewidth=0.1, linetype="dashed", color="black")+
+  geom_segment(aes(x=9000,xend=9000,y=2500,yend=4700), 
+               linewidth=0.1, linetype="dashed", color="black")+
+  annotate("text", x=5000, y=8400, color="black", label="A")+
+  geom_point(x=4900, y=8000, color="black")+
+  annotate("text", x=8700, y=2750, color="black", label="l0")+
+           labs(title="", x="l", y="c") +
+           plot_settings +
+           coord_fixed(ratio = 1) +
+           scale_x_continuous(limits = c(0, 10500), expand = c(0, 0)) +
+           scale_y_continuous(limits = c(2500, 12400), expand = c(0, 0))
+
+
+
+for (func_name in c("u_0", "u_1", "u_2")) {
+  func <- get(func_name)
+  figur_1 <- figur_1 + 
+    stat_function(fun = func, aes()) +
+    annotate("text", x = 10000, y = func(10000), label = func_name)
+}
+figur_1
+```
+
+You can add options to executable code like this
+
+```{r}
+bud_2 <- function(x) 8500-0.8*x+700
+
+figur_2 <- figur_1+
+  stat_function(df,fun=bud_2, mapping = aes(), color="palevioletred")+
+  annotate("text", x=320, y=9300, color="palevioletred", label="Fc")+
+  annotate("text", x=9300, y=4700, color="limegreen", label="E")+
+  geom_point(x=9000, y=4700, color="limegreen")
+
+figur_2
+```
+
+```{r}
+# Defining budget line, again
+bud_1 <- function(x) 8500-0.8*x+2000
+
+figur_3 <- figur_2+
+    geom_segment(aes(x = 0, y = bud_1(0), xend = 9000, yend = bud_1(9000)),
+               color = "cornflowerblue") +
+  annotate("text",x=1000,y=10100, label="-w1", color="cornflowerblue")+
+  geom_point(x=4150, y=7200, color="cornflowerblue")+
+  annotate("text", x=4300, y=7400, color="cornflowerblue", label="B")+
+  geom_segment(aes(x=4150,xend=4150,y=2500,yend=7150), 
+               linewidth=0.1, linetype="dashed", color="black")+
+  geom_segment(aes(x=4900,xend=4900,y=2500,yend=8100), 
+               linewidth=0.1, linetype="dashed", color="black")+
+  annotate("text", x=5400, y=2800, label="h1")+
+  annotate("text", x=3700, y=2800, label="h2")
+  
+figur_3
+```

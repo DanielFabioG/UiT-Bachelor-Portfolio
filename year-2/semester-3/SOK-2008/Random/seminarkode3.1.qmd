@@ -1,0 +1,214 @@
+# Kode: Minstelønn og fagforeninger på arbeidsmarkedet
+
+# Etterspørsel på arbeid
+
+$$
+L^D = \frac{E}{\alpha}-\frac{1}{\alpha}w
+$$
+
+# Tilbud av arbeid
+
+$$
+L^S = \frac{T}{\beta}+\frac{1}{\beta}\cdot w
+$$
+
+# Der $E = 250$ $\alpha = 0.5$, $T = 10$ og $\beta = 0.5$
+
+# Minstelønn: 150 NOK.
+
+## Likvekt uten minstelønn under FK
+
+```{r}
+rm(list = ls())
+library(tidyverse)
+```
+
+```{r}
+#| warnings : false
+
+# Definer grafområdet
+l_1 <- seq(0, 550, by = 1)
+ E = 250
+ a = 0.5
+ b = 0.5
+ T = 10
+df <- data.frame(l_1)
+
+#lag aksen for tegningen
+
+axes_1 <- ggplot(df, aes(l_1))+
+  labs(x="L", y="w") +
+  theme(axis.title = element_text(size = 15),
+        plot.title = element_text(size = 15),
+        panel.background = element_blank(), # hvit bakgrunn
+        axis.line = element_line(colour = "black"), # sett inn akselinjer
+        axis.title.x = element_text(hjust = 1),
+        axis.title.y = element_text(angle = 0, vjust = 1, hjust=1))+ # juster labels på aksene  
+  coord_fixed(ratio = 1)+ # lik skala for x og y aksen
+  scale_x_continuous(limits = c(0, 550), expand = c(0, 0))+
+  scale_y_continuous(limits = c(0, 300), expand = c(0, 0))+ # begrense aksene
+  coord_fixed(ratio = (550 - 0) / (300 - 0)) 
+# og sikre at akselinjene møttes i (0,0).
+
+
+# Etterspørsel på og tilbud av arbeid
+# Definer en ligning som beskriver etterspørselen på arbeid. Husk at du har w på y-akselen. Ligningen skal beskrive w som en funksjon av l_1
+
+Demand <- function(l_1) {
+  return(E - a * l_1)
+}
+
+# Definer en ligning som beskriver tilbudet på arbeid. Husk at du har w på y-akselen. Ligningen skal beskrive w som en funksjon av l_1
+Supply <- function(l_1) {
+  return(T - b * l_1)
+}
+
+# Calculating L* and w*
+L_star <- 240
+w_star <- 130
+
+figur_1 <- axes_1 +
+  geom_segment(aes(x = 0, y = Demand(0), xend = 500, yend = Demand(500))) +
+    annotate("text", x = 505, y = 10, label = expression(L^D)) +
+  geom_segment(aes(x = 0, y = Supply(0), xend = 500, yend = Supply(500))) +
+    annotate("text", x = 505, y = 250, label = expression(L^S)) +
+  geom_segment(aes(x = L_star, y = 0, xend = L_star, yend = w_star), linetype="dashed", color="red") +
+    annotate("text", x = L_star, y = 10, label = expression(L^FK)) +
+  geom_segment(aes(x = 0, y = w_star, xend = L_star, yend = w_star), linetype="dashed", color="red") +
+    annotate("text", x = L_star + 10, y = w_star, label = expression(w^FK))
+
+figur_1
+
+```
+
+## Likvekt med minstelønn under FK
+
+```{r}
+L_S_minW <- 0  # Labor supplied at minimum wage
+L_D_minW <- 200  # Labor demanded at minimum wage
+
+figur_2 <- figur_1 +
+  geom_segment(aes(x=0, y=w_min, xend=450, yend=w_min)) +
+    annotate("text", x=480, y=w_min, label=expression(w^min)) +
+  geom_segment(aes(x=L_S_minW, y=0, xend=L_S_minW, yend=w_min), linetype="dashed", color="red") +
+    annotate("text", x=L_S_minW, y=10, label=expression(L^{S[minW]})) +
+  geom_segment(aes(x=L_D_minW, y=0, xend=L_D_minW, yend=w_min), linetype="dashed", color="red") +
+    annotate("text", x=L_D_minW, y=10, label=expression(L^{D[minW]})) +
+  geom_polygon(data = data.frame(x = c(L_star, L_D_minW, L_S_minW), 
+                                 y = c(w_star, w_min, w_min)),
+               aes(x = x, y = y),
+               fill = "blue", alpha = 0.3) +
+  annotate("text", x=L_star, y=w_star, label="A") +
+  annotate("text", x=L_D_minW, y=w_min, label="B") +
+  annotate("text", x=L_S_minW, y=w_min, label="C")
+
+figur_2
+```
+
+## Minstelønn under monopsoni
+
+## Likvekt uten minstelønn under monopsoni
+
+```{r}
+# Definer en funkjson som beskriver marginalkostnaden for arbeid (MLC) til monopsoni-bedriften. Husk at du har w på y-akselen. Du må skrive MLC som en funksjon av w. 
+MLC <- function(l_1) {
+  return(#Sett inn ligning for MLC)
+}
+
+
+figur_3 <- figur_1 +
+  geom_segment(aes(x = 0, y = MLC(0), xend = 280, yend = MLC(280))) + #Kurve til MLC
+    annotate("text", x = 305, y = 290, label = "MLC")+
+  geom_segment(aes(x=# Verdi på x-akselen for L^M, y=0, xend=# Verdi på x-akselen for L^M, yend=# Verdi på y-akselen for etterspøselen ved L^M), linetype="dashed", color="red")+ # Sysselsetting og Etterspørsel uten minstelønn. Du må beregne dette selv. 
+   annotate("text",x=# Verdi på x-akselen for L^M ,y=10, label=expression(L^M))+
+  geom_segment(aes(x=0, y=#Verdi for w_M, xend=450, yend=#Verdi for w_M), linetype="dashed", color="red")+ # Lønn ved monopsoni uten minstelønn
+   annotate("text",x=480,y=#Verdi for w_M, label=expression(w^M))+
+        geom_polygon(data = data.frame(x = c(#x-verdi 1, #x-verdi 2, #x-verdi 3), y = c(#y-verdi 1, #y-verdi 2, #y-verdi 3)),
+               aes(x = x, y = y),
+               fill = "pink", alpha = 0.3)+ # Skravert område som illustrerer dødvekstapet
+   annotate("text",x=190,y=130, label="C")
+  
+figur_3
+```
+
+## Likevekt under monopsoni og minstelønn
+
+# Kombiner figur_2 og figur_3
+
+## Fagforeningsmonopol
+
+# Markedets etterspørsel på arbeid:
+
+$$
+w = 800 - 0.04\cdot L
+$$
+
+# Alle arbeidere er organisert i en fagforening. Fagforeningen sitt mål er å maksimere den summerte nytten blant medlemmene.
+
+# Fagforeningen sin nyttefunksjon er gitt ved:
+
+$$
+U^F = (w-w^r) \cdot L
+$$
+
+# Der $w^r = 100$ er reservasjonslønna som vi antar er lik for alle arbeider.
+
+# Fagforeningen har monopol på arbeidsmarkedet. Arbeidsgiverne er pristakere.
+
+## Figur 5
+
+```{r}
+# Definer grafområdet
+l_2 <- seq(0, 12000, by = 1)
+
+# Definer en funksjon som beskriver markedets etterspørsel på arbeid
+LD <- function(l_2) {
+  return(#Sett inn ligning her)
+}
+
+
+df <- data.frame(l_2)
+
+#lag aksen for tegningen
+
+axes_2 <- ggplot(df, aes(l_2))+
+  labs(x="L", y="w") +
+  theme(axis.title = element_text(size = 15),
+        plot.title = element_text(size = 15),
+        panel.background = element_blank(), # hvit bakgrunn
+        axis.line = element_line(colour = "black"), # sett inn akselinjer
+        axis.title.x = element_text(hjust = 1),
+        axis.title.y = element_text(angle = 0, vjust = 1, hjust=1))+ # juster labels på aksene  
+  coord_fixed(ratio = 1)+ # lik skala for x og y aksen
+  scale_x_continuous(limits = c(0, 12000), expand = c(0, 0))+
+  scale_y_continuous(limits = c(0, 1200), expand = c(0, 0))+ # begrense aksene
+  coord_fixed(ratio = (12000 - 0) / (1200 - 0)) 
+# og sikre at akselinjene møttes i (0,0).
+
+# nyttefunkjsonen som brukes U=(w-wr)*L
+
+# vi angir noen indifferenskurver
+I_M <- function(l_2) ((#Nyttenviå/l_2)+#reservasjonslønn)  #Her må du beregne nivå på nytte dersom fagforeningen maksimerer nytten til medlemmene
+
+figur_5 <- axes_2 +
+  geom_segment(aes(x = 0, y = LD(0), xend = 10000, yend = LD(10000))) +
+    annotate("text", x = 10500, y = 50, label = expression(L^D)) + 
+    stat_function(df,
+        fun=I_M,
+        mapping = aes()
+        ) + # Fagforeningen sin indifferansekurve
+    annotate("text",x=11500,y=250, label=expression(u[0]))+
+  geom_segment(aes(x=#Verdi for L^M i likevekt, y=0, xend=#Verdi for L^M i likevekt, yend=#Verdi for w^M i likevekt), linetype="dashed", color="red")+ #Sett inn verdier for L og W i likevekt ved fagforeningsmonopol
+    annotate("text",x=#Verdi for L^M i likevekt,y=30, label=expression(L^M))+
+  geom_segment(aes(x=0, y=#Verdi for w^M i likevekt, xend=#Verdi for L^M i likevekt, yend=#Verdi for w^M i likevekt), linetype="dashed", color="red")+
+    annotate("text",x=400,y=#Verdi for w^M i likevekt, label=expression(w^M))+
+  geom_segment(aes(x=0, y=100, xend=10000, yend=100))+
+    annotate("text",x=10500,y=100, label=expression(w^r))+
+           geom_polygon(data = data.frame(x = c(#x-verdi1, #x-verdi 2, # x-verdi 3), y = c(#y-verdi 1, #y-verdi 2,#y-verdi 3)),
+               aes(x = x, y = y),
+               fill = "pink", alpha = 0.3)+ # Skravert område som illustrerer dødvekstapet
+  annotate("text",x=6000,y=200, label="DWL")
+  
+
+figur_5
+```
