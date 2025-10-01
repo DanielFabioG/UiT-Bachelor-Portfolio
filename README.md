@@ -3,14 +3,8 @@
 This repository organizes my bachelor studies at UiT (program: “Samfunnsøkonomi med Datavitenskap”) in a clean, consistent folder layout by year, semester, and course. Content and docs are in English.
 
 <!-- toc -->
-- [Overview](#overview)
-- [Study plan](#study-plan)
-- [Getting started](#getting-started)
-- [Folder layout conventions](#folder-layout-conventions)
-- [Link/import existing public GitHub course repos](#linkimport-existing-public-github-course-repos)
 - [Exchange semester (Waseda)](#exchange-semester-waseda)
 - [Bachelor thesis (SOK-2209)](#bachelor-thesis-sok-2209)
-- [Auto-generated Table of Contents](#auto-generated-table-of-contents)
 <!-- tocstop -->
 
 ## Overview
