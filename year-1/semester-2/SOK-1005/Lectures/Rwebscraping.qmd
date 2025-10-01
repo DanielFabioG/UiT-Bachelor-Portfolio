@@ -1,0 +1,209 @@
+---
+title: "165"
+format: pdf
+editor: visual
+warning: false
+---
+
+```{r}
+# we first start loading relevant packages and libraries to scrap data and perform the analysis  
+library(tidyverse)
+library(rvest)  # for web scraping 
+library(janitor) # for data cleaning 
+library(lubridate) #to work with date
+library(quantmod) 
+```
+
+```{r}
+# URl of the data 
+url <- "https://en.wikipedia.org/wiki/World_Happiness_Report#2021_report"
+
+url %>% read_html() %>% 
+  html_element("table.wikitable") %>%  
+  html_table() %>% head(5)
+```
+
+```{r}
+url %>%
+   read_html() %>% 
+   html_nodes("table") %>%  
+   html_table() %>% .[[13]] %>% head(5)
+```
+
+```{r}
+#Assigning and renaming 
+ table <- url %>%
+   read_html() %>% 
+   html_nodes("table") %>%  
+   html_table() %>% .[[13]]
+
+ names(table) <- c("rank", "country","score", "GDPP","social_support","LEXP","Freedom","Generosity","Pcorruption")
+ 
+ head(table,5)
+```
+
+```{r}
+# Some plot using the data
+# plot only upper 20 happiest country 
+table %>% 
+  head(20) %>% 
+  ggplot(aes(x= score, fct_reorder(country, score)))+
+  geom_point()+
+  xlab("Happiness score")+
+  ylab("country")+
+  ggtitle('Top 20 happiest country')
+```
+
+```{r}
+# only lowest 20 countries 
+table %>% tail(20) %>% 
+  ggplot(aes(x= score, fct_reorder(country, score))) +
+  geom_point()+xlab("Happiness score") + ylab("country") + ggtitle('Lower 20 happiest country')
+```
+
+```{r}
+# URl of the data 
+url <- "https://www.norskfamilie.no/barometre/rentebarometer/"
+
+table <- url %>%
+  read_html() %>% 
+  html_nodes("table") %>% 
+  html_table() 
+head(table[[1]])
+```
+
+```{r}
+# URL of the data, denne funker ikke på grunn av at man må være medlem
+url <- "https://www.nettavisen.no/skattetall/penger/skattelistene-2022/stor-oversikt-dette-er-snittlonnen-for-ditt-arskull-pa-ditt-postnummer/s/5-95-806984"
+
+url %>% read_html() %>% 
+  html_elements("table") %>%  
+  html_table()
+```
+
+```{r}
+##Read data from the csv file of the data and look at the structure  
+raw_dataset <- read_csv("https://datawrapper.dwcdn.net/sBuxT/3/dataset.csv")
+str(raw_dataset)
+
+```
+
+```{r}
+#clean the data frame using the fun called "clean_names" 
+#from the "janitor" package. 
+dataset <-
+  raw_dataset %>%
+  clean_names()
+
+#Filtering to make sure we do not have text at the end  
+dataset <-
+  dataset %>%
+  filter(birthyr <= 2003)
+
+# gjør om til prosent
+dataset <-
+  dataset %>% 
+  mutate(share_mill_inc = 100*n_millionincome/n_taxpayers,
+         share_mill_wealth = 100*n_millionfortune/n_taxpayers)
+#head(dataset)
+#tail(dataset)
+```
+
+```{r}
+dataset %>% 
+  ggplot(aes(x=birthyr, y=share_mill_wealth)) +
+  geom_point() +
+  xlab("Birth year") +
+  ylab("Share of taxpayers with million wealth") +
+  theme_bw()
+```
+
+```{r}
+#URL
+url <- "https://timeplan.uit.no/emne_timeplan.php?sem=23v&module%5B%5D=SOK-1005-1&week=1-20&View=list"
+page <- read_html(url)
+
+table <- html_nodes(page, 'table') # one table per week
+table <- html_table(table, fill=TRUE) # force them into a list
+
+table[[1]]
+```
+
+```{r}
+library(rlist)
+dframe <- list.stack(table, use.names = FALSE ) 
+head(dframe,5)
+```
+
+```{r}
+# define first row as variable name
+colnames(dframe) <- dframe[1,]
+dframe
+
+
+# remove the rows with Dato in it
+dframe <- dframe %>% filter(!Dato=="Dato")
+
+str(dframe)
+
+
+
+# Separate the Dato into two columns:
+dframe <- dframe %>% separate(Dato, 
+                              into = c("Dag", "Dato"), 
+                              sep = "(?<=[A-Za-z])(?=[0-9])") 
+
+
+# code into date format
+dframe$Dato <- as.Date(dframe$Dato, format="%d.%m.%Y")
+# generate a week variable
+dframe$Uke <- strftime(dframe$Dato, format = "%V")
+
+
+
+# select
+dframe <- dframe %>% select(Dag,Dato,Uke,Tid,Rom)
+dframe
+```
+
+```{r}
+# Import XOM data from yahoo finance
+loadSymbols("XOM", src="yahoo" )
+
+xom_data <- XOM
+head(xom_data)
+```
+
+```{r}
+class(xom_data) # this is xts or zoo
+
+# convert it to a data frame 
+xom.df <- as.data.frame(xom_data)  #data frame 
+class(xom.df)
+```
+
+```{r}
+# calculate the monthly arithmetic average of xom price data.
+# Also calculate the weighted average of xom, using volume traded as a weight.
+xom <- xom.df %>% 
+  mutate(Date = ymd(rownames(xom.df))) %>% # create a date variable from the row names
+  filter(Date >="2010-01-04",Date<"2023-01-01") %>%  # filter data only between the specified dates 
+  mutate(year = year(Date), #create the variable called year from the date variable 
+         month = month(Date), #create the variable month from the date variable 
+         day = day(Date)) %>% #create the variables day from the date variable 
+  group_by(year,month) %>% 
+  # calculate arithmetic average of xom.adjusted
+  summarise(xom_monthly_art= mean(XOM.Adjusted),
+    #calculate weighted average using volume as a weight.
+            xom_monthly_wt=sum(XOM.Adjusted*XOM.Volume)/sum(XOM.Volume)) %>% 
+  mutate(date = make_date(year,month,1)) %>% as_tibble() %>%  # make the date variable, setting all day's as first day 
+  select(date, xom_monthly_wt)
+
+#output
+head(xom,5)
+```
+
+```{r}
+# Plot  
+xom %>% ggplot(aes(x = date, y = xom_monthly_wt))+geom_line()
+```

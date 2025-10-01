@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel Fabio Groth">
+
+<title>Assignment 4</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Assignment4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Assignment4_files/libs/quarto-html/quarto.js"></script>
+<script src="Assignment4_files/libs/quarto-html/popper.min.js"></script>
+<script src="Assignment4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Assignment4_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Assignment4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Assignment4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Assignment4_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Assignment4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Assignment4_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Assignment4_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="Assignment4_files/libs/plotly-binding-4.10.1/plotly.js"></script>
+<script src="Assignment4_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="Assignment4_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="Assignment4_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="Assignment4_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="Assignment4_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="Assignment4_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#task-1." id="toc-task-1." class="nav-link active" data-scroll-target="#task-1.">Task 1.</a></li>
+  <li><a href="#task-2." id="toc-task-2." class="nav-link" data-scroll-target="#task-2.">Task 2.</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assignment 4</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daniel Fabio Groth </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="https://danielfabiog.github.io/SOK-1005/">Back to main page</a></p>
+<div class="cell">
+
+</div>
+<section id="task-1." class="level1">
+<h1>Task 1.</h1>
+<ol type="1">
+<li>For the last 3 months of 2017, calculate the total Sales by month, for Region 1 and Region 9 in the Customer_Segment, Corporate, and Consumer. This output is Table 1.</li>
+</ol>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Date</th>
+<th style="text-align: left;">Customer Segment</th>
+<th style="text-align: right;">Region 1</th>
+<th style="text-align: right;">Region 9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2017-12</td>
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: right;">13260.84</td>
+<td style="text-align: right;">9377.647</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-11</td>
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: right;">9480.47</td>
+<td style="text-align: right;">192.330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017-11</td>
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: right;">8564.84</td>
+<td style="text-align: right;">5463.130</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-10</td>
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: right;">815.79</td>
+<td style="text-align: right;">5908.890</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017-10</td>
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: right;">295.06</td>
+<td style="text-align: right;">16781.431</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-12</td>
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: right;">210.06</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>2: Make a plot of the monthly total Sales in Region 1 and Region 13 in 2015, 2016, and 2017. This output is Figure 1.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Assignment4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p>3: In Figure 1, identify the months where the total Sales in Region 13 is greater than the total Sales in Region 1. This output is Table 2.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Month</th>
+<th style="text-align: right;">Region 1</th>
+<th style="text-align: right;">Region 13</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Jan</td>
+<td style="text-align: right;">2362.43</td>
+<td style="text-align: right;">10407.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Feb</td>
+<td style="text-align: right;">33085.29</td>
+<td style="text-align: right;">55631.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">May</td>
+<td style="text-align: right;">22068.67</td>
+<td style="text-align: right;">22821.70</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jun</td>
+<td style="text-align: right;">12844.97</td>
+<td style="text-align: right;">32306.88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jun</td>
+<td style="text-align: right;">10335.31</td>
+<td style="text-align: right;">17430.46</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aug</td>
+<td style="text-align: right;">2266.96</td>
+<td style="text-align: right;">13985.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Oct</td>
+<td style="text-align: right;">11058.13</td>
+<td style="text-align: right;">14885.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nov</td>
+<td style="text-align: right;">13290.26</td>
+<td style="text-align: right;">49685.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dec</td>
+<td style="text-align: right;">11048.17</td>
+<td style="text-align: right;">19514.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dec</td>
+<td style="text-align: right;">17020.27</td>
+<td style="text-align: right;">26889.71</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>4: Find the average Profit per Customer_Segment and Product_Category in 2017, for all regions except Region 3, 5 and 8. What segment produced the highest average profit? This output is Table 3.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Customer Segment</th>
+<th style="text-align: left;">Product Category</th>
+<th style="text-align: right;">Average Profit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: left;">Technology</td>
+<td style="text-align: right;">478.849778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small Business</td>
+<td style="text-align: left;">Technology</td>
+<td style="text-align: right;">472.791325</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Home Office</td>
+<td style="text-align: left;">Technology</td>
+<td style="text-align: right;">247.593301</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: left;">Technology</td>
+<td style="text-align: right;">232.193827</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: left;">Office Supplies</td>
+<td style="text-align: right;">149.051076</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: left;">Office Supplies</td>
+<td style="text-align: right;">138.897750</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Small Business</td>
+<td style="text-align: left;">Office Supplies</td>
+<td style="text-align: right;">98.553757</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Home Office</td>
+<td style="text-align: left;">Office Supplies</td>
+<td style="text-align: right;">76.493374</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Home Office</td>
+<td style="text-align: left;">Furniture</td>
+<td style="text-align: right;">33.729625</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small Business</td>
+<td style="text-align: left;">Furniture</td>
+<td style="text-align: right;">23.435526</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Consumer</td>
+<td style="text-align: left;">Furniture</td>
+<td style="text-align: right;">6.312027</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Corporate</td>
+<td style="text-align: left;">Furniture</td>
+<td style="text-align: right;">-83.907415</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="task-2." class="level1">
+<h1>Task 2.</h1>
+<p>In this task, feel free to use any API or package/library that downloads the data to your session. Use code and download daily stock prices for Exxon Mobil Corporation (XOM), traded at NYSE. The Yahoo! Finance site is a convenient place to find <a href="https://finance.yahoo.com/quote/XOM?p=XOM&amp;.tsrc=fin-srch&amp;guccounter=1&amp;guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&amp;guce_referrer_sig=AQAAAFPxsq3OMyVmjUi0J0prTIqCvNsFgCcjQ5H0WY8yNWD_IC8QU8uW4L99CYtwUeppCqHZMSBzoYKPc0DEbX-JwH7pTqwlQuTTxACSjuGme82tlaS44Ssq2RtiMmi4wd-AMN63-1UJrlWVNm_gaRpKyCHWmzH7O0jufICxvKb1qyYx">the data</a>. Use the Adjusted closing price from January 4th 2010 as the starting date. And calculate the monthly average using trading volume as a weight, and save this variable as “exxon”.</p>
+<div class="cell">
+
+</div>
+<p>Use code to download the daily Brent Crude Oil Price from <a href="https://fred.stlouisfed.org/series/DCOILBRENTEU">FRED</a> from January 4th 2010 as the starting date. And calculate the monthly arithmetic average. Save the monthly arithmetic average values as “oil”. In both variables, take December 2022, or 2022:12 for shorthand as a last data point. Plot both variables, i.e., exxon and oil ” in the same plot window. Here, the x-axis should be the “date” variable. Comment on the plots. Now take “exxon” as a y-variable and “oil” as an x-variable.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-4aabe2e86ae6849297a2" style="width:100%;height:650px;"></div>
+<script type="application/json" data-for="htmlwidget-4aabe2e86ae6849297a2">{"x":{"data":[{"x":[14610,14641,14669,14700,14730,14761,14791,14822,14853,14883,14914,14944,14975,15006,15034,15065,15095,15126,15156,15187,15218,15248,15279,15309,15340,15371,15400,15431,15461,15492,15522,15553,15584,15614,15645,15675,15706,15737,15765,15796,15826,15857,15887,15918,15949,15979,16010,16040,16071,16102,16130,16161,16191,16222,16252,16283,16314,16344,16375,16405,16436,16467,16495,16526,16556,16587,16617,16648,16679,16709,16740,16770,16801,16832,16861,16892,16922,16953,16983,17014,17045,17075,17106,17136,17167,17198,17226,17257,17287,17318,17348,17379,17410,17440,17471,17501,17532,17563,17591,17622,17652,17683,17713,17744,17775,17805,17836,17866,17897,17928,17956,17987,18017,18048,18078,18109,18140,18170,18201,18231,18262,18293,18322,18353,18383,18414,18444,18475,18506,18536,18567,18597,18628,18659,18687,18718,18748,18779,18809,18840,18871,18901,18932,18962,18993,19024,19052,19083,19113,19144,19174,19205,19236,19266,19297,19327],"y":[40.5294102441912,39.2749907694728,40.0883649677026,41.1389425730016,37.9931661600913,36.4870113742064,35.5941752967557,36.7910468491274,37.3552558977538,39.6445833704472,42.693867054181,44.294176635994,47.5992595435143,52.0066217020145,51.1419387244115,52.666920638165,51.0599827675184,49.4492316666501,51.2415007305416,45.329631634507,45.1399367582995,48.2684729591695,48.7776904141203,51.1081066442736,53.9640193560473,53.9112473599972,54.3801772598764,53.6933046441918,52.2848445710445,52.0325024559934,54.3611312479864,56.0471809256949,58.0885864469153,58.6720695905472,56.7210761991094,56.6137396991388,57.8877907417616,57.5565592543098,57.8868910607277,57.2840924623135,59.3841039401014,58.9075765662874,60.9346129167241,58.4324679912981,57.7620668166759,57.2945725016908,61.6351804836362,64.3069675999347,64.5905294618182,61.7202757055953,63.246523184483,66.0134954942184,68.0754644055466,68.4066223092103,68.8301778934844,66.7851029426177,65.234478157693,62.677598272355,64.5569767795436,62.0986640183682,61.4182959960829,62.1137238304044,58.3898167810556,59.198015989195,60.0423894450587,58.4063963815114,56.5398255203905,52.0822494078144,50.9395422347408,55.8075482098953,57.6999309127929,54.631833431238,53.5791385773111,56.74260263397,59.0749701685703,60.7645664439137,63.7581381196271,64.8682270161727,66.5379294042315,62.9460513985654,61.72436735706,62.4481515815188,62.3031404067588,65.4871666712403,62.9588720222625,60.3245981727598,60.4635417027289,60.1829605915799,60.7068081018788,60.6165075170945,59.7360172402064,58.2585391312962,59.8762624707079,62.0496835811025,62.0862840341707,62.8891363177778,66.0315406586555,59.4640005840772,56.8750552738236,59.1022843541589,61.4821797657813,62.9509079184289,63.6525590541695,61.8031600968218,65.2266926091067,63.6036758896813,62.2994770058398,57.1972034189299,56.4227454841737,60.8878233215203,63.9684540773623,64.9418584609171,60.5311130411957,60.7106714352744,61.0449365436462,56.5134853026249,58.48965220284,55.7154312067719,57.4035953080722,57.3736327529953,55.6214540241397,47.6724957534105,33.0752972762463,35.2416388121557,37.6268460927456,40.8712162050665,36.9851423710317,36.4556953392166,32.0523728813941,29.2141007563831,32.5408514193331,37.4211325115818,41.416732306253,46.4497528480531,52.6827463839504,51.295665563689,54.9632725129314,57.4806001616944,54.199743818002,51.9277324651394,52.4725394507291,58.406986766776,59.6877729659651,57.8556790583844,67.6725154596552,75.2936537852082,78.9450400392108,81.5529602800853,87.2981769119863,90.2278278059204,84.4488099176218,91.0980275319512,89.8096736008001,100.008639721052,109.780833699285,104.660342464988],"text":["date: 2010-01-01<br />exxon:  40.52941<br />colour: Exxon","date: 2010-02-01<br />exxon:  39.27499<br />colour: Exxon","date: 2010-03-01<br />exxon:  40.08836<br />colour: Exxon","date: 2010-04-01<br />exxon:  41.13894<br />colour: Exxon","date: 2010-05-01<br />exxon:  37.99317<br />colour: Exxon","date: 2010-06-01<br />exxon:  36.48701<br />colour: Exxon","date: 2010-07-01<br />exxon:  35.59418<br />colour: Exxon","date: 2010-08-01<br />exxon:  36.79105<br />colour: Exxon","date: 2010-09-01<br />exxon:  37.35526<br />colour: Exxon","date: 2010-10-01<br />exxon:  39.64458<br />colour: Exxon","date: 2010-11-01<br />exxon:  42.69387<br />colour: Exxon","date: 2010-12-01<br />exxon:  44.29418<br />colour: Exxon","date: 2011-01-01<br />exxon:  47.59926<br />colour: Exxon","date: 2011-02-01<br />exxon:  52.00662<br />colour: Exxon","date: 2011-03-01<br />exxon:  51.14194<br />colour: Exxon","date: 2011-04-01<br />exxon:  52.66692<br />colour: Exxon","date: 2011-05-01<br />exxon:  51.05998<br />colour: Exxon","date: 2011-06-01<br />exxon:  49.44923<br />colour: Exxon","date: 2011-07-01<br />exxon:  51.24150<br />colour: Exxon","date: 2011-08-01<br />exxon:  45.32963<br />colour: Exxon","date: 2011-09-01<br />exxon:  45.13994<br />colour: Exxon","date: 2011-10-01<br />exxon:  48.26847<br />colour: Exxon","date: 2011-11-01<br />exxon:  48.77769<br />colour: Exxon","date: 2011-12-01<br />exxon:  51.10811<br />colour: Exxon","date: 2012-01-01<br />exxon:  53.96402<br />colour: Exxon","date: 2012-02-01<br />exxon:  53.91125<br />colour: Exxon","date: 2012-03-01<br />exxon:  54.38018<br />colour: Exxon","date: 2012-04-01<br />exxon:  53.69330<br />colour: Exxon","date: 2012-05-01<br />exxon:  52.28484<br />colour: Exxon","date: 2012-06-01<br />exxon:  52.03250<br />colour: Exxon","date: 2012-07-01<br />exxon:  54.36113<br />colour: Exxon","date: 2012-08-01<br />exxon:  56.04718<br />colour: Exxon","date: 2012-09-01<br />exxon:  58.08859<br />colour: Exxon","date: 2012-10-01<br />exxon:  58.67207<br />colour: Exxon","date: 2012-11-01<br />exxon:  56.72108<br />colour: Exxon","date: 2012-12-01<br />exxon:  56.61374<br />colour: Exxon","date: 2013-01-01<br />exxon:  57.88779<br />colour: Exxon","date: 2013-02-01<br />exxon:  57.55656<br />colour: Exxon","date: 2013-03-01<br />exxon:  57.88689<br />colour: Exxon","date: 2013-04-01<br />exxon:  57.28409<br />colour: Exxon","date: 2013-05-01<br />exxon:  59.38410<br />colour: Exxon","date: 2013-06-01<br />exxon:  58.90758<br />colour: Exxon","date: 2013-07-01<br />exxon:  60.93461<br />colour: Exxon","date: 2013-08-01<br />exxon:  58.43247<br />colour: Exxon","date: 2013-09-01<br />exxon:  57.76207<br />colour: Exxon","date: 2013-10-01<br />exxon:  57.29457<br />colour: Exxon","date: 2013-11-01<br />exxon:  61.63518<br />colour: Exxon","date: 2013-12-01<br />exxon:  64.30697<br />colour: Exxon","date: 2014-01-01<br />exxon:  64.59053<br />colour: Exxon","date: 2014-02-01<br />exxon:  61.72028<br />colour: Exxon","date: 2014-03-01<br />exxon:  63.24652<br />colour: Exxon","date: 2014-04-01<br />exxon:  66.01350<br />colour: Exxon","date: 2014-05-01<br />exxon:  68.07546<br />colour: Exxon","date: 2014-06-01<br />exxon:  68.40662<br />colour: Exxon","date: 2014-07-01<br />exxon:  68.83018<br />colour: Exxon","date: 2014-08-01<br />exxon:  66.78510<br />colour: Exxon","date: 2014-09-01<br />exxon:  65.23448<br />colour: Exxon","date: 2014-10-01<br />exxon:  62.67760<br />colour: Exxon","date: 2014-11-01<br />exxon:  64.55698<br />colour: Exxon","date: 2014-12-01<br />exxon:  62.09866<br />colour: Exxon","date: 2015-01-01<br />exxon:  61.41830<br />colour: Exxon","date: 2015-02-01<br />exxon:  62.11372<br />colour: Exxon","date: 2015-03-01<br />exxon:  58.38982<br />colour: Exxon","date: 2015-04-01<br />exxon:  59.19802<br />colour: Exxon","date: 2015-05-01<br />exxon:  60.04239<br />colour: Exxon","date: 2015-06-01<br />exxon:  58.40640<br />colour: Exxon","date: 2015-07-01<br />exxon:  56.53983<br />colour: Exxon","date: 2015-08-01<br />exxon:  52.08225<br />colour: Exxon","date: 2015-09-01<br />exxon:  50.93954<br />colour: Exxon","date: 2015-10-01<br />exxon:  55.80755<br />colour: Exxon","date: 2015-11-01<br />exxon:  57.69993<br />colour: Exxon","date: 2015-12-01<br />exxon:  54.63183<br />colour: Exxon","date: 2016-01-01<br />exxon:  53.57914<br />colour: Exxon","date: 2016-02-01<br />exxon:  56.74260<br />colour: Exxon","date: 2016-03-01<br />exxon:  59.07497<br />colour: Exxon","date: 2016-04-01<br />exxon:  60.76457<br />colour: Exxon","date: 2016-05-01<br />exxon:  63.75814<br />colour: Exxon","date: 2016-06-01<br />exxon:  64.86823<br />colour: Exxon","date: 2016-07-01<br />exxon:  66.53793<br />colour: Exxon","date: 2016-08-01<br />exxon:  62.94605<br />colour: Exxon","date: 2016-09-01<br />exxon:  61.72437<br />colour: Exxon","date: 2016-10-01<br />exxon:  62.44815<br />colour: Exxon","date: 2016-11-01<br />exxon:  62.30314<br />colour: Exxon","date: 2016-12-01<br />exxon:  65.48717<br />colour: Exxon","date: 2017-01-01<br />exxon:  62.95887<br />colour: Exxon","date: 2017-02-01<br />exxon:  60.32460<br />colour: Exxon","date: 2017-03-01<br />exxon:  60.46354<br />colour: Exxon","date: 2017-04-01<br />exxon:  60.18296<br />colour: Exxon","date: 2017-05-01<br />exxon:  60.70681<br />colour: Exxon","date: 2017-06-01<br />exxon:  60.61651<br />colour: Exxon","date: 2017-07-01<br />exxon:  59.73602<br />colour: Exxon","date: 2017-08-01<br />exxon:  58.25854<br />colour: Exxon","date: 2017-09-01<br />exxon:  59.87626<br />colour: Exxon","date: 2017-10-01<br />exxon:  62.04968<br />colour: Exxon","date: 2017-11-01<br />exxon:  62.08628<br />colour: Exxon","date: 2017-12-01<br />exxon:  62.88914<br />colour: Exxon","date: 2018-01-01<br />exxon:  66.03154<br />colour: Exxon","date: 2018-02-01<br />exxon:  59.46400<br />colour: Exxon","date: 2018-03-01<br />exxon:  56.87506<br />colour: Exxon","date: 2018-04-01<br />exxon:  59.10228<br />colour: Exxon","date: 2018-05-01<br />exxon:  61.48218<br />colour: Exxon","date: 2018-06-01<br />exxon:  62.95091<br />colour: Exxon","date: 2018-07-01<br />exxon:  63.65256<br />colour: Exxon","date: 2018-08-01<br />exxon:  61.80316<br />colour: Exxon","date: 2018-09-01<br />exxon:  65.22669<br />colour: Exxon","date: 2018-10-01<br />exxon:  63.60368<br />colour: Exxon","date: 2018-11-01<br />exxon:  62.29948<br />colour: Exxon","date: 2018-12-01<br />exxon:  57.19720<br />colour: Exxon","date: 2019-01-01<br />exxon:  56.42275<br />colour: Exxon","date: 2019-02-01<br />exxon:  60.88782<br />colour: Exxon","date: 2019-03-01<br />exxon:  63.96845<br />colour: Exxon","date: 2019-04-01<br />exxon:  64.94186<br />colour: Exxon","date: 2019-05-01<br />exxon:  60.53111<br />colour: Exxon","date: 2019-06-01<br />exxon:  60.71067<br />colour: Exxon","date: 2019-07-01<br />exxon:  61.04494<br />colour: Exxon","date: 2019-08-01<br />exxon:  56.51349<br />colour: Exxon","date: 2019-09-01<br />exxon:  58.48965<br />colour: Exxon","date: 2019-10-01<br />exxon:  55.71543<br />colour: Exxon","date: 2019-11-01<br />exxon:  57.40360<br />colour: Exxon","date: 2019-12-01<br />exxon:  57.37363<br />colour: Exxon","date: 2020-01-01<br />exxon:  55.62145<br />colour: Exxon","date: 2020-02-01<br />exxon:  47.67250<br />colour: Exxon","date: 2020-03-01<br />exxon:  33.07530<br />colour: Exxon","date: 2020-04-01<br />exxon:  35.24164<br />colour: Exxon","date: 2020-05-01<br />exxon:  37.62685<br />colour: Exxon","date: 2020-06-01<br />exxon:  40.87122<br />colour: Exxon","date: 2020-07-01<br />exxon:  36.98514<br />colour: Exxon","date: 2020-08-01<br />exxon:  36.45570<br />colour: Exxon","date: 2020-09-01<br />exxon:  32.05237<br />colour: Exxon","date: 2020-10-01<br />exxon:  29.21410<br />colour: Exxon","date: 2020-11-01<br />exxon:  32.54085<br />colour: Exxon","date: 2020-12-01<br />exxon:  37.42113<br />colour: Exxon","date: 2021-01-01<br />exxon:  41.41673<br />colour: Exxon","date: 2021-02-01<br />exxon:  46.44975<br />colour: Exxon","date: 2021-03-01<br />exxon:  52.68275<br />colour: Exxon","date: 2021-04-01<br />exxon:  51.29567<br />colour: Exxon","date: 2021-05-01<br />exxon:  54.96327<br />colour: Exxon","date: 2021-06-01<br />exxon:  57.48060<br />colour: Exxon","date: 2021-07-01<br />exxon:  54.19974<br />colour: Exxon","date: 2021-08-01<br />exxon:  51.92773<br />colour: Exxon","date: 2021-09-01<br />exxon:  52.47254<br />colour: Exxon","date: 2021-10-01<br />exxon:  58.40699<br />colour: Exxon","date: 2021-11-01<br />exxon:  59.68777<br />colour: Exxon","date: 2021-12-01<br />exxon:  57.85568<br />colour: Exxon","date: 2022-01-01<br />exxon:  67.67252<br />colour: Exxon","date: 2022-02-01<br />exxon:  75.29365<br />colour: Exxon","date: 2022-03-01<br />exxon:  78.94504<br />colour: Exxon","date: 2022-04-01<br />exxon:  81.55296<br />colour: Exxon","date: 2022-05-01<br />exxon:  87.29818<br />colour: Exxon","date: 2022-06-01<br />exxon:  90.22783<br />colour: Exxon","date: 2022-07-01<br />exxon:  84.44881<br />colour: Exxon","date: 2022-08-01<br />exxon:  91.09803<br />colour: Exxon","date: 2022-09-01<br />exxon:  89.80967<br />colour: Exxon","date: 2022-10-01<br />exxon: 100.00864<br />colour: Exxon","date: 2022-11-01<br />exxon: 109.78083<br />colour: Exxon","date: 2022-12-01<br />exxon: 104.66034<br />colour: Exxon"],"type":"scatter","mode":"lines","line":{"width":2.64566929133858,"color":"rgba(39,109,182,1)","dash":"solid"},"hoveron":"points","name":"Exxon","legendgroup":"Exxon","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[14610,14641,14669,14700,14730,14761,14791,14822,14853,14883,14914,14944,14975,15006,15034,15065,15095,15126,15156,15187,15218,15248,15279,15309,15340,15371,15400,15431,15461,15492,15522,15553,15584,15614,15645,15675,15706,15737,15765,15796,15826,15857,15887,15918,15949,15979,16010,16040,16071,16102,16130,16161,16191,16222,16252,16283,16314,16344,16375,16405,16436,16467,16495,16526,16556,16587,16617,16648,16679,16709,16740,16770,16801,16832,16861,16892,16922,16953,16983,17014,17045,17075,17106,17136,17167,17198,17226,17257,17287,17318,17348,17379,17410,17440,17471,17501,17532,17563,17591,17622,17652,17683,17713,17744,17775,17805,17836,17866,17897,17928,17956,17987,18017,18048,18078,18109,18140,18170,18201,18231,18262,18293,18322,18353,18383,18414,18444,18475,18506,18536,18567,18597,18628,18659,18687,18718,18748,18779,18809,18840,18871,18901,18932,18962,18993,19024,19052,19083,19113,19144,19174,19205,19236,19266,19297,19327],"y":[76.1673684210526,73.7521052631579,78.8273913043478,84.817619047619,75.9455,74.7609090909091,75.58,77.0395454545455,77.8404761904762,82.6647619047619,85.2747619047619,91.4468181818182,96.5235,103.716315789474,114.64347826087,123.258888888889,114.989047619048,113.833181818182,116.9735,110.219545454545,112.83380952381,109.55,110.768095238095,107.8705,110.686,119.327,125.445454545455,119.421666666667,110.339523809524,95.1557142857143,102.618571428571,113.356086956522,112.863684210526,111.710869565217,109.058571428571,109.494,112.96,116.050526315789,108.474,102.248181818182,102.558636363636,102.9195,107.933181818182,111.280454545455,111.5965,109.07652173913,107.792,110.756666666667,108.117727272727,108.900526315789,107.480952380952,107.755238095238,109.539090909091,111.795238095238,106.768181818182,101.608095238095,97.0914285714286,87.4252173913043,79.4378947368421,62.335,47.7595,58.0955,55.8854545454545,59.5242857142857,64.075,61.4777272727273,56.5613043478261,46.515,47.6231818181818,48.43,44.267619047619,38.0054545454545,30.6995,32.1815,38.2104545454545,41.5833333333333,46.742380952381,48.2472727272727,44.9519047619048,45.8430434782609,46.5677272727273,49.5223809523809,44.7340909090909,53.3085,54.5766666666667,54.8695,51.5891304347826,52.3078947368421,50.3265217391304,46.3681818181818,48.4785714285714,51.704347826087,56.1528571428571,57.5077272727273,62.7140909090909,64.3736842105263,69.0772727272727,65.3175,66.0166666666667,72.106,76.9752380952381,74.4047619047619,74.2540909090909,72.5282608695652,78.891,81.0321739130435,64.7481818181818,57.3623529411765,59.4095454545455,63.9605,66.1385714285714,71.2333333333333,71.3177272727273,64.2205,63.9191304347826,59.0418181818182,62.8266666666667,59.7130434782609,63.2119047619048,67.2171428571429,63.6454545454545,55.657,32.0113636363636,18.3785,29.3789473684211,40.2668181818182,43.2421739130435,44.736,40.9095454545455,40.1895454545455,42.692380952381,49.9936363636364,54.774,62.2765,65.41,64.8065,68.5342105263158,73.1640909090909,75.1659090909091,70.7471428571429,74.4886363636364,83.5380952380952,81.05,74.1704761904762,86.5052380952381,97.129,117.245217391304,104.575263157895,113.337619047619,122.710952380952,111.925714285714,100.446363636364,89.7647619047619,93.3319047619048,91.4154545454546,80.924],"text":["date: 2010-01-01<br />oil:  76.16737<br />colour: Oil","date: 2010-02-01<br />oil:  73.75211<br />colour: Oil","date: 2010-03-01<br />oil:  78.82739<br />colour: Oil","date: 2010-04-01<br />oil:  84.81762<br />colour: Oil","date: 2010-05-01<br />oil:  75.94550<br />colour: Oil","date: 2010-06-01<br />oil:  74.76091<br />colour: Oil","date: 2010-07-01<br />oil:  75.58000<br />colour: Oil","date: 2010-08-01<br />oil:  77.03955<br />colour: Oil","date: 2010-09-01<br />oil:  77.84048<br />colour: Oil","date: 2010-10-01<br />oil:  82.66476<br />colour: Oil","date: 2010-11-01<br />oil:  85.27476<br />colour: Oil","date: 2010-12-01<br />oil:  91.44682<br />colour: Oil","date: 2011-01-01<br />oil:  96.52350<br />colour: Oil","date: 2011-02-01<br />oil: 103.71632<br />colour: Oil","date: 2011-03-01<br />oil: 114.64348<br />colour: Oil","date: 2011-04-01<br />oil: 123.25889<br />colour: Oil","date: 2011-05-01<br />oil: 114.98905<br />colour: Oil","date: 2011-06-01<br />oil: 113.83318<br />colour: Oil","date: 2011-07-01<br />oil: 116.97350<br />colour: Oil","date: 2011-08-01<br />oil: 110.21955<br />colour: Oil","date: 2011-09-01<br />oil: 112.83381<br />colour: Oil","date: 2011-10-01<br />oil: 109.55000<br />colour: Oil","date: 2011-11-01<br />oil: 110.76810<br />colour: Oil","date: 2011-12-01<br />oil: 107.87050<br />colour: Oil","date: 2012-01-01<br />oil: 110.68600<br />colour: Oil","date: 2012-02-01<br />oil: 119.32700<br />colour: Oil","date: 2012-03-01<br />oil: 125.44545<br />colour: Oil","date: 2012-04-01<br />oil: 119.42167<br />colour: Oil","date: 2012-05-01<br />oil: 110.33952<br />colour: Oil","date: 2012-06-01<br />oil:  95.15571<br />colour: Oil","date: 2012-07-01<br />oil: 102.61857<br />colour: Oil","date: 2012-08-01<br />oil: 113.35609<br />colour: Oil","date: 2012-09-01<br />oil: 112.86368<br />colour: Oil","date: 2012-10-01<br />oil: 111.71087<br />colour: Oil","date: 2012-11-01<br />oil: 109.05857<br />colour: Oil","date: 2012-12-01<br />oil: 109.49400<br />colour: Oil","date: 2013-01-01<br />oil: 112.96000<br />colour: Oil","date: 2013-02-01<br />oil: 116.05053<br />colour: Oil","date: 2013-03-01<br />oil: 108.47400<br />colour: Oil","date: 2013-04-01<br />oil: 102.24818<br />colour: Oil","date: 2013-05-01<br />oil: 102.55864<br />colour: Oil","date: 2013-06-01<br />oil: 102.91950<br />colour: Oil","date: 2013-07-01<br />oil: 107.93318<br />colour: Oil","date: 2013-08-01<br />oil: 111.28045<br />colour: Oil","date: 2013-09-01<br />oil: 111.59650<br />colour: Oil","date: 2013-10-01<br />oil: 109.07652<br />colour: Oil","date: 2013-11-01<br />oil: 107.79200<br />colour: Oil","date: 2013-12-01<br />oil: 110.75667<br />colour: Oil","date: 2014-01-01<br />oil: 108.11773<br />colour: Oil","date: 2014-02-01<br />oil: 108.90053<br />colour: Oil","date: 2014-03-01<br />oil: 107.48095<br />colour: Oil","date: 2014-04-01<br />oil: 107.75524<br />colour: Oil","date: 2014-05-01<br />oil: 109.53909<br />colour: Oil","date: 2014-06-01<br />oil: 111.79524<br />colour: Oil","date: 2014-07-01<br />oil: 106.76818<br />colour: Oil","date: 2014-08-01<br />oil: 101.60810<br />colour: Oil","date: 2014-09-01<br />oil:  97.09143<br />colour: Oil","date: 2014-10-01<br />oil:  87.42522<br />colour: Oil","date: 2014-11-01<br />oil:  79.43789<br />colour: Oil","date: 2014-12-01<br />oil:  62.33500<br />colour: Oil","date: 2015-01-01<br />oil:  47.75950<br />colour: Oil","date: 2015-02-01<br />oil:  58.09550<br />colour: Oil","date: 2015-03-01<br />oil:  55.88545<br />colour: Oil","date: 2015-04-01<br />oil:  59.52429<br />colour: Oil","date: 2015-05-01<br />oil:  64.07500<br />colour: Oil","date: 2015-06-01<br />oil:  61.47773<br />colour: Oil","date: 2015-07-01<br />oil:  56.56130<br />colour: Oil","date: 2015-08-01<br />oil:  46.51500<br />colour: Oil","date: 2015-09-01<br />oil:  47.62318<br />colour: Oil","date: 2015-10-01<br />oil:  48.43000<br />colour: Oil","date: 2015-11-01<br />oil:  44.26762<br />colour: Oil","date: 2015-12-01<br />oil:  38.00545<br />colour: Oil","date: 2016-01-01<br />oil:  30.69950<br />colour: Oil","date: 2016-02-01<br />oil:  32.18150<br />colour: Oil","date: 2016-03-01<br />oil:  38.21045<br />colour: Oil","date: 2016-04-01<br />oil:  41.58333<br />colour: Oil","date: 2016-05-01<br />oil:  46.74238<br />colour: Oil","date: 2016-06-01<br />oil:  48.24727<br />colour: Oil","date: 2016-07-01<br />oil:  44.95190<br />colour: Oil","date: 2016-08-01<br />oil:  45.84304<br />colour: Oil","date: 2016-09-01<br />oil:  46.56773<br />colour: Oil","date: 2016-10-01<br />oil:  49.52238<br />colour: Oil","date: 2016-11-01<br />oil:  44.73409<br />colour: Oil","date: 2016-12-01<br />oil:  53.30850<br />colour: Oil","date: 2017-01-01<br />oil:  54.57667<br />colour: Oil","date: 2017-02-01<br />oil:  54.86950<br />colour: Oil","date: 2017-03-01<br />oil:  51.58913<br />colour: Oil","date: 2017-04-01<br />oil:  52.30789<br />colour: Oil","date: 2017-05-01<br />oil:  50.32652<br />colour: Oil","date: 2017-06-01<br />oil:  46.36818<br />colour: Oil","date: 2017-07-01<br />oil:  48.47857<br />colour: Oil","date: 2017-08-01<br />oil:  51.70435<br />colour: Oil","date: 2017-09-01<br />oil:  56.15286<br />colour: Oil","date: 2017-10-01<br />oil:  57.50773<br />colour: Oil","date: 2017-11-01<br />oil:  62.71409<br />colour: Oil","date: 2017-12-01<br />oil:  64.37368<br />colour: Oil","date: 2018-01-01<br />oil:  69.07727<br />colour: Oil","date: 2018-02-01<br />oil:  65.31750<br />colour: Oil","date: 2018-03-01<br />oil:  66.01667<br />colour: Oil","date: 2018-04-01<br />oil:  72.10600<br />colour: Oil","date: 2018-05-01<br />oil:  76.97524<br />colour: Oil","date: 2018-06-01<br />oil:  74.40476<br />colour: Oil","date: 2018-07-01<br />oil:  74.25409<br />colour: Oil","date: 2018-08-01<br />oil:  72.52826<br />colour: Oil","date: 2018-09-01<br />oil:  78.89100<br />colour: Oil","date: 2018-10-01<br />oil:  81.03217<br />colour: Oil","date: 2018-11-01<br />oil:  64.74818<br />colour: Oil","date: 2018-12-01<br />oil:  57.36235<br />colour: Oil","date: 2019-01-01<br />oil:  59.40955<br />colour: Oil","date: 2019-02-01<br />oil:  63.96050<br />colour: Oil","date: 2019-03-01<br />oil:  66.13857<br />colour: Oil","date: 2019-04-01<br />oil:  71.23333<br />colour: Oil","date: 2019-05-01<br />oil:  71.31773<br />colour: Oil","date: 2019-06-01<br />oil:  64.22050<br />colour: Oil","date: 2019-07-01<br />oil:  63.91913<br />colour: Oil","date: 2019-08-01<br />oil:  59.04182<br />colour: Oil","date: 2019-09-01<br />oil:  62.82667<br />colour: Oil","date: 2019-10-01<br />oil:  59.71304<br />colour: Oil","date: 2019-11-01<br />oil:  63.21190<br />colour: Oil","date: 2019-12-01<br />oil:  67.21714<br />colour: Oil","date: 2020-01-01<br />oil:  63.64545<br />colour: Oil","date: 2020-02-01<br />oil:  55.65700<br />colour: Oil","date: 2020-03-01<br />oil:  32.01136<br />colour: Oil","date: 2020-04-01<br />oil:  18.37850<br />colour: Oil","date: 2020-05-01<br />oil:  29.37895<br />colour: Oil","date: 2020-06-01<br />oil:  40.26682<br />colour: Oil","date: 2020-07-01<br />oil:  43.24217<br />colour: Oil","date: 2020-08-01<br />oil:  44.73600<br />colour: Oil","date: 2020-09-01<br />oil:  40.90955<br />colour: Oil","date: 2020-10-01<br />oil:  40.18955<br />colour: Oil","date: 2020-11-01<br />oil:  42.69238<br />colour: Oil","date: 2020-12-01<br />oil:  49.99364<br />colour: Oil","date: 2021-01-01<br />oil:  54.77400<br />colour: Oil","date: 2021-02-01<br />oil:  62.27650<br />colour: Oil","date: 2021-03-01<br />oil:  65.41000<br />colour: Oil","date: 2021-04-01<br />oil:  64.80650<br />colour: Oil","date: 2021-05-01<br />oil:  68.53421<br />colour: Oil","date: 2021-06-01<br />oil:  73.16409<br />colour: Oil","date: 2021-07-01<br />oil:  75.16591<br />colour: Oil","date: 2021-08-01<br />oil:  70.74714<br />colour: Oil","date: 2021-09-01<br />oil:  74.48864<br />colour: Oil","date: 2021-10-01<br />oil:  83.53810<br />colour: Oil","date: 2021-11-01<br />oil:  81.05000<br />colour: Oil","date: 2021-12-01<br />oil:  74.17048<br />colour: Oil","date: 2022-01-01<br />oil:  86.50524<br />colour: Oil","date: 2022-02-01<br />oil:  97.12900<br />colour: Oil","date: 2022-03-01<br />oil: 117.24522<br />colour: Oil","date: 2022-04-01<br />oil: 104.57526<br />colour: Oil","date: 2022-05-01<br />oil: 113.33762<br />colour: Oil","date: 2022-06-01<br />oil: 122.71095<br />colour: Oil","date: 2022-07-01<br />oil: 111.92571<br />colour: Oil","date: 2022-08-01<br />oil: 100.44636<br />colour: Oil","date: 2022-09-01<br />oil:  89.76476<br />colour: Oil","date: 2022-10-01<br />oil:  93.33190<br />colour: Oil","date: 2022-11-01<br />oil:  91.41545<br />colour: Oil","date: 2022-12-01<br />oil:  80.92400<br />colour: Oil"],"type":"scatter","mode":"lines","line":{"width":2.64566929133858,"color":"rgba(182,39,165,1)","dash":"solid"},"hoveron":"points","name":"Oil","legendgroup":"Oil","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.8401826484018,"r":7.30593607305936,"b":22.648401826484,"l":34.337899543379},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Brent crude oil price monthly arithmetic averages","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[14374.15,19562.85],"tickmode":"array","ticktext":["2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023"],"tickvals":[14730,15095,15461,15826,16191,16556,16922,17287,17652,18017,18383,18748,19113,19478],"categoryorder":"array","categoryarray":["2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[13.0251522727273,130.798802272727],"tickmode":"array","ticktext":["$25","$50","$75","$100","$125"],"tickvals":[25,50,75,100,125],"categoryorder":"array","categoryarray":["$25","$50","$75","$100","$125"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"orientation":"h"},"hovermode":"closest","barmode":"relative","annotations":[{"text":"Exxon monthly average using trading volume as a weight","x":0.001,"y":1.04,"showarrow":false,"xref":"paper","yref":"paper","font":{"size":14}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"4fe47b9c2353":{"x":{},"y":{},"colour":{},"type":"scatter"},"4fe41b61f15":{"x":{},"y":{},"colour":{}}},"cur_data":"4fe47b9c2353","visdat":{"4fe47b9c2353":["function (y) ","x"],"4fe41b61f15":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Use R’s lm() function. Set the variable on the y-axis and x-axis, and specify the data set. LM(<y variable="" name=""> ~ <x variable="">, data=<dataset name="">) After “running” the code, how do you interpret the estimated coefficients?</dataset></x></y></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = exxon ~ oil, data = task2)
+
+Coefficients:
+(Intercept)          oil  
+    47.7232       0.1271  </code></pre>
+</div>
+</div>
+<p><em>The estimated intercept coefficient is 48.1373, which is the value of Exxon when oil is equal to zero. The estimated coefficient for oil is 0.1282, which means that for every unit increase in oil, the predicted value of exxon increases by 0.1282.</em></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Assignment4_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<p><a href="https://danielfabiog.github.io/SOK-1005/">Back to main page</a></p>
+<p><a href="https://github.com/DanielFabioG/SOK-1005/blob/main/Assignments/Assignment4.qmd">QMD file for this site</a></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

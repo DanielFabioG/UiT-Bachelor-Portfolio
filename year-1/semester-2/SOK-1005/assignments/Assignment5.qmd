@@ -1,0 +1,99 @@
+---
+author: "Daniel Fabio Groth"
+title: "Arbeidskrav 5"
+format:
+  html:
+    df-print: kable
+warning: false
+echo: false
+message: false
+toc: true
+---
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+```{python}
+import pandas as pd
+import numpy as np
+import requests
+from bs4 import BeautifulSoup
+from matplotlib import pyplot as plt
+```
+
+# Task 1 - Scrape and fix dataframe
+
+```{python}
+url = "https://www.motor.no/aktuelt/motors-store-vintertest-av-rekkevidde-pa-elbiler/217132"
+
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "html.parser")
+
+table = soup.find_all("table")
+
+#I now convert this table to a dataframe
+df = pd.read_html(str(table))[0]
+
+#I rename first column to model
+df.rename(columns={df.columns[0]: "Modell"}, inplace=True)
+
+# i set modell as index
+df.set_index("Modell", inplace=True)
+
+# Replace all 'x' values with NaN
+df.replace('x', np.nan, inplace=True)
+
+# Drop any row that contains NaN
+df.dropna(inplace=True)
+
+# I split the WLTP-tall column at /
+df[['WLTP-tall', 'WLTP-kWh']] = df['WLTP-tall'].str.split('/', expand=True)
+df = df.drop(columns=['WLTP-kWh'])
+df[['WLTP-tall', 'WLTP-kWh']] = df['WLTP-tall'].str.split(' ', expand=True)
+df = df.drop(columns=['WLTP-kWh'])
+
+
+df[['STOPP', 'stopp1']] = df['STOPP'].str.split(' ', expand=True)
+df = df.drop(columns=['stopp1'])
+df = df.drop(columns = ['Avvik'])
+
+# I convert to float
+df = df.astype(int)
+
+# Printing df
+df
+```
+
+# Task 2 - Plot of the data
+
+```{python}
+#I plot WLTP-tall on x and STOPP on y
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.scatter(df['WLTP-tall'], df['STOPP'], label='Observasjoner')
+#I make a line from origo that increases with 1
+x = np.linspace(0, 800, 100)
+y = x
+#I make a regression model of type f(x) = ax+b
+#I use polyfit to find a and b
+a, b = np.polyfit(df['WLTP-tall'], df['STOPP'], 1)
+
+#I plot the regression model
+ax.plot(x, a*x+b, color='red', label='Regresjonsmodell')
+ax.plot(x, y, color='green', label='Leverandørlovnad')
+
+#I add y and x
+ax.set_xlabel('WLTP-tall')
+ax.set_ylabel('STOPP')
+#I make the plot start at 0
+ax.set_xlim(0, 800)
+ax.set_ylim(0, 800)
+
+# for loop im not using to add annotations to the plot for what the cars are
+#for i in df.index:
+#    ax.annotate(i, (df['WLTP-tall'][i], df['STOPP'][i]))
+#I add a legend
+ax.legend();
+```
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+[QMD file for this site](https://github.com/DanielFabioG/SOK-1005/blob/main/Assignments/Assignment5.qmd)

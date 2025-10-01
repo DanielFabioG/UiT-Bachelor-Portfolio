@@ -1,0 +1,131 @@
+---
+author: "Daniel Fabio Groth"
+title: "Assignment 3"
+format: html
+editor: visual
+warning: false
+echo: false
+message: false
+---
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+```{r}
+rm (list = ls())
+library(jsonlite)
+library(tidyverse)
+library(ggrepel)
+library(scales)
+```
+
+## **Assignment 3: Reading json data from a web page**
+
+On the website of the New York Times: <https://www.nytimes.com/interactive/2021/12/28/us/covid-deaths.html?referrer=masthead>
+
+We find a figure showing the relationship between vaccination rates and the number of deaths from COVID-19 in the various states in the US.'
+
+**Task 1**
+
+To access the website you need to register with the NYT, this is free. 
+
+Once the web page is loaded in a browser, you can look at the html code by right-clicking on the mouse. Select View Page Source.
+
+Find the JSON link with the [JSON](https://www.json.org/json-en.html) data from which the figure reads the data.
+
+Use a package in R that reads JSON ( for instance, jsonlite or  rjstat), and download the data from the link.
+
+Then create a ggplot that replicates the figure above.
+
+```{r}
+# Downloading the data from the webpage with the package jsonlite
+
+df <-fromJSON("https://static01.nyt.com/newsgraphics/2021/12/20/us-coronavirus-deaths-2021/ff0adde21623e111d8ce103fedecf7ffc7906264/scatter.json")
+
+# Small data wrangling abbrevating the names
+df <- df %>% 
+  mutate(state_name = state.abb[match(name, state.name)])
+
+# Adding missing value
+df[9, 7] = "D.C"
+```
+
+**Covid-19 deaths since universal adult vaccine eligibility compared with vaccination rates**
+
+```{r,fig.width=6, fig.height=6, fig.cap="Source: [New York Times](https://www.nytimes.com/interactive/2021/us/covid-cases.html) of reports from state and local health agencies, Centers for Disease Control and Prevention Notes: Chart shows deaths reported since universal vaccine eligibility on April 19, 2021. Vaccination rate is the percentage of the total population fully vaccinated as of Dec. 20, 2021."}
+# Creating the plot
+plot <-df %>%
+ggplot(aes(x=fully_vaccinated_pct_of_pop*100, y=deaths_per_100k, label=state_name))+
+  theme_bw()+
+  # Setting color,size and alpha to the dots
+  geom_point(color="palegreen4",
+             size=2.5,
+             alpha=.4)+
+  #Setting text to the plotted dots
+  geom_text_repel(size=3)+
+  # Changing and removing titles
+  labs(x="Share of total population fully vaccinated", y="",
+       title="Avg. monthly deaths per 100,000")+
+  # Fixing x scale
+  scale_x_continuous(labels = percent_format(scale = 1),
+                     breaks = seq(45,80,5),
+                     limits = c(45,80),
+                     expand = c(0, 0))+
+  # Fixing y scale
+  scale_y_continuous(breaks = seq(from = 0, to = 20, by = 5),
+                     limits = c(0,20),
+                     expand = c(0, 0))+
+  # Setting theme, and fixing it dotted
+  theme(panel.border=element_rect(linetype=3,fill=NA),
+        panel.grid=element_line(linetype ="dotted"))+
+  # Writing text on plot
+  annotate("text",
+           x=59,
+           y=17, label=
+             "Lower vaccination rate,
+          higher death rate")+
+  # Adding arrow
+  geom_segment(aes(x=56, y=17.5, xend=54, yend=18.5), 
+               arrow = arrow(length=unit(.3, 'cm')), lwd=1)+
+  annotate("text",
+           x=73,
+           y=10, label=
+             "Higher vaccination rate,
+          lower death rate")+
+    geom_segment(aes(x=70, y=9, xend=72, yend=7.5), 
+               arrow = arrow(length=unit(.3, 'cm')), lwd=1)
+
+plot
+```
+
+**Task 2**
+
+There is a clear negative correlation between the number of deaths per 100 000 (y-axis) and the proportion of the population vaccinated (x-axis).
+
+Use R's [lm() function](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm). Set the variable on the y-axis and x-axis, and specify the data set.
+
+LM(\<Y variable name\> \~ \<X variable\>, data=\<dataset name\>)
+
+After "running" the code, how do you interpret the two values on the customized line?
+
+Add the custom line to ggplot using + geom_smooth(method = lm).
+
+*The sign of a linear regression coefficient tells you whether there is a positive or negative correlation between each independent variable and the dependent variable.*
+
+*31.15 tells us that it would be around 31.15 deaths per 100,000 if all of the predictor variables in the model are equal to zero, which means if there were none vaccinated.*
+
+*The second row in the Coefficients is the slope, the slope in this model is saying that for every 1 % increase in vaccination the deaths per 100,000 goes down by -36.66.*
+
+```{r}
+# Using the lm function to make a linear model to look for causation of deaths
+
+lm( deaths_per_100k ~ fully_vaccinated_pct_of_pop, df)
+```
+
+```{r,message= FALSE, fig.width=6, fig.height=6}
+# Plotting the line
+plot + geom_smooth(method = lm, se=FALSE)
+```
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+[QMD file for this site](https://github.com/DanielFabioG/SOK-1005/blob/main/Assignments/Assignment3.qmd)

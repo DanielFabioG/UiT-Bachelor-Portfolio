@@ -1,0 +1,62 @@
+---
+title: "SOK-1005"
+description: |
+      Data science Spring 2023.  
+date: last-modified
+author:
+  - name: Candidate number 11
+    affiliation: UiT The Arctic University of Norway <br> Faculty of Biosciences, Fisheries and Economics.
+title-block-banner: "#012643"
+format:
+  html: 
+    code-fold: true
+    self-contained: true
+    df-print: kable
+    output-file: "index"
+    output-ext:  "html"
+editor: visual
+warning: false
+toc: true
+tof: true
+---
+
+Data Science for Economists
+
+All the related tasks and assignments associated with this course can be conveniently located under the "Assignments" section.
+
+For any information and requirements pertaining to the project in the course, please refer to the "Project" section.
+
+```{=html}
+<div class="center">On the left are my graded assignments that are delivered in R, on the Right is my Data Science project</div>
+<div class="center" style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Assignments</div>
+            <a href="/SOK-1005/Assignments/Assignment1.html" class="larger">Assignment 1</a>
+            <br>
+            <a href="/SOK-1005/Assignments/Assignment2.html" class="larger">Assignment 2</a>
+            <br>
+            <a href="/SOK-1005/Assignments/Assignment3.html" class="larger">Assignment 3</a>
+            <br>
+            <a href="/SOK-1005/Assignments/Assignment4.html" class="larger">Assignment 4</a>
+            <br>
+            <a href="/SOK-1005/Assignments/Assignment5.html" class="larger">Assignment 5</a>
+        </div>
+    </div>
+    <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">Project</div>
+            <a href="/SOK-1005/Prosjektoppgave/index.html" class="larger">Full project</a>
+            <br>
+            <a href="/SOK-1005/Prosjektoppgave/3_11_Task1_SOK1005_Project_V23.html" class="larger">Task 1</a>
+            <br>
+            <a href="/SOK-1005/Prosjektoppgave/3_11_Task2_3_4_SOK1005_Project_V23.html" class="larger">Tasks 2, 3 and 4</a>
+        </div>
+    </div>
+</div>
+```
+## References
+
+The materials for these assignments and the project have been formulated with reference to the invaluable resources and inputs provided in the SOK-1005 course plan. This includes the enlightening lectures delivered by Dejene Gizaw Kidane. Despite the utmost care taken during the preparation of these materials, any discrepancies or errors that may have inadvertently occurred are entirely my responsibility.
+
+Access to the lectures can be obtained through the following link: <https://github.com/uit-sok-1005-v23/uit-sok-1005-v23.github.io>

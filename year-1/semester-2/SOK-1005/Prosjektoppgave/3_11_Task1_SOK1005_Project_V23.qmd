@@ -1,0 +1,326 @@
+---
+title: "SOK-1005 Data science project Task 1"
+description: |
+      Data science project spring 2023.  
+date: last-modified
+author:
+  - name: Candidate number 3 <br>Candidate number 11 
+    affiliation: UiT The Arctic University of Norway <br> Faculty of Biosciences, Fisheries and Economics.
+title-block-banner: "#012643"
+format:
+  html: 
+    code-fold: true
+    self-contained: true
+    df-print: kable
+editor: visual
+warning: false
+toc: true
+tof: true
+---
+
+```{=html}
+<div class="center">The files has been split into Task1 and one for Task 2, 3 and 4. This has been done after we recieved an email telling us we needed this to deliver. The Full project is the unedited version.</div>
+<div class="center" style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">If you prefer to use the GitHub hosted files, then use these links</div>
+            <a href="https://danielfabiog.github.io/SOK-1005/Prosjektoppgave/3_11_Task1_SOK1005_Project_V23.html" class="larger">Task 1</a>
+            <br>
+            <a href="https://danielfabiog.github.io/SOK-1005/Prosjektoppgave/3_11_Task2_3_4_SOK1005_Project_V23.html" class="larger">Tasks 2, 3 and 4</a>
+            <br>
+            <a href="https://danielfabiog.github.io/SOK-1005/Prosjektoppgave/index.html" class="larger">Full project (Recommended)</a>
+        </div>
+    </div>
+    <div style="width: 45%; position: relative;">
+        <div class="content-overlay">
+          <div class="text-overlay">If you have downloaded the files, then use these links</div>
+            <a href="3_11_Task1_SOK1005_Project_V23.html" class="larger">Task 1</a>
+            <br>
+            <a href="3_11_Task2_3_4_SOK1005_Project_V23.html" class="larger">Tasks 2, 3 and 4</a>
+            <br>
+            <a href="index.html" class="larger">Full project (Recommended)</a>
+        </div>
+    </div>
+</div>
+```
+## Task 1
+
+We have now been hired as analysts at Insight Analytics (IA), and the company that "owns" our data wants to develop a system that can report sales for all their outlets in the group. To demonstrate what we can deliver, they have announced a tender competition, and our task is to participate in the competition by solving a series of tasks.
+
+The first task we are to undertake is to write code in R that combines the four datasets they have given us into one large dataset.
+
+```{r, warning=FALSE}
+rm(list=ls()) #cleaning our environment
+# Load required libraries
+library(tidyverse)
+library(haven)
+library(curl)
+library(utils)
+library(janitor)
+library(glue)
+library(leaflet)
+library(knitr)
+library(plotly)
+
+
+# Code to be used to see what type of category we get to work with
+category <- c("Analgesics","Bath Soap","Beer","Bottled Juices","Cereals",
+              "Cheeses","Cigarettes","Cookies","Crackers","Canned Soup",
+              "Dish Detergent","Front-end-candies","Frozen Dinners","Frozen Entrees",
+              "Frozen Juices","Fabric Softeners","Grooming Products","Laundry Detergents",
+              "Oatmeal","Paper Towels","Soft Drinks","Shampoos","Snack Crackers",
+              "Soaps","Toothbrushes","Canned Tuna","Toothpastes","Bathroom Tissues")
+
+letter2number <- function(x) {utf8ToInt(x) - utf8ToInt("A") + 1L}
+seed_number <- sum(letter2number("Daniel")) + sum(letter2number("Daniel"))
+set.seed(seed_number)
+cat(glue("Our seed number is {seed_number} so our category is {sample(category, 1)}")) #Making a print function to display nicer in html
+
+# We free up ram by removing old dataframes we dont need to keep loaded.
+rm(category, letter2number, seed_number)
+```
+
+We start by loading the packages we will use to do the tasks. Then we run the code that ensures we know which product category we are given with our "seed" which is Shampoo.
+
+```{r, message = FALSE, warning = FALSE}
+
+# Storing the urls in a list
+urls <- c(
+  "https://www.chicagobooth.edu/boothsitecore/docs/dff/store-demos-customer-count/ccount_stata.zip",
+  "https://www.chicagobooth.edu/boothsitecore/docs/dff/store-demos-customer-count/demo_stata.zip",
+  "https://www.chicagobooth.edu/-/media/enterprise/centers/kilts/datasets/dominicks-dataset/movement_csv-files/wsha.zip"
+)
+
+# Storing the zip files in a list
+zip_files <- c("ccount_stata.zip", "demo_stata.zip", "wsha.zip")
+# Looping through the URLs and download and impotr the files
+for (i in seq_along(urls)) {
+  #Downloading the zip file
+  curl_download(urls[i], zip_files[i])
+  
+  # Unzipping file in loop
+  unzip(zip_files[i], exdir = "data")
+  
+  # Finding the .dta and .csv files and calling it stata_file
+  stata_file <- c(
+  list.files("data", pattern = ".*\\.dta", full.names = TRUE),
+  list.files("data", pattern = ".*\\.csv", full.names = TRUE)
+)
+  
+  # Loop to create dfs
+  for (stata_file in stata_file) {
+    if (grepl("ccount.dta", stata_file)) {
+      ccount_stata <- read_stata(stata_file)
+    } else if (grepl("demo.dta", stata_file)) {
+      demo_stata <- read_stata(stata_file)
+    }
+    else if (grepl("wsha.csv", stata_file)) {
+      wsha <- read_csv(stata_file)
+    }
+  }
+}
+#Reading csv for df
+upcsha <- read_csv("https://www.chicagobooth.edu/-/media/enterprise/centers/kilts/datasets/dominicks-dataset/upc_csv-files/upcsha.csv")
+#Finally we can delete and unlink the files now thats imported into R.
+file.remove(zip_files)
+unlink("data", recursive = TRUE)
+
+#We free up ram by removing old dataframes we dont need to keep loaded.
+rm(urls, zip_files, stata_file, i)
+```
+
+This code downloads and imports data files from different websites and unpacks them into a folder. It then identifies the .dta and .csv files, and creates data frames from these files. Finally, it downloads a CSV file from another website and creates a final data frame from this file. All this is done using loops, so it does not have to be done manually each time. In the end, the code deletes the temporary files that were downloaded and unpacked.
+
+```{r, warning = FALSE}
+#Defining the start date of week 1
+week_1_start <- as.Date("1989-09-14") #Please see appendix for usage of AI
+
+#CLEANING DATA BLOCK
+ccount_stata <- remove_empty(ccount_stata, which = "cols")  #Removing all columns with only NA
+ccount_stata2 <- ccount_stata %>% 
+  mutate(date = ymd(date)) %>% #Forcing date onto date column making NAs where there are invalid dates
+  filter(!is.na(date)) %>% #Dropping NA rows
+  filter(date >= as.Date("1992-02-20") & date <= as.Date("1999-12-31")) %>%  #We only have data from 1992 so we filter for that
+  mutate(week = as.integer((date - week_1_start) / 7) + 1) %>%#Creating week column. Please see appendix for usage of AI
+  select(week, store, custcoun, haba) %>% #Grabbing only the data we want
+  group_by(week, store) %>% #grouping by to aggregate to weekly
+  summarise_all(sum) #aggregating to weekly so we can merge the dataframes
+```
+
+This code cleans and processes the "ccount_stata" dataset. First, it removes all columns that only contain missing values. Then it converts the "date" column to date format, and drops rows that have missing values in this column. It also filters the data so that only data from the period from February 20, 1992 to December 31, 1999 is retained. It then creates a new column called "week" that represents what week of the year it is. Then it selects only the columns that are relevant for further analysis. Then the data is grouped by week and store, and the numerical values are summed for each group. The result is aggregated to weekly sales data for each store in the period from 1992 to 1999.
+
+```{r}
+#Copied the table from the PDF and pasted it into chatGPT to have it write out all the variables for me, i then put it into this list. I did the same with Description. 
+
+variable_names <- c("age9", "age60", "ethnic", "educ", "nocar", "income", "incsigma", "hsizeavg", "hsize1", "hsize2", "hsize34", "hsize567", "hh3plus", "hh4plus", "hhsingle", "hhlarge", "workwom", "sinhouse", "density", "hval150", "hval200", "hvalmean", "single", "retired", "unemp", "wrkch5", "wrkch17", "nwrkch5", "nwrkch17", "wrkch", "nwrkch", "wrkwch", "wrkwnch", "telephn", "mortgage", "nwhite", "poverty", "shopcons", "shophurr", "shopavid", "shopstr", "shopunft", "shopbird", "shopindx", "shpindx") #Please see appendix for AI usage
+
+
+navn_for_demo_stata <- tibble(
+  variable_name = c("age9", "age60", "ethnic", "educ", "nocar", "income", "incsigma", "hsizeavg", "hsize1", "hsize2", "hsize34", "hsize567", "hh3plus", "hh4plus", "hhsingle", "hhlarge", "workwom", "sinhouse", "density", "hval150", "hval200", "hvalmean", "single", "retired", "unemp", "wrkch5", "wrkch17", "nwrkch5", "nwrkch17", "wrkch", "nwrkch", "wrkwch", "wrkwnch", "telephn", "mortgage", "nwhite", "poverty", "shopcons", "shophurr", "shopavid", "shopstr", "shopunft", "shopbird", "shopindx", "shpindx"),
+  description = c("% Population under age 9", "% Population over age 60", "% Blacks & Hispanics", "% College Graduates", "% With No Vehicles", "Log of Median Income", "Std dev of Income Distribution (Approximated)", "Average Household Size", "% of households with 1 person", "% of households with 2 persons", "% of households with 3 or 4 persons", "% of households with 5 or more persons", "% of households with 3 or more persons", "% of households with 4 or more persons", "% of households with 1 person", "% of households with 5 or more persons", "% Working Women with full-time jobs", "% Detached Houses", "Trading Area in Sq Miles per Capita", "% of Households with Value over $150,000", "% of Households with Value over $200,000", "Mean Household Value (Approximated)", "% of Singles", "% of Retired", "% of Unemployed", "% of working women with children under 5", "% of working women with children 6 - 17", "% of non-working women with children under 5", "% of non-working women with children 6 - 17", "% of working women with children", "% of non-working women with children", "% of working women with children under 5", "% of working women with no children", "% of households with telephones", "% of households with mortgages", "% of population that is non-white", "% of population with income under $15,000", "% of Constrained Shoppers", "% of Hurried Shoppers", "% of Avid Shoppers", "% of Shopping Stranges", "% of Unfettered Shoppers", "% of Shopper Birds", "Ability to Shop (Car and Single Family House)", "Ability to Shop (Car and Single Family House)") #please see appendix for AI usage
+)
+
+
+# Creating a variable_list to filter out only the variables we want
+variable_list <- c("hvalmean", "incsigma", "income", "nocar", "sinhouse", "shopindx", "shpindx", "hh3plus", "hh4plus", "hhsingle", "hhlarge", "density", "wrkch5", "nwrkch5", "wrkwch", "telephn")
+
+#We then selrct what to keep outside of variable_list and what to keep inside of variable_list
+demo_stata <- demo_stata %>% 
+  select(name, city, zip, lat, long, store, variable_names[variable_names %in% names(demo_stata)]) %>% 
+  select(-all_of(variable_list)) 
+
+#We then remove to free up ram
+rm(variable_list, variable_names)
+```
+
+Then, the names of the variables and their descriptions are stored in two separate lists. After that, a new table is created with columns for variable names and descriptions.
+
+Next, a list of variable names is created to filter out only the variables that are desired. Then, the data table is filtered by retaining columns that are included in the variable name list but excluding columns that are included in another list called "variable_list".
+
+```{r}
+# Set the scipen option to 999 to avoid scientific notation when printing large numbers
+options(scipen = 999)
+
+#Dropping NA
+demo_stata <- demo_stata %>% 
+  drop_na()
+
+# We want to make figures, but the dataframe does not have data to summarize some of the percentages to 100 so we have to calculate this in the mutate functions to find the missing percentage, we store those in the variables agebetween, % white etc.
+demo_stata <- demo_stata %>% 
+  mutate("% of population that is between the age of 9 and 60" = 1- age9-age60) %>% 
+  mutate("% of population that is white" = 1-nwhite) %>% 
+  mutate("% of population that is neither black & hispanics or white" = nwhite-ethnic) %>% 
+  mutate("% of people that arent college graduates" = 1-educ) %>% 
+  mutate("% of women that arent working" = 1-workwom) %>% 
+  mutate("% of households without mortages" = 1-mortgage) %>% 
+  mutate("% of population with income over $15,000" = 1-poverty) 
+
+# Pivot the demo_stata data frame to a longer format
+df_long <- demo_stata %>%
+  pivot_longer(cols = -c(name, city, zip, lat, long, store),# Specifing the columns not to pivot
+               names_to = "variable_name",# Set the new column name for the values
+               values_to = "value")# Set the new column name for the values
+
+# Fixing so that the variable names become the description instead of the shorcuts, it looks much better and gives more information
+df_long <- df_long %>% 
+  left_join(navn_for_demo_stata, by = "variable_name") %>% 
+  mutate(variable_name = ifelse(is.na(description), variable_name, description)) %>% 
+  select(-description)
+
+# We then remove the dataframe we dont need anymore
+rm(navn_for_demo_stata)
+```
+
+Here, the scipen option is set to 999 to avoid scientific notation when large numbers are printed out, and the drop_na function is used to remove NAN values from the dataset. We use the mutate function to calculate the final percentage values to sum the percentages to 100.
+
+Finally, in this block of code, we make the dataset longer, and arrange for the variable names to be replaced with the description of what they do so we get more information. In the end, we remove the description and a dataset we don't need further.
+
+```{r}
+# Merge the movement file with the UPC file
+df <- wsha %>%
+  select(-SALE) %>% #Dropping SALE that indicates if it was a sale
+  inner_join(upcsha, by = "UPC") %>% #inner join for only taking the UPC
+  clean_names() %>% #Using janitor to clean the names
+  mutate(date = week_1_start + (week - 1) * 7) %>% 
+  select(date, everything()) %>% #and we sort it to have date first 
+  filter(move > 0, ok == 1) %>% #Using only aggregated sales and only valid data
+  mutate(sales = price * move / qty) %>%   #calculating total dollar sales 
+  select(-price_hex, -profit_hex, -ok) #dropping hex values for price and profit
+df <- df %>% 
+  inner_join(ccount_stata2, by = c("week", "store")) 
+
+final_df <- df %>% 
+  filter(date >= "1993-12-30" & date <= "1995-01-03") %>%  #Filtering for only data in 1994 since we lack data for 1990-1993
+  select(-com_code, -upc, nitem)
+
+
+#We free up ram by removing old dataframes we dont need to keep loaded.
+rm(demo_stata, df, ccount_stata, ccount_stata2, upcsha, wsha, week_1_start)
+```
+
+The code begins by performing a merge of two datasets using UPC as the key. Then the column indicating whether it was a sales transaction, "SALE", is removed and the column names are tidied up using the janitor package. Afterwards, a new column called "date" is created using "week_1\_start" and the number of weeks. Then, the dataset is filtered to only include aggregate sales and valid data, and a new dataset is created by filtering data from the year 1994. Finally, memory is freed by removing the datasets that are no longer necessary.
+
+```{r}
+#creating a list of brands to use in the loop
+brands <- c("vo5", "spirit", "bold_hold", "head_and_shoulders", "ivory")
+
+#Here we had the help of ChatGPT to create the REGEX code
+#Creating a list of patterns to look for to get every type of different name of the shampoos
+patterns <- c("V\\s*[-|]?\\s*O?\\s*5", "(teen|TN)\\s*sp[i|]r[i|]t", "BOLD\\s*HOLD", "(H&S|HEAD\\s*&\\s*SHOULDERS|HEAD\\s*&\\s*SHLDRS?|HD\\s*&\\s*SHLDRS?|H\\s*&\\s*S)", "IVORY") #please see appendix for AI usage
+# Storing this in results
+results <- list()
+
+# Loop for taking out the shampoo brands we want in the final dataframe
+for (i in seq_along(brands)) {
+  data <- final_df %>%
+    # we filter for the patterns in the loop
+    filter(str_detect(descrip, regex(patterns[i], ignore_case = TRUE))) %>% 
+    # group the filtered observations
+    group_by(date, store, week) %>% 
+    # Summarize it only if it is numeric
+    summarise_if(is.numeric, sum, na.rm = TRUE) %>% 
+    # mutate it to store these in different dataframes for the type of brand
+    mutate(brand = brands[i])
+  # then store this in the empty list results
+  results[[brands[i]]] <- data
+}
+
+# Removing to free up ram
+rm(brands,i,patterns, final_df)
+```
+
+The code creates a list of different shampoo brands, and a list of different patterns to find the names of these brands. Then, the code creates an empty list called **`results`**. A loop goes through each brand and uses the patterns to filter and group data in **`final_df`** for each brand, then adds the results to the **`results`** list.
+
+```{r}
+df <- results[["vo5"]] %>% 
+  bind_rows(results[["spirit"]]) %>% #Combining the rows from the other dataset into df to make one final dataframe.
+  bind_rows(results[["bold_hold"]]) %>% 
+  bind_rows(results[["head_and_shoulders"]]) %>% 
+  bind_rows(results[["ivory"]])
+
+# Demo_stata finally joins the complete and finished df
+
+df <- df %>% 
+  left_join(df_long, by="store") %>% 
+  rename(dflong_value = value) %>% 
+  select(-nitem, -case)
+
+
+df <- df %>% 
+   pivot_wider(names_from = "variable_name", values_from = dflong_value) %>% 
+   select(-47) #Removing NA col
+
+
+# Remove the last dataframe
+rm(results,data,df_long)
+
+write.csv(df, "sok-1005_data.csv", row.names = FALSE) #We write the dataframe to a csv file. rownames=false means that the rownames will not be written to the file.
+```
+
+The code first takes the different data frames from the various brands, and binds them together into a final data frame (df). Then, the code performs a left join with another data frame (df_long) and renames the 'value' column in df_long to 'dflong_value' to avoid confusion. We widen the dataframe to reduce the amount of the space required for the file. The code writes the 'df' data frame to a csv file called "sok-1005_data.csv" without row names. Finally, the last data frames are removed from RAM to free up memory. The data manipulation is done, we have combined the four datasets into one large one, and it is ready to be used for figures and further analysis.
+
+## References
+
+The data used for this assignment is gathered at the following links
+
+<https://www.chicagobooth.edu/research/kilts/datasets/dominicks>
+
+<https://www.chicagobooth.edu/-/media/enterprise/centers/kilts/datasets/dominicks-dataset/dominicks-manual-and-codebook_kiltscenter>
+
+We have also used the resources from the courseplan in SOK-1005 and used the lectures given by Dejene Gizaw Kidane to help us create the code to wrangle the data so there may be similarities at places in Task 1. However any and all errors are ours and ours alone.
+
+The lectures are found here <https://github.com/uit-sok-1005-v23/uit-sok-1005-v23.github.io>
+
+Some of the code used to create some of the figures and datawrangling has been taken from our delivered assignments. The candidat numbers are added in the top of the document and we have delivered the assignments in Canvas with links to our Github pages. However for the purpose of anonymity of the authors of this task, our github pages contain our names so this should only first be checked after grading is final.
+
+## Appendix for AI usage
+
+### Task 1
+
+In the beginning of Task 1 there has been use for ChatGPT to help define the start of "week 1" as we were unsure of how to convert the weekly data to date but it gave us the idea which we used to create the code. Codeline 136 and 146
+
+We used ChatGPT to enter in the variable names after posting the variable names from the PDF. Codelines 157-67
+
+In the code line 251 we had help from ChatGPT to write the REGEX code to help us pick out the brands as the brands had weird names with changing use of letters and such.
+
+Finally we have used ChatGPT to help us translate the documentation we had made for Task1 to english by promting it with "translate to english" and adding our text. This was done to help grade the task.

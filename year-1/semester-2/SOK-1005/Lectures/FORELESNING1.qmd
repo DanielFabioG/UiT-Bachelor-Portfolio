@@ -1,0 +1,626 @@
+---
+title: "forelesning1quarto"
+format: pdf
+editor: visual
+---
+
+```{r}
+rm (list = ls())
+library(tidyverse)
+# Use the gapminder data-set from the gapminder package
+library(gapminder) 
+data("gapminder")
+options(scipen = 999)
+```
+
+From the gapminder dataset, select country, year & pop
+
+```{r}
+# kan bruke
+gapminder$country
+
+#eller
+gapminder[,c("year","country","pop")]
+#eller
+
+select(gapminder, country)
+# eller CTRL + SHIFT + M, som gjør pipe operatøren
+gapminder %>%
+  select(country, year, pop)
+
+# bruke select til å deselecte, eller droppe noen kolonner
+gapminder %>% 
+  select(-continent,-lifeExp, -gdpPercap)
+
+# bruke en bokstav til å selecte alt som starter på c
+gapminder %>% 
+  select(starts_with("c"))
+
+# Ta alt som slutter på exp
+gapminder %>%
+  select(ends_with("Exp"))
+```
+
+Q1: From the gapminder dataset, filter out the data from Norway before and including 1977.
+
+```{r}
+gapminder %>%
+  filter(country=="Norway") %>% 
+  filter(year <= 1977)
+
+# eller bruke & operatøren
+gapminder %>% 
+  filter(country=="Norway" & year<=1977)
+# eller bare bruke komma
+gapminder %>%
+  filter(country=="Norway", year<=1977)
+```
+
+Q2: Filter the data from Norway or Sweden before and including 1970.
+
+```{r}
+gapminder %>% 
+  filter(country %in% c("Norway", "Sweden"), year<=1970)
+```
+
+Q3. Filter the data from Norway, Sweden, or Denmark before and including 1970.
+
+```{r}
+ gapminder %>%
+  filter(country %in% c("Norway", "Sweden","Denmark"), year <= 1970)
+```
+
+Q4. Following Q3. Let us say you do not like long variable names such as "gdpPercap".
+
+Rename "gdpPercap" by gdp_pc
+
+```{r}
+gapminder <-gapminder %>%
+  rename("gdp_pc" = "gdpPercap")
+```
+
+Q5. Following Q4. Arrange rows according to ascending order of "gdp_pc"
+
+```{r}
+gapminder %>%
+  arrange("gdp_pc")
+```
+
+Q6. Following Q5. Arrange rows according to descending order of "gdp_pc"
+
+```{r}
+# ane ikk koffer det her ikke fungere, men tvile på at man noen gang blir å bruke
+df2<-gapminder %>% 
+  arrange(desc(gdp_pc))
+```
+
+Q7. Arrange rows according to ascending order of "gdp_pc", within each year.
+
+```{r}
+gapminder %>%
+  filter(year <= 1970) %>% 
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, gdp_pc) %>% 
+  arrange(year,gdp_pc)
+```
+
+Q8.Data from Norway.
+
+Create a new variable that is GDP from gdpPercap & pop
+
+```{r}
+gapminder %>%
+  filter(country == "Norway") %>% 
+  mutate(GDP = gdp_pc*pop)
+```
+
+Q9. Data from Norway.
+
+Create a new variable called "gdpNOK" that is GDP per per billion NOK (1 000 000 000 NOK)
+
+(1 USD=9 NOK)
+
+```{r}
+ gapminder %>%
+  filter(country == "Norway") %>% 
+  mutate(GDP = gdp_pc*pop) %>% 
+  mutate(gdpNOK = GDP*9/1e9) # 1e9 = 1.000.000.000
+```
+
+Q10.Use mutate and ifelse to Categorise "gdpNOK" into 3 categories,
+
+(i.e., less than or equal to 999, between 1000 and 1999, and greater than 2000).
+
+```{r}
+ gapminder %>%
+  filter(country == "Norway") %>% 
+  mutate(GDP = gdp_pc*pop) %>% 
+  mutate(gdpNOK = GDP*9/1e9) %>% # 1e9 = %>% 1.000.000.000
+ select(country, year,gdpNOK,everything())
+```
+
+```{r}
+ rofl<- gapminder %>%
+  filter(country == "Norway") %>% 
+  mutate(GDP = gdp_pc*pop,
+         gdpNOK = GDP*9/1e9,
+         gdpcat = ifelse(gdpNOK <= 999, "less than a billion",
+            ifelse(gdpNOK > 1000 & gdpNOK <= 1999, "between one and two billion",
+            ifelse(gdpNOK > 2000, "larger than two billion", NA))))
+```
+
+\#' Q11. Calculate the average lifExp of all three Nordic countries
+
+\#' (i.e., Norway, Sweden, Denmark)
+
+```{r}
+gapminder %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  summarise(mean(lifeExp))
+
+# Assign a name to the calculated mean lifeEXP, call it avlfexp
+gapminder %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  summarise(av_lfExp = mean(lifeExp))
+```
+
+\#' Q12. Calculate the average lifExp of the three countries,per country.
+
+\#' (i.e., average per country, name variable )
+
+```{r}
+gapminder %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  group_by(country) %>% 
+  summarise(av_lfexp=mean(lifeExp))
+```
+
+\#' Q13. Calculate mean life expectancy per country
+
+\#' (i.e., for every country in the gapminder data set)
+
+```{r}
+gapminder %>%
+  group_by(country) %>% 
+  summarise(av_lfexp=mean(lifeExp)) %>% 
+  arrange(desc(av_lfexp))
+```
+
+\#' Q14. Calculate mean life expectancy per continent.
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarise(av_lfexp=mean(lifeExp))
+```
+
+\#' Q15. calculate mean life expectancy by continent & country
+
+```{r}
+gapminder %>%
+  group_by(continent, country) %>% 
+  summarise(av_lfexp=mean(lifeExp))
+```
+
+\#' Q16. Calculate mean life expectancy by continent & add min and max lifeExp
+
+```{r}
+gapminder %>%
+  group_by(continent) %>% 
+  summarise(avlfexp=mean(lifeExp), min=min(lifeExp), max=max(lifeExp), median=median(lifeExp))
+```
+
+\#' Visualization
+
+\# Q17. Scatter plot of gdpPercap vs lifeExp
+
+```{r}
+gapminder %>%
+  ggplot(aes(x = gdp_pc, y = lifeExp)) + 
+  geom_point(alpha=0.4) +
+  ggtitle("gdpPercap vs life Expectancy")
+```
+
+\# Q18. Scatter plot of gdpPercap vs lifeExp by Continent
+
+```{r}
+gapminder %>%
+  ggplot(aes(x = gdp_pc, y = lifeExp, color=continent, shape=continent)) + 
+  geom_point(alpha=0.4) +
+  ggtitle("Life Expectancy and GDP by Continent")
+```
+
+\#' scatter plot per continent, separate graphs for each continent
+
+```{r}
+gapminder %>%
+  ggplot(aes(x = gdp_pc, y = lifeExp)) + 
+  geom_point() +
+  facet_wrap(~continent, ncol=3) +
+  ggtitle("Life Expectancy and GDP by Continent")
+```
+
+\#' histogram
+
+```{r}
+gapminder %>%
+  ggplot(aes(x = lifeExp)) + 
+  geom_histogram(binwidth=2) +
+  facet_wrap(~continent, ncol=3) +
+  ggtitle("Life Expectancy by Continent")
+```
+
+\#' 3 countries
+
+```{r}
+gapminder %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  ggplot(aes(x = gdp_pc,y = lifeExp, colour = country)) + geom_point()
+```
+
+bells and whistles
+
+```{r}
+gapminder %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  ggplot(aes(x = gdp_pc, y = lifeExp, colour = country)) + geom_point() + 
+  geom_text(aes(label=as.character(year), hjust=0, vjust=1)) + geom_line() 
+```
+
+\# Some extra
+
+\#' Data structure
+
+\#' You can represent the same underlying data
+
+\#' in multiple ways.But they are not equally easy to use.
+
+\#' One dataset, the tidy dataset, will be much easier
+
+\#' to work with inside the tidyverse.
+
+\#' Starting point, our "long" data
+
+```{r}
+gapminder %>%
+  filter(year <= 1970) %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, gdp_pc) %>%
+  rename(gdp=gdp_pc)
+```
+
+\#' Task. Change the above data to wider format, i.e.,take year as a key variable here
+
+```{r}
+gapminder2 <-gapminder %>%
+  filter(year <= 1970) %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, gdp_pc) %>%
+  rename(gdp=gdp_pc) %>%
+  pivot_wider(names_from = year,
+              values_from = gdp)
+```
+
+\#' Task. Change the data to wide format, i.e., take countries as a key variable
+
+```{r}
+gapminder %>%
+  filter(year <= 1970) %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, gdp_pc) %>%
+  rename(gdp=gdp_pc) %>%
+  pivot_wider(names_from = country,
+              values_from = gdp)
+```
+
+\#' wide, countries as variables & back again (long)
+
+```{r}
+gapminder %>%
+  filter(year <= 1970) %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, gdp_pc) %>%
+  rename(gdp=gdp_pc) %>%
+  pivot_wider(names_from = country,
+              values_from = gdp) %>% 
+  pivot_longer(-year,
+               names_to = "country",
+               values_to = "gdp")
+```
+
+\#' joining dataframes
+
+\#' first dataframe, gdp
+
+```{r}
+df1 <- gapminder %>%
+
+  filter(year <= 1970) %>%
+
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc)
+
+```
+
+second dataframe
+
+```{r}
+df2 <- gapminder %>%
+
+  filter(year <= 1970) %>%
+
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+
+  select(country, year, pop)
+df1 ; df2
+```
+
+```{r}
+#' this works
+left_join(df1, df2)
+
+#' however, this is good practice
+left_join(df1, df2, by=c("year","country"))
+```
+
+\#' third dataframe, lifeExp
+
+```{r}
+df3 <- gapminder %>%
+  filter(year <= 1970) %>%
+  filter(country %in% c("Norway","Sweden","Denmark")) %>% 
+  select(country, year, lifeExp)
+```
+
+\#' adding a third data frame
+
+```{r}
+left_join(df1, df2, by=c("year","country")) %>% 
+
+  left_join(df3, by=c("year","country"))
+```
+
+\#' remove dataframes
+
+```{r}
+rm(df1,df2,df3)
+```
+
+\#' first dataframe, some rows
+
+```{r}
+df1 <- gapminder %>%
+
+  filter(year <= 1980) %>%
+
+  filter(country == "Norway") %>% 
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc)
+```
+
+\#' second dataframe, some more rows, overlap with first dataframe
+
+```{r}
+df2 <- gapminder %>%
+
+  filter(country == "Norway") %>% 
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc)
+```
+
+\#' third dataframe, with duplicate rows
+
+```{r}
+df3 <- bind_rows(df1,df2)
+```
+
+\#' remove duplicate rows
+
+```{r}
+df3 %>% distinct()
+```
+
+\#' remove dataframes
+
+```{r}
+rm(df1,df2,df3)
+```
+
+\#' Find the correlation for all countries
+
+```{r}
+browseURL("https://cran.r-project.org/web/packages/broom/vignettes/broom_and_dplyr.html")
+```
+
+\#' sorted ascending
+
+```{r}
+gapminder %>%
+
+  group_by(country) %>%
+
+  summarise(correlation = cor(lifeExp, gdp_pc)) %>% 
+
+  arrange(correlation)
+```
+
+```{r}
+browseURL("https://www.investopedia.com/ask/answers/032515/what-does-it-mean-if-correlation-coefficient-positive-negative-or-zero.asp")
+```
+
+\#' sorted descending
+
+```{r}
+gapminder %>%
+
+  group_by(country) %>%
+
+  summarise(correlation = cor(lifeExp, gdp_pc)) %>% 
+
+  arrange(desc(correlation))
+```
+
+\#' top two and bottom two
+
+```{r}
+gapminder %>%
+
+  filter(country %in% c("Kuwait","Madagascar","France","Austria")) %>% 
+
+  ggplot(aes(x = lifeExp, y = gdp_pc, colour = country)) + geom_point()
+```
+
+\#' scale is important in plots
+
+```{r}
+gapminder %>%
+
+  filter(country %in% c("Madagascar")) %>% 
+
+  ggplot(aes(x = lifeExp, y = gdp_pc, colour = country)) + geom_point()
+
+library(broom)
+```
+
+\#' note that reference to data and variables is .\$
+
+```{r}
+gapminder %>%
+
+  group_by(country) %>%
+
+  do(tidy(cor.test(.$lifeExp, .$gdp_pc)))
+```
+
+\#' calculate the percentage and logaritmic growth & their compounds (cumulative change)
+
+```{r}
+gapminder3 <- gapminder %>%
+
+  filter(country == "Norway") %>%
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>% 
+
+  mutate(perc_diff = (gdp-lag(gdp))/lag(gdp),
+
+         log_diff = c(NA, diff(log(gdp))),
+
+         comp_perc = c(1, 1+cumsum(na.omit(perc_diff))),
+
+         comp_log = c(1, 1+cumsum(na.omit(log_diff))))
+```
+
+\#' what if we wanted to change 1982 to the base year (=100) for comp_log?
+
+```{r}
+df1 <- gapminder %>%
+
+  filter(country == "Norway") %>%
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>% 
+
+  mutate(log_diff = c(NA, diff(log(gdp))),
+
+         comp_log = c(1, 1+cumsum(na.omit(log_diff))))
+```
+
+```{r}
+df2 <- df1 %>% filter(year==1982)
+```
+
+```{r}
+df1 %>%
+
+  mutate(rebase=100*comp_log/df2$comp_log)
+```
+
+```{r}
+rm(df1,df2)
+```
+
+\#' calculate the logaritmic growth in gdp for all countries
+
+```{r}
+gapminder %>%
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>%
+
+  group_by(country) %>%
+
+  mutate(log_diff = c(NA, diff(log(gdp))))
+```
+
+\#' what country has the highest and lowest average logaritmic growth in gdp?
+
+\#' lowest
+
+```{r}
+gapminder %>%
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>%
+
+  group_by(country) %>%
+
+  mutate(log_diff = c(NA, diff(log(gdp)))) %>%
+
+  group_by(country) %>% 
+
+  summarise(meanGDP=mean(na.omit(log_diff))) %>% arrange(meanGDP)
+```
+
+\#' highest
+
+```{r}
+gapminder %>%
+
+  select(country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>%
+
+  group_by(country) %>%
+
+  mutate(log_diff = c(NA, diff(log(gdp)))) %>%
+
+  group_by(country) %>% 
+
+  summarise(meanGDP=mean(na.omit(log_diff))) %>% arrange(desc(meanGDP))
+```
+
+\#' density plot
+
+```{r}
+gapminder %>%
+
+  select(continent, country, year, gdp_pc) %>%
+
+  rename(gdp=gdp_pc) %>%
+
+  group_by(country) %>%
+
+  mutate(log_diff = c(NA, diff(log(gdp)))) %>% 
+
+  ggplot() + 
+
+  geom_density(aes(x = log_diff, group=continent, fill=continent), alpha=0.3) + 
+
+  ggtitle("Average GDP by Continent") +
+
+  xlim(c(-0.25,0.5)) +
+
+  xlab("% average growth in GDP")
+```

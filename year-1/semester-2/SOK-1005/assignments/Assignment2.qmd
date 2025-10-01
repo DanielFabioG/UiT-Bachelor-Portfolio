@@ -1,0 +1,60 @@
+---
+title: "Assignment 2"
+author: Daniel Fabio Groth
+format: html
+editor: visual
+echo: true
+warning: false
+---
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+```{r}
+rm(list=ls()) 
+library(tidyverse)
+library(rvest)
+library(janitor)
+
+url <- "https://www.motor.no/aktuelt/motors-store-vintertest-av-rekkevidde-pa-elbiler/217132"
+
+table <- url %>%
+  read_html() %>% 
+  html_node('table') %>%  
+  html_table() %>% 
+  as_tibble() %>% 
+  set_names(.[1,]) %>%
+  slice(-1) %>% 
+  rename(modell = 'Modell (temp. varierte fra 0° til -10°)') %>% 
+  rename(wltp = 'WLTP-tall') %>% 
+  rename(stopp = 'STOPP') %>% 
+  rename(avvik = 'Avvik') %>% 
+  separate(wltp, into = c("wltp", "wltpuseless"), sep = "/", convert = TRUE,
+           fill = "right") %>%
+  mutate(wltp = as.numeric(gsub("[^0-9.]", "", wltp)),
+         stopp = as.numeric(gsub("[^0-9.]", "", stopp)))
+
+lm(stopp~wltp, data= table)
+```
+
+```{r, warning=FALSE}
+
+table %>% 
+ggplot(aes(x = wltp, y = stopp)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "cornflowerblue", size=1)+
+  labs(x = "WLTP (km)", y = "STOP (km)")+
+  scale_y_continuous(breaks = seq(from = 0, to = 600, by = 50), limits=c(200,650))+
+  scale_x_continuous(breaks = seq(from = 0, to = 650, by= 50), limits = c(250,650))+
+  labs(title="Electric cars range", y="Actual WLTP range",
+       x="Expected WLTP range", caption = "Source: https://www.motor.no/aktuelt/motors-store-vintertest-av-rekkevidde-pa-elbiler/217132")+
+  annotate("text", x=400, y=550, label= 
+             "Blue line is the expected range the cars should be on",
+           color="cornflowerblue")+
+  annotate("text", x=550, y=250, label= 
+             "Red line is the actual range the cars are on",
+           color="red")+
+  theme_minimal()+
+  geom_smooth(method = lm, se=FALSE,fullrange=TRUE, color="red")
+```
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)

@@ -1,0 +1,233 @@
+---
+author: "Daniel Fabio Groth"
+title: "Assignment 4"
+format:
+  html:
+    df-print: kable
+editor: visual
+warning: false
+echo: false
+message: false
+toc: true
+---
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+```{r}
+rm (list = ls())
+library(tidyverse)
+library(janitor)
+library(quantmod)
+library(lubridate)
+```
+
+# Task 1.
+
+1.  For the last 3 months of 2017, calculate the total Sales by month, for Region 1 and Region 9 in the Customer_Segment, Corporate, and Consumer. This output is Table 1.
+
+```{r}
+# Getting the data
+storedata <- read_csv("https://raw.githubusercontent.com/uit-sok-1005-v23/uit-sok-1005-v23.github.io/main/storedata.csv", show_col_types = FALSE)
+```
+
+```{r}
+# Filtering for the last 3 months of 2017 and the specified regions and segments
+df_filtered <- filter(storedata, Order_Date >= as.Date("2017-10-01") & Order_Date <= as.Date("2017-12-31"),
+         Region %in% c("Region 1", "Region 9"),
+         Customer_Segment %in% c("Corporate", "Consumer"))
+
+# Group by month, region, and customer segment and summarize the total sales
+table1 <- df_filtered %>%
+  group_by(month = format(Order_Date, "%Y-%m"), Region, Customer_Segment) %>%
+  summarize(total_sales = sum(Sales), .groups = "drop")
+
+# Renaming the variables and print the resulting table
+Table_1 <-table1 %>%
+  rename(Date="month", 'Customer Segment'="Customer_Segment",
+         'Total Sales'= "total_sales")
+
+Table_1 <- Table_1 %>%
+  pivot_wider(names_from="Region", values_from='Total Sales') %>%
+  arrange(-`Region 1`, -`Region 9`)
+
+Table_1
+```
+
+2: Make a plot of the monthly total Sales in Region 1 and Region 13 in 2015, 2016, and 2017. This output is Figure 1.
+
+```{r, fig.width=8, fig.height=8}
+
+
+figur<-storedata %>%
+  mutate(Order_Date= as.Date(Order_Date)) %>%
+  mutate(year= year(Order_Date)) %>%
+  mutate(month=month(Order_Date, label= TRUE)) %>%
+filter(Region %in% c("Region 1", "Region 13") &
+                       year %in% c(2015:2017))%>%
+  group_by(Region, month, year) %>%
+  summarize(total_sales = sum(Sales), .groups = "drop")
+
+figur1 <-figur %>%
+  ggplot(aes(x = month, y = total_sales, fill=Region, color=Region))+
+  theme_bw()+
+geom_col(position='dodge')+
+facet_wrap(~year, nrow=3)+
+  scale_fill_manual(values = c("Region 1" = "#276DB6", 
+                                "Region 13" = "#B627A5"))+
+  scale_color_manual(values = c("Exxon" = "#276DB6", 
+                                "Oil" = "#B627A5"))+
+  labs(x="", y="Total Sales", legend="")+
+  theme(legend.position = "bottom")
+
+figur1
+```
+
+3: In Figure 1, identify the months where the total Sales in Region 13 is greater than the total Sales in Region 1. This output is Table 2.
+
+```{r}
+# Fixing table 2 output, renaming month, pivot and filter where region 13 > 1
+# arranged by month
+Table_2 <- figur %>%
+    rename(Month="month") %>%
+  pivot_wider(names_from="Region", values_from="total_sales") %>%
+  filter(`Region 13` > `Region 1`) %>%
+  select(-year) %>%
+  arrange(Month)
+
+# Showing the table
+Table_2
+```
+
+4: Find the average Profit per Customer_Segment and Product_Category in 2017, for all regions except Region 3, 5 and 8. What segment produced the highest average profit? This output is Table 3.
+
+```{r}
+Table_3 <- storedata %>%
+  # Using mutate to fix Order_Date variable with lubridate
+  mutate(Order_Date = as.Date(Order_Date, "%m/%d/%Y")) %>%
+  # filtering out the regions and the year 2017
+  filter(Region != 3 & Region != 5 & Region != 8 & year(Order_Date) == 2017) %>%
+  # Grouping by the two variables
+  group_by(Customer_Segment, Product_Category) %>%
+  # Summarising
+  summarize('Average Profit' = mean(Profit))
+```
+
+```{r}
+Table_3<-Table_3 %>%
+  rename('Customer Segment'="Customer_Segment",
+         'Product Category' = "Product_Category")
+# Output table
+ Table_3<-Table_3 %>%
+   arrange(-`Average Profit`)
+ 
+ Table_3
+```
+
+# Task 2.
+
+In this task, feel free to use any API or package/library that downloads the data to your session. Use code and download daily stock prices for Exxon Mobil Corporation (XOM), traded at NYSE. The Yahoo! Finance site is a convenient place to find [the data](https://finance.yahoo.com/quote/XOM?p=XOM&.tsrc=fin-srch&guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAFPxsq3OMyVmjUi0J0prTIqCvNsFgCcjQ5H0WY8yNWD_IC8QU8uW4L99CYtwUeppCqHZMSBzoYKPc0DEbX-JwH7pTqwlQuTTxACSjuGme82tlaS44Ssq2RtiMmi4wd-AMN63-1UJrlWVNm_gaRpKyCHWmzH7O0jufICxvKb1qyYx). Use the Adjusted closing price from January 4th 2010 as the starting date. And calculate the monthly average using trading volume as a weight, and save this variable as "exxon".
+
+```{r}
+# Getting the data and fixing it
+xom <- read.csv("https://query1.finance.yahoo.com/v7/finance/download/XOM?period1=1262563200&period2=1672444800&interval=1d&events=history&includeAdjustedClose=true")
+xom <- xom %>% 
+  as_tibble() %>% 
+  clean_names() %>% 
+  select(date, adj_close, volume) %>% 
+  mutate(date = as.Date(date)) %>% 
+  mutate(year = year(date), 
+         month = month(date), 
+         day = day(date)) %>% 
+  group_by(year,month) %>% 
+  summarise(exxon = weighted.mean(adj_close, volume)) %>% 
+  mutate(date = make_date(year,month)) %>% 
+  ungroup() %>% 
+  select(date, exxon)
+```
+
+Use code to download the daily Brent Crude Oil Price from [FRED](https://fred.stlouisfed.org/series/DCOILBRENTEU) from January 4th 2010 as the starting date. And calculate the monthly arithmetic average. Save the monthly arithmetic average values as "oil". In both variables, take December 2022, or 2022:12 for shorthand as a last data point. Plot both variables, i.e., exxon and oil " in the same plot window. Here, the x-axis should be the "date" variable. Comment on the plots. Now take "exxon" as a y-variable and "oil" as an x-variable.
+
+```{r}
+fredoil <- data.frame(getSymbols("DCOILBRENTEU", src = "FRED", auto.assign = FALSE))
+
+fredoil <- fredoil %>% 
+  mutate(date = ymd(rownames(fredoil))) %>% 
+  rename(price = 1) %>% 
+  select(date, price) %>% 
+  filter(date >="2010-01-04",date<"2022-12-31") 
+
+fredoil <- fredoil %>% 
+  mutate(year = year(date), 
+         month = month(date), 
+         day = day(date)) %>% 
+  group_by(year,month) %>% 
+  summarise(oil= mean(price, na.rm=TRUE)) %>% 
+  mutate(date = make_date(year,month)) %>% 
+  as_tibble() %>% 
+  ungroup() %>% 
+  select(date, oil)
+
+task2 <- xom %>% 
+  cbind(oil = fredoil$oil)
+```
+
+```{r}
+task2_plotly<- task2 %>%
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = exxon, color = "Exxon"), linewidth=0.7) +
+  geom_line(aes(y = oil, color = "Oil"), linewidth=0.7) +
+  scale_color_manual(values = c("Exxon" = "#276DB6", 
+                                "Oil" = "#B627A5"),
+                     labels = c("Exxon", "Oil"))+
+    scale_y_continuous(labels = scales::dollar_format())+
+labs(x="", y="", title =  "Brent crude oil price monthly arithmetic averages", color="")+
+  scale_x_date(guide = guide_axis(angle=45), date_breaks = "12 months", date_labels = "%Y")+
+  theme_bw()
+```
+
+```{r,fig.width=8, fig.height=8}
+# Convert the ggplot plot to plotly
+library(plotly)
+task2_plotly <- ggplotly(task2_plotly)
+
+# Adjusting the tick angle of the x-axis, fixing the legend at bottom
+# and adjusting the subtitle since plotly doesnt have subtitles like ggplot
+task2_plotly <- task2_plotly %>% 
+  layout(xaxis = list(tickangle = -45), legend = list(orientation = "h"),
+         annotations = list(
+    list(
+      text = "Exxon monthly average using trading volume as a weight",
+      x = 0.001,
+      y = 1.04,
+      showarrow = FALSE,
+      xref = "paper",
+      yref = "paper",
+      font = list(size = 14))))
+
+task2_plotly
+```
+
+Use R's lm() function. Set the variable on the y-axis and x-axis, and specify the data set. LM(<Y variable name> \~ <X variable>, data=<dataset name>) After "running" the code, how do you interpret the estimated coefficients?
+
+```{r}
+# using the linear method to get the coefficients
+lm( exxon ~ oil, task2)
+```
+
+*The estimated intercept coefficient is 48.1373, which is the value of Exxon when oil is equal to zero. The estimated coefficient for oil is 0.1282, which means that for every unit increase in oil, the predicted value of exxon increases by 0.1282.*
+
+```{r, fig.width=8, fig.height=6}
+# Plotting oil and exxon with the linear method
+task2 %>%
+  ggplot(aes(x=oil,y=exxon)) +
+  geom_line()+
+  geom_smooth(method=lm, se=FALSE)+
+  labs(x="Oil", y="Exxon", title="Exxon and oil linear method regression")+
+      scale_y_continuous(labels = scales::dollar_format())+
+      scale_x_continuous(labels = scales::dollar_format())+
+  theme_bw()
+```
+
+[Back to main page](https://danielfabiog.github.io/SOK-1005/)
+
+[QMD file for this site](https://github.com/DanielFabioG/SOK-1005/blob/main/Assignments/Assignment4.qmd)
