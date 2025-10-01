@@ -1,0 +1,3578 @@
+---
+title: "fjernet kode"
+format: pdf
+---
+
+
+
+
+
+```{r}
+# rm(list = ls())
+# library(tidyverse)
+# library(zoo)
+# library(scales)
+# library(ggrepel)
+# library(readxl)
+# library(httr)
+# library(jsonlite)
+# library(rjstat)
+# library(readr)
+```
+
+
+
+
+
+```{r}
+
+
+
+# count(NSD3201, wkapinnt+aksje+rentinnt > lonn)
+
+
+# NSD3201 %>%
+#   mutate(lonn = as.numeric(lonn),
+#          wkapinnt = as.numeric(wkapinnt),
+#          aksje = as.numeric(aksje),
+#          rentinnt = as.numeric(rentinnt)) %>%
+#   mutate(total = wkapinnt+aksje+rentinnt) %>%
+#   mutate(diff = lonn - total) %>%
+#   ggplot(aes(x = sfpros_uten_feriekorr_2022, y = diff)) +
+#   geom_point()
+
+
+
+# NSD3201 %>%
+#   mutate(sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#          sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#          kullaldr = as.numeric(kullaldr)) %>%
+#   ggplot(aes(x = kullaldr)) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2023), color="red", alpha=0.4) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2022), color="blue", alpha=0.2)
+
+
+```
+
+
+
+
+
+
+
+
+
+```{r}
+
+# 
+# 
+# 
+# tryCatch({df_12440 <- read_csv(file.path("Data", "df_12440.csv"), show_col_types = FALSE)}, error = function(err) {
+#   df_12440 <- "https://data.ssb.no/api/v0/no/table/12440/"
+#   
+#   
+#   query <- '{
+#     "query": [
+#       {
+#         "code": "Kjonn",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "0",
+#             "2",
+#             "1"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "NACE2007",
+#         "selection": {
+#           "filter": "vs:NACE260sykefratot3",
+#           "values": [
+#             "A-U",
+#             "A",
+#             "B",
+#             "C",
+#             "D-E",
+#             "F",
+#             "G",
+#             "H",
+#             "I",
+#             "J",
+#             "K",
+#             "L-M",
+#             "N",
+#             "O",
+#             "P",
+#             "Q",
+#             "R-U",
+#             "00"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "Sykefraver2",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "Alt",
+#             "E",
+#             "L"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "ContentsCode",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "SykefravProsent"
+#           ]
+#         }
+#       }
+#     ],
+#     "response": {
+#       "format": "json-stat2"
+#     }
+#   }'
+# 
+# 
+#   
+#   df_12440 <- df_12440 %>%
+#     POST(body = query, encode = "json")
+# 
+#   df_12440 <-  df_12440 %>%
+#     content("text") %>%
+#     fromJSONstat() %>%
+#     as_tibble() 
+#   
+#   
+#   
+#   write_csv(df_12440, file.path("Data", "df_12440.csv"))
+#   
+#   
+#   df_12440 <<-  df_12440
+#   
+# 
+# })
+# 
+#   
+
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r}
+# 
+# NSD3201 <- read_csv("Data/NSD3201.csv", show_col_types = FALSE)
+# problems(NSD3201)
+# 
+# 
+# 
+# 
+# count(NSD3201, wkapinnt+aksje+rentinnt > lonn)
+# 
+# 
+# NSD3201 %>%
+#   mutate(lonn = as.numeric(lonn),
+#          wkapinnt = as.numeric(wkapinnt),
+#          aksje = as.numeric(aksje),
+#          rentinnt = as.numeric(rentinnt)) %>%
+#   mutate(total = wkapinnt+aksje+rentinnt) %>%
+#   mutate(diff = lonn - total) %>%
+#   ggplot(aes(x = sfpros_uten_feriekorr_2022, y = diff)) +
+#   geom_point()
+# 
+# 
+# 
+# NSD3201 %>%
+#   mutate(sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#          sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#          kullaldr = as.numeric(kullaldr)) %>% 
+#   ggplot(aes(x = kullaldr)) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2023), color="red", alpha=0.4) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2022), color="blue", alpha=0.2)
+# 
+# 
+# 
+
+
+```
+
+
+
+```{r}
+# 
+# NSD3201 %>%
+#   mutate(sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#          sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#          kullaldr = as.numeric(kullaldr)) %>% 
+#   ggplot(aes(x = SpMotEng_ny)) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2023), color="red", alpha=0.4) +
+#   geom_point(aes(y=sfpros_uten_feriekorr_2022), color="blue", alpha=0.2)
+# 
+
+
+```
+
+
+```{r}
+# 
+# library(ggridges)
+# 
+# NSD3201 %>%
+#   mutate(sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#          sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#          kullaldr = as.numeric(kullaldr)) %>% 
+#   pivot_longer(cols = c(sfpros_uten_feriekorr_2022, sfpros_uten_feriekorr_2023),
+#                names_to = "Year",
+#                values_to = "sfpros_value") %>% 
+#   ggplot(aes(x = sfpros_value, y = factor(SpMotEng_ny), fill = Year)) +
+#   geom_density_ridges(alpha = 0.5) +
+#   labs(x = "Value", y = "SpMotEng_ny", fill = "Year") +
+#   theme_minimal()
+
+```
+
+```{r}
+
+# 
+# install.packages("vioplot")
+# library(vioplot)
+# data_2022 <- subset(NSD3201, select = c(SpMotEng_ny, sfpros_uten_feriekorr_2022))
+# data_2023 <- subset(NSD3201, select = c(SpMotEng_ny, sfpros_uten_feriekorr_2023))
+# 
+# vioplot(data_2022$sfpros_uten_feriekorr_2022 ~ data_2022$SpMotEng_ny, 
+#         col = "lightblue", side = "left", plotCentre = "line")
+# vioplot(data_2023$sfpros_uten_feriekorr_2023 ~ data_2023$SpMotEng_ny, 
+#         col = "lightpink", side = "right", plotCentre = "line", add = TRUE)
+# legend("topright", legend = c("2022", "2023"), fill = c("lightblue", "lightpink"))
+
+
+```
+
+
+```{r}
+# 
+# library(ggridges)
+# #Motivert/engasjert i jobben din
+# NSD3201 %>%
+#   mutate(
+#     sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#     sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#     kullaldr = as.numeric(kullaldr)
+#   ) %>% 
+#   filter(!is.na(kullaldr), !is.na(SpMotEng_ny)) %>% 
+#   ggplot(aes(x = SpMotEng_ny, y = factor(kullaldr), fill = factor(kullaldr))) +
+#   geom_density_ridges(scale = 1, alpha = 0.7) +
+#   labs(x = "SpMotEng_ny", y = "Age", fill = "Age", title = "Density of SpMotEng_ny across Ages") +
+#   theme_minimal()+
+#   scale_x_continuous(limits = c(0.5, 5), breaks = 1:5)
+
+```
+
+
+```{r}
+# 
+# library(ggridges)
+# #Tilhørighet til bedriften/virksomheten
+# NSD3201 %>%
+#   mutate(
+#     sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#     sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#     kullaldr = as.numeric(kullaldr)
+#   ) %>% 
+#   filter(!is.na(kullaldr), !is.na(SpTilhor)) %>% 
+#   ggplot(aes(x = SpTilhor, y = factor(kullaldr), fill = factor(kullaldr))) +
+#   geom_density_ridges(scale = 1, alpha = 0.7) +
+#   labs(x = "SpTilhor", y = "Age", fill = "Age", title = "Density of SpTilhor across Ages") +
+#   theme_minimal()
+
+```
+
+
+```{r}
+# 
+# library(ggridges)
+# # Alt i alt, hvor fornøyd er du med jobben din?
+# NSD3201 %>%
+#   mutate(
+#     sfpros_uten_feriekorr_2022 = as.numeric(sfpros_uten_feriekorr_2022),
+#     sfpros_uten_feriekorr_2023 = as.numeric(sfpros_uten_feriekorr_2023),
+#     kullaldr = as.numeric(kullaldr)
+#   ) %>% 
+#   filter(!is.na(kullaldr), !is.na(Sp59g)) %>% 
+#   ggplot(aes(x = Sp59g, y = factor(kullaldr), fill = factor(kullaldr))) +
+#   geom_density_ridges(scale = 1, alpha = 0.7) +
+#   labs(x = "Sp59g", y = "Age", fill = "Age", title = "Density of Sp59g across Ages") +
+#   theme_minimal()
+
+```
+
+
+
+
+
+
+```{r}
+
+# 
+# t.test(NSD3201$sfpros_uten_feriekorr_2022[NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt > NSD3201$lonn], NSD3201$sfpros_uten_feriekorr_2022[NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt < NSD3201$lonn])
+# 
+# 
+# wilcox.test(NSD3201$sfpros_uten_feriekorr_2022 ~ NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt > NSD3201$lonn, data = NSD3201)
+# 
+# 
+# 
+# # Split the data into two groups
+# group1 <- NSD3201$sfpros_uten_feriekorr_2022[NSD3201$wkapinnt + NSD3201$aksje + NSD3201$rentinnt > NSD3201$lonn]
+# group2 <- NSD3201$sfpros_uten_feriekorr_2022[NSD3201$wkapinnt + NSD3201$aksje + NSD3201$rentinnt <= NSD3201$lonn]
+# 
+# # Calculate medians
+# median_group1 <- median(group1, na.rm = TRUE)
+# median_group2 <- median(group2, na.rm = TRUE)
+# 
+# # Print medians
+# median_group1
+# median_group2
+# 
+# 
+# 
+# 
+# 
+# 
+# t.test(NSD3201$sfpros_uten_feriekorr_2023[NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt > NSD3201$lonn], NSD3201$sfpros_uten_feriekorr_2023[NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt < NSD3201$lonn])
+# 
+# 
+# wilcox.test(NSD3201$sfpros_uten_feriekorr_2023 ~ NSD3201$wkapinnt+NSD3201$aksje+NSD3201$rentinnt > NSD3201$lonn, data = NSD3201)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+
+# 
+# test1 <- NSD3201 %>% 
+#   select(kullaldr, lonn, agg_f_08) %>% 
+#   na.omit()
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# test2 <- test1 %>%
+#   mutate(
+#     NETTO_FORMUE = as.numeric(agg_f_08),
+#     NETTO_INNTEKT = as.numeric(lonn),
+#     age = as.numeric(kullaldr),  
+#     age_group = case_when(
+#       age >= 18 & age <= 25 ~ "18-25",
+#       age > 25 & age <= 35 ~ "25-35",
+#       age > 35 & age <= 45 ~ "35-45",
+#       age > 45 & age <= 55 ~ "45-55",
+#       age > 55 & age <= 65 ~ "55-65",
+#       age > 65 ~ "65+",
+#       TRUE ~ "Under 18"
+#     )
+#   ) %>%
+#   group_by(age_group) %>%
+#   mutate(
+#     decile_formue = ntile(NETTO_FORMUE, 10)
+#   ) %>%
+#   group_by(age_group, decile_formue) %>%
+#   summarise(
+#     total_wealth = sum(NETTO_FORMUE, na.rm = TRUE),
+#     min_wealth = min(NETTO_FORMUE, na.rm = TRUE),
+#     max_wealth = max(NETTO_FORMUE, na.rm = TRUE),
+#     median_wealth = median(NETTO_FORMUE, na.rm = TRUE),
+#     mean_wealth = mean(NETTO_FORMUE, na.rm = TRUE),
+# 
+#     total_income = sum(NETTO_INNTEKT, na.rm = TRUE),
+#     min_income = min(NETTO_INNTEKT, na.rm = TRUE),
+#     max_income = max(NETTO_INNTEKT, na.rm = TRUE),
+#     median_income = median(NETTO_INNTEKT, na.rm = TRUE),
+#     mean_income = mean(NETTO_INNTEKT, na.rm = TRUE),
+# 
+#     count = n(),
+#     .groups = "drop"
+#   )
+# 
+# 
+# 
+# 
+# 
+# 
+# test1 %>%
+#   mutate(
+#     NETTO_FORMUE = as.numeric(agg_f_08),
+#     NETTO_INNTEKT = as.numeric(lonn),
+#     age = as.numeric(kullaldr)) %>% 
+#   summarise(sum_formue = sum(NETTO_FORMUE, na.rm = TRUE),
+#             sum_inntekt = sum(NETTO_INNTEKT, na.rm = TRUE)) %>%
+#   pivot_longer(cols = c(sum_formue, sum_inntekt), names_to = "type", values_to = "sum") 
+# #ggsave("inntektformue.png", width = 10, height = 7, units = "in", dpi = 2000)
+# 
+# 
+# 
+# 
+# test3 <- test1 %>%
+#   mutate(
+#     NETTO_FORMUE = as.numeric(agg_f_08),
+#     NETTO_INNTEKT = as.numeric(lonn),
+#     age = as.numeric(kullaldr)) %>% 
+#   mutate(
+#     decile_formue = ntile(NETTO_FORMUE, 10)
+#   ) %>%
+#   group_by(decile_formue) %>%
+#   summarise(
+#     total_wealth = sum(NETTO_FORMUE, na.rm = TRUE),
+#     min_wealth = min(NETTO_FORMUE, na.rm = TRUE),
+#     max_wealth = max(NETTO_FORMUE, na.rm = TRUE),
+#     median_wealth = median(NETTO_FORMUE, na.rm = TRUE),
+#     mean_wealth = mean(NETTO_FORMUE, na.rm = TRUE),
+# 
+#     total_income = sum(NETTO_INNTEKT, na.rm = TRUE),
+#     min_income = min(NETTO_INNTEKT, na.rm = TRUE),
+#     max_income = max(NETTO_INNTEKT, na.rm = TRUE),
+#     median_income = median(NETTO_INNTEKT, na.rm = TRUE),
+#     mean_income = mean(NETTO_INNTEKT, na.rm = TRUE),
+# 
+#     count = n(),
+#     .groups = "drop"
+#   ) %>% 
+#   mutate(
+#     wealth_share = total_wealth/7747733000
+#     
+#   )
+# 
+# 
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\clearpage
+
+
+::: {#refs}
+:::
+
+\clearpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\appendix
+
+\section {Appendix Generell KI bruk}
+
+I løpet av koden så kan det ses mange \# kommentarer der det er skrevet for eks "#fillbetween q1 and q2". Når vi skriver kode i Visual Studio Code og Rstudio så er det en plugin som heter Github Copilot. Når vi skriver slike kommentarer eller bare skriver kode så kan den foresøke å fullføre kodelinjene mens vi skriver de. Noen ganger klarer den det, men andre ikke. Det er vanskelig å dokumentere hvert bruk der den er brukt siden det "går veldig fort" men siden vi ikke har fått på plass en slik dokumentasjon så kan all kode der det er brukt kommentarer antas som at det er brukt Github Copilot. Nærmere info om dette KI verktøyet kan ses på <https://github.com/features/copilot>
+
+\clearpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+## 13760 Arbeidsstyrken, sysselsatte, arbeidsledige og utførte ukeverk for personer 15-74 år, etter kjønn, alder, type justering, måned og statistikkvariabel
+
+
+
+
+# 
+# tryCatch({df_13760 <- read_csv(file.path("Data", "df_13760.csv"), show_col_types = FALSE)}, error = function(err) {
+#   df_13760 <- "https://data.ssb.no/api/v0/no/table/13760/"
+#   
+#   
+#   query <- '{
+#     "query": [
+#       {
+#         "code": "Kjonn",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "0",
+#             "2",
+#             "1"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "Alder",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "15-74",
+#             "15-24",
+#             "25-74"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "Justering",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "S",
+#             "IS"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "ContentsCode",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "ArbStyrkProsBefolkn",
+#             "SysselProsBefolkn",
+#             "ArbledProsArbstyrk"
+#           ]
+#         }
+#       }
+#     ],
+#     "response": {
+#       "format": "json-stat2"
+#     }
+#   }'
+# 
+# 
+#   
+#   df_13760 <- df_13760 %>%
+#     POST(body = query, encode = "json")
+# 
+#   df_13760 <-  df_13760 %>%
+#     content("text") %>%
+#     fromJSONstat() %>%
+#     as_tibble() 
+#   
+#   
+#   
+#   write_csv(df_13760, file.path("Data", "df_13760.csv"))
+#   
+#   
+#   df_13760 <<-  df_13760
+#   
+# 
+# })
+
+```
+
+
+
+
+
+```{r}
+
+## 12439: Sykefravær for lønnstakere(prosent), etter kjønn, type sykefravær, kvartal og statistikkvariabel
+
+
+# 
+# tryCatch({df_12439 <- read_csv(file.path("Data", "df_12439.csv"), show_col_types = FALSE)}, error = function(err) {
+#   df_12439 <- "https://data.ssb.no/api/v0/no/table/12439/"
+#   
+#   
+#   query <- '{
+#     "query": [
+#       {
+#         "code": "Kjonn",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "0"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "Sykefraver2",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "Alt",
+#             "E",
+#             "L"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "ContentsCode",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "SykefravProsent",
+#             "SykefravProsSesJust",
+#             "SykefravProsSesInflu"
+#           ]
+#         }
+#       },
+#       {
+#         "code": "Tid",
+#         "selection": {
+#           "filter": "item",
+#           "values": [
+#             "2010K1",
+#             "2010K2",
+#             "2010K3",
+#             "2010K4",
+#             "2011K1",
+#             "2011K2",
+#             "2011K3",
+#             "2011K4",
+#             "2012K1",
+#             "2012K2",
+#             "2012K3",
+#             "2012K4",
+#             "2013K1",
+#             "2013K2",
+#             "2013K3",
+#             "2013K4",
+#             "2014K1",
+#             "2014K2",
+#             "2014K3",
+#             "2014K4",
+#             "2015K1",
+#             "2015K2",
+#             "2015K3",
+#             "2015K4",
+#             "2016K1",
+#             "2016K2",
+#             "2016K3",
+#             "2016K4",
+#             "2017K1",
+#             "2017K2",
+#             "2017K3",
+#             "2017K4",
+#             "2018K1",
+#             "2018K2",
+#             "2018K3",
+#             "2018K4",
+#             "2019K1",
+#             "2019K2",
+#             "2019K3",
+#             "2019K4",
+#             "2020K1",
+#             "2020K2",
+#             "2020K3",
+#             "2020K4",
+#             "2021K1",
+#             "2021K2",
+#             "2021K3",
+#             "2021K4",
+#             "2022K1",
+#             "2022K2",
+#             "2022K3",
+#             "2022K4",
+#             "2023K1",
+#             "2023K2",
+#             "2023K3",
+#             "2023K4",
+#             "2024K1",
+#             "2024K2",
+#             "2024K3"
+#           ]
+#         }
+#       }
+#     ],
+#     "response": {
+#       "format": "json-stat2"
+#     }
+#   }'
+# 
+# 
+#   
+#   df_12439 <- df_12439 %>%
+#     POST(body = query, encode = "json")
+# 
+#   df_12439 <-  df_12439 %>%
+#     content("text") %>%
+#     fromJSONstat() %>%
+#     as_tibble() 
+#   
+#   
+#   
+#   write_csv(df_12439, file.path("Data", "df_12439.csv"))
+#   
+#   
+#   df_12439 <<-  df_12439
+#   
+# 
+# })
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+#plotting hist of formue
+NSD3201 %>% 
+  ggplot(aes(x = Formue)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "steelblue", color = "black") 
+
+#need to calculate whats an appropriate constant to add to the formue to avoid log(0) knowing it ranges from 0-2500000 to try to keep it more normally distributed
+
+
+
+
+
+
+NSD3201 %>% 
+  ggplot(aes(x = Log_formue)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "steelblue", color = "black") 
+
+
+NSD3201 %>% #log transforming
+  mutate(Formue_log = log(Formue + 10000)) %>% #adding 0.1 to avoid log(0)
+  ggplot(aes(x = Formue_log)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "steelblue", color = "black") 
+
+
+
+```
+
+
+
+
+```{r}
+#comparing to a log transformed sykefravær
+
+NSD3201 %>% 
+  mutate(Sykefravaer_2022_log = log(Sykefravaer_2022+0.1)) %>%
+  ggplot(aes(x = Sykefravaer_2022_log)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "steelblue", color = "black") +
+  labs(title = "Log-transformert sykefravær 2022",
+       x = "Log(1 + Sykefravær)",
+       y = "Tetthet")
+
+
+
+```
+
+
+```{r}
+
+
+#histograms of all the used categorical variables
+NSD3201 %>%
+  select(Formue_grupper, Utdanning_grupper, kjønn_f) %>%
+  pivot_longer(
+    cols      = c(Formue_grupper, Utdanning_grupper),
+    names_to  = "variabel",
+    values_to = "kategori"
+  ) %>%
+  ggplot(aes(x = kategori)) +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+  facet_wrap(~ variabel, scales = "free_x") +
+  labs(title = "Fordeling av formue- og utdanningsgrupper",
+       x = "",
+       y = "Andel") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+```{r}
+NSD3201 <- NSD3201 %>% 
+  rename(Hoyt_arbeidstempo = Høyt_arbeidstempo,
+         Stotte_sjef = Støtte_sjef,
+         Stotte_kollega = Støtte_kollega,
+         Grad_pavirke_beslutning_arbeid = Grad_påvirke_beslutning_arbeid,
+         Grad_selvbestemming_arbeid_som_skal_gjores = Grad_selvbestemming_arbeid_som_skal_gjøres)
+
+
+
+#histograms of all the used ordinal variables
+NSD3201 %>%
+  select(For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+         Stotte_sjef, Stotte_kollega, Tilbakemelding_sjef, Arbeidsresultater,
+         Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+         Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid, Motivasjon) %>%
+  pivot_longer(
+    cols      = everything(),
+    names_to  = "variabel",
+    values_to = "verdi"
+  ) %>%
+  ggplot(aes(x = verdi)) +
+  geom_bar(aes(y = (..count..)/sum(..count..)), fill = "steelblue", color = "black") +
+  facet_wrap(~ variabel, scales = "free_x") +
+  labs(title = "Fordeling av arbeidsrelaterte variabler",
+       x = "",
+       y = "Andel") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+```
+
+
+
+
+
+
+```{r}
+# Definer først en vektor med navnene på variablene du vil korrelere
+# Inkluder både de originale indikatorene og produktindikatorene som er i bruk i modellen
+
+mine_variabler_for_korrelasjon <- c(
+  # Originale indikatorer for JK
+  "For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid",
+  # Originale indikatorer for JR
+  "Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef", "Arbeidsresultater",
+  "Grad_selvbestemming_oppgaver", "Grad_selvbestemming_arbeid_som_skal_gjores",
+  "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid",
+  # Produktindikatorer for JK_x_LFC (erstatt med faktiske navn fra indProd)
+  "For_mye_arbeid.Log_formue_c", "Hoyt_arbeidstempo.Log_formue_c", "Ekstra_arbeid.Log_formue_c",
+  # Produktindikatorer for JR_x_LFC (erstatt med faktiske navn fra indProd)
+  "Stotte_sjef.Log_formue_c", "Stotte_kollega.Log_formue_c", "Tilbakemelding_sjef.Log_formue_c",
+  "Arbeidsresultater.Log_formue_c", "Grad_selvbestemming_oppgaver.Log_formue_c",
+  "Grad_selvbestemming_arbeid_som_skal_gjores.Log_formue_c", "Grad_arbeidstempo.Log_formue_c",
+  "Grad_pavirke_beslutning_arbeid.Log_formue_c",
+  # Andre observerte variabler i modellen
+  "Log_formue_c", "Alder_c", "Kvinne", "Utdanning_c", "arb_stillingspst_c",
+  "SP_Logformue_int", "Motivasjon", "Sykefravaer_2022"
+)
+
+# Sjekk at alle variabelnavnene faktisk finnes i datasettet NSD3201_plus_JR_int
+eksisterende_variabler <- mine_variabler_for_korrelasjon[mine_variabler_for_korrelasjon %in% names(NSD3201_plus_JR_int)]
+manglende_variabler <- mine_variabler_for_korrelasjon[!mine_variabler_for_korrelasjon %in% names(NSD3201_plus_JR_int)]
+
+if(length(manglende_variabler) > 0) {
+  print("Følgende variabler ble ikke funnet i datasettet og fjernes fra korrelasjonsanalysen:")
+  print(manglende_variabler)
+}
+
+# Kjør korrelasjonsanalysen kun med eksisterende variabler
+if(length(eksisterende_variabler) > 1) { # Trenger minst 2 variabler for korrelasjon
+  
+  # Lag en midlertidig dataframe kun med de valgte kolonnene
+  temp_data_for_corr <- NSD3201_plus_JR_int[, eksisterende_variabler, drop = FALSE] # drop=FALSE i tilfelle kun én kolonne blir igjen
+  
+  # Konverter faktor-kolonner til numeriske for korrelasjonsberegningen
+  for (kolonne_navn in names(temp_data_for_corr)) {
+    if (is.factor(temp_data_for_corr[[kolonne_navn]])) {
+      temp_data_for_corr[[kolonne_navn]] <- as.numeric(temp_data_for_corr[[kolonne_navn]])
+    }
+  }
+  
+  # Nå bør alle kolonner i temp_data_for_corr være numeriske
+  korrelasjonsmatrise <- cor(temp_data_for_corr, use = "pairwise.complete.obs")
+  
+  # Skriv ut korrelasjonsmatrisen (eller deler av den, den kan bli stor)
+  print(korrelasjonsmatrise)
+  
+  # For å lettere finne høye korrelasjoner, kan du gjøre dette:
+  # (Installerer og laster pakken 'corrplot' hvis du ikke har den)
+  # if (!require(corrplot)) install.packages("corrplot")
+  # library(corrplot)
+  # corrplot(korrelasjonsmatrise, method = "number", type = "upper", order = "hclust", 
+  #          tl.cex = 0.7, number.cex = 0.7, diag = FALSE) # diag=FALSE for å skjule diagonalen
+  
+  # For å finne par med korrelasjon nær 1 (eller -1)
+  terskel <- 0.8 # Du kan justere denne terskelen
+  # Sikrer at matrisen er numerisk før abs() og lower.tri()
+  if(is.numeric(korrelasjonsmatrise)) {
+      hoye_korrelasjoner <- which(abs(korrelasjonsmatrise) >= terskel & lower.tri(korrelasjonsmatrise, diag = FALSE), arr.ind = TRUE)
+      
+      if(nrow(hoye_korrelasjoner) > 0) {
+        print(paste("Par med korrelasjon >= ", terskel, "eller <= -", terskel, ":"))
+        for(i in 1:nrow(hoye_korrelasjoner)) {
+          var1_navn <- rownames(korrelasjonsmatrise)[hoye_korrelasjoner[i,1]]
+          var2_navn <- colnames(korrelasjonsmatrise)[hoye_korrelasjoner[i,2]]
+          korr_verdi <- korrelasjonsmatrise[hoye_korrelasjoner[i,1], hoye_korrelasjoner[i,2]]
+          print(paste(var1_navn, "og", var2_navn, ":", round(korr_verdi, 3)))
+        }
+      } else {
+        print(paste("Ingen par funnet med korrelasjon >= ", terskel, "eller <= -", terskel))
+      }
+  } else {
+      print("Korrelasjonsmatrisen er ikke numerisk, kan ikke søke etter høye korrelasjoner.")
+  }
+  
+} else {
+  print("Ikke nok eksisterende variabler spesifisert for å kjøre korrelasjonsanalyse.")
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+NSD3201 <- NSD3201 %>% 
+  rename(Hoyt_arbeidstempo = Høyt_arbeidstempo,
+         Stotte_sjef = Støtte_sjef,
+         Stotte_kollega = Støtte_kollega,
+         Grad_pavirke_beslutning_arbeid = Grad_påvirke_beslutning_arbeid,
+         Grad_selvbestemming_arbeid_som_skal_gjores = Grad_selvbestemming_arbeid_som_skal_gjøres)
+
+
+
+
+
+
+NSD3201 <- NSD3201 %>%
+  mutate(
+    Log_formue_z = scale(Log_formue)[,1]
+  )
+
+
+
+
+
+```
+
+
+
+```{r}
+
+ordinale_var <- c(
+  "Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef", "Arbeidsresultater",
+  "Grad_selvbestemming_oppgaver", "Grad_selvbestemming_arbeid_som_skal_gjores", 
+  "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid",
+  "For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid",
+  "Motivasjon", "Tilfredshet"
+)
+
+
+
+
+
+
+
+
+
+
+
+
+model_multigruppe <- '
+  # Latente variabler
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef +
+                   Arbeidsresultater + Grad_selvbestemming_oppgaver +
+                   Grad_selvbestemming_arbeid_som_skal_gjores + Grad_pavirke_beslutning_arbeid
+
+  # Strukturelle regresjoner
+  Motivasjon ~ a1*Jobbressurser + a2*Log_formue + a3*Alder + a4*Kvinne + a5*Utdanning + a6*Barn + a7*Tilfredshet
+  Sykefravaer_2022 ~ b1*Jobbkrav + b2*Jobbressurser + b3*Motivasjon + b4*Log_formue +
+                     b5*Alder + b6*Kvinne + b7*Utdanning + b8*Barn + b9*arb_stillingspst
+'
+```
+
+```{r}
+
+fit_mg <- sem(model_multigruppe,
+              data = NSD3201,
+              group = "Formue_grupper",
+              ordered = ordinale_var,
+              estimator = "WLSMV",
+              missing = "pairwise",
+              parameterization = "theta")
+
+
+summary(fit_mg, fit.measures = TRUE, standardized = TRUE)
+
+```
+
+
+
+```{r}
+
+model_mg <- '
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef +
+                   Arbeidsresultater + Grad_selvbestemming_oppgaver +
+                   Grad_selvbestemming_arbeid_som_skal_gjores + Grad_pavirke_beslutning_arbeid
+  Motivasjon ~ Jobbressurser + Log_formue + Alder + Kvinne + Utdanning + Barn + Tilfredshet
+  Sykefravaer_2022 ~ Jobbkrav + Jobbressurser + Motivasjon + Log_formue +
+                     Alder + Kvinne + Utdanning + Barn + arb_stillingspst'
+
+
+fit_mg <- sem(model_mg,
+              data = NSD3201,
+              group = "Formue_grupper",
+              estimator = "MLR",
+              missing = "fiml")
+
+summary(fit_mg, standardized = TRUE, fit.measures = TRUE)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+NSD3201 <- NSD3201 %>%
+  mutate(
+    Log_formue_senter = scale(Log_formue, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_senter = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1])
+
+
+
+
+# Lage interaksjonsvariabel for observerte variabler (SP_i * FN_i)
+NSD3201$SP_x_FN <- NSD3201$arb_stillingspst_senter * NSD3201$Log_formue_senter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Definer indikatornavn for latente variabler JK (Jobbkrav) og JR (Jobbressurser)
+jk_indicator_names <- c("For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid")
+jr_indicator_names <- c("Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef",
+                        "Arbeidsresultater", "Grad_selvbestemming_oppgaver",
+                        "Grad_selvbestemming_arbeid_som_skal_gjores",
+                        "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid")
+moderator_name <- "Log_formue_senter"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# --- Lage produktindikatorer for latente interaksjoner med semTools::indProd ---
+# Vi starter med den NSD3201-datarammen vi har så langt
+NSD3201_med_prodind <- NSD3201
+
+# 1. Produktindikatorer for JK * Formue (L_JK_x_FN)
+NSD3201_med_prodind <- indProd(data = NSD3201_med_prodind,
+                               var1 = jk_indicator_names,
+                               var2 = moderator_name,
+                               match = FALSE,
+                               meanC = TRUE,
+                               residualC = FALSE,
+                               doubleMC = TRUE)
+
+# 2. Produktindikatorer for JR * Formue (L_JR_x_FN)
+NSD3201_med_prodind <- indProd(data = NSD3201_med_prodind, # Bruker output fra forrige indProd-kall
+                               var1 = jr_indicator_names,
+                               var2 = moderator_name,
+                               match = FALSE,
+                               meanC = TRUE,
+                               residualC = FALSE,
+                               doubleMC = TRUE)
+
+# Definer navnene på produktindikatorene (forventer "." som skilletegn fra indProd)
+pi_jk_fn_names <- paste0(jk_indicator_names, ".", moderator_name)
+pi_jr_fn_names <- paste0(jr_indicator_names, ".", moderator_name)
+
+# Klargjør faktorer med "rene" nivånavn og sett referansekategorier
+NSD3201_for_dummies <- NSD3201_med_prodind %>%
+  mutate(
+    Alder_grp_clean_labels = case_when(
+      Alder_grupper == "18–29" ~ "Ald18til29",
+      Alder_grupper == "30–54" ~ "Ald30til54",
+      Alder_grupper == "55–66" ~ "Ald55til66",
+      TRUE ~ NA_character_
+    ),
+    Utd_grp_clean_labels = case_when(
+      Utdanning_grupper == "Grunnskole eller mindre" ~ "UtdGrunn",
+      Utdanning_grupper == "Videregående" ~ "UtdVgs",
+      Utdanning_grupper == "Universitet/Høgskole" ~ "UtdHoeyere",
+      TRUE ~ NA_character_
+    ),
+    Alder_grp_clean = factor(Alder_grp_clean_labels,
+                             levels = c("Ald30til54", "Ald18til29", "Ald55til66")), # Ref: Ald30til54
+    Utd_grp_clean = factor(Utd_grp_clean_labels,
+                           levels = c("UtdVgs", "UtdGrunn", "UtdHoeyere"))        # Ref: UtdVgs
+  )
+
+# Lag dummyvariabler
+NSD3201_ferdig_for_lavaan <- dummy_cols(NSD3201_for_dummies,
+                                        select_columns = c("Alder_grp_clean", "Utd_grp_clean"),
+                                        remove_first_dummy = TRUE,
+                                        remove_selected_columns = TRUE,
+                                        ignore_na = TRUE)
+
+# Hent navn på dummyvariabler (fastDummies lager typisk KolonneNavn_NivåNavn)
+alder_dummies_created_names <- colnames(NSD3201_ferdig_for_lavaan)[grep("^Alder_grp_clean_", colnames(NSD3201_ferdig_for_lavaan))]
+utdanning_dummies_created_names <- colnames(NSD3201_ferdig_for_lavaan)[grep("^Utd_grp_clean_", colnames(NSD3201_ferdig_for_lavaan))]
+
+# Bygg streng for kontrollvariabler
+kontrollvariabler_alle_navn <- paste(c("Kvinne",
+                                       alder_dummies_created_names,
+                                       utdanning_dummies_created_names,
+                                       "arb_stillingspst_senter",
+                                       "Barn",
+                                       "Tilfredshet"), collapse=" + ")
+
+# Definer ordinale variabler for sem()
+ordinal_variables <- c(jk_indicator_names, jr_indicator_names, "Motivasjon")
+
+# --- Definer lavaan-modellen MED de nye kovariansene ---
+model_lavaan_final_med_kovar <- paste0("
+  # == Målemodell ==
+  JK =~ ", paste(jk_indicator_names, collapse=" + "), "
+  JR =~ ", paste(jr_indicator_names, collapse=" + "), "
+
+  # Latente interaksjonsfaktorer
+  L_JK_x_FN =~ ", paste(pi_jk_fn_names, collapse=" + "), "
+  L_JR_x_FN =~ ", paste(pi_jr_fn_names, collapse=" + "), "
+
+  # == Strukturell modell ==
+  Motivasjon ~ a1*JR + a2*Log_formue_senter + ", kontrollvariabler_alle_navn, "
+  Sykefravaer_2022 ~ b1*JK + b2*JR + b3*Log_formue_senter + b4*L_JK_x_FN + b5*L_JR_x_FN + b6*Motivasjon + b7*SP_x_FN + ", kontrollvariabler_alle_navn, "
+
+  # == Definerte parametere ==
+  indirekte_FN_M_SF := a2 * b6
+
+  # == Kovarianser ==
+  JK ~~ JR                 # Mellom latente hovedfaktorer
+
+  # Nye kovarianser for interaksjonstermer:
+  L_JK_x_FN ~~ JK          # Interaksjon med sin hovedeffekt
+  L_JK_x_FN ~~ JR          # Interaksjon med den andre hovedeffekten
+  L_JR_x_FN ~~ JR          # Interaksjon med sin hovedeffekt
+  L_JR_x_FN ~~ JK          # Interaksjon med den andre hovedeffekten
+  L_JK_x_FN ~~ L_JR_x_FN   # Mellom de to interaksjonsfaktorene
+")
+
+# Valgfritt: Skriv ut modellstrengen for å sjekke
+# cat(model_lavaan_final_med_kovar)
+
+# --- Kjør SEM-analysen ---
+fit_med_kovar <- sem(model_lavaan_final_med_kovar, # Bruker den nye modellstrengen
+                     data = NSD3201_ferdig_for_lavaan,
+                     ordered = ordinal_variables,
+                     estimator = "WLSMV",
+                     std.lv = TRUE,
+                     missing = "pairwise",
+                     parameterization = "theta") # Viktig for ordinal mediator
+
+
+
+
+```
+
+
+
+
+
+#wtf ai hjelp for nu. trur man starter denne på nytt altså
+
+
+```{r}
+
+summary(fit, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+
+
+
+```
+
+
+
+
+```{r}
+parameterEstimates(fit, standardized = TRUE)
+
+```
+
+
+```{r}
+NSD3201 <- NSD3201 %>%
+  mutate(
+    Log_formue_c = scale(Log_formue, center = TRUE, scale = FALSE)[,1], # Sentrert Log_formue
+    Alder_c = scale(Alder, center = TRUE, scale = FALSE)[,1],           # Sentrert Alder
+    Utdanning_c = scale(Utdanning, center = TRUE, scale = FALSE)[,1], # Sentrert numerisk Utdanning
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1] # Sentrert stillingsprosent
+  )
+
+# 2. Opprette interaksjonsledd mellom observerte variabler
+# For interaksjonen mellom Stillingsprosent (SP_i) og Formue (FN_i)
+NSD3201 <- NSD3201 %>%
+  mutate(
+    SP_Logformue_int = arb_stillingspst_c * Log_formue_c
+  )
+
+# --- DEFINISJON AV SEM-MODELL I LAVAAN-SYNTAKS ---
+
+jdr_formue_model_syntax <- '
+  # Målemodell (Measurement Model)
+  # Latente variabler defineres av sine indikatorer
+  JK =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  JR =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # Strukturmodell (Structural Model)
+  
+  # Ligning for Motivasjon (M_i)
+  # M_i = alpha_0 + alpha_1*JR_i + alpha_2*FN_i + Sum_k alpha_3k*X_ik + epsilon_2i
+  Motivasjon ~ a1*JR + a2*Log_formue_c + a3_alder*Alder_c + a3_kvinne*Kvinne + a3_utd*Utdanning_c
+
+  # Ligning for Sykefravær (SF_i)
+  # SF_i = beta_0 + beta_1*JK_i + beta_2*JR_i + beta_3*FN_i + beta_4*(JK_i*FN_i) + 
+  #        beta_5*(JR_i*FN_i) + beta_6*M_i + beta_7*(SP_i*FN_i) + Sum_j gamma_j*X_ij + epsilon_1i
+  Sykefravaer_2022 ~ b1*JK + b2*JR + b3*Log_formue_c + b6*Motivasjon + 
+                     g_alder*Alder_c + g_kvinne*Kvinne + g_utd*Utdanning_c + g_sp*arb_stillingspst_c +
+                     b4*JK:Log_formue_c +  # Interaksjon latent JK med observert Log_formue_c
+                     b5*JR:Log_formue_c +  # Interaksjon latent JR med observert Log_formue_c
+                     b7*SP_Logformue_int   # Interaksjon observert SP_c med observert Log_formue_c
+
+  # (Valgfritt) Kovarians mellom latente variabler (vanlig praksis)
+  JK ~~ JR
+
+  # Definerte parametere for hypotesetesting (spesielt for indirekte effekter)
+  # H6: Indirekte effekt av Formue på Sykefravær via Motivasjon (FN -> M -> SF)
+  # Produktet av koeffisientene a2 (FN->M) og b6 (M->SF)
+  indirekte_FN_M_SF := a2 * b6
+  
+  # Andre indirekte effekter kan defineres her ved behov, f.eks.:
+  # indirekte_JR_M_SF := a1 * b6 # Jobbressurser -> Motivasjon -> Sykefravær
+'
+
+```
+
+
+
+
+
+
+
+```{r}
+
+
+# --- TILPASSING AV MODELLEN TIL DATA ---
+# Vi bruker robust standardfeil (MLR) hvis dataene ikke er perfekt normalfordelte,
+# noe som ofte er tilfelle med surveydata og sykefravær.
+# estimator = "MLR" håndterer også manglende data med FIML hvis det er NA i variablene som brukes i modellen
+# (men du har brukt drop_na(), så det er kanskje ikke et problem her).
+
+# Pass på at datasettet NSD3201 som brukes her, inneholder de nye sentrerte (_c) variablene
+# og interaksjonsvariabelen (SP_Logformue_int).
+
+fit_jdr_formue_model <- sem(jdr_formue_model_syntax,
+                            data = NSD3201,
+                            estimator = "WLSMV", # Anbefales for robusthet
+                            missing = "pairwise", # Hvis du hadde hatt NA-verdier
+                            std.lv = TRUE) # Standardiserer latente variabler for enklere tolkning
+
+
+```
+
+
+```{r}
+
+NSD3201_plus_JK_int <- indProd(NSD3201,
+                               var1 = c("For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid"),
+                               var2 = "Log_formue_c", # Den observerte moderatoren
+                               match = FALSE, # Viktig for observert moderator
+                               meanC = TRUE, # Sentrerer indikatorer og moderator
+                               residualC = FALSE, # Vanligvis FALSE for denne typen
+                               doubleMC = TRUE) # Kan være lurt for stabilitet
+
+# Gjør tilsvarende for JR * Log_formue_c:
+NSD3201_plus_JR_int <- indProd(NSD3201_plus_JK_int, # Bruk datasettet fra forrige steg
+                               var1 = c("Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef", "Arbeidsresultater", "Grad_selvbestemming_oppgaver", "Grad_selvbestemming_arbeid_som_skal_gjores", "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid"),
+                               var2 = "Log_formue_c",
+                               match = FALSE,
+                               meanC = TRUE,
+                               residualC = FALSE,
+                               doubleMC = TRUE)
+
+# NSD3201_plus_JR_int inneholder nå de nye produktindikatorvariablene.
+# Navnene på disse vil typisk være f.eks. For_mye_arbeid.Log_formue_c etc.
+
+# STEG 2: Oppdater lavaan-modellsyntaksen
+
+jdr_formue_model_syntax_prodInd <- '
+  # Målemodell (som før)
+  JK =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  JR =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # Definer latente interaksjonsvariabler med produktindikatorene
+  # Navnene på produktindikatorene (pJK_LFC1, pJK_LFC2 etc.) må hentes fra
+  # output/dokumentasjon av indProd() eller ved å inspisere kolonnenavnene i NSD3201_plus_JR_int
+  # Anta at produktindikatorene for JK*Log_formue_c er:
+  # For_mye_arbeid.Log_formue_c, Hoyt_arbeidstempo.Log_formue_c, Ekstra_arbeid.Log_formue_c
+  JK_x_LFC =~ For_mye_arbeid.Log_formue_c + Hoyt_arbeidstempo.Log_formue_c + Ekstra_arbeid.Log_formue_c
+
+  # Anta at produktindikatorene for JR*Log_formue_c er tilsvarende navngitt:
+  # Stotte_sjef.Log_formue_c, Stotte_kollega.Log_formue_c, ...
+  JR_x_LFC =~ Stotte_sjef.Log_formue_c + Stotte_kollega.Log_formue_c + Tilbakemelding_sjef.Log_formue_c + Arbeidsresultater.Log_formue_c + Grad_selvbestemming_oppgaver.Log_formue_c + Grad_selvbestemming_arbeid_som_skal_gjores.Log_formue_c + Grad_arbeidstempo.Log_formue_c + Grad_pavirke_beslutning_arbeid.Log_formue_c
+
+  # Strukturmodell
+  Motivasjon ~ a1*JR + a2*Log_formue_c + a3_alder*Alder_c + a3_kvinne*Kvinne + a3_utd*Utdanning_c
+
+  Sykefravaer_2022 ~ b1*JK + b2*JR + b3*Log_formue_c + b6*Motivasjon +
+                     g_alder*Alder_c + g_kvinne*Kvinne + g_utd*Utdanning_c + g_sp*arb_stillingspst_c +
+                     b4*JK_x_LFC +  # Effekt av den latente interaksjonen JK*Log_formue_c
+                     b5*JR_x_LFC +  # Effekt av den latente interaksjonen JR*Log_formue_c
+                     b7*SP_Logformue_int # Denne er ok, da den er observert*observert
+
+  JK ~~ JR
+  indirekte_FN_M_SF := a2 * b6
+'
+
+# STEG 3: Tilpass modellen med WLSMV
+# Viktig: Sørg for at alle indikatorvariabler (originale og produktindikatorer)
+# blir behandlet som ordinale av lavaan hvis du bruker WLSMV.
+# Dette gjøres vanligvis ved å deklarere dem som ordered() i sem()-kallet
+# eller ved å sørge for at de er faktorer med ordnede nivåer i R.
+
+# Du må lage en liste over alle observerte variabler som skal behandles som ordinale
+# Dette inkluderer de originale indikatorene for JK og JR. Produktindikatorer
+# er per definisjon kontinuerlige, men de er basert på ordinale, så her kan det være
+# litt uklart hvordan de best håndteres. Ofte behandles produktindikatorer som kontinuerlige.
+# WLSMV kan fortsatt brukes hvis *noen* variabler er kontinuerlige.
+
+# Finn navnene på alle indikatorer for JK og JR
+jk_indicators <- c("For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid")
+jr_indicators <- c("Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef", "Arbeidsresultater", 
+                   "Grad_selvbestemming_oppgaver", "Grad_selvbestemming_arbeid_som_skal_gjores", 
+                   "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid")
+ordinal_vars <- c(jk_indicators, jr_indicators, "Motivasjon") # Motivasjon er også 1-5
+
+# Konverter disse til ordered factors i det nye datasettet
+NSD3201_plus_JR_int[ordinal_vars] <- lapply(NSD3201_plus_JR_int[ordinal_vars], factor, ordered = TRUE)
+
+# Kjør modellen
+fit_jdr_formue_model_prodInd <- sem(jdr_formue_model_syntax_prodInd,
+                                    data = NSD3201_plus_JR_int, # Bruk datasettet med produktindikatorer
+                                    estimator = "WLSMV",
+                                    # ordered = ordinal_vars, # Ikke nødvendig hvis de allerede er ordered factors i data
+                                    std.lv = TRUE,
+                                    missing = "pairwise") # WLSMV håndterer NA via pairwise deletion som standard
+
+summary(fit_jdr_formue_model_prodInd, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Søppel
+
+
+
+
+
+
+
+```{r}
+
+
+
+# Start med ditt eksisterende NSD3201 datasett
+# Dette datasettet bør være det som er resultat av all din tidligere datarensing,
+# inkludert reversering av skalaer, oppretting av Formue_qnorm, Alder_grupper, etc.
+# og drop_na() som du hadde til slutt.
+
+# Sikre at faktorer har riktige nivåer for dummy-koding (viktig for referansekategori)
+NSD3201$Alder_grupper <- factor(
+  NSD3201$Alder_grupper,
+  levels = c("30_54", "18_29", "55_66")
+)
+NSD3201$Utdanning_grupper <- factor(NSD3201$Utdanning_grupper, levels = c("Videregaende", "Grunnskole eller mindre", "Universitet/Hogskole"))
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem1_final (med nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem1_temp <- NSD3201
+
+# 1. Log-transformer sykefravær (legg til liten konstant for å unngå log(0))
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(sykefravaer_log_plus_c = log(sykefravaer_2022 + 0.01))
+
+# 2. Sentrer kontinuerlige prediktorer som skal brukes i interaksjoner eller som hovedeffekter
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 3. Lag dummy-variabler for kategoriske kontrollvariabler
+# Kvinne er allerede 0/1. For Alder_grupper og Utdanning_grupper:
+NSD3201_sem1_temp <- fastDummies::dummy_cols(
+  NSD3201_sem1_temp,
+  select_columns = c("Alder_grupper", "Utdanning_grupper"),
+  remove_first_dummy = TRUE, # Lager k-1 dummies, første nivå blir referanse
+  remove_selected_columns = TRUE # Fjerner de originale faktorkolonnene
+)
+
+
+
+
+names(NSD3201_sem1_temp) <- gsub("–", "-", names(NSD3201_sem1_temp)) # Erstatter lang tankestrek med vanlig
+names(NSD3201_sem1_temp) <- gsub("\\.", "_", names(NSD3201_sem1_temp)) # Erstatter punktum med underscore
+names(NSD3201_sem1_temp) <- gsub(" ", "_", names(NSD3201_sem1_temp)) # Erstatter mellomrom med underscore (hvis noen)
+names(NSD3201_sem1_temp) <- gsub("/", "_", names(NSD3201_sem1_temp)) # Erstatter skråstrek med underscore
+
+# Gi dummy-variablene litt mer informative navn (valgfritt, men kan hjelpe)
+# Navnene vil være basert på dine faktornivåer, f.eks. Alder_grupper_18_29
+# Du kan bruke dplyr::rename_with() hvis du ønsker å standardisere dem ytterligere.
+
+# 4. Lag observerte gjennomsnittsskårer for Jobbkrav (JK) og Jobbressurser (JR)
+# Bruk de REVERSERTE variabelnavnene som de heter ETTER din transmute operasjon.
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+    JR_obs_rev = (Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater +
+                   Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                   Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+  )
+
+# 5. Sentrer disse observerte skårene
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+    JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 6. Lag interaksjonsledd
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+    JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+    # SP_x_FN = arb_stillingspst_c * Formue_qnorm_c # Hvis du inkluderer H7
+  )
+
+# 7. Velg endelige kolonner for datasettet
+# Ta med ID-variabel hvis du har, alle indikatorer, transformerte/sentrerte/interaksjons-variabler,
+# og alle kontroller (dummyer, Kvinne, Barn etc.)
+# Eksempel på utvalg, du må tilpasse dette:
+NSD3201_sem1_final <- NSD3201_sem1_temp %>%
+  dplyr::select(
+    # ID-variabel (hvis du har, f.eks. lopenr)
+    # Avhengig variabel
+    sykefravaer_log_plus_c,
+    # Hoved-prediktorer og moderatorer (transformert/sentrert)
+    Formue_qnorm_c, Motivasjon, # Motivasjon er allerede reversert
+    JK_obs_rev_c, JR_obs_rev_c,
+    # Interaksjonsledd
+    JK_x_FN, JR_x_FN, # SP_x_FN,
+    # Kontrollvariabler (dummyer og andre)
+    Kvinne, # Antatt at denne er 0/1 dummy
+    starts_with("Alder_grupper_"), # Tar med alle dummyer for alder
+    starts_with("Utdanning_grupper_"), # Tar med alle dummyer for utdanning
+    arb_stillingspst_c,
+    Barn, # Hvis du bruker denne
+    # Indikatorvariabler for latente faktorer (de REVERSERTE)
+    For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+    Stotte_sjef, Stotte_kollega, Tilbakemelding_sjef, Arbeidsresultater,
+    Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+    Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+    # Legg til andre variabler du trenger i modellen
+  )
+
+# Fjern NA-rader som kan ha oppstått fra scale() hvis det var NA i input,
+# eller hvis noen av de nye variablene genererte NA.
+# lavaan's fiml håndterer NA, så dette er bare hvis du vil ha et komplett datasett for andre sjekker.
+# NSD3201_sem1_final <- drop_na(NSD3201_sem1_final)
+# Men det er bedre å la FIML håndtere det hvis mulig, så ikke drop_na her med mindre du er sikker.
+
+cat("Dimensjoner for NSD3201_sem1_final:", dim(NSD3201_sem1_final), "\n")
+# print(head(NSD3201_sem1_final))
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem2_final (UTEN nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+# Start med det opprinnelige NSD3201 FØR drop_na() hvis du vil være sikker
+# på å ha med alle, eller filtrer NSD3201_sem1_temp FØR log-transformasjon
+# Her antar vi at NSD3201 fortsatt har sykefravaer_2022 før log.
+
+NSD3201_sem2_temp <- NSD3201 %>%
+  filter(sykefravaer_2022 > 0) # FJERN DE MED 0% SYKEFRAVÆR
+
+
+
+
+
+
+
+
+# Gjør det samme for NSD3201_sem2_temp:
+if (!is.null(NSD3201_sem2_temp) && nrow(NSD3201_sem2_temp) > 0) {
+  names(NSD3201_sem2_temp) <- gsub("–", "-", names(NSD3201_sem2_temp))
+  names(NSD3201_sem2_temp) <- gsub("\\.", "_", names(NSD3201_sem2_temp))
+  names(NSD3201_sem2_temp) <- gsub(" ", "_", names(NSD3201_sem2_temp))
+  names(NSD3201_sem2_temp) <- gsub("/", "_", names(NSD3201_sem2_temp))
+}
+
+names(NSD3201_sem2_temp) <- gsub("/", "_", names(NSD3201_sem2_temp))
+
+
+
+
+# Hvis filteret over resulterer i 0 rader, sjekk om sykefravaer_2022 er numerisk og har variasjon.
+
+if(nrow(NSD3201_sem2_temp) > 0) {
+  # 1. Log-transformer sykefravær (trenger ikke legge til konstant nå)
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(sykefravaer_log = log(sykefravaer_2022))
+
+  # 2. Sentrer kontinuerlige prediktorer
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+      arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+    )
+
+  # 3. Lag dummy-variabler
+  NSD3201_sem2_temp <- fastDummies::dummy_cols(
+    NSD3201_sem2_temp,
+    select_columns = c("Alder_grupper", "Utdanning_grupper"),
+    remove_first_dummy = TRUE,
+    remove_selected_columns = TRUE
+  )
+
+  # 4. Lag observerte gjennomsnittsskårer for JK og JR
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    rename()
+    mutate(
+      JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+      JR_obs_rev = (Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater +
+                     Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                     Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+    )
+
+  # 5. Sentrer disse observerte skårene
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+      JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+    )
+
+  # 6. Lag interaksjonsledd
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+      JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+      # SP_x_FN = arb_stillingspst_c * Formue_qnorm_c # Hvis du inkluderer H7
+    )
+
+  # 7. Velg endelige kolonner for datasettet
+  NSD3201_sem2_final <- NSD3201_sem2_temp %>%
+    dplyr::select(
+      sykefravaer_log, # Merk: Annet navn enn i sem1
+      Formue_qnorm_c, Motivasjon,
+      JK_obs_rev_c, JR_obs_rev_c,
+      JK_x_FN, JR_x_FN, # SP_x_FN,
+      Kvinne,
+      starts_with("Alder_grupper_"),
+      starts_with("Utdanning_grupper_"),
+      arb_stillingspst_c,
+      Barn,
+      For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+      Stotte_sjef, Stotte_kollega, Tilbakemelding_sjef, Arbeidsresultater,
+      Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+      Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid,
+      `Utdanning_grupper_Universitet_Hogskole`,
+      `Utdanning_grupper_Grunnskole_eller_mindre`
+      
+    )
+  
+  cat("Dimensjoner for NSD3201_sem2_final:", dim(NSD3201_sem2_final), "\n")
+  # print(head(NSD3201_sem2_final))
+
+} else {
+  cat("Ingen observasjoner igjen i NSD3201_sem2_temp etter filtrering på sykefravaer_2022 > 0. Sjekk data.\n")
+  NSD3201_sem2_final <- NULL # Eller et tomt dataframe
+}
+
+
+
+
+
+
+
+
+
+```
+
+
+```{r}
+
+# Definer SEM-modellen
+# Denne modellsyntaksen kan brukes for begge datasettene,
+# med unntak av navnet på den avhengige sykefraværsvariabelen.
+
+# VIKTIG: Erstatt variabelnavn nedenfor med de eksakte navnene
+# fra dine 'NSD3201_sem1_final' og 'NSD3201_sem2_final' datasett.
+# Spesielt for dummy-variabler for Alder og Utdanning.
+
+model_syntax_final <- '
+  # MÅLINGSMODELL ... (som før)
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               ctrl_Kvinne_M*Kvinne + 
+               ctrl_Alder_g2_M*Alder_grupper_18_29 + ctrl_Alder_g3_M*Alder_grupper_55_66 + 
+               ctrl_Utd_g2_M*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_M*Utdanning_grupper_Universitet_Hogskole + # Bruk underscore istedenfor punktum
+               ctrl_SP_M*arb_stillingspst_c + ctrl_Barn_M*Barn 
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       ctrl_Kvinne_SF*Kvinne + 
+       ctrl_Alder_g2_SF*Alder_grupper_18_29 + ctrl_Alder_g3_SF*Alder_grupper_55_66 + 
+       ctrl_Utd_g2_SF*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_SF*Utdanning_grupper_Universitet_Hogskole + # Bruk underscore istedenfor punktum
+       ctrl_SP_SF*arb_stillingspst_c + ctrl_Barn_SF*Barn
+  # ... (resten av modellen som før)
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+  Jobbkrav ~~ Jobbressurser
+'
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1: Med nullverdier i sykefravær (NSD3201_sem1_final)
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+
+# Erstatt "DV" i modellsyntaksen med den faktiske avhengige variabelen for denne modellen
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final)
+
+# Sørg for at alle variabelnavn i model_syntax_sem1 stemmer med NSD3201_sem1_final
+# Spesielt dummy-navn og navn på interaksjonsledd (JK_x_FN, JR_x_FN)
+
+# Kjør SEM-analysen
+# Bruk tryCatch for å håndtere eventuelle feil under kjøring, f.eks. hvis datasettet er tomt
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,    # Datasett med nullverdier inkludert
+      estimator = "MLR",           # Robust estimator
+      missing = "fiml",            # Håndterer NA elegant (hvis du har noen)
+      std.lv = TRUE,               # Standardiserer latente variabler
+      warn = TRUE,
+      verbose = FALSE)
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+# Vis resultater for modell 1 hvis kjøringen var vellykket
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1,
+          fit.measures = TRUE,
+          standardized = TRUE,
+          rsquare = TRUE))
+  
+  # For å se parameterestimater med konfidensintervaller:
+  # print(parameterEstimates(fit_sem1, standardized = TRUE, ci = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2: UTEN nullverdier i sykefravær (NSD3201_sem2_final)
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+
+# Sjekk om NSD3201_sem2_final ble opprettet (hvis ikke, var det tomt etter filtrering)
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  # Erstatt "DV" i modellsyntaksen med den faktiske avhengige variabelen for denne modellen
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final)
+
+  # Sørg for at alle variabelnavn i model_syntax_sem2 stemmer med NSD3201_sem2_final
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_sem2,
+        data = NSD3201_sem2_final,    # Datasett UTEN nullverdier
+        estimator = "MLR",
+        missing = "fiml", 
+        std.lv = TRUE,
+        warn = TRUE,
+        verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  # Vis resultater for modell 2 hvis kjøringen var vellykket
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2,
+            fit.measures = TRUE,
+            standardized = TRUE,
+            rsquare = TRUE))
+            
+    # print(parameterEstimates(fit_sem2, standardized = TRUE, ci = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert. Kan ikke kjøre modell 2.\n")
+}
+```
+
+
+
+### ny test
+
+
+
+```{r}
+
+NSD3201$Alder_grupper <- factor(
+  NSD3201$Alder_grupper,
+  levels = c("30_54", "18_29", "55_66")
+)
+NSD3201$Utdanning_grupper <- factor(NSD3201$Utdanning_grupper, levels = c("Videregaende", "Grunnskole eller mindre", "Universitet/Hogskole"))
+
+
+
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem1_final (med nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem1_temp <- NSD3201
+
+# 1. Log-transformer sykefravær
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(sykefravaer_log_plus_c = log(sykefravaer_2022 + 0.01))
+
+# 2. Sentrer kontinuerlige prediktorer
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 3. Lag dummy-variabler
+NSD3201_sem1_temp <- fastDummies::dummy_cols(
+  NSD3201_sem1_temp,
+  select_columns = c("Alder_grupper", "Utdanning_grupper"),
+  remove_first_dummy = TRUE, 
+  remove_selected_columns = TRUE 
+)
+
+# RYDD OPP I NAVN ETTER fastDummies for sem1_temp
+names(NSD3201_sem1_temp) <- gsub("–", "-", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter lang tankestrek med vanlig
+names(NSD3201_sem1_temp) <- gsub(" ", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter mellomrom med underscore
+names(NSD3201_sem1_temp) <- gsub("/", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter skråstrek med underscore
+names(NSD3201_sem1_temp) <- gsub("\\.", "_", names(NSD3201_sem1_temp)) # Erstatter punktum med underscore (trenger \\ for å matche bokstavelig punktum)
+names(NSD3201_sem1_temp) <- gsub("-", "_", names(NSD3201_sem1_temp), fixed = TRUE)
+
+# Sjekk de nye navnene for sem1_temp:
+# print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem1_temp), value = TRUE))
+
+
+# 4. Lag observerte gjennomsnittsskårer for JK og JR
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+    JR_obs_rev = (Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater +
+                   Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                   Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+  )
+
+# 5. Sentrer disse observerte skårene
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+    JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 6. Lag interaksjonsledd
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+    JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+  )
+
+# 7. Velg endelige kolonner
+NSD3201_sem1_final <- NSD3201_sem1_temp %>%
+  dplyr::select(
+    sykefravaer_log_plus_c,
+    Formue_qnorm_c, Motivasjon, 
+    JK_obs_rev_c, JR_obs_rev_c,
+    JK_x_FN, JR_x_FN, 
+    Kvinne, 
+    # BRUK BACKTICKS RUNDT NAVN MED BINDESTRREK/SPESIALTEGN
+    Alder_grupper_18_29, Alder_grupper_55_66, 
+    Utdanning_grupper_Grunnskole_eller_mindre,
+    Utdanning_grupper_Universitet_Hogskole, 
+    arb_stillingspst_c,
+    Barn, 
+    For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+    Stotte_sjef, Stotte_kollega, Tilbakemelding_sjef, Arbeidsresultater,
+    Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+    Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+  )
+cat("Dimensjoner for NSD3201_sem1_final:", dim(NSD3201_sem1_final), "\n")
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem2_final (UTEN nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem2_temp <- NSD3201 %>%
+  filter(sykefravaer_2022 > 0)
+
+if(nrow(NSD3201_sem2_temp) > 0) {
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(sykefravaer_log = log(sykefravaer_2022))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+      arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- fastDummies::dummy_cols(
+    NSD3201_sem2_temp,
+    select_columns = c("Alder_grupper", "Utdanning_grupper"),
+    remove_first_dummy = TRUE,
+    remove_selected_columns = TRUE
+  )
+  
+  # RYDD OPP I NAVN ETTER fastDummies for sem2_temp
+  names(NSD3201_sem2_temp) <- gsub("–", "-", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub(" ", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("/", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("\\.", "_", names(NSD3201_sem2_temp))
+  
+  # Sjekk de nye navnene for sem2_temp:
+  # print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem2_temp), value = TRUE))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+      JR_obs_rev = (Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater +
+                     Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                     Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+      JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+      JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+    )
+
+  NSD3201_sem2_final <- NSD3201_sem2_temp %>%
+    dplyr::select(
+      sykefravaer_log,
+      Formue_qnorm_c, Motivasjon,
+      JK_obs_rev_c, JR_obs_rev_c,
+      JK_x_FN, JR_x_FN,
+      Kvinne,
+      # Her må du bruke de NYE navnene etter gsub for sem2_temp
+      # Sjekk om alle dummy-kategorier fortsatt eksisterer i sem2_temp!
+      # Hvis f.eks. 'Utdanning_grupper_Universitet_Hogskole' ikke finnes i sem2_temp,
+      # kan du ikke velge den. Bruk names() for å verifisere.
+      # For eksempel:
+      # if("Alder_grupper_18_29" %in% names(NSD3201_sem2_temp)) Alder_grupper_18_29, # Eksempel
+      # Dette er en vanlig feilkilde for modell 2.
+      # La oss anta de vanligste fortsatt er der:
+      Alder_grupper_18_29, Alder_grupper_55_66, 
+      Utdanning_grupper_Universitet_Hogskole,
+      Utdanning_grupper_Grunnskole_eller_mindre, 
+      arb_stillingspst_c,
+      Barn,
+      For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+      Stotte_sjef, Stotte_kollega, Tilbakemelding_sjef, Arbeidsresultater,
+      Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+      Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+    )
+  cat("Dimensjoner for NSD3201_sem2_final:", dim(NSD3201_sem2_final), "\n")
+} else {
+  cat("Ingen observasjoner igjen i NSD3201_sem2_temp etter filtrering.\n")
+  NSD3201_sem2_final <- NULL
+}
+```
+
+
+```{r}
+
+model_syntax_final_V2 <- ' # Nytt navn for å unngå konflikt med forrige
+  # MÅLINGSMODELL
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               ctrl_Kvinne_M*Kvinne + 
+               ctrl_Alder_g2_M*Alder_grupper_18_29 + ctrl_Alder_g3_M*Alder_grupper_55_66 + 
+               ctrl_Utd_g2_M*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_M*Utdanning_grupper_Universitet_Hogskole + 
+               ctrl_SP_M*arb_stillingspst_c + ctrl_Barn_M*Barn 
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       ctrl_Kvinne_SF*Kvinne + 
+       ctrl_Alder_g2_SF*Alder_grupper_18_29 + ctrl_Alder_g3_SF*Alder_grupper_55_66 + 
+       ctrl_Utd_g2_SF*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_SF*Utdanning_grupper_Universitet_Hogskole + 
+       ctrl_SP_SF*arb_stillingspst_c + ctrl_Barn_SF*Barn
+
+  # DEFINERTE PARAMETERE
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+
+  # KOVARIANSER
+  Jobbkrav ~~ Jobbressurser
+'
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final_V2)
+
+# FØR DU KJØRER: Verifiser at dummy-navnene under (Alder_grupper_18_29 etc.) 
+# stemmer NØYAKTIG med navnene i NSD3201_sem1_final etter gsub.
+# Du kan printe names(NSD3201_sem1_final) for å sjekke.
+
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,
+      estimator = "MLR",
+      missing = "fiml", 
+      std.lv = TRUE,
+      warn = TRUE, verbose = FALSE) # Sett verbose = TRUE for mer detaljert feilsøking om nødvendig
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final_V2)
+
+  # FØR DU KJØRER: Verifiser at dummy-navnene under stemmer NØYAKTIG med navnene i NSD3201_sem2_final.
+  # Sjekk spesielt om Utdanning_grupper_Universitet_Hogskole faktisk finnes i NSD3201_sem2_final.
+  # Hvis den ikke gjør det (fordi alle med den utdanningen hadde 0 fravær),
+  # må du fjerne den fra model_syntax_sem2 manuelt for denne modellen.
+  # Eksempel på sjekk:
+  # if (!"Utdanning_grupper_Universitet_Hogskole" %in% names(NSD3201_sem2_final)) {
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_M\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_SF\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  # }
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_sem2,
+        data = NSD3201_sem2_final,
+        estimator = "MLR",
+        missing = "fiml",
+        std.lv = TRUE,
+        warn = TRUE, verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert.\n")
+}
+```
+```{r}
+model_syntax_final_V3 <- '
+  # MÅLINGSMODELL (som før)
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               Kvinne + # Fjernet label ctrl_Kvinne_M*
+               Alder_grupper_18_29 + Alder_grupper_55_66 + # Fjernet labels
+               Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole + # Fjernet labels
+               arb_stillingspst_c + Barn # Fjernet labels
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       Kvinne + # Fjernet label
+       Alder_grupper_18_29 + Alder_grupper_55_66 + # Fjernet labels
+       Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole + # Fjernet labels
+       arb_stillingspst_c + Barn # Fjernet labels
+
+  # DEFINERTE PARAMETERE (behold labels her)
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+
+  # KOVARIANSER
+  Jobbkrav ~~ Jobbressurser
+'
+
+
+
+
+
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final_V2)
+
+# FØR DU KJØRER: Verifiser at dummy-navnene under (Alder_grupper_18_29 etc.) 
+# stemmer NØYAKTIG med navnene i NSD3201_sem1_final etter gsub.
+# Du kan printe names(NSD3201_sem1_final) for å sjekke.
+
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,
+      estimator = "MLR",
+      missing = "fiml", 
+      std.lv = TRUE,
+      warn = TRUE, verbose = FALSE) # Sett verbose = TRUE for mer detaljert feilsøking om nødvendig
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final_V2)
+
+  # FØR DU KJØRER: Verifiser at dummy-navnene under stemmer NØYAKTIG med navnene i NSD3201_sem2_final.
+  # Sjekk spesielt om Utdanning_grupper_Universitet_Hogskole faktisk finnes i NSD3201_sem2_final.
+  # Hvis den ikke gjør det (fordi alle med den utdanningen hadde 0 fravær),
+  # må du fjerne den fra model_syntax_sem2 manuelt for denne modellen.
+  # Eksempel på sjekk:
+  # if (!"Utdanning_grupper_Universitet_Hogskole" %in% names(NSD3201_sem2_final)) {
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_M\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_SF\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  # }
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_final_V3,
+        data = NSD3201_sem2_final,
+        estimator = "MLR",
+        missing = "fiml",
+        std.lv = TRUE,
+        warn = TRUE, verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert.\n")
+}
+```
+
+
+
+### test
+
+
+
+```{r}
+fit_sem1_wls <- sem(
+  model_syntax_sem1, 
+  data      = NSD3201_sem1_final,
+  estimator = "DWLS",           # switch to diagonally weighted least squares
+  missing   = "pairwise",       # FIML isn’t available under DWLS
+  std.lv    = TRUE,
+  warn      = TRUE,
+  verbose   = FALSE)
+  
+summary(fit_sem1_wls, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)  
+```
+
+#### ny test
+```{r}
+model_syntax_WLSMV <- '
+  # Measurement model
+  Jobbkrav       =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser  =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater +
+                    Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                    Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # Structural model
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c +
+               Kvinne +
+               Alder_grupper_18_29 + Alder_grupper_55_66 +
+               Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole +
+               arb_stillingspst_c + Barn
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon +
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       Kvinne +
+       Alder_grupper_18_29 + Alder_grupper_55_66 +
+       Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole +
+       arb_stillingspst_c + Barn
+
+  # Defined (indirect) parameters
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF    := alpha_JR * beta_M
+  ind_JK_M_SF    := alpha_JK * beta_M
+
+  # Covariance between latent factors
+  Jobbkrav ~~ Jobbressurser
+'
+
+
+
+# 1) Replace "DV" with the actual outcome for Model 1
+model_sem1_WLSMV <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_WLSMV)
+
+# 2) List every single ordinal indicator here:
+ordered_vars_sem1 <- c(
+  "For_mye_arbeid", "Hoyt_arbeidstempo", "Ekstra_arbeid",
+  "Stotte_sjef", "Stotte_kollega", "Tilbakemelding_sjef", "Arbeidsresultater",
+  "Grad_selvbestemming_oppgaver", "Grad_selvbestemming_arbeid_som_skal_gjores",
+  "Grad_arbeidstempo", "Grad_pavirke_beslutning_arbeid"
+  # If 'Motivasjon' is also ordinal (1–5), add "Motivasjon" here.
+)
+
+# 3) Run the SEM with WLSMV
+fit_sem1_WLSMV <- sem(
+  model_sem1_WLSMV,
+  data      = NSD3201_sem1_final,
+  estimator = "WLSMV",         # use the mean‐ and variance‐adjusted WLS
+  ordered   = ordered_vars_sem1,
+  std.lv    = TRUE,            # keep latent variances = 1
+  warn      = TRUE,
+  verbose   = FALSE
+)
+
+# 4) Inspect the results
+summary(fit_sem1_WLSMV,
+        fit.measures = TRUE,
+        standardized = TRUE,
+        rsquare      = TRUE)
+
+```
+  
+
+
+
+
+
+
+
+
+
+
+#### ny test
+
+
+```{r}
+# Antatte dummy-variabler og sentrert variabel (må lages i R-koden din):
+NSD3201$Alder_18_29 <- ifelse(NSD3201$Alder_grupper == "18–29", 1, 0)
+NSD3201$Alder_55_66 <- ifelse(NSD3201$Alder_grupper == "55–66", 1, 0)
+# # (referansegruppe blir "30–54")
+
+NSD3201$Utd_grunn <- ifelse(NSD3201$Utdanning_grupper == "Grunnskole eller mindre", 1, 0)
+NSD3201$Utd_uni <- ifelse(NSD3201$Utdanning_grupper == "Universitet/Høgskole", 1, 0)
+# # (referansegruppe blir "Videregående")
+
+NSD3201$arb_stillingspst_c <- scale(NSD3201$arb_stillingspst, scale = FALSE) # sentrering
+
+# Forhåndsberegne interaksjonsprodukter for observerte variabler:
+NSD3201$SP_FN <- NSD3201$arb_stillingspst_c * NSD3201$Formue_qnorm
+
+model_current <- '
+  # Målemodell (Measurement Model)
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Tilbakemelding_sjef + Arbeidsresultater + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # Strukturell modell (Structural Model)
+  # Ligning for Motivasjon (eq:motivasjon)
+  Motivasjon ~ alpha1*Jobbressurser + alpha2*Formue_qnorm +
+               # Kontrollvariabler for Motivasjon
+               ctrl_M_A1*Alder_18_29 + ctrl_M_A2*Alder_55_66 +
+               ctrl_M_K*Kvinne +
+               ctrl_M_U1*Utd_grunn + ctrl_M_U2*Utd_uni +
+               ctrl_M_T*Tilfredshet + ctrl_M_B*Barn +
+               ctrl_M_SP*arb_stillingspst_c
+
+  # Ligning for Sykefravaer (eq:sf_utvidet)
+  sykefravaer_2022 ~ beta1*Jobbkrav + beta2*Jobbressurser + beta3*Formue_qnorm +
+                     beta6*Motivasjon +
+                     # Interaksjonsledd med latente variabler definert nedenfor
+                     beta4*JK_FN + beta5*JR_FN +
+                     # Interaksjonsledd med observert variabel (må forhåndsberegnes eller defineres med := hvis begge er observerte)
+                     beta7*SP_FN + # SP_FN er produktet arb_stillingspst_c * Formue_qnorm
+                     # Kontrollvariabler for Sykefravaer
+                     ctrl_SF_A1*Alder_18_29 + ctrl_SF_A2*Alder_55_66 +
+                     ctrl_SF_K*Kvinne +
+                     ctrl_SF_U1*Utd_grunn + ctrl_SF_U2*Utd_uni +
+                     ctrl_SF_T*Tilfredshet + ctrl_SF_B*Barn +
+                     ctrl_SF_SP*arb_stillingspst_c # Hovedeffekt av stillingsprosent
+
+  # Definerte interaksjonsledd med latente variabler
+  JK_FN := Jobbkrav * Formue_qnorm
+  JR_FN := Jobbressurser * Formue_qnorm
+  # SP_FN må være en variabel i datasettet hvis den involverer to observerte variabler
+  # Alternativt, hvis Formue_qnorm og arb_stillingspst_c er i datasettet:
+  # SP_FN_obs := arb_stillingspst_c * Formue_qnorm # Dette er for illustrasjon, bruk forhåndsberegnet SP_FN
+
+  # Kovarianser (tillat korrelerte feilledd for eksogene variabler om nødvendig,
+  # eller mellom feilledd for endogene hvis teorien støtter det - vanligvis ikke for SF og M med mindre det er spesifikk grunn)
+  # Jobbkrav ~~ Jobbressurser # Tillat korrelasjon mellom latente eksogene faktorer (vanlig)
+'
+
+```
+
+
+
+
+```{r}
+
+fit_current <- sem(
+  model_current,
+  data = NSD3201,
+  estimator = "MLR",
+  missing = "fiml",
+  std.lv = TRUE,
+  warn = TRUE, verbose = FALSE
+)
+summary(fit_current, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Trash time to finish
+
+
+
+
+
+```{r}
+
+# Start med ditt eksisterende NSD3201 datasett
+# Dette datasettet bør være det som er resultat av all din tidligere datarensing,
+# inkludert reversering av skalaer, oppretting av Formue_qnorm, Alder_grupper, etc.
+# og drop_na() som du hadde til slutt.
+
+# Sikre at faktorer har riktige nivåer for dummy-koding (viktig for referansekategori)
+NSD3201$Alder_grupper <- factor(
+  NSD3201$Alder_grupper,
+  levels = c("30_54", "18_29", "55_66")
+)
+NSD3201$Utdanning_grupper <- factor(NSD3201$Utdanning_grupper, levels = c("Videregaende", "Grunnskole_eller_mindre", "Universitet_Hogskole"))
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem1_final (med nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem1_temp <- NSD3201
+
+# 1. Log-transformer sykefravær (legg til liten konstant for å unngå log(0))
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(sykefravaer_log_plus_c = log(sykefravaer_2022 + 0.01))
+
+# 2. Sentrer kontinuerlige prediktorer som skal brukes i interaksjoner eller som hovedeffekter
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 3. Lag dummy-variabler for kategoriske kontrollvariabler
+# Kvinne er allerede 0/1. For Alder_grupper og Utdanning_grupper:
+NSD3201_sem1_temp <- fastDummies::dummy_cols(
+  NSD3201_sem1_temp,
+  select_columns = c("Alder_grupper", "Utdanning_grupper"),
+  remove_first_dummy = TRUE, # Lager k-1 dummies, første nivå blir referanse
+  remove_selected_columns = TRUE # Fjerner de originale faktorkolonnene
+)
+
+
+
+
+# 5. Lag observerte gjennomsnittsskårer for Jobbkrav (JK) og Jobbressurser (JR)
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+    JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                  Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                  Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 6
+  )
+
+# 6. Sentrer disse observerte skårene
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+    JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+  )
+
+
+# 7. Lag interaksjonsledd
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+    JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+    # SP_x_FN = arb_stillingspst_c * Formue_qnorm_c # Hvis du inkluderer H7
+  )
+
+# 8. Velg endelige kolonner for datasettet
+NSD3201_sem1_final <- NSD3201_sem1_temp %>%
+  dplyr::select(
+    # Avhengig variabel
+    sykefravaer_log_plus_c,
+
+    # Hoved-prediktorer og moderatorer (transformert/sentrert)
+    Formue_qnorm_c,
+    Motivasjon,               # (6 - SpMotEng_ny), antatt allerede reversert
+    JK_obs_rev_c,
+    JR_obs_rev_c,
+
+    # Interaksjonsledd
+    JK_x_FN,
+    JR_x_FN,
+    # SP_x_FN,
+
+    # Kontrollvariabler (dummyer og andre)
+    Kvinne,                  # 0/1
+    starts_with("Alder_grupper_"),    # Alder_grupper_18_29, Alder_grupper_55_66
+    starts_with("Utdanning_grupper_"),# Utdanning_grupper_Grunnskole_eller_mindre, Utdanning_grupper_Universitet_Hogskole
+    arb_stillingspst_c,
+    Barn,                    # 0/1
+
+    # Indikatorvariabler for latente faktorer (de reverserte)
+    For_mye_arbeid,
+    Hoyt_arbeidstempo,
+    Ekstra_arbeid,
+    Stotte_sjef,
+    Stotte_kollega,
+    Grad_selvbestemming_oppgaver,
+    Grad_selvbestemming_arbeid_som_skal_gjores,
+    Grad_arbeidstempo,
+    Grad_pavirke_beslutning_arbeid
+
+    # (legg til andre variabler du trenger i SEM-modellen)
+  )
+
+cat("Dimensjoner for NSD3201_sem1_final:", dim(NSD3201_sem1_final), "\n")
+
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem2_final (UTEN nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+# Start med originalt NSD3201 før du brukte drop_na().
+NSD3201_sem2_temp <- NSD3201 %>%
+  filter(sykefravaer_2022 > 0)  # Fjerner de med 0% sykefravær
+
+# Sjekk om noen rader er igjen
+if (nrow(NSD3201_sem2_temp) > 0) {
+  # 1. Log-transformer sykefravær (ingen konstant nødvendig her)
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(sykefravaer_log = log(sykefravaer_2022))
+
+  # 2. Sentrer kontinuerlige prediktorer
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      Formue_qnorm_c    = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+      arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+    )
+
+  # 3. Lag dummy-variabler for Alder_grupper og Utdanning_grupper
+  NSD3201_sem2_temp <- fastDummies::dummy_cols(
+    NSD3201_sem2_temp,
+    select_columns         = c("Alder_grupper", "Utdanning_grupper"),
+    remove_first_dummy     = TRUE,
+    remove_selected_columns = TRUE
+  )
+
+  # 4. Lag observerte gjennomsnittsskårer for Jobbkrav (JK) og Jobbressurser (JR)
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+      JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                    Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                    Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 6
+    )
+
+  # 5. Sentrer disse observerte skårene
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+      JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+    )
+
+  # 6. Lag interaksjonsledd
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+      JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+      # SP_x_FN = arb_stillingspst_c * Formue_qnorm_c # Hvis du inkluderer H7
+    )
+
+  # 7. Velg endelige kolonner for datasettet
+  NSD3201_sem2_final <- NSD3201_sem2_temp %>%
+    dplyr::select(
+      sykefravaer_log,       # Avhengig variabel for modell 2
+
+      Formue_qnorm_c,
+      Motivasjon,
+      JK_obs_rev_c,
+      JR_obs_rev_c,
+
+      JK_x_FN,
+      JR_x_FN,
+      # SP_x_FN,
+
+      Kvinne,
+      starts_with("Alder_grupper_"),
+      starts_with("Utdanning_grupper_"),
+      arb_stillingspst_c,
+      Barn,
+
+      For_mye_arbeid,
+      Hoyt_arbeidstempo,
+      Ekstra_arbeid,
+      Stotte_sjef,
+      Stotte_kollega,
+      Grad_selvbestemming_oppgaver,
+      Grad_selvbestemming_arbeid_som_skal_gjores,
+      Grad_arbeidstempo,
+      Grad_pavirke_beslutning_arbeid,
+
+      Utdanning_grupper_Universitet_Hogskole,
+      Utdanning_grupper_Grunnskole_eller_mindre
+
+      # (legg til andre variabler du trenger)
+    )
+
+  cat("Dimensjoner for NSD3201_sem2_final:", dim(NSD3201_sem2_final), "\n")
+} else {
+  cat("Ingen observasjoner igjen i NSD3201_sem2_temp etter filtrering på sykefravaer_2022 > 0.\n")
+  NSD3201_sem2_final <- NULL
+}
+
+
+
+```
+
+
+```{r}
+
+# Definer SEM-modellen
+# Denne modellsyntaksen kan brukes for begge datasettene,
+# med unntak av navnet på den avhengige sykefraværsvariabelen.
+
+# VIKTIG: Erstatt variabelnavn nedenfor med de eksakte navnene
+# fra dine 'NSD3201_sem1_final' og 'NSD3201_sem2_final' datasett.
+# Spesielt for dummy-variabler for Alder og Utdanning.
+
+model_syntax_final <- '
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               ctrl_Kvinne_M*Kvinne + 
+               ctrl_Alder_g2_M*Alder_grupper_18_29 + ctrl_Alder_g3_M*Alder_grupper_55_66 + 
+               ctrl_Utd_g2_M*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_M*Utdanning_grupper_Universitet_Hogskole + ctrl_SP_M*arb_stillingspst_c + ctrl_Barn_M*Barn 
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       ctrl_Kvinne_SF*Kvinne + 
+       ctrl_Alder_g2_SF*Alder_grupper_18_29 + ctrl_Alder_g3_SF*Alder_grupper_55_66 + 
+       ctrl_Utd_g2_SF*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_SF*Utdanning_grupper_Universitet_Hogskole + # Bruk underscore istedenfor punktum
+       ctrl_SP_SF*arb_stillingspst_c + ctrl_Barn_SF*Barn
+  # ... (resten av modellen som før)
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+  Jobbkrav ~~ Jobbressurser
+'
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1: Med nullverdier i sykefravær (NSD3201_sem1_final)
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+
+# Erstatt "DV" i modellsyntaksen med den faktiske avhengige variabelen for denne modellen
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final)
+
+# Sørg for at alle variabelnavn i model_syntax_sem1 stemmer med NSD3201_sem1_final
+# Spesielt dummy-navn og navn på interaksjonsledd (JK_x_FN, JR_x_FN)
+
+# Kjør SEM-analysen
+# Bruk tryCatch for å håndtere eventuelle feil under kjøring, f.eks. hvis datasettet er tomt
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,    # Datasett med nullverdier inkludert
+      estimator = "MLR",           # Robust estimator
+      missing = "fiml",            # Håndterer NA elegant (hvis du har noen)
+      std.lv = TRUE,               # Standardiserer latente variabler
+      warn = TRUE,
+      verbose = FALSE)
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+# Vis resultater for modell 1 hvis kjøringen var vellykket
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1,
+          fit.measures = TRUE,
+          standardized = TRUE,
+          rsquare = TRUE))
+  
+  # For å se parameterestimater med konfidensintervaller:
+  # print(parameterEstimates(fit_sem1, standardized = TRUE, ci = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2: UTEN nullverdier i sykefravær (NSD3201_sem2_final)
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+
+# Sjekk om NSD3201_sem2_final ble opprettet (hvis ikke, var det tomt etter filtrering)
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  # Erstatt "DV" i modellsyntaksen med den faktiske avhengige variabelen for denne modellen
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final)
+
+  # Sørg for at alle variabelnavn i model_syntax_sem2 stemmer med NSD3201_sem2_final
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_sem2,
+        data = NSD3201_sem2_final,    # Datasett UTEN nullverdier
+        estimator = "MLR",
+        missing = "fiml", 
+        std.lv = TRUE,
+        warn = TRUE,
+        verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  # Vis resultater for modell 2 hvis kjøringen var vellykket
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2,
+            fit.measures = TRUE,
+            standardized = TRUE,
+            rsquare = TRUE))
+            
+    # print(parameterEstimates(fit_sem2, standardized = TRUE, ci = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert. Kan ikke kjøre modell 2.\n")
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+NSD3201$Alder_grupper <- factor(
+  NSD3201$Alder_grupper,
+  levels = c("30_54", "18_29", "55_66")
+)
+NSD3201$Utdanning_grupper <- factor(NSD3201$Utdanning_grupper, levels = c("Videregaende", "Grunnskole_eller_mindre", "Universitet_Hogskole"))
+
+
+
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem1_final (med nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem1_temp <- NSD3201
+
+# 1. Log-transformer sykefravær
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(sykefravaer_log_plus_c = log(sykefravaer_2022 + 0.01))
+
+# 2. Sentrer kontinuerlige prediktorer
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 3. Lag dummy-variabler
+NSD3201_sem1_temp <- fastDummies::dummy_cols(
+  NSD3201_sem1_temp,
+  select_columns = c("Alder_grupper", "Utdanning_grupper"),
+  remove_first_dummy = TRUE, 
+  remove_selected_columns = TRUE 
+)
+
+# RYDD OPP I NAVN ETTER fastDummies for sem1_temp
+names(NSD3201_sem1_temp) <- gsub("–", "-", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter lang tankestrek med vanlig
+names(NSD3201_sem1_temp) <- gsub(" ", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter mellomrom med underscore
+names(NSD3201_sem1_temp) <- gsub("/", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter skråstrek med underscore
+names(NSD3201_sem1_temp) <- gsub("\\.", "_", names(NSD3201_sem1_temp)) # Erstatter punktum med underscore (trenger \\ for å matche bokstavelig punktum)
+names(NSD3201_sem1_temp) <- gsub("-", "_", names(NSD3201_sem1_temp), fixed = TRUE)
+
+# Sjekk de nye navnene for sem1_temp:
+# print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem1_temp), value = TRUE))
+
+
+# 4. Lag observerte gjennomsnittsskårer for JK og JR
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+    JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                   Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                   Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+  )
+
+# 5. Sentrer disse observerte skårene
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+    JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 6. Lag interaksjonsledd
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+    JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+  )
+
+# 7. Velg endelige kolonner
+NSD3201_sem1_final <- NSD3201_sem1_temp %>%
+  dplyr::select(
+    sykefravaer_log_plus_c,
+    Formue_qnorm_c, Motivasjon, 
+    JK_obs_rev_c, JR_obs_rev_c,
+    JK_x_FN, JR_x_FN, 
+    Kvinne, 
+    # BRUK BACKTICKS RUNDT NAVN MED BINDESTRREK/SPESIALTEGN
+    Alder_grupper_18_29, Alder_grupper_55_66, 
+    Utdanning_grupper_Grunnskole_eller_mindre,
+    Utdanning_grupper_Universitet_Hogskole, 
+    arb_stillingspst_c,
+    Barn, 
+    For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+    Stotte_sjef, Stotte_kollega,
+    Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+    Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+  )
+cat("Dimensjoner for NSD3201_sem1_final:", dim(NSD3201_sem1_final), "\n")
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem2_final (UTEN nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem2_temp <- NSD3201 %>%
+  filter(sykefravaer_2022 > 0)
+
+if(nrow(NSD3201_sem2_temp) > 0) {
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(sykefravaer_log = log(sykefravaer_2022))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+      arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- fastDummies::dummy_cols(
+    NSD3201_sem2_temp,
+    select_columns = c("Alder_grupper", "Utdanning_grupper"),
+    remove_first_dummy = TRUE,
+    remove_selected_columns = TRUE
+  )
+  
+  # RYDD OPP I NAVN ETTER fastDummies for sem2_temp
+  names(NSD3201_sem2_temp) <- gsub("–", "-", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub(" ", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("/", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("\\.", "_", names(NSD3201_sem2_temp))
+  
+  # Sjekk de nye navnene for sem2_temp:
+  # print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem2_temp), value = TRUE))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+      JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                     Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                     Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+      JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+      JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+    )
+
+  NSD3201_sem2_final <- NSD3201_sem2_temp %>%
+    dplyr::select(
+      sykefravaer_log,
+      Formue_qnorm_c, Motivasjon,
+      JK_obs_rev_c, JR_obs_rev_c,
+      JK_x_FN, JR_x_FN,
+      Kvinne,
+      # Her må du bruke de NYE navnene etter gsub for sem2_temp
+      # Sjekk om alle dummy-kategorier fortsatt eksisterer i sem2_temp!
+      # Hvis f.eks. 'Utdanning_grupper_Universitet_Hogskole' ikke finnes i sem2_temp,
+      # kan du ikke velge den. Bruk names() for å verifisere.
+      # For eksempel:
+      # if("Alder_grupper_18_29" %in% names(NSD3201_sem2_temp)) Alder_grupper_18_29, # Eksempel
+      # Dette er en vanlig feilkilde for modell 2.
+      # La oss anta de vanligste fortsatt er der:
+      Alder_grupper_18_29, Alder_grupper_55_66, 
+      Utdanning_grupper_Universitet_Hogskole,
+      Utdanning_grupper_Grunnskole_eller_mindre, 
+      arb_stillingspst_c,
+      Barn,
+      For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+      Stotte_sjef, Stotte_kollega,
+      Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+      Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+    )
+  cat("Dimensjoner for NSD3201_sem2_final:", dim(NSD3201_sem2_final), "\n")
+} else {
+  cat("Ingen observasjoner igjen i NSD3201_sem2_temp etter filtrering.\n")
+  NSD3201_sem2_final <- NULL
+}
+```
+
+
+```{r}
+
+model_syntax_final_V2 <- ' # Nytt navn for å unngå konflikt med forrige
+  # MÅLINGSMODELL
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               ctrl_Kvinne_M*Kvinne + 
+               ctrl_Alder_g2_M*Alder_grupper_18_29 + ctrl_Alder_g3_M*Alder_grupper_55_66 + 
+               ctrl_Utd_g2_M*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_M*Utdanning_grupper_Universitet_Hogskole + 
+               ctrl_SP_M*arb_stillingspst_c + ctrl_Barn_M*Barn 
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       ctrl_Kvinne_SF*Kvinne + 
+       ctrl_Alder_g2_SF*Alder_grupper_18_29 + ctrl_Alder_g3_SF*Alder_grupper_55_66 + 
+       ctrl_Utd_g2_SF*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_SF*Utdanning_grupper_Universitet_Hogskole + 
+       ctrl_SP_SF*arb_stillingspst_c + ctrl_Barn_SF*Barn
+
+  # DEFINERTE PARAMETERE
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+
+  # KOVARIANSER
+  Jobbkrav ~~ Jobbressurser
+'
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final_V2)
+
+# FØR DU KJØRER: Verifiser at dummy-navnene under (Alder_grupper_18_29 etc.) 
+# stemmer NØYAKTIG med navnene i NSD3201_sem1_final etter gsub.
+# Du kan printe names(NSD3201_sem1_final) for å sjekke.
+
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,
+      estimator = "MLR",
+      missing = "fiml", 
+      std.lv = TRUE,
+      warn = TRUE, verbose = FALSE) # Sett verbose = TRUE for mer detaljert feilsøking om nødvendig
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final_V2)
+
+  # FØR DU KJØRER: Verifiser at dummy-navnene under stemmer NØYAKTIG med navnene i NSD3201_sem2_final.
+  # Sjekk spesielt om Utdanning_grupper_Universitet_Hogskole faktisk finnes i NSD3201_sem2_final.
+  # Hvis den ikke gjør det (fordi alle med den utdanningen hadde 0 fravær),
+  # må du fjerne den fra model_syntax_sem2 manuelt for denne modellen.
+  # Eksempel på sjekk:
+  # if (!"Utdanning_grupper_Universitet_Hogskole" %in% names(NSD3201_sem2_final)) {
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_M\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_SF\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  # }
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_sem2,
+        data = NSD3201_sem2_final,
+        estimator = "MLR",
+        missing = "fiml",
+        std.lv = TRUE,
+        warn = TRUE, verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert.\n")
+}
+```
+```{r}
+model_syntax_final_V3 <- '
+  # MÅLINGSMODELL (som før)
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               Kvinne + # Fjernet label ctrl_Kvinne_M*
+               Alder_grupper_18_29 + Alder_grupper_55_66 + # Fjernet labels
+               Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole + # Fjernet labels
+               arb_stillingspst_c + Barn # Fjernet labels
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       Kvinne + # Fjernet label
+       Alder_grupper_18_29 + Alder_grupper_55_66 + # Fjernet labels
+       Utdanning_grupper_Grunnskole_eller_mindre + Utdanning_grupper_Universitet_Hogskole + # Fjernet labels
+       arb_stillingspst_c + Barn # Fjernet labels
+
+  # DEFINERTE PARAMETERE (behold labels her)
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+
+  # KOVARIANSER
+  Jobbkrav ~~ Jobbressurser
+'
+
+
+
+
+
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final_V2)
+
+# FØR DU KJØRER: Verifiser at dummy-navnene under (Alder_grupper_18_29 etc.) 
+# stemmer NØYAKTIG med navnene i NSD3201_sem1_final etter gsub.
+# Du kan printe names(NSD3201_sem1_final) for å sjekke.
+
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,
+      estimator = "MLR",
+      missing = "fiml", 
+      std.lv = TRUE,
+      warn = TRUE, verbose = FALSE) # Sett verbose = TRUE for mer detaljert feilsøking om nødvendig
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final_V2)
+
+  # FØR DU KJØRER: Verifiser at dummy-navnene under stemmer NØYAKTIG med navnene i NSD3201_sem2_final.
+  # Sjekk spesielt om Utdanning_grupper_Universitet_Hogskole faktisk finnes i NSD3201_sem2_final.
+  # Hvis den ikke gjør det (fordi alle med den utdanningen hadde 0 fravær),
+  # må du fjerne den fra model_syntax_sem2 manuelt for denne modellen.
+  # Eksempel på sjekk:
+  # if (!"Utdanning_grupper_Universitet_Hogskole" %in% names(NSD3201_sem2_final)) {
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_M\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_SF\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  # }
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_final_V3,
+        data = NSD3201_sem2_final,
+        estimator = "MLR",
+        missing = "fiml",
+        std.lv = TRUE,
+        warn = TRUE, verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert.\n")
+}
+```
+
+
+
+## ny test
+
+
+
+
+
+
+```{r}
+
+NSD3201$Alder_grupper <- factor(
+  NSD3201$Alder_grupper,
+  levels = c("30_54", "18_29", "55_66")
+)
+NSD3201$Utdanning_grupper <- factor(NSD3201$Utdanning_grupper, levels = c("Videregaende", "Grunnskole_eller_mindre", "Universitet_Hogskole"))
+
+
+
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem1_final (med nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem1_temp <- NSD3201
+
+# 1. Log-transformer sykefravær
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(sykefravaer_log_plus_c = log(sykefravaer_2022 + 0.01))
+
+# 2. Sentrer kontinuerlige prediktorer
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+    arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 3. Lag dummy-variabler
+NSD3201_sem1_temp <- fastDummies::dummy_cols(
+  NSD3201_sem1_temp,
+  select_columns = c("Alder_grupper", "Utdanning_grupper"),
+  remove_first_dummy = TRUE, 
+  remove_selected_columns = TRUE 
+)
+
+# RYDD OPP I NAVN ETTER fastDummies for sem1_temp
+names(NSD3201_sem1_temp) <- gsub("–", "-", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter lang tankestrek med vanlig
+names(NSD3201_sem1_temp) <- gsub(" ", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter mellomrom med underscore
+names(NSD3201_sem1_temp) <- gsub("/", "_", names(NSD3201_sem1_temp), fixed = TRUE) # Erstatter skråstrek med underscore
+names(NSD3201_sem1_temp) <- gsub("\\.", "_", names(NSD3201_sem1_temp)) # Erstatter punktum med underscore (trenger \\ for å matche bokstavelig punktum)
+names(NSD3201_sem1_temp) <- gsub("-", "_", names(NSD3201_sem1_temp), fixed = TRUE)
+
+# Sjekk de nye navnene for sem1_temp:
+# print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem1_temp), value = TRUE))
+
+
+# 4. Lag observerte gjennomsnittsskårer for JK og JR
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+    JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                   Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                   Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+  )
+
+# 5. Sentrer disse observerte skårene
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+    JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+  )
+
+# 6. Lag interaksjonsledd
+NSD3201_sem1_temp <- NSD3201_sem1_temp %>%
+  mutate(
+    JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+    JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+  )
+
+# 7. Velg endelige kolonner
+NSD3201_sem1_final <- NSD3201_sem1_temp %>%
+  dplyr::select(
+    sykefravaer_log_plus_c,
+    Formue_qnorm_c, Motivasjon, 
+    JK_obs_rev_c, JR_obs_rev_c,
+    JK_x_FN, JR_x_FN, 
+    Kvinne, 
+    # BRUK BACKTICKS RUNDT NAVN MED BINDESTRREK/SPESIALTEGN
+    Alder_grupper_18_29, Alder_grupper_55_66, 
+    Utdanning_grupper_Grunnskole_eller_mindre,
+    Utdanning_grupper_Universitet_Hogskole, 
+    arb_stillingspst_c,
+    Barn, 
+    For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+    Stotte_sjef, Stotte_kollega,
+    Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+    Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+  )
+cat("Dimensjoner for NSD3201_sem1_final:", dim(NSD3201_sem1_final), "\n")
+
+#--------------------------------------------------------------------------
+# Forberedelse for NSD3201_sem2_final (UTEN nullverdier i sykefravær)
+#--------------------------------------------------------------------------
+NSD3201_sem2_temp <- NSD3201 %>%
+  filter(sykefravaer_2022 > 0)
+
+if(nrow(NSD3201_sem2_temp) > 0) {
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(sykefravaer_log = log(sykefravaer_2022))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      Formue_qnorm_c = scale(Formue_qnorm, center = TRUE, scale = FALSE)[,1],
+      arb_stillingspst_c = scale(arb_stillingspst, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- fastDummies::dummy_cols(
+    NSD3201_sem2_temp,
+    select_columns = c("Alder_grupper", "Utdanning_grupper"),
+    remove_first_dummy = TRUE,
+    remove_selected_columns = TRUE
+  )
+  
+  # RYDD OPP I NAVN ETTER fastDummies for sem2_temp
+  names(NSD3201_sem2_temp) <- gsub("–", "-", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub(" ", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("/", "_", names(NSD3201_sem2_temp), fixed = TRUE)
+  names(NSD3201_sem2_temp) <- gsub("\\.", "_", names(NSD3201_sem2_temp))
+  
+  # Sjekk de nye navnene for sem2_temp:
+  # print(grep("Alder_grupper_|Utdanning_grupper_", names(NSD3201_sem2_temp), value = TRUE))
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev = (For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid) / 3,
+      JR_obs_rev = (Stotte_sjef + Stotte_kollega +
+                     Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores +
+                     Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid) / 8
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_obs_rev_c = scale(JK_obs_rev, center = TRUE, scale = FALSE)[,1],
+      JR_obs_rev_c = scale(JR_obs_rev, center = TRUE, scale = FALSE)[,1]
+    )
+
+  NSD3201_sem2_temp <- NSD3201_sem2_temp %>%
+    mutate(
+      JK_x_FN = JK_obs_rev_c * Formue_qnorm_c,
+      JR_x_FN = JR_obs_rev_c * Formue_qnorm_c
+    )
+
+  NSD3201_sem2_final <- NSD3201_sem2_temp %>%
+    dplyr::select(
+      sykefravaer_log,
+      Formue_qnorm_c, Motivasjon,
+      JK_obs_rev_c, JR_obs_rev_c,
+      JK_x_FN, JR_x_FN,
+      Kvinne,
+      # Her må du bruke de NYE navnene etter gsub for sem2_temp
+      # Sjekk om alle dummy-kategorier fortsatt eksisterer i sem2_temp!
+      # Hvis f.eks. 'Utdanning_grupper_Universitet_Hogskole' ikke finnes i sem2_temp,
+      # kan du ikke velge den. Bruk names() for å verifisere.
+      # For eksempel:
+      # if("Alder_grupper_18_29" %in% names(NSD3201_sem2_temp)) Alder_grupper_18_29, # Eksempel
+      # Dette er en vanlig feilkilde for modell 2.
+      # La oss anta de vanligste fortsatt er der:
+      Alder_grupper_18_29, Alder_grupper_55_66, 
+      Utdanning_grupper_Universitet_Hogskole,
+      Utdanning_grupper_Grunnskole_eller_mindre, 
+      arb_stillingspst_c,
+      Barn,
+      For_mye_arbeid, Hoyt_arbeidstempo, Ekstra_arbeid,
+      Stotte_sjef, Stotte_kollega,
+      Grad_selvbestemming_oppgaver, Grad_selvbestemming_arbeid_som_skal_gjores,
+      Grad_arbeidstempo, Grad_pavirke_beslutning_arbeid
+    )
+  cat("Dimensjoner for NSD3201_sem2_final:", dim(NSD3201_sem2_final), "\n")
+} else {
+  cat("Ingen observasjoner igjen i NSD3201_sem2_temp etter filtrering.\n")
+  NSD3201_sem2_final <- NULL
+}
+```
+
+
+```{r}
+
+model_syntax_final_V2 <- ' # Nytt navn for å unngå konflikt med forrige
+  # MÅLINGSMODELL
+  Jobbkrav =~ For_mye_arbeid + Hoyt_arbeidstempo + Ekstra_arbeid
+  Jobbressurser =~ Stotte_sjef + Stotte_kollega + Grad_selvbestemming_oppgaver + Grad_selvbestemming_arbeid_som_skal_gjores + Grad_arbeidstempo + Grad_pavirke_beslutning_arbeid
+
+  # STRUKTURELL MODELL
+  Motivasjon ~ alpha_JR*Jobbressurser + alpha_JK*Jobbkrav + alpha_FN*Formue_qnorm_c + 
+               ctrl_Kvinne_M*Kvinne + 
+               ctrl_Alder_g2_M*Alder_grupper_18_29 + ctrl_Alder_g3_M*Alder_grupper_55_66 + 
+               ctrl_Utd_g2_M*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_M*Utdanning_grupper_Universitet_Hogskole + 
+               ctrl_SP_M*arb_stillingspst_c + ctrl_Barn_M*Barn 
+
+  DV ~ beta_JK*Jobbkrav + beta_JR*Jobbressurser + beta_FN*Formue_qnorm_c + beta_M*Motivasjon + 
+       beta_JKxFN*JK_x_FN + beta_JRxFN*JR_x_FN +
+       ctrl_Kvinne_SF*Kvinne + 
+       ctrl_Alder_g2_SF*Alder_grupper_18_29 + ctrl_Alder_g3_SF*Alder_grupper_55_66 + 
+       ctrl_Utd_g2_SF*Utdanning_grupper_Grunnskole_eller_mindre + ctrl_Utd_g3_SF*Utdanning_grupper_Universitet_Hogskole + 
+       ctrl_SP_SF*arb_stillingspst_c + ctrl_Barn_SF*Barn
+
+  # DEFINERTE PARAMETERE
+  ind_H6_FN_M_SF := alpha_FN * beta_M
+  ind_JR_M_SF := alpha_JR * beta_M
+  ind_JK_M_SF := alpha_JK * beta_M
+
+  # KOVARIANSER
+  Jobbkrav ~~ Jobbressurser
+'
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 1
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 1 (med nullverdier i sykefravær) ---\n")
+model_syntax_sem1 <- gsub("DV", "sykefravaer_log_plus_c", model_syntax_final_V2)
+
+# FØR DU KJØRER: Verifiser at dummy-navnene under (Alder_grupper_18_29 etc.) 
+# stemmer NØYAKTIG med navnene i NSD3201_sem1_final etter gsub.
+# Du kan printe names(NSD3201_sem1_final) for å sjekke.
+
+fit_sem1 <- tryCatch({
+  sem(model_syntax_sem1,
+      data = NSD3201_sem1_final,
+      estimator = "WLSMV",
+      missing = "pairwise", 
+      std.lv = TRUE,
+      warn = TRUE, verbose = FALSE) # Sett verbose = TRUE for mer detaljert feilsøking om nødvendig
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+
+#-------------------------------------------------------------------------------
+# KJØR MODELL 2
+#-------------------------------------------------------------------------------
+cat("\n--- Kjører Modell 2 (uten nullverdier i sykefravær) ---\n")
+if (!is.null(NSD3201_sem2_final) && nrow(NSD3201_sem2_final) > 0) {
+  model_syntax_sem2 <- gsub("DV", "sykefravaer_log", model_syntax_final_V2)
+
+  # FØR DU KJØRER: Verifiser at dummy-navnene under stemmer NØYAKTIG med navnene i NSD3201_sem2_final.
+  # Sjekk spesielt om Utdanning_grupper_Universitet_Hogskole faktisk finnes i NSD3201_sem2_final.
+  # Hvis den ikke gjør det (fordi alle med den utdanningen hadde 0 fravær),
+  # må du fjerne den fra model_syntax_sem2 manuelt for denne modellen.
+  # Eksempel på sjekk:
+  # if (!"Utdanning_grupper_Universitet_Hogskole" %in% names(NSD3201_sem2_final)) {
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_M\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  #   model_syntax_sem2 <- gsub("\\+ ctrl_Utd_g3_SF\\*Utdanning_grupper_Universitet_Hogskole", "", model_syntax_sem2)
+  # }
+
+  fit_sem2 <- tryCatch({
+    sem(model_syntax_sem2,
+        data = NSD3201_sem2_final,
+        estimator = "WLSMV",
+        missing = "pairwise",
+        std.lv = TRUE,
+        warn = TRUE, verbose = FALSE)
+  }, error = function(e) {
+    cat("FEIL under kjøring av sem for modell 2:", conditionMessage(e), "\n")
+    return(NULL)
+  })
+
+  if (!is.null(fit_sem2)) {
+    print(summary(fit_sem2, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE))
+  } else {
+    cat("Modell 2 (fit_sem2) kunne ikke estimeres.\n")
+  }
+} else {
+  cat("Datasettet NSD3201_sem2_final er tomt eller ikke definert.\n")
+}
+
+```
+
+
+
+```{r}
+# Liste over alle ordinalvariabler (type 1–5)
+ordinal_vars <- c(
+  "For_mye_arbeid",
+  "Hoyt_arbeidstempo",
+  "Ekstra_arbeid",
+  "Stotte_sjef",
+  "Stotte_kollega",
+  "Grad_selvbestemming_oppgaver",
+  "Grad_selvbestemming_arbeid_som_skal_gjores",
+  "Grad_arbeidstempo",
+  "Grad_pavirke_beslutning_arbeid",
+  "Motivasjon")
+
+# Kjør SEM med WLSMV og ordinale indikatorer
+fit_sem1 <- tryCatch({
+  sem(
+    model_syntax_sem1,
+    data      = NSD3201_sem1_final,
+    estimator = "WLSMV",
+    ordered   = ordinal_vars,
+    missing   = "pairwise",
+    std.lv    = TRUE,
+    warn      = TRUE,
+    verbose   = FALSE,
+    parameterization = "theta"
+  )
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1,
+                fit.measures = TRUE,
+                standardized  = TRUE,
+                rsquare       = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+```
+
+
+
+
+```{r}
+
+# Kjør SEM med WLSMV og ordinale indikatorer
+fit_sem1 <- tryCatch({
+  sem(
+    model_syntax_sem2,
+    data      = NSD3201_sem2_final,
+    estimator = "WLSMV",
+    ordered   = ordinal_vars,
+    missing   = "pairwise",
+    std.lv    = TRUE,
+    warn      = TRUE,
+    verbose   = FALSE,
+    parameterization = "theta"
+  )
+}, error = function(e) {
+  cat("FEIL under kjøring av sem for modell 1:", conditionMessage(e), "\n")
+  return(NULL)
+})
+
+if (!is.null(fit_sem1)) {
+  print(summary(fit_sem1,
+                fit.measures = TRUE,
+                standardized  = TRUE,
+                rsquare       = TRUE))
+} else {
+  cat("Modell 1 (fit_sem1) kunne ikke estimeres.\n")
+}
+```
+
+
+
+

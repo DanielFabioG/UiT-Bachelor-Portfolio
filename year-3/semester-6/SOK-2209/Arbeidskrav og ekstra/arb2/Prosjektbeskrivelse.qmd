@@ -1,0 +1,353 @@
+---
+format: 
+  pdf:
+    include-before-body:
+      - dokumentobjekter/texstuff/prosjektbeskrivelse.tex  
+    geometry:
+      - top=20mm
+      - left=20mm
+      - heightrounded
+    fontsize: 12pt
+    documentclass: scrartcl
+    papersize: a4
+    toc-title: "Innholdsfortegnelse"
+    toccolor: black
+echo: false
+message: false
+warning: false
+bibliography: dokumentobjekter/texstuff/references-sok2209.bib
+csl: dokumentobjekter/texstuff/norsk-apa-manual.csl
+crossref: 
+  lof-title: "Figurliste"
+  fig-title: "Figur"
+  lot-title: "Tabelliste"
+  tbl-title: "Tabell"
+header-includes:
+  - \usepackage{wrapfig}
+  - \usepackage{subcaption}
+  - \usepackage{amsmath}
+  - \usepackage{cancel}
+  - \usepackage{hyperref}
+  - \usepackage{tikz}
+  - \usetikzlibrary{shapes.geometric, arrows, arrows.meta, positioning, calc}
+  - \usepackage{tabularx}
+  - \renewcommand{\maketitle}{}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{} 
+  - \fancyhead[L]{\rightmark}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{\thepage}
+  - \usepackage{colortbl}
+  - \definecolor{cornflowerblue}{RGB}{100,149,237}
+  - \definecolor{darkblue}{RGB}{115,150,255}
+  - \definecolor{lighterblue}{RGB}{131, 191, 212} 
+  - \definecolor{lightblue}{RGB}{178,211,220}
+keep-tex: false
+---
+
+```{=tex}
+\hypersetup{linkcolor=black}
+\renewcommand{\contentsname}{Innholdsfortegnelse}
+\renewcommand*{\figureautorefname}{Figur}
+\renewcommand*{\tableautorefname}{Tabell}
+\hypersetup{linkcolor=blue}
+```
+
+
+### Oppgavens bakgrunn, tema, samt presentasjon av problemstilling («Hva?»)
+
+"Vil en økning i formueulikhet, kombinert med redusert boligtilgjengelighet, føre til høyere sykefravær i Norge? Denne bacheloroppgaven undersøker sammenhengen mellom sosioøkonomiske forhold og sykefravær, med et spesielt fokus på hvordan endringer i formuefordeling og boligmarkedet kan påvirke arbeidstakeres helse og fravær fra jobben. Vi benytter en utvidet Job Demands-Resources (JDR) modell som teoretisk rammeverk, og analyserer data fra Levekårsundersøkelsen om arbeidsmiljø kombinert med eksterne data om boligpriser."
+
+
+### Begrunnelse for problemstillingen («Hvorfor?»)
+
+
+"I årene etter finanskrisen har vi observert en økende formueulikhet i mange vestlige land, inkludert Norge. Denne trenden har blitt forsterket etter pandemien, spesielt i boligmarkedet. Lønnsveksten har ikke holdt tritt med prisøkningen på eiendeler, særlig boliger. Dette har gjort det relativt vanskeligere for unge og de med lavere inntekter å opparbeide seg formue, for eksempel gjennom boligkjøp.
+
+Vi antar at denne utviklingen kan ha negative konsekvenser for arbeidstakeres motivasjon og helse, og dermed påvirke sykefraværet. Når det blir stadig vanskeligere å oppnå økonomisk trygghet og en akseptabel levestandard, kan det føre til økt stress, redusert jobbmotivasjon, og i verste fall dårligere helse og økt fravær. Å forstå disse mekanismene er viktig for å utvikle treffsikre tiltak for å redusere sykefravær og fremme et inkluderende arbeidsliv."
+
+
+### Summarisk oversikt over teorigrunnlag for å belyse/drøfte problemet og en grov disposisjon av oppbyggingen av teorikapitlet («Hvordan?»).
+
+
+Endepunktet vi håper å bygge oss opp til er en slik JDR modell med formueulikhet og boligtilgjengelighet som eksterne faktorer. 
+Vi tenker da å skrive ut en oppbygging fra en simpel job demand control modell og bygger på denne til vi ender opp med modellen vi til slutt bruker som blir en job demand control support modell og forklarer teorien underveis.
+
+Bedre forklart:
+
+"For å undersøke disse sammenhengene, tar vi utgangspunkt i Job Demands-Resources (JDR) modellen. JDR-modellen er en veletablert teori innen arbeids- og organisasjonspsykologi som forklarer hvordan ulike aspekter ved jobben (jobbkrav og jobbressurser) påvirker ansattes velvære og motivasjon.
+
+    Jobbkrav er de fysiske, psykologiske, sosiale eller organisatoriske aspektene ved jobben som krever vedvarende innsats og er assosiert med fysiologiske og/eller psykologiske kostnader (f.eks. tidspress, emosjonelle krav).
+    Jobbressurser er de aspektene ved jobben som hjelper til med å oppnå arbeidsmål, redusere jobbkrav, og/eller stimulere personlig vekst og utvikling (f.eks. sosial støtte, autonomi, tilbakemeldinger).
+
+JDR-modellen postulerer at høye jobbkrav og lave jobbressurser fører til stress og utbrenthet, som igjen kan øke sykefraværet. Samtidig kan jobbressurser buffere mot de negative effektene av jobbkrav, og fremme motivasjon og engasjement, som reduserer sykefravær.
+
+Vi utvider JDR-modellen ved å inkludere formueulikhet og boligtilgjengelighet som eksterne faktorer som kan påvirke både jobbopplevelsen (gjennom stress og motivasjon) og sykefraværet direkte. Vi antar at:
+
+    Høy formueulikhet kan redusere motivasjonen, spesielt for de med lav formue.
+    Lav boligtilgjengelighet (høye boligpriser) kan øke stress og redusere motivasjonen.
+    Formue i seg selv, kan redusere stress
+
+Teorikapitlet vil først gi en grundig innføring i JDR-modellen, inkludert dens teoretiske grunnlag og empiriske støtte. Deretter vil vi diskutere hvordan formueulikhet og boligtilgjengelighet kan tenkes å passe inn i denne modellen, og presentere våre hypoteser. Til slutt vil vi se på hvordan disse faktorene kan påvirke arbeidstilbudet, med utgangspunkt i en enkel økonomisk modell.
+
+
+
+
+Vi har sett på bruken av en Job Demand Resource modell siden vi tror at jobbressurser og jobbkrav har en effekt på motivasjon og sykefravær. Ved å da ta med prosessen til hvordan jobbressurser og jobbkrav påvirker motivasjon og stress så tror vi at vi kan bedre isolere effekten av formueulikhet og boligtilgang på motivasjon, og dermed sykefravær. 
+
+Vi tar dette med siden vi tror at vi vil få et veldig positivt resultat som ikke bare kan tildeles til formueulikhet og boligtilgang. 
+
+
+For jobbressurser så tenker vi å ta med variablene: 
+QPS72_ny - Få støtte/hjelp i arbeidet fra nærmeste sjef
+QPS73_ny - Få støtte/hjelp i arbeidet fra kollegaer 
+
+Raad3a_ny - Tilbakemeld fra nærmeste sjef hvordan utført jobben
+QPS78_ny - Arb.resultater verdsatt av nærmeste sjef 
+
+Sp56a2 - Grad selv bestemme hvilke oppgaver skal få
+Sp56b2 - Grad kan selv bestemme hvordan arbeidet skal gjøres
+QPS47 - Grad kan selv bestemme ditt arbeidstempo
+QPS53 - Grad kan påvirke beslutn viktige for ditt arbeid? 
+
+
+
+For jobbkrav tar vi Tilgjengelig1 og 2 for forventningene om hvor mye det jobbes på fritiden og hvor mye det jobbes. 
+QPS15_ny - For mye å gjøre
+QPS14_ny - Nødvendig å arbeide i et høyt tempo
+Sp47f - Mye å gjøre - sløyfe lunsjen/jobbe ekstra 
+Sp47a - Selv bestemme når ta pauser fra arbeidet 
+
+
+**Job demand = jobbkrav**
+**Job resource = jobbressurs**
+**Wealth inequality = formueulikhet**
+**Housing affordability = Boligtilgang evt sykepleierindeksen**
+
+
+$$
+\begin{aligned}
+SF &= \beta_0 + \beta_1JK + \beta_2M + \beta_3FU + \beta_4HA + \epsilon_1 \\
+M &= \alpha_0 + \alpha_1JR + \alpha_2FU + \alpha_3HA + \epsilon_2 
+\end{aligned}
+$$
+
+SF er sykefravær, JK er jobbkrav, M er motivasjon, FU er Formue ulikhet, HA er Housing Affordability, JR er jobb ressurser.
+
+
+Grunnen til at vi tar med JK og JR er fordi vi tror at det er en sammenheng mellom disse og sykefravær og vil dermed kunne isolere effekten av FU og HA på M og dermed SF.
+
+Vi tror formue spiller inn til hvor sensitiv du er til endringer i inntekt. Altså ditt konsumnnivå eller etterspurt fritid endrer seg ulikt basert på om du har mye formue eller ikke. Dette kan være fordi du har mer buffer til å tåle endringer i inntekt.
+
+Så formue vil ha effekt på hvor mye utdanning du har, effekt på hvilken motivasjon du har og effekt på variabelen M som er annen inntekt utenom jobb. 
+
+
+Et eksempel vi så på er;
+
+
+g = formue, j = alder, k = utdanning, l = motivasjon
+
+* v = dummyvariabel
+
+$$
+t^a = h^* - \alpha w - \beta(m(g) + h^*w) - (k\cdot v+j\cdot v)
+$$
+
+Tanken bak dette var dummy variabler for ulike aldersgrupper. Hvor vi beholder en ligning for alle men da bruke de dummyvariablene, og dermed kunne tolke bare en variabel. Da vil forskjellige typer inntekt påvirker forskjellig i M variabelen. 
+
+
+### Kort om den empiriske metoden som vil bli brukt samt datagrunnlaget. Er dataene åpent tilgjengelig eller er det knyttet risiko til innhenting av data?
+
+For å teste våre hypoteser, benytter vi en Strukturell Ligningsmodell (SEM). SEM er en statistisk metode som tillater oss å estimere komplekse sammenhenger mellom flere variabler samtidig, inkludert latente variabler (variabler som ikke er direkte observert, men som er målt gjennom indikatorer). Dette passer godt til vår utvidede JDR-modell, der vi har latente variabler som Jobbkrav, Jobbressurser, Motivasjon og Stress.
+
+Datagrunnlaget er Levekårsundersøkelsen om arbeidsmiljø 2022 (hovedfil) fra NSD (Norsk senter for forskningsdata), kombinert med data om boligtilgjengelighet (Sykepleierindeksen) på kommunenivå. Levekårsundersøkelsen er en representativ undersøkelse av norske arbeidstakere, og inneholder et bredt spekter av spørsmål om arbeidsforhold, helse og sosioøkonomiske forhold.
+
+Dataene fra Levekårsundersøkelsen er åpent tilgjengelig via NSDs nettsider (https://nsd.no/). Sykepleierindeksen er også offentlig tilgjengelig. Det er ingen spesiell risiko knyttet til innhenting av disse dataene, utover å sørge for korrekt kildehenvisning og å følge NSDs retningslinjer for bruk av data.
+
+Vi vil bruke R med pakken lavaan til å gjennomføre SEM-analysen
+
+Mulig oppsett av modell:
+
+Jobbkrav (JK):
+$$
+\begin{aligned}
+\text{Tilgjengelig1} &= \lambda_1JK + \epsilon_1 \\
+\text{Tilgjengelig2} &= \lambda_2JK + \epsilon_2 \\
+\end{aligned}
+$$
+$$
+\begin{aligned}
+\text{QPS15}_{ny} &= \lambda_3JK + \epsilon_3 \\
+\text{QPS14}_{ny} &= \lambda_4JK + \epsilon_4 \\
+\text{Sp47f} &= \lambda_5JK + \epsilon_5 \\
+\text{NFR13c}_{ny} &= \lambda_6JK + \epsilon_6 \\
+\text{NFR13d}_{ny} &= \lambda_7JK + \epsilon_7 
+\end{aligned}
+$$
+
+
+
+
+Jobbressurser (JR):
+
+$$
+\begin{aligned}
+\text{QPS72}_{ny} &= \lambda_1JR + \epsilon_8 \\
+\text{QPS73}_{ny} &= \lambda_2JR + \epsilon_9 \\
+\text{Raad3a}_{ny} &= \lambda_3JR + \epsilon_{10} \\
+\text{QPS78}_{ny} &= \lambda_4JR + \epsilon_{11} \\
+\text{Sp56a2} &= \lambda_5JR + \epsilon_{12} \\
+\text{Sp56b2} &= \lambda_6JR + \epsilon_{13} \\
+\text{QPS47} &= \lambda_7JR + \epsilon_{14} \\
+\text{QPS53} &= \lambda_8JR + \epsilon_{15} \\
+\text{SpInform} &= \lambda_9JR + \epsilon_{16} \\
+\text{YtrKlima} &= \lambda_{10}JR + \epsilon_{17} 
+\end{aligned}
+$$
+
+
+
+Motivasjon (M):
+$$
+\begin{aligned}
+\text{SpMotEng}_{ny} &= \lambda_1M + \epsilon_{18} \\
+\text{SpTilhor} &= \lambda_2M + \epsilon_{19} \\
+\text{Sp59g} &= \lambda_3M + \epsilon_{20} 
+\end{aligned}
+$$
+
+Stress(S):
+$$
+\begin{aligned}
+\text{Sliten1} &= \lambda_1S + \epsilon_{21} \\
+\text{Sliten}_{a} &= \lambda_2S + \epsilon_{22} \\
+\text{SpPrivat} &= \lambda_3S + \epsilon_{23} 
+\end{aligned}
+$$
+
+Formue(F):
+$$
+agg\_f\_08 = \lambda_1F + \epsilon_{24}
+$$
+
+
+
+
+Vi har da
+$$
+\begin{aligned}
+\text{Stress} = \gamma_1JK + \gamma_2JR + \gamma_3 F + \epsilon_{tot1} \\
+\text{Motivasjon} = \beta_1JK + \beta_2JR + \beta_3HA + \beta_4F + \epsilon_{tot2} 
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+sfpros\_uten\_feriekorr\_2022 = \delta_1S + \delta_2M + \delta_3F + \delta_4kullaldr + \delta_5utdnivaa + \delta_6Kjonn + \delta_7partner \\ + \delta_8barn05 + \delta_9barn617 + \delta_{10}styrk08 + \delta_{11}naering + \delta_{12}Hels1 + \epsilon_{tot3}
+\end{aligned}
+$$
+
+Vi får da at $\gamma_3$ er effekten til formue på stress uavhengig av motivasjon,  $\beta_4 \delta_2$ er effekten av formue på sykefravær gjennom motivasjon. formue->motivasjon->sykefravær.
+$\beta_3$ blir effekten av boligtilgang på motivasjon, $\delta_2$ effekten av motivasjon på sykefravær, $gamma_1$ effekten av jobbkrav på stress. Altså vi prøver å få bort mest mulig andre effekter for å se på den samlede effekten av ulikhet igjennom formue og boligtilgang på sykefravær samtidig som vi prøver å filtrere ut de andre effektene. 
+
+#### Ekstra interesse
+
+
+Evt også ta med enten sykepleierindeks, eller medianinntekt på forskjellige aldersgrupper som andel av boligpriser. Er også ssb datasett om forskjell i menn og kvinner på alder og investeringer i aksjer med utbytte osv. Mulig å kanskje da splitte aldersgruppen i 2 og se om dette gjør at vi får en bedre modell hvis vi skal teste mot historiske data.
+
+Om vi får tid vil vi også om mulig se på skattedataene som avisen iTromsø ga oss i fjor,som inneholder skatteopplysninger for hele landet. 
+
+Vi vil da bruke disse for å kunne teste modellen opp mot resultatene for å se om vi kan estimere sykefraværet for de ulike formuegruppene? Denne dataen er ikke offentlig, og er mulig at vi ikke kan bruke ettersom det ikke er offentlig tilgjeng.
+
+
+
+
+\newpage
+
+
+
+
+### En tidsplan med milepæler
+
+#### Milepæler
+
+```{=tex}
+\begin{verbatim}
+
+26. februar: Innlevering av prosjektbeskrivelse
+
+28. februar: Ferdigstille fordeling av arbeidsoppgaver
+
+7. mars: Ferdigstille bakgrunn og problemstilling
+
+14. mars: Ferdigstille litteraturgjennomgang
+
+21. mars: Begynt på teoretisk grunnlag
+
+28. mars: Fortsatt arbeid med teoretisk grunnlag
+
+4. april: Ferdigstille teoretisk grunnlag
+
+11. april: Ferdigstille metode, levere midtveisinnlevering og statusrapport
+
+18. april: Ferdigstille data
+
+25. april: Ferdigstille analysemetode
+
+2. mai: Ferdigstille økonometrisk analyse
+
+9. mai: Ferdigstille diskusjon
+
+16. mai: Ferdigstille konklusjon
+
+23. mai: Ferdigstille videre arbeid og generelt arbeid
+
+30. mai: Ferdigstille referanser og litteraturliste og gå over siste bit
+
+1. juni: Innlevering av bacheloroppgaven
+
+\end{verbatim}
+```
+
+
+
+\newpage
+
+### Mulig oversikt over kjernelitteratur som vil bli brukt i oppgaven.
+
+
+
+
+
+
+
+
+### Helse og formue
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC8225390/
+
+controlling for community-average wealth, age, sex, household size, community size, and distance to markets. Wealthier people largely had better outcomes while inequality associated with more respiratory disease, a leading cause of mortality. Greater inequality and lower wealth were associated with higher blood pressure. Psychosocial factors did not mediate wealth-health associations. Thus, relative socio-economic position and inequality may affect health across diverse societies, though this is likely exacerbated in high-income countries.
+
+
+
+
+### karriærevalg, utdanning osv.
+
+fattigere har dårligere tilgang på "career role models" som gjør at de kanskje ikke vet om de bedre yrkene og sånt og dermed igjen blir mindre utdanna og sånt
+https://www.gallup.com/analytics/506696/amazon-research-hub.aspx
+
+
+
+
+
+
+
+###   Do wealth and inequality associate with health in a small-scale subsistence society?
+
+
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC8225390/
+
+
+

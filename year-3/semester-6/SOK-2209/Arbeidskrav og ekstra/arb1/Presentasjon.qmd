@@ -1,0 +1,98 @@
+---
+title: "Presentasjon av problemstilling"
+subtitle: "SOK-2209 Bacheloroppgave"
+date: last-modified
+date-format: "DD-MM-YYYY"
+echo: false
+warning: false
+format: 
+  revealjs:
+    auto-stretch: false
+    theme: black
+    parallaxBackgroundImage: 'dokumentobjekter/texstuff/dog.png'
+    parallax-background-size: "1920px 1080px"
+    parallax-background-horizontal: 0
+    parallax-background-vertical: 0
+---
+
+
+## problemstilling
+
+Vil en økning i formueulikhet føre til høyere sykefravær? Om så hvordan kan det skje. Er det forskjell mellom de med formue og de uten?
+
+
+
+Kan økningen i formueulikhet føre til redusert motivasjon til arbeid og det og få barn? Hvorfor forskjell i kvinners sykefravær når fertilitetsraten går ned.
+
+Psykiske lidelser?
+
+::: notes
+sku vel egentlig starta me å si kor æ starta på det der, og det va me den en vanlig nyttefunksjon som vist i den forelesinga. men lage 2 eller noe. ikke at hvert enkelt individ er den samme. trur det er stor forskjell på ønsket arbeidstid om man er motivert eller ikke, og jeg antar da at en ren maksimering etter bare konsum blir feil når folk vil ha bolig osv. så maksimere under 2 bibetingelser, konsum og investering. 
+
+fertilitetsrate ikke konsisent med endring i sykefravær kvinner
+:::
+
+
+## Funksjon
+
+Kan ikke anta hvert enkelt individ har samme nyttefunksjon. forskjell mellom de med formue, og de uten. 
+
+knytte seg at vi da har at etterspørsel etter sykefravær er forskjellig fra rik/fattig
+og er da 
+
+etterspørsel etter sykefravær = h(antall arbeidstimer+fraværstid) - sensitivitet for (full lønn for kontraktsfestede timer (wh∗) + ikke-arbeidsrelaterte inntekter) - (forhold mellom alder, motivasjon og kanskje antall barn)
+
+
+
+
+
+## unngå  wet roads causes rain
+
+
+
+
+## Variabler
+
+Sykefraværprosent uten feriekorrigering, fra register
+
+sfpros_uten_feriekorr_2022 
+
+sfpros_uten_feriekorr_2023
+
+kullaldr 
+
+Sp59g  tilfreds med jobben
+
+SpMotEng_ny motivasjon/engasjement
+
+
+
+kanskje barn05 / barn617 (har små barn/skolebarn)
+
+Kanskje Kjonn
+
+
+
+
+## notater
+
+kordan variabler, så trekke inn det me sysselsetting og arbeidsledighet, og psykiske lidelser med diskusjon om ledelse fra den 2022 ssb dataen
+
+
+kunne tenkt mæ å få 2 tilpasninge, en for "rike" og en for vanlige tho eller noe. kanskje mokke til forklaringsvariable så man da har
+rik/fattig, ledelse(betyr lite for rik), kontroll over eget arbeid 
+
+
+så høy disiplineringseffekt -> lavere sykefravær blandt arbeidere
+så 2023 lav arbeidsledighet, liten disiplineringseffekt -> sykefravær lik mellom de me høy alternativ inntekt vs arbeidere
+
+
+
+
+## notater
+
+til oppgaven hvis man vil ha me ulikhet så ligg det noen variabler der for lønn og renteinntekt, kapitalinntekt, aksjeutbytte
+i konsumtilpasning mellom fritid og konsum så vil jo lønn og da jobb ha mindre å si om du er rik så du til større grad er på jobb av valg og ikke nødvendighet så mer sykefravær blandt de versus de med inntekt fra lønn
+
+
+
