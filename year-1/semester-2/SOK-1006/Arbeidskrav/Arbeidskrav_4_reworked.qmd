@@ -1,0 +1,75 @@
+---
+title: "SOK-1006: Arbeidskrav 4  - reworked"
+author: "Daniel Fabio Groth"
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    df-print: kable
+output: true
+editor: visual
+toc: true
+warning: false
+---
+
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).
+
+**Oppgave**
+
+*Beregn gjennomsnitts- og grenseproduktiviteten til arbeidskraft for produktfunksjon (1), og tegn disse i en figur. Forklar figuren. For hvilken verdi av $N$ er grenseproduktiviteten høyest?  (Hint: husk hvordan vi tegnet sympy uttrykk i matplotlib ved å bruke `sp.lambdify()` i forelesning 5).*
+
+```{python}
+# importer pakkene som vi trenger
+import numpy as np
+from matplotlib import pyplot as plt
+import sympy as sp
+
+# Vi definerer produktfn
+
+def prod(c,N,A):
+    produksjon=1000*(c.exp(N)/(A+c.exp(N)))
+    return produksjon
+```
+
+```{python}
+# Arbeidskrav 4
+
+n=np.linspace(1,10,100)
+
+fig1, ax = plt.subplots()
+ax.set_ylabel('Kvantum (x)', loc='top')
+ax.set_xlabel('Enheter arbeidskraft (N)', loc='right')
+ax.set(xlim=(1,10))
+ax.set(ylim=(0,1000))
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none')
+
+# Define symbols
+N, A, c = sp.symbols('N A c', positive=True, real=True)
+
+# Definerer produksjonsfunksjonen
+def production(c, N, A):
+    return 1000 * (sp.exp(c*N) / (A + sp.exp(c*N)))
+
+# Definerer derivert av produksjonsfunksjonen
+def production_derivative(c, N, A):
+    return sp.diff(production(c, N, A), N)
+
+# definerer gjennomsnittlig produksjon
+def production_gjennomsnitt(c, N, A):
+    return prod(np,N,A)/N
+
+# Konverterer med sp.lambdify for å få de plottet
+production_func = sp.lambdify((c, N, A), production(c, N, A))
+production_derivative_func = sp.lambdify((c, N, A), production_derivative(c, N, A))
+
+# lagrer verdier som skal plottes og plotter de
+derivert_verdi = production_derivative_func(1, n, 200)
+produksjon_verdi = production_gjennomsnitt(1, n, 200)
+ax.plot(n, derivert_verdi, '--', label='Grenseproduktivitet')
+ax.plot(n, produksjon_verdi, label='Gjennomsnittlig Produksjon')
+ax.legend(loc='best',frameon=False);
+```
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).

@@ -1,0 +1,85 @@
+---
+title: "SOK-1006: Arbeidskrav 8  - reworked"
+author: "Daniel Fabio Groth"
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    df-print: kable
+output: true
+editor: visual
+toc: true
+warning: false
+---
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).
+
+```{python}
+import numpy as np
+from matplotlib import pyplot as plt
+import sympy as sp
+```
+
+**Oppgave 8**        
+Tenk at en husholdning har preferanser over to goder ($x_1, x_2$) gitt ved en nyttefunksjon av Stone-Geary type:
+
+\begin{equation}
+   U(x_1, x_2) = \beta_1 ln (x_1-\gamma_1) + \beta_2 ln (x_2-\gamma_2) 
+\end{equation}
+
+hvor $\beta_1+\beta_2=1$, og $\gamma_1>0, \gamma_2>0$.    
+a) Hva kan tolkningen av $\gamma_1, \gamma_2$ være?   
+b) Priser på de to godene er gitt ved $p_1, p_2$, og husholdningen har inntekt $m$. Hvor mye av hvert gode etterspørres av husholdningen? Gi en intuitiv forklaring av formen på denne etterspørselen.     
+c) Statistisk sentralbyrå har utviklet to makroøkonomiske modeller (KVARTS og MODAG) som brukes som analyseredskap av blant annet Finansdepartementet. Les de gule avsnittene i [dette dokumentet](https://github.com/uit-sok-1006-v23/uit-sok-1006-v23.github.io/blob/main/artikler/konsum%20modag%202013%20merket.pdf) som forklarer hvordan husholdningens tilpasning modelleres i KVARTS og MODAG. Bruk din analyse ovenfor til å forklare Trinn 1 i denne prosessen.   
+
+a) Vi har med en nyttefunksjon å gjøre som likner en log-versjon av Cobb-Douglas. Logaritmen til et negativt tall er ikke definert og da må $x_1-\gamma_1 > 0$ $x_2-\gamma_2 > 0$. Som et minimumskonsum av godet som konsumenten må oppnå.
+
+```{python}
+# b)
+x_1, x_2, a, b, U_0 =sp.symbols("x_1 x_2 a b U_0", real=True, positive=True)
+U=x_1**a*x_2**b
+
+p_1, p_2, m =sp.symbols("p_1 p_2 m", real=True, positive=True)
+
+# budsjett
+bud=p_1*x_1+p_2*x_2
+
+# Beregne MSB
+
+msb = sp.diff(U, x_1)/sp.diff(U,x_2)
+
+# Vi må løse (14 og (6)
+bta_1,bta_2,gma_1,gma_2 = sp.symbols('\u03b2_1 \u03B2_2 \gamma_1 \gamma_2', real= True, positive=True)
+
+# definerer nytteen
+nytte= bta_1*sp.log(x_1-gma_1)+bta_2*sp.log(x_2-gma_2)
+
+# beregne msb
+msb=sp.diff(nytte,x_1)/sp.diff(nytte,x_2)
+
+#løs msb for rel pris på gode 1 og gode 2
+x2_rel= sp.solve(msb-p_1/p_2, x_2)[0]
+
+# nytt budsjett
+budsjett2 = bud.subs(x_2, x2_rel)
+
+x1_eq = sp.simplify(sp.solve(budsjett2 - m, x_1)[0])
+x2_eq = sp.simplify(x2_rel.subs(x_1, x1_eq))
+
+#Hvor mye av hvert gode som EP av husholdningen
+x_1_sg = sp.simplify(x1_eq.subs(bta_2,(1-bta_1)))
+x_2_sg = sp.simplify(x2_eq.subs(bta_1,(1-bta_2)))
+display(x_1_sg, x_2_sg)
+```
+
+c) 
+
+Dette er etterspørsel etter gode 1 og gode 2. For å forklares skriver vi: $$p_1x_1=p_1\gamma_1+\beta_1p_1(m-p_1\gamma_1-p_2\gamma_2)$$ og $$p_2x_2=p_2\gamma_2+\beta_2p_2(m-p_1\gamma_1-p_2\gamma_2)$$
+
+Utgiften på gode 1 består av to ledd og er det som konsumenten må bruke på gode 1 for å komme til minimumsnivået. 
+
+Og man kan utlede utgiften på gode 2 at man har en utgift til minimum konsum pluss en andel.
+
+I dokumentet setter de opp konsumkategoriene, varige goder og ikke varige goder, de snakker om nyttefunksjoner, gir oss budsjettbettinglser osv. De setter opp et maksimeringsproblem for husholdningene for varekategorier, og løser dette. Vi gjør det i kurset for 2 goder, de gjør det for 3 goder, de bruker også en stone geary funksjon, bare at de bruker 3 goder i den. Summen til stone geary blir 1, og den er større enn 0 for alle beta. Det vi vil frem til her er at mikroøkonomien vi lærer i grunnkurset faktisk blir brukt for å se på norsk økonomi.
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).

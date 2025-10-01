@@ -1,0 +1,195 @@
+---
+title: "SOK-1006: Arbeidskrav 1  - reworked"
+author: "Daniel Fabio Groth"
+title-block-banner: "darkslateblue"
+format:
+  html: 
+    code-fold: true
+    df-print: kable
+output: true
+editor: visual
+toc: true
+warning: false
+---
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).
+
+**Oppgaver 7.1**
+
+*1. Plott en figur som likner på Fig 1 i Stewart Links to an external site.. Gjør deloppgave a og b*
+
+```{python}
+#  importing libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+
+# Import data from URL with the correct delimiter
+df = pd.read_csv("https://uit-sok-1006-v23.github.io/data/suits_watermelons.csv", delimiter=";")
+
+# Create new variables
+df['p'] = np.exp(df.iloc[:,3])
+df['h'] = np.exp(df.iloc[:,2])
+df['q'] = np.exp(df.iloc[:,1])
+
+
+# making figure as a function
+def oppgave7_1():
+                fig, ax = plt.subplots(1, 2, figsize=(15, 5))
+                for i in range(2):
+                     ax[i].set_xlabel('Year')
+                     ax[i].spines['top'].set_color('none')
+                     ax[i].spines['right'].set_color('none')
+                return fig, ax
+        
+# Plotting figure 1
+fig, ax = oppgave7_1()
+ax[0].plot(df.iloc[:,0], df['p'], 'o-', label='Price')
+ax[0].set_ylabel('Price (P) per thousand')
+ax[0].legend()
+# plotting figure 2
+ax[1].plot(df.iloc[:,0], df['q'], 'o--', label='Crop')
+ax[1].plot(df.iloc[:,0], df['h'], 'o-', label='Harvest')
+ax[1].set_ylabel('Quantity (Q) in millions')
+ax[1].legend()
+# showing figure
+plt.show(block=False)
+```
+
+*2. Tegn tilbud og etterspørsel. Deloppgave a, b, c , d.*
+
+```{python}
+# Number of watermelons in millions defined in Q
+Q =  np.arange(20,105,5)
+
+# Calculate the log of the quantity
+log_q=np.log(Q)
+
+# Define the supply function
+def supply():
+        return -2.0+1.7*log_q
+
+# Define the demand function
+def demand():
+        return 8.5-0.82*log_q
+
+# Define a dataframe with the quantity
+df2 = pd.DataFrame(Q, columns=['Q'])
+
+# Add the log of the quantity to the dataframe
+df2['log_q']=log_q
+
+# Add the supply function to the dataframe
+df2['supply_log_p']= supply()
+    
+# Add the demand function to the dataframe
+df2['demand_log_p']= demand()
+
+# convert supply log prices to prices and add to the dataframe
+df2['supply_p']=np.exp(df2['supply_log_p'])
+
+# convert demand log prices to prices and add to the dataframe
+df2['demand_p']=np.exp(df2['demand_log_p'])
+
+# Showing the dataframe
+print(df2)
+```
+
+```{python}
+# Plot the supply and demand functions
+fig, ax = plt.subplots()
+ax.plot(df2['Q'], df2['supply_p'], label='Supply')
+ax.plot(df2['Q'], df2['demand_p'], label='Demand')
+ax.legend(loc='best',frameon=False)
+ax.set_xlabel('Quantity (Q)  in millions')
+ax.set_ylabel('Price (P) per thousand')
+ax.set_title("Supply and demand for watermelons")
+ax.spines['top'].set_color('none')
+ax.spines['right'].set_color('none');
+```
+
+*3. Tegn inn et shock til tilbud. Deloppgave a og b (IKKE c)*
+
+```{python}
+# new supply shock function
+def new_supply():
+    return -2.0+1.7*log_q+0.4
+
+# add new supply shock log to dataframe
+df2['new_supply_log_p']= new_supply()
+
+# add new supply shock prices to dataframe
+df2['new_supply_p'] = np.exp(new_supply())
+
+df2
+```
+
+```{python}
+# add new supply prices to dataframe
+ax.plot(df2['Q'], df2['new_supply_p'], label='New supply')
+ax.legend(loc='best',frameon=False)
+display(fig)
+```
+
+**Oppgaver i 7.2**
+
+*1. Beregn priselastisitene. Deloppgave a og b*
+    
+```{python}
+log_p, log_q = sp.symbols('log_q, log_p', real=True, positive=True)
+
+def eq():
+    return sp.Eq(-2+1.7*log_q, log_p)
+
+eq()
+# 1/1.7*(log_p+2)
+```
+
+```{python}
+sp.solve(eq())
+```
+
+Priselastisiteten er uelastisk ettersom en 1% endring i pris gir en 0.588% endring i tilbud
+
+```{python}
+def eq2():
+    return sp.Eq(8.5-0.82*log_q, log_p)
+
+eq2()
+#-1/0.82
+```
+
+```{python}
+sp.solve(eq2())
+```
+
+Priselastisiteten er elastisk ettersom en 1% endring i pris gir en -1.219% endring i etterspørsel
+
+**2. Tolk estimatene i tilbudslikningen (Coefficient). IKKE bry deg om "95% confidence interval"**
+
+Koeffisienten 0.580 vil si at økning på 1% i prisen vil føre til en økning på 0.58% i tilbud av vannmeloner.
+
+En økning på 1% i prisen til bomull vil føre til en reduksjon på -0.321% i tilbud av vannmeloner.
+
+En økning på 1% i prisen til grønnsaker vil føre til en reduksjon på -0.124% i tilbud av vannmeloner.
+
+En økning på 1% i prisen i dummy variablen vil føre til en økning på 0.073% i tilbud av vannmeloner.
+
+Andre verdenskrig førte til en -0.36% reduksjon i tilbudet på vannmeloner.
+
+**3. Tolk estimatene i etterspørselslikningen**
+
+En økning på 1% i pris vil gi en endret etterspørsel på -1.125% i etterspørselen for vannmeloner.
+
+En økning på 1% i inntekt vil gi en endret etterspørsel på 1.75% i etterspørselen for vannmeloner.
+
+En økning på 1% i jernbanefraktkostnader vil gi en endret etterspørsel på -0.968% i etterspørsel for vannmeloner.
+
+**4. Gi eksempler på shock**
+
+Andre verdenskrig - etterspørselen på vannmeloner var like mye når krigen brøt ut men tilbudet ble endret fordi gårder måtte produsere andre varer enn vannmeloner.
+
+Populasjonsendring - etterspørselen på vannmeloner vil øke fordi flere mennesker vil kjøpe vannmeloner.
+
+For å gå tilbake til hovedsiden trykker du [her](https://danielfabiog.github.io/SOK-1003-og-SOK-1006/).
